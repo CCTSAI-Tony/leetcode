@@ -51,7 +51,8 @@ class Solution(object):
 
 
 
-#Python Union Find solution, with both path compression and union by rank
+#Python Union Find solution, with both path compression and union by rank, time complexity O(m*n), space complexity O(m*n)
+#思路: 經典union find 題
 class UnionFind(object):
     def __init__(self, grid):
         m, n = len(grid), len(grid[0])

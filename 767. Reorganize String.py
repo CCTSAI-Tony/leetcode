@@ -84,7 +84,7 @@ class Solution:
 
 # aaaabbbbcccc=>abcabcabcabc
 
-利用join() return 是一個字串, 就算a是list or str
+利用join(a) return 是一個字串, 就算a是list or str
 
 a = ["a","b","c"]
 "".join(a)  

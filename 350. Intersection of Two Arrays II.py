@@ -40,7 +40,7 @@ class Solution:
                 m += 1
         return res
 
-# 刷題用這個, follow up
+# 刷題用這個 模板2, follow up
 # 若nums1, nums2 都已經sort, 此algorithm => O(nlogm) n:len(nums1), m: len(nums2), 若nums2遠大於nums1, 則此algorithm 比上面線性好
 # 思路: 這是follow up, 若數列都已經sort, 則使用binary search 搜尋短序列的元素是否在長序列裡, 找得到對應的index的話, 加入對應index元素於res
 # 記得搜索到後, 長序列的left指針移到 index + 1, 因為原index已被登錄進 res裡
@@ -77,8 +77,8 @@ class Solution:
             return right
         return -1
 
-#自己想的, 未ood
-#若nums1, nums2 都已經sort, 此algorithm => O(nlogm) n:len(nums1), m: len(nums2), 比上面O(mlogm) 好, m: 比較長的數列
+#自己想的, 沒有拆分func 的版本
+#若nums1, nums2 都已經sort, 此algorithm => O(nlogm) n:len(nums1), m: len(nums2)
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
         nums1.sort()

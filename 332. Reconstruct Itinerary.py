@@ -1,4 +1,4 @@
-'''
+ '''
 Given a list of airline tickets represented by pairs of departure and arrival airports [from, to], reconstruct the itinerary in order. 
 All of the tickets belong to a man who departs from JFK. Thus, the itinerary must begin with JFK.
 
@@ -360,7 +360,26 @@ class Solution:
 
 
 
-
+def test(numbers):
+    res = 0
+    start = check(numbers)[0]
+    left = check(numbers)[1]
+    while left:
+        for i in range(start, len(numbers)):
+            if numbers[i] > left:
+                numbers[i] -= left
+            else:
+                res += left
+        res += left
+        start = check(numbers)[0]
+        left = check(numbers)[1]
+    return res
+    
+def check(array):
+    for i in range(len(array)):
+        if array[i] != 0:
+            return (i, array[i])
+        return (-1, 0)
 
 
 

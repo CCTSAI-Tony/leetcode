@@ -40,7 +40,7 @@ Explanation: The root node's value is 5 but its right child's value is 4.
 # 經典題, 刷題用recursion  
 # recursion, preorder traversal time complexity O(n)
 # 思路: 利用preorder traversal, root,left,right, 把當前node的val 設成boundary 給左右子樹, 若子樹node超過這個boundary就是False
-# 注意binary search tree 在此題是不允許duplicate key, 所以符合 node.left.val < root.val < root.right.val
+# 注意binary search tree 在此題是不允許duplicate node, 所以符合 node.left.val < root.val < root.right.val
 class Solution(object):
 	def isValidBST(self, root: TreeNode) -> bool:
 		return self.dfs(root, float('-inf'), float('inf')) #預先給很小與很大值 記得使用float() 裡面是'inf' or '-inf'

@@ -38,17 +38,14 @@ Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another
 # python solution easy to understand
 
 # 该算法的时间复杂度为O(N)，其中N为输入数组的长度。
+# 思路: 
 # *我们用新行字符分割输入数组后，我们有K行
 # *对于每一行，我们需要使用内建'in'函数来确定它是否是一个文件。in函数的时间复杂度为O(M)，其中M为文件和目录名称的平均长度。由于K * M == N，时间复杂度为O(N)。
 # 空间复杂度为O(N)，因为我们维护了一个字典
-
+# 注意, 遍歷iterate file aystem的同時, 幾級資料夾的value會跟著變動, 所以file前面的資料夾的長度dic[key] : value 都是不斷隨著路徑更新的
+# 技巧: split("\n"), count("\t"), replace("\t","")
 class Solution(object):
     def lengthLongestPath(self, input):
-        """
-        :type input: str
-        :rtype: int
-        """
-
         dict={}
         longest=0
         fileList=input.split("\n")
@@ -58,9 +55,9 @@ class Solution(object):
                 value = len(i.replace("\t","")) #除去\t后的长度，是实际长度
                 dict[key]=value
             else: #是文件。
-                key=i.count("\t")
+                key=i.count("\t") #是几级文件
                 #　文件的长度：所有目录的长度(文件的上層資料夾)＋文件的长度＋“\”的数量
-                length = sum([dict[j] for j in dict.keys() if j<key]) + len(i.replace("\t","")) + key  #“\”的数量
+                length = sum([dict[j] for j in dict.keys() if j<key]) + len(i.replace("\t","")) + key  #key => “\”的数量 => 幾級文件
                 longest=max(longest,length)
         return longest
 

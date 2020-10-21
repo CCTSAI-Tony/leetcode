@@ -37,7 +37,7 @@ class Solution:
     def dfs(self, node, path, res):
         if not node.left and not node.right:
             path.append(node.val)
-            ans = "->".join(map(str, path)) #join 是迭代器
+            ans = "->".join(map(str, path)) #join 是迭代器, map 是生成器
             res.append(ans)  
             return
         if node.left:

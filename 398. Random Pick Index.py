@@ -17,7 +17,9 @@ solution.pick(3);
 solution.pick(1);
 '''
 
-O(N) memory, O(N) init, O(1) pick.
+#刷題用這個, O(N) memory, O(N) init, O(1) pick.
+#思路: 利用指針遍歷 找到指定的item, count += 1, 並做一次隨機查選, from 1 - count 選出一個數字 = chance, 若 chance == count => res = i
+#前面的index 越高機率 chance == count, 不過多了被覆蓋的可能, 愈後面的index 雖然 chance == count 機率下降, 但減少了被覆蓋的可能
 import random
 class Solution(object):
     def __init__(self, nums):
@@ -29,10 +31,15 @@ class Solution(object):
         for i, x in enumerate(self.nums):
             if x == target:
                 count += 1
-                chance = random.randint(1, count)
+                chance = random.randint(1, count) #從1 到 count 隨機選一個
                 if chance == count:
                     res = i
         return res
+
+# randint(start, end)
+# A random integer in range [start, end] including the end points.
+
+
 
 # In case people are wondering, the check 'chance == count' , can be replaced with 'chance == 1' . Result will be the same.
 

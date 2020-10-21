@@ -79,7 +79,7 @@ class Solution:
 # p = "mis*is*p*."
 
 #  自己重寫!! cache放裡面也行效率差一點, 刷題用這個
-#  O(len(p)*len(s))
+#  time complexity: O(len(p)*len(s)), space complexity: O(len(p)*len(s))
 #  原出處說此方法為 backtracking and caching 很有趣
 #  This programming methodology, in simple terms, is Dynamic Programming, an optimization over backtracking.
 #  若這邊改成 if self.isMatch(s,p[:-2]) or self.isMatch(s,p[:-1]) => 慢十倍, 因為self.isMatch(s,p[:-1]) 創造太多不需創造的子問題, 大大增加loading
@@ -87,7 +87,7 @@ class Solution:
 #  但 self.isMatch(s,p[:-1])會創造更多不需要的子問題, 都是False的, 造成recusion stack過多導致效率下降
 #  top-down 要盡量避免計算用不到的subproblems
 #  思路: 此題就是 back tracking! 遇到不對的candidate, abandon it and return back to top to search other candidate
-#  遇到 * 兩個 possible candidates, 包括*前一個字母一併消失, or 當*前一個字母等於s最後一個字母, 保留*, s往左一格
+#  遇到 * => 兩個 possible candidates, 包括*與前一個字母一併消失, or 當*前一個字母等於s最後一個字母, 保留*, s往左一格
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         cache = {}
@@ -111,6 +111,29 @@ class Solution:
         cache[(s,p)] = False
         return False
 
+#再重寫一次, 發現有無memo也會過, 因為發生重複子問題的情況不多
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        if (s, p) in memo:
+            return memo[(s, p)]
+        if not p:
+            return not s
+        if p[-1] == "*":
+            if self.isMatch(s, p[:-2]):
+                memo[(s, p)] = True
+                return memo[(s, p)]
+            if s and (s[-1] == p[-2] or p[-2] == "."):
+                if self.isMatch(s[:-1], p):
+                    memo[(s, p)] = True
+                    return memo[(s, p)]
+        else:
+            if s and (s[-1] == p[-1] or p[-1] == "."):
+                if self.isMatch(s[:-1], p[:-1]):
+                    memo[(s, p)] = True
+                    return memo[(s, p)]
+            memo[(s, p)] = False
+            return memo[(s, p)]
 
 
 # DP version: 48ms

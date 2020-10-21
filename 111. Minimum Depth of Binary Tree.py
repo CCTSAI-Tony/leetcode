@@ -43,3 +43,25 @@ class Solution:
             return max(self.minDepth(root.left), self.minDepth(root.right)) + 1
         else:
             return min(self.minDepth(root.left), self.minDepth(root.right)) + 1  #choose the smaller path
+
+#刷題用這個
+#自己重寫, time complexity O(n), space complexity O(h)
+#思路: dfs 分治, 這裏要求最短leaf的距離, leaf的定義是沒children, 所以只有一邊為none不算leaf node
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return self.dfs(root, 1)
+    
+    def dfs(self, node, depth):
+        if not node.left and not node.right:
+            return depth
+        left, right = float("inf"), float("inf")
+        if node.left:
+            left = self.dfs(node.left, depth+1)
+        if node.right:
+            right = self.dfs(node.right, depth+1)
+        return min(left, right)
+
+
+

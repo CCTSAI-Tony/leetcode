@@ -37,16 +37,15 @@ class Solution:
 #思路: 參照別人代碼修改, 利用lps 對稱性質, 此算法可以讓新index在計算回文長度時參照對應center另一邊index的lps長度, 減少重複比對回文字串
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        manacher_str = "#".join("#{}#".format(s))
+        manacher_str = "#" + "#".join(s) + "#"
         n = len(manacher_str)
         lps = [0] * n
-        center = 0
         r = 0
+        c = 0
         for i in range(1, n):
             if r >= i:  #r > i 也可以, 沒差
                 lps[i] = min(r-i, lps[c-(i-c)])  #lps[c-(i-c)] 鏡向對面相對應index的lps
-            while i - lps[i] - 1 >= 0 and i+ lps[i] + 1 < n \
-            and manacher_str[i - lps[i] - 1] == manacher_str[i+ lps[i] + 1]:
+            while i - lps[i] - 1 >= 0 and i+ lps[i] + 1 < n and manacher_str[i - lps[i] - 1] == manacher_str[i+ lps[i] + 1]:
                 lps[i] += 1
             
             if i + lps[i] > r:
@@ -55,6 +54,27 @@ class Solution:
         max_len, max_center = max((v, i) for i, v in enumerate(lps))
         longest_palindrom = s[(max_center-max_len) //2 : (max_center+max_len) //2 ]  #唯一需要背的地方, 轉化成s原本的index, 不難懂看blog就清楚
         return longest_palindrom
+
+#重寫第二次
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        s_m = "#" + "#".join(s) + "#"
+        lps = [0] * len(s_m)
+        c = r = 0
+        for i in range(1, len(s_m)):
+            if r > i:
+                lps[i] = min(lps[c-(i-c)], r-i)
+            while i - lps[i] - 1 >= 0 and i + lps[i] + 1 < len(s_m) and s_m[i - lps[i] - 1] == s_m[i + lps[i] + 1]:
+                lps[i] += 1
+            if i + lps[i] > r:
+                c = i
+                r = i + lps[i]
+        max_center, max_len = max([(i, v) for i, v in enumerate(lps)], key=lambda x: x[1])
+        return s[(max_center-max_len)//2:(max_center+max_len)//2]
+
+
+
+
 
 # get the longest palindrome, l, r are the middle indexes   
 # from inner to outer
@@ -177,7 +197,24 @@ class Solution:
         return s[start: start+max_length]
 
 
+#code signal
 
+class Solution:
+    def cutPalindrom(self, string: str) -> str:
+        while self.dfs(string) >= 2:
+            string = string[self.dfs(string):]
+        return string
+    
+    def dfs(self, string):
+        max_len = 1
+        for length in range(1, len(string) + 1):
+            l, r = 0, length-1
+            while l <= r and string[l] == string[r]:
+                l += 1
+                r -= 1
+            if l > r:
+                max_len = max(max_len, length)
+        return max_len
 
 
 

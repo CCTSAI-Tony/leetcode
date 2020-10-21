@@ -35,8 +35,7 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 '''
 
 # 刷題用這個, 自己重寫 284ms
-# BFS, Time Complexity: O(26^len(word))  Worst case here is every word transformed happens to be in the list, 
-# so each transformation needs 26 * length of word
+# BFS, Time Complexity: O(26*m*n) => 26個一字不同的字, m: len(wordList), n: len(word), space complexity O(26*m*n)
 # 思路:  此題跟word ladder最不一樣的地方就是找出所有最短路徑轉換的可能性, 最大的技巧在於每層結束後才把新加入的字加入 visited裡, 
 # 這樣就能確保所有可能性, queue裡的元素則是包含path來紀錄轉換的過程
 
@@ -47,7 +46,7 @@ class Solution:
         for word in wordList:
             for i in range(len(word)):
                 w = word[:i] + "_" + word[i+1:]
-                graph[w].append(word)
+                graph[w].append(word) #graph[w] 存放著一字之差的集合
         res = []
         visited = set([beginWord])
         queue = deque()

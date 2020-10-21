@@ -28,8 +28,38 @@ The flattened tree should look like:
 #         self.val = val
 #         self.left = left
 #         self.right = right
-#自己重寫, 刷題用這個, time complexity O(n)
-#思路: pre-order traversal, 若root.left不等於None, 先暫存root.right, 在把root.left調換至root.right, recursion root.right, 最後再接回temp
+
+
+#刷題用這個, 自己重寫, time complexity O(n), space complexity O(h) => 93.99%
+#思路: 先把right 暫存, node.right = node.left, set left to None => 利用recursion return right 的最底端node, 若temp is no none, 最底端node.right 接回temp
+#一樣再對node.right 做recursion來找最底端node, 最後return 最底端node 給上一層接temp
+#若 not node.left, 直接搜索node.right 最底層node
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if not root:
+            return None
+        if not root.left and not root.right:
+            return root
+        if root.left:
+            temp = root.right
+            root.right = root.left
+            root.left = None #記得這邊要set None
+            root = self.flatten(root.right)
+            if temp:
+                root.right = temp
+                root = self.flatten(root.right)
+            return root
+        else:
+            return self.flatten(root.right)
+
+
+
+
+#自己重寫, 刷題用這個, time complexity O(n^2) => while loop 重複遍歷tree
+#思路: pre-order traversal, 若root.left不等於None, 先暫存root.right, 在把root.left調換至root.right(以root.right當作next指針), recursion root.right, 最後再接回temp
 #若root.left = None, 直接recursion root.right
 class Solution:
     def flatten(self, root: TreeNode) -> None:
@@ -45,42 +75,18 @@ class Solution:
             temp = root.right
             root.right = root.left
             root.left = None
-            self.dfs(root.right)
-            while root.right:
+            self.dfs(root.right) #recursion 整理root.right 下面的分支, 使其都變成linked list
+            while root.right: #跑到右邊最底端
                 root = root.right
-            root.right = temp
-            self.dfs(root.right)
+            root.right = temp #接回原右端
+            self.dfs(root.right) #整理下面分支 
         else:
             self.dfs(root.right)
 
 
  
 
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
 
-#if a node has a left subtree, we will move it to the right , at the end, we will append the right tree!
-class Solution:
-    def flatten(self, root):
-        """
-        :type root: TreeNode
-        :rtype: void Do not return anything, modify root in-place instead.
-        """
-        if not root:
-            return
-        if root.left:
-            temp = root.right #隔離原右支線
-            root.right = root.left #同步左右支線
-            root.left = None #把左支線封住只留右支線
-            self.flatten(root.right) #從右支線往下走
-            while root.right:
-                root = root.right #先往目前右支線盡頭走
-            root.right = temp #把temp(原右支線)接續回去
-        self.flatten(root.right) #往原右支線走
 
 
 

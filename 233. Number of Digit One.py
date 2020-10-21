@@ -8,7 +8,7 @@ Output: 6
 Explanation: Digit 1 occurred in the following numbers: 1, 10, 11, 12, 13.
 '''
 
-
+# 思路:
 # 最好的方法
 # 這邊的weight 代表當前的數字
 # 若weight为0，则1出现次数为round*base
@@ -24,11 +24,6 @@ Explanation: Digit 1 occurred in the following numbers: 1, 10, 11, 12, 13.
 # 121 = (12*1+0+1) + (1*10+10) + (0*100+21+1) = 55
 class Solution:
     def countDigitOne(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-
         if (n<1):
             print(0)
 
@@ -46,3 +41,7 @@ class Solution:
                 count += base
             base *= 10
         return (count)
+
+
+
+        

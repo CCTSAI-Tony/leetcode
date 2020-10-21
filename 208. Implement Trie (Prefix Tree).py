@@ -19,6 +19,14 @@ All inputs are guaranteed to be non-empty strings.
 
 #自己重寫
 #思路: 典型Trie 結構, 建議背起來, 利用defaultdict 能省下很多事
+
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.child = defaultdict(TrieNode) #設置difaultdict key's value 可以接收TrieNode
+        self.is_word = False #標誌
+
+        
 class Trie:
 
     def __init__(self):

@@ -35,7 +35,7 @@ class Solution:
 # And, the word behind means that if their -d[word] are equal, they will compare their alphabetical orders, as mentioned in the problem.
 
 
-#自己重寫, time complexity O(nlogn)
+#自己重寫, time complexity O(nlogn), space complexity O(n)
 # 思路: 利用counter 與 heapq 來pop 出 k frequent words, 注意, heapq 對tuple 排序, 會自動對elements 做lexicographical 排序
 from collections import Counter
 import heapq
@@ -44,7 +44,7 @@ class Solution:
         frequent_words = Counter(words)
         res = []
         heap = [(-v, i) for i,v in frequent_words.items()]
-        heapq.heapify(heap)
+        heapq.heapify(heap) #O(n)
         for _ in range(k):
             temp = heapq.heappop(heap)
             res.append(temp[1])
@@ -55,7 +55,7 @@ class Solution:
 
 
 
-
+#最佳解, 刷題用這個!
 #time complexity: n(logk)
 #思路: 利用自創class 來建立自己的排序規則, 之後進去heap排序就依照此規則, 要學起來
 #保持heap 裡面元素控制在k個元素大小, 超過即對排序較小的pop

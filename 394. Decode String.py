@@ -18,7 +18,8 @@ s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
 
 #自己重寫 time complexity O(n)
 #思路: 利用stack 來存放 [ 之前的string, 與 [ 前面的數字, reset num, string , 然後進入括號內, 直到遇到 ], 再從stack.pop出 [ 前面的數字與strimg, 
-#把內括號裡面的字母加上括號前面的數字一起變為有效字串(解碼) 再跟前面字串連起來
+#把內括號裡面的字母乘上括號前面的數字一起變為有效字串(解碼) 再跟前面字串連起來
+#數字後面一定有"[" 幫忙reset
 #python stack 裡面可以放不同type的物件
 class Solution:
     def decodeString(self, s: str) -> str:
@@ -39,7 +40,6 @@ class Solution:
             else:
                 string += s[i]
         return string
-#數字後面一定有"[" 幫忙reset
 
 
 

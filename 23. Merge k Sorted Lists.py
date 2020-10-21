@@ -12,6 +12,7 @@ Input:
 Output: 1->1->2->3->4->4->5->6
 '''
 # Python concise divide and conquer solution. time complexity O(M*lg(N)), Space complexity with recursion stack is O(lg(N))
+# where M is the size of the merged linked(總字數) list and N is the size of the lists argument.
 # 思路: 利用分治法來合併lists
 # Definition for singly-linked list.
 # class ListNode:
@@ -41,6 +42,40 @@ class Solution(object):
             cur = cur.next
         cur.next = l or r  #其中有一為none
         return dummy.next
+
+#重寫第二次, time complexity O(mlogn), space complexity O(1), m:len(sorted_list), n: len(lists)
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        mid = len(lists) // 2
+        l = self.mergeKLists(lists[:mid])
+        r = self.mergeKLists(lists[mid:])
+        return self.merge(l, r)
+    
+    def merge(self, l, r):
+        dummy = cur = ListNode()
+        while l and r:
+            if l.val < r.val:
+                cur.next = l
+                l = l.next
+                cur = cur.next
+            else:
+                cur.next = r
+                r = r.next
+                cur = cur.next
+        cur.next = l or r
+        return dummy.next
+
+
+
+
+
+
+
+
 
 # What's the time and space complexity here?
 

@@ -13,6 +13,25 @@
 # All inputs will be in lowercase.
 # The order of your output does not matter.
 
+
+#刷題用這個
+#自己想的, time complexity O(n), n: total length of characters, 136ms
+#思路: 利用frozenset 來使dict.items() hashable
+from collections import defaultdict, Counter
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        groups = defaultdict(list)
+        for word in strs:
+            temp = frozenset(Counter(word).items())
+            groups[temp].append(word)
+        return groups.values()
+
+
+
+
+
+
+
 #自己想的, time complexity O(nlogn), n: total length of characters, 200ms
 #思路: 利用sort 使得anagrams 都能排序成一樣的字串, 變成tuple 當作key, 每個字若屬於同一個key, 就能加入該key
 #sort 能對字母排序

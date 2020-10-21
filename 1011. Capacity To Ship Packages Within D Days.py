@@ -98,9 +98,10 @@ class Solution:
 
 
 #模板2, time complexity O(nlogN), N: the range of (max(weights), sum(weights)), n: the length of weights
+#思路: 利用binary search 來找尋最小capacity to ship stuff within d days
 class Solution:
     def shipWithinDays(self, weights: List[int], D: int) -> int:
-        lo, hi = max(weights), sum(weights)
+        lo, hi = max(weights), sum(weights) #capacity, lo = max(weights) 確保船可以運算任何物品
         while lo + 1 < hi:
             mid = lo + (hi - lo)//2
             if self.days(weights, mid) <= D:
@@ -112,7 +113,7 @@ class Solution:
         else:
             return hi
     
-    def days(self, weights, capacity):
+    def days(self, weights, capacity): #check how many days it need to ship
         tot, res = 0, 1
         for wt in weights:
                 if tot + wt > capacity:

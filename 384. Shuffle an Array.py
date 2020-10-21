@@ -23,6 +23,11 @@ so we use nums[:] to represent the original list
 
 # easy python solution based on generating random index and swapping
 
+#思路: 利用random 來做隨機shuffling, 記得建一個attribute 來存原本的nums, 在做shuffling 的時候, 要copy() or [:], 不然原序列會被影響
+#shuffling 的range 與 該index有可能被swap的機率呈反比
+# For example, assume there are 5 numbers are in a hat, you picked one and placed it outside 
+# ( in our case swapped it with the one in the position we are looking to fill), 
+# Now the next time you want to pick a number from the remaining 4.
 import random
 class Solution(object):
 

@@ -23,6 +23,11 @@ Output: [""]
 
 # If the mismatched parentheses increased, then discard the string.
 
+#time complexity O(n^2), n: len(s) 經典dfs/bfs題
+#思路: 利用dfs 來prune s, 藉由calc helper 的幫忙, 先計算目前s有幾個mismatch parenthesis, 再遍歷s看是否拿掉特定parenthesis 可以改善mismatch => neighbor 節點
+#若可以則繼續dfs(recursion), 若不可以跳過, 直到mismatch = 0, append to ans, 記得用visited set 來過濾重複節點
+#calc 計算mismatch => a counts left mismatch parenthesis, b counts right mismatch parenthesis
+#left 無法與right 配對 => left mismatch parenthesis, right 在 left 前 => right mismatch parenthesis
 class Solution(object):
     def removeInvalidParentheses(self, s):
         """
@@ -32,7 +37,7 @@ class Solution(object):
         def dfs(s):
             mi = calc(s) #mi: mismatch
             if mi == 0:
-                return [s]
+                return [s] #return list, 所以ans.extend(s)
             ans = []
             for x in range(len(s)):
                 if s[x] in ('(', ')'):
@@ -44,12 +49,12 @@ class Solution(object):
         def calc(s):
             a = b = 0
             for c in s:
-                a += {'(' : 1, ')' : -1}.get(c, 0) #get(c, 0) 是遇到letter 預設為0
-                b += (a < 0) #if a <0 b+=1, b counts for mismatched right bracket, 先'('再')' b無法加1
+                a += {'(' : 1, ')' : -1}.get(c, 0) #get(c, 0) 是遇到letter 預設為0, a counts for mismatched left bracket
+                b += (a < 0) #if a <0 b+=1, b counts for mismatched right bracket, 先'('再')' b無法加1, 但 ")(" b += 1
                 a = max(a, 0) #a counts for mismatched left bracket, 每當a<0 a重置為0
             return a + b #total mismatch
 
-        visited = set([s]) #利用set排除重複 "()())()" 4,5 bracket 重複
+        visited = set([s]) #利用set排除重複 "()())()" 個別去除 第4,第5 bracket 重複s
         return dfs(s)
 d = [1]
 d.extend([]) #這個extend用法滿少見的, ans = []
@@ -97,6 +102,12 @@ b
 
 
 # BFS
+#time complexity O(n^2), n: len(s)
+#思路: 利用bfs 來遍歷, 藉由calc helper 的幫忙, 先計算目前s有幾個mismatch parenthesis, 再遍歷s看是否拿掉特定parenthesis 可以改善mismatch => neighbor node
+#若可以則把neighbor加入queue, 若不可以跳過, 直到mismatch = 0, append to ans, 記得用visited set 來過濾重複節點
+#calc 計算mismatch => a counts left mismatch parenthesis, b counts right mismatch parenthesis
+#left 無法與right 配對 => left mismatch parenthesis, right 在 left 前 => right mismatch parenthesis
+import collections
 class Solution(object):
     def removeInvalidParentheses(self, s):
         res = []

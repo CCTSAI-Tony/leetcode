@@ -43,10 +43,6 @@
 # 思路: 這題要靠一下想像力, 轉置矩正, 再針對每行reverse, 就是順時90度
 class Solution(object):
     def rotate(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: void Do not return anything, modify matrix in-place instead.
-        """
         n = len(matrix)
         for i in range(n):
             for j in range(n):
@@ -110,7 +106,7 @@ class Solution:
 
 class Solution:
     def rotate(self, A):
-        A[:] = [[row[i] for row in A[::-1]] for i in range(len(A))]  #double list comprehension
+        A[:] = [[row[i] for row in A[::-1]] for i in range(len(A))]  #double list comprehensions
 
 
         '''

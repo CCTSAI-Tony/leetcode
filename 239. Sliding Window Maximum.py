@@ -46,7 +46,7 @@ Constraints:
 
 
 #刷題用這個, monotonic queue, 搭配862服用
-#自己重寫, time com[lexity O(n), 重點建立一個decreasing monotonic queue
+#自己重寫, time com[lexity O(n), 重點建立一個decreasing monotonic queue, space complexity O(n)
 # 思路: 此題最重要就是額外建立一個deque, 隨著window移動, 加入新的數字進去, 若新的數字大於前面已加入了, 就把前面已加入的pop掉, 因為他們沒機會變成此window的最大值
 # 直到遇到比你大的, 這樣可以確保這個dq[0]是整個dq最大的值
 # dq 裡面是紀錄index, 之後dq[0] 還要確認是否它的index還在window 裡, 若沒有則pop掉它, 換次小的變dq[0], 直到dq[0] 在window裡

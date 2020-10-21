@@ -43,7 +43,7 @@ Each node's value will be between 0 and 1000.
 
 
 python queue + hash map, time complexity O(nlogn) 因為有sort
-#思路: 利用dict 儲存同一x軸的座標的node, 再利用tuple (vd,node.val) 來對x軸的座標的 nodes 做排序, 例如 vd 越大者優先, 相同座標值越小者優先
+#思路: 利用dict 儲存同一x軸的座標的node, 再利用tuple (vd,node.val) 來對x軸的座標的 nodes 做排序, 例如 vd 越大者優先, 相同座標值 => 值越小者優先
 # stack iteration
 import collections
 class Solution:
@@ -75,7 +75,7 @@ class Solution:
 
 
 
-#自己重寫, 刷題用這個
+#  自己重寫, 刷題用這個, time complexity O(n)
 #  思路: 利用dict 儲存同一x軸的座標的node(hd = key), 儲存以tuple 的形式 (vd, node.val)
 #  再利用tuple (vd,node.val) 來對x軸的座標的 nodes 做排序, 例如 vd 越大者優先, 相同座標值越小者優先, res再append排序後的node.val, 
 #  重複此流程從左到右遍歷每個x軸座標

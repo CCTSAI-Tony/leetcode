@@ -51,7 +51,7 @@ class Solution:
 
 
 
-# 模板2, time complexity O(log n)
+# 模板2, time complexity O(log n), 請搭配81
 # 思路: https://github.com/yuzhoujr/leetcode/issues/8 看圖比較好理解
 # no duplicate element
 class Solution:

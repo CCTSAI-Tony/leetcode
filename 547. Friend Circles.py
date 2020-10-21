@@ -48,7 +48,7 @@ class Solution:
         
         for i in range(len(M)):
             if visited[i] == False:
-                count += 1
+                count += 1 #朋友圈+1
             self.dfs(i, graph, visited)
         
         return count

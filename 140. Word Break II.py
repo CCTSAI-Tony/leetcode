@@ -36,7 +36,7 @@ wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output:
 []
 '''
-# time complexity O(n ^ 3)
+# time complexity O(n ^ 3), n: len(wordDict), space complexity O(n^2)
 # Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
 # memo recursive top down solution
 # 思路: back tracking 利用memo {} 來記錄重複 sub problem 的結果, 利用startswith 來尋找candidate, 經典好題
@@ -60,7 +60,7 @@ class Solution(object):
         for word in wordDict:
             if not s.startswith(word):  #跳過s不能以自己開頭的字
                 continue
-            if len(word) == len(s):  #找到一個答案, 持續往下一個字遍歷, 雖然下一字不可能長度一樣, 但或許可以組合其他字
+            if len(word) == len(s):  #找到一個答案丟進res, 持續往下一個字遍歷, 雖然下一字不可能長度一樣, 但或許可以組合其他字
                 res.append(word)
             else:  #開頭相符但len(s) > len(word)
                 resultOfTheRest = self.helper(s[len(word):], wordDict, memo) #s[len(word):] 略過word的字串, 切割subproblem

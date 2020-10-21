@@ -28,9 +28,11 @@ You may assume that there are no duplicate edges in the input prerequisites.
 
 
 
-#參考別人修改 刷題用這個 96ms
-#思路: 可以同時return True or False 與修改res 來提早結束recursion 若遇到backedge, 而不是像上面單純return, 跑完全部recursion 才要return []
+#參考別人修改 刷題用這個 96ms, time complexity O(VE), space complexity O(V)
+#思路: dfs topological sort 可以同時return True or False 與修改res 來提早結束recursion 若遇到backedge, 而不是像下面單純return, 跑完全部recursion 才要return []
 #好技巧, 學起來!
+#order 最後的course, 愈早被加進path => 所以return path[::-1]
+#最初每個vertex = -1, 開始遍歷 = 0, 遍歷完所有children, vertex = 1
 from collections import defaultdict
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
@@ -59,8 +61,8 @@ class Solution:
         return True
 
 
-#自己重寫, dfs topological sort, time complexity O(VE) 196ms
-#思路: 先建立graph, 最初每個vertex = -1, 開始遍歷 = 0, 利用2代表有back edge, return [], 遍歷完所有children, vertex = 1
+#自己重寫, 刷題不用這個, dfs topological sort, time complexity O(VE) 196ms
+#思路: 先建立directed graph, 最初每個vertex = -1, 開始遍歷 = 0, 利用2代表有back edge, return [], 遍歷完所有children, vertex = 1
 from collections import defaultdict
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:

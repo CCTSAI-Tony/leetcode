@@ -31,7 +31,7 @@ The input string length won't exceed 1000.
 
 class Solution:
     def countSubstrings(self, s):
-        return sum((v+1)//2 for v in self.manachers(s))
+        return sum((v+1)//2 for v in self.manachers(s)) #(v+1)//2 因為 "#"的關係
 
     def manachers(self, s):
             a = '@#' + '#'.join(s) + '#$' 
@@ -51,10 +51,41 @@ class Solution:
 
 # return sum((v+1)//2 for v in manachers(s)) 看圖就知道為什麼了 https://medium.com/hoskiss-stand/manacher-299cf75db97e
 
+#刷題用這個, 參照leetcode 筆記 time complexity O(n)
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        return sum((v+1)//2 for v in self.manachers(s)) #(v+1)//2 因為 "#"的關係
+
+    def manachers(self, s):
+            a = '#' + '#'.join(s) + '#' 
+            z = [0] * len(a)
+            center = right = 0
+            for i in range(1, len(a)-1):
+                if i < right:
+                    z[i] = min(right - i, z[2 * center - i])
+                while i - z[i] - 1 >= 0 and i + z[i] + 1 < len(a) and a[i + z[i] + 1] == a[i - z[i] - 1]:
+                    z[i] += 1
+                if i + z[i] > right:
+                    center, right = i, i + z[i]
+            return z
 
 
-
-
+#刷題用這個
+#time complexity O(n^2)
+#思路: Let N = len(S). There are 2N-1 possible centers for the palindrome:
+#we could have a center at S[0], between S[0] and S[1], at S[1], between S[1] and S[2], at S[2], etc. 這個想法有趣!! 不難懂
+class Solution:
+    def countSubstrings(self, s):
+        n = len(s)
+        ans = 0
+        for center in range(2*n - 1):
+            left = center // 2
+            right = left + center % 2
+            while left >= 0 and right < n and s[left] == s[right]:  #這個想法真好
+                ans += 1
+                left -= 1
+                right += 1
+        return ans
 
 # Easy to understand Python DP solution
 
@@ -115,18 +146,6 @@ class Solution:
 # From here, finding every palindrome starting with that center is straightforward: while the ends are valid and have equal characters, record the answer and expand.
 
 
-class Solution:
-    def countSubstrings(self, s):
-        n = len(s)
-        ans = 0
-        for center in range(2*n - 1):
-            left = center // 2
-            right = left + center % 2
-            while left >= 0 and right < n and s[left] == s[right]:  #這個想法真好
-                ans += 1
-                left -= 1
-                right += 1
-        return ans
 
 
 

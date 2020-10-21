@@ -24,6 +24,8 @@ Your algorithm should run in O(n) time and uses constant extra space.
 #所以數列 index 0 代表positive 1, 直到最後一個index 代表 len(nums), 若遇到一個數超過len(nums) 則跳過, 因為已經能保證在1 ~ len(nums) 裡一定有missing positive
 #因為裡面包含負數, 所以不能單純乘以-1 又能不破壞原本的值(假如前面的數指向該位置), 所以使用 str() 來改變type, 第一個沒被改動的index + 1 就是 first missing positive
 #技巧 int("5") 等於 int(5) = 5, 使用這個技巧就能還原被改動的值type, 對沒被改動的也沒影響
+#ex: [1,2,3,4,5] => 6, [1,2,-1,4,5] => 3
+
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
         for i in range(len(nums)):

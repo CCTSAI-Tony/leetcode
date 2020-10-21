@@ -46,7 +46,7 @@ https://www.geeksforgeeks.org/binary-search-tree-data-structure/ 建議複習一
 #         self.left = None
 #         self.right = None
 
-# leetcode 105 相同概念順便練習
+# leetcode 105 相同概念順便練習, time complexity O(n)
 # 思路: 利用preorder 來封裝binary search tree, 並以此傳送string, 記得node 與 node 之間要間隔, 以利之後解碼
 # 之後利用 bst 特性 minVal < vals[0] < maxVal 搭配preorder pop root的順序 來重建binary tree, 
 import collections
@@ -68,7 +68,7 @@ class Codec:
     def deserialize(self, data: str) -> TreeNode:
         """Decodes your encoded data to tree.
         """
-        vals = collections.deque(int(val) for val in data.split())   #記得解碼需先轉成int(), split() 預設split space => split(" ")
+        vals = collections.deque(int(val) for val in data.split())   #記得解碼需先轉成int(), split() 預設split 任何空格 => split(" ")
         return self.build(float("-inf"), float("inf"), vals)  
     
     def build(self, minVal, maxVal, vals):

@@ -7,11 +7,33 @@ Input:nums = [1,1,1], k = 2
 Output: 2
  
 
+
 Constraints:
 
 The length of the array is in range [1, 20,000].
 The range of numbers in the array is [-1000, 1000] and the range of the integer k is [-1e7, 1e7].
 '''
+
+#自己重寫, 刷題用這個 time complexity O(n), space complexity O(n)
+#思路: prefix sum
+from collections import defaultdict
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        for i in range(1, len(nums)):
+            nums[i] += nums[i-1]
+        res = 0
+        prefix = defaultdict(int)
+        prefix[0] += 1
+        for num in nums:
+            if num-k in prefix:
+                res += prefix[num-k]
+            prefix[num] += 1
+        
+        return res
+
+
+
+
 #暴力解 2 pointer, O(N^3) TLE
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
@@ -69,7 +91,9 @@ class Solution(object):
 # ex: [1,3,5,-3,3,5] k = 5
 # [0,1,!4,!9,6,!9,14] ans = 3
 
-#思路: 這題包含負數, time complexity O(N), 利用dic 來查找有無目前sum - k 的key, 若有則代表有sum = k 的subarray 
+#思路: 這題包含負數, time complexity O(N), 利用dic 來查找有無目前sum - k 的key, 就是到該index sum = sum - k, 若有則代表有sum = k 的subarray
+#因為 sun - (sum-k) == k
+#這一題有變形 => 求有幾個 subarray 的 平均值 = s => 先把原數組每個數字-s => 問題變成求有幾個 subarray 的 sum值 = 0
 class Solution(object):
     def subarraySum(self, nums, k):
         d = collections.Counter() #預設key value = 0, 也可用 collections.defaultdict(int)

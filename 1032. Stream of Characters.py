@@ -36,6 +36,7 @@ The number of queries is at most 40000.
 
 Easily-implemented Python Trie Solution
 
+# time complexity O(QW), space complexity O(NW), where W is the maximum length of words, we have initially N words, at most N leaves in the trie.
 #思路: 此題的問題是, 若query的當下字母與連續前幾次的query 構成一個字的話, 則當下query 則return True, 注意是連續前幾次喔, 不能斷掉!
 #解題: 我們insert word的時候, 是倒序insert, 因為query要query每個字的最後一個字母才有機會加前幾次query可以拚出一個完整單字
 #因此我們還要紀錄前幾次query的letter, 來方便執行回朔, 回朔到單字的第一個字則代表回朔成功, 剛好該節點 self.isEnd is True
@@ -103,7 +104,47 @@ class StreamChecker:
 # streamChecker.query('l');          // return true, because 'kl' is in the wordlist
 
 
+#自己重寫, time complexity O(QW), space complexity O(NW), where W is the maximum length of words, we have initially N words, at most N leaves in the trie.
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.children = collections.defaultdict(TrieNode)
+        self.isEnd = False
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            node = node.children[w]
+        node.isEnd = True
+            
+        
 
+class StreamChecker:
+
+    def __init__(self, words: List[str]):
+        self.Trie = Trie()
+        for word in words:
+            word = word[::-1]
+            self.Trie.insert(word)
+        self.stack = []
+        
+
+    def query(self, letter: str) -> bool:
+        self.stack.append(letter)
+        index = len(self.stack) -1
+        node = self.Trie.root
+        while index >= 0:
+            if node.isEnd:
+                return True
+            elif not node.children.get(self.stack[index]):
+                return False
+            node = node.children[self.stack[index]]
+            index -= 1
+        return node.isEnd
 
 
 

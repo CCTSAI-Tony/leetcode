@@ -27,11 +27,9 @@ class Solution:
 
 # good! 刷題用這個
 # Python solution (Accepted), O(n) time, O(1) space
-#思路: 2 round solution, first round only to mutiply elements that came previously before yourself, 
+# 思路: 2 round solution, first round only to mutiply elements that came previously before yourself, 
 # and second round, only to mutiply elements that came after you
 class Solution:
-    # @param {integer[]} nums
-    # @return {integer[]}
     def productExceptSelf(self, nums):
         p = 1
         n = len(nums)

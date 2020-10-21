@@ -51,7 +51,7 @@ class Solution:
         res = [intervals[0]]
         for i in range(1, len(intervals)):
             interval = intervals[i]
-            if res[-1][1] >= interval[0]:
+            if res[-1][1] >= interval[0]: #重疊到了
                 res[-1][1] = max(res[-1][1], interval[1])
             else:
                 res.append(interval)

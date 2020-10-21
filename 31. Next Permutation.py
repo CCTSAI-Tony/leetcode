@@ -10,8 +10,9 @@
 # 3,2,1 → 1,2,3
 # 1,1,5 → 1,5,1
 
-# 思路: 倒序操作判斷前一元素是否比自己大, 若無則再從新倒序遍歷找到第一個比自己大的元素來交換位置, 交換後針對前面交換位置以後序列做reverse
-# 利用2 pointer 有利做二次倒序遍歷
+# 思路: 倒序操作判斷前一元素是否比自己大, 若有則再從新倒序遍歷找到第一個比自己大的元素來交換位置, 交換後針對前面交換位置以後序列做reverse
+# 若無, 整個序列 reverse 變成最小的permutation 
+# 利用2 pointer 來做二次倒序遍歷
 # time complexity O(n)
 # 5724310 => 57 2! 4310 => 57 3! 4210(reverse) => 1730124
 class Solution:
@@ -27,7 +28,7 @@ class Solution:
 	        j -= 1
 	    nums[k], nums[j] = nums[j], nums[k]  #倒序找比自己大的元素交換位置
       #開始做reverse 序列, 請記起來基本語句
-	    l, r = k+1, len(nums)-1  # reverse the second part >小的在前面
+	    l, r = k+1, len(nums)-1  # reverse the second part >小的在前面 => implace modified
 	    while l < r:
 	        nums[l], nums[r] = nums[r], nums[l]
 	        l +=1 ; r -= 1

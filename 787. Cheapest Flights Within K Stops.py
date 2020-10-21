@@ -51,7 +51,7 @@ There will not be any self cycles means no [1,1,100] 這種東西.
 # Once k is used up (k == 0), we no longer push that node to our queue. Once a popped cost is our destination, we get our lowest valid cost.
 
 
-# For Dijkstra, there is not need to maintain a best cost for each node since it's kind of greedy search. 
+# For Dijkstra, there is no need to maintain a best cost for each node since it's kind of greedy search. 
 # It always chooses the lowest cost node for next search. 
 # So the previous searched node always has a lower cost and has no chance to be updated. 
 # The first time we pop our destination from our queue, we have found the lowest cost to our destination.
@@ -63,10 +63,12 @@ There will not be any self cycles means no [1,1,100] 這種東西.
 # So for every pop, it is O(LogV). Total is O(VLogV).
 # For every edge we call an heappush, so that is ELogV
 # O(E+ (V+E)LogV) -> O((V+E)LogV)
-# V is the number of cities within range K stops, may have duplicate cities, which can be interpreted as each cities has k states
+# V is the number of cities within range K stops, may have duplicate cities, which can be interpreted as each cities has k states(不同路徑)
 
 # time complexity O((V+E)LogV)
-# 思路: 利用heap 特性 heap.pop pop出 目前總花費最小的路徑, 再添加花費最小的新航線給該路徑, 但有限制一旦k == 0 但還未到目的地 則該路徑則停止添加, heap.pop出次要路徑繼續完成
+# 思路: 利用heap 特性 heap.pop pop出 目前總花費最小的路徑, 再添加花費最小的新航線給該路徑, 但有限制一旦k == 0 但還未到目的地 則停止添加新路徑至pq, heap.pop出次要路徑繼續完成
+# 這一題與傳統Dijkstra 思維有些落差, 只有用到min q的點子 比較像, 因為只要找到最終點, 其他點是不是最便宜不care, 所以使用greedy
+import heapq
 class Solution:
     def findCheapestPrice(n, flights, src, dst, K):
         pq, g = [(0,src,K+1)], collections.defaultdict(dict)  #注意為什麼是k+1, 因為把destination 也算進去了
@@ -83,7 +85,7 @@ class Solution:
 
 
 
-# 這一題與傳統Dijkstra 思維有些落差, 只有用到min q的點子 比較像
+
 
 # Python heapq doesn't support update heap node's weight. 
 # But if you implement your own heap structure and support that function, 
@@ -123,10 +125,10 @@ class Solution:
 # BFS every node in adjacent list takes O(V+E), popleft V cities, append E edges
 # V is the number of cities within range K stops. may have duplicate cities, which can be interpreted as each cities has K states
 
-#刷題用這個
-#思路: 利用defaultdict 來串連同一個start起飛的航線, 再利用bfs stack 來逐一過濾與處理候選路徑花費
-class Solution1(object):
-    def findCheapestPrice(self, n, flights, src, dst, K):
+#刷題用這個, bfs, time complexity O(V+E), space complexity O(V+E)
+#思路: 利用defaultdict 來串連同一個start起飛的航線, 再利用bfs queue 來逐一過濾與處理候選路徑花費
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
         graph = collections.defaultdict(list)
         q = collections.deque()
         min_price = float('inf')
@@ -135,16 +137,17 @@ class Solution1(object):
             graph[start].append((cost, end))
         q.append((src, 0, 0))
         while q:
-            city, stops, price = q.popleft()
-            if city==dst:
-                min_price = min(min_price, price)
-                continue
+            for _ in range(len(q)):
+                city, stops, price = q.popleft()
+                if city == dst:
+                    min_price = min(min_price, price)
+                    continue
 
-            if stops< K+1 and price < min_price:
-                for price_to_end, end in graph[city]:
-                    q.append((end, stops+1, price+price_to_end))
+                if stops < K+1 and price < min_price: #stops < K+1 包含終點
+                    for price_to_end, end in graph[city]:
+                        q.append((end, stops+1, price+price_to_end))
 
-        return min_price if min_price!=float('inf') else -1
+        return min_price if min_price != float('inf') else -1
 
 
 # Example 1:

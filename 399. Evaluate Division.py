@@ -51,6 +51,41 @@ The input is always valid. You may assume that evaluating the queries will resul
 # Given the number of variables N, and number of equations E,
 # building the graph takes O(E), each query takes O(N), N is vertex, space for graph takes O(E)
 
+
+
+
+# 自己重寫, time complexity O(len(query)*N), build graph: O(E), 刷題用這個, 44ms
+# 使用一般bfs 模板
+from collections import defaultdict, deque
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        graph = defaultdict(dict)
+        for (u,v), w in zip(equations, values):
+            graph[u][v] = w
+            graph[v][u] = 1/w
+        return [self.bfs(a,b,graph) for (a, b) in queries]
+    
+    def bfs(self, src, dst, graph):
+        if not src in graph or not dst in graph:
+            return -1
+        queue = deque([[src, 1]])
+        seen = set([src])
+        while queue:
+            for _ in range(len(queue)):
+                u, w = queue.popleft()
+                if u == dst:
+                    return w
+                for v in graph[u]:
+                    if v not in seen:
+                        queue.append([v, w*graph[u][v]])
+                        seen.add(v)
+        return -1
+
+
+
+
+
+
 # bfs, time complexity O(len(query)*N), 刷題用下面, 44ms
 # 思路: 遇到directed grapgh + weight 慣用手法 => G = collections.defaultdict(dict) => G[a][b] = 5, G[b][a] = 1/5
 # 利用 equations and values 先建立graph, 並從query 的(src, dst) 用bfs從src開始遍歷, 初始wight = 1, 看是否能找到dst, 每經過一個edge, 就要乘上edge weight
@@ -103,32 +138,7 @@ for i in q:
 5
 [1, 2, 3, 4]
 
-# 自己重寫, time complexity O(len(query)*N), build graph: O(E), 刷題用這個, 44ms
-# 使用一般bfs 模板
-from collections import defaultdict, deque
-class Solution:
-    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        graph = defaultdict(dict)
-        for (u,v), w in zip(equations, values):
-            graph[u][v] = w
-            graph[v][u] = 1/w
-        return [self.bfs(a,b,graph) for (a, b) in queries]
-    
-    def bfs(self, src, dst, graph):
-        if not src in graph or not dst in graph:
-            return -1
-        queue = deque([[src, 1]])
-        seen = set([src])
-        while queue:
-            for _ in range(len(queue)):
-                u, w = queue.popleft()
-                if u == dst:
-                    return w
-                for v in graph[u]:
-                    if v not in seen:
-                        queue.append([v, w*graph[u][v]])
-                        seen.add(v)
-        return -1
+
 
 # One optimization, is to "compress" paths for
 # past queries, which will make future searches faster. This is the same idea used in
@@ -169,7 +179,8 @@ class Solution(object):
             self.union(x, y, v, root)
         return [self.query(x, y, root) if x in root and y in root else -1.0 for x, y in queries]
 
-    # if root(x) = root(y), equations "x / y" doable as (x/root(x)) / (y/root(y)) = xr / yr
+    # if root(x) = root(y), equations "x / y" doable as (x/root(x)) / (y/root(y)) = xr / yr => x/y(ratio) * root(y)/root(x) = xr/yr
+    # ratio * yr/xr = root(x)/root(y) == root[px][1], from root[px] = (py, ratio*(yr/xr))
     def union(self, x, y, ratio, root):
         px, xr, py, yr = *self.find(x, root), *self.find(y, root)
         if px != py: #使x的root node 認 y的root node 為parent node

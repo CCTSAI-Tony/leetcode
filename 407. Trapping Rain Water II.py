@@ -40,7 +40,7 @@ python solution with heap
 
 # Time Complexity is O(MN log(MN)), Space Complexity is O(MN)
 # 思路: 利用heap 逐一拿出到目前為止borders中最低點, 並依此向四周搜尋比這低且之前沒被搜索過的地方來灌水填平成為新border, 
-# 若比border高則無法灌水, 則直接成為新border, 被搜索完的地方都會成為新border之後並不會再被搜索or灌水, 只是灌水不灌水的差別
+# 若比border高則無法灌水, 則直接成為新border, 被搜索完的地方都會成為新border之後並不會再被搜索or灌水, 只是被灌水與不被灌水的差別
 # 從最低點border開始搜尋可以保證其他border比它高或等高, 可以成功儲水至一樣高度
 import heapq    
 class Solution(object):
@@ -65,7 +65,7 @@ class Solution(object):
             for (x, y) in ((i+1, j), (i-1, j), (i, j+1), (i, j-1)):  #上下左右
                 if 0 <= x < m and 0 <= y < n and not visited[x][y]:  #在邊界內且沒被探索過
                     result += max(0, height-heightMap[x][y])  #比邊界低的才能存水
-                    heapq.heappush(heap, (max(heightMap[x][y], height), x, y))  #若比邊界高則成為新邊界,不然舊邊界高度沿用
+                    heapq.heappush(heap, (max(heightMap[x][y], height), x, y))  #若比邊界高則成為新邊界高度,不然舊邊界高度沿用
                     visited[x][y] = 1  #登記已搜索
         return result
 

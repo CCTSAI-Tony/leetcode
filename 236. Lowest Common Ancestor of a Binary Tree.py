@@ -51,8 +51,10 @@ p and q are different and both values will exist in the binary tree.
 # 如果左边没有返回：则右边返回的就是LCA 包含嵌套關係
 # 如果右边没有返回：则左边返回的就是LCA 包含嵌套關係
 
-# 思路: 請用例圖做推演, 搜尋左右子樹是否為 p, q node, 若找到則回報該 node 給上一層, 若當層左右都有回報則代表root 就是 lca, 並回報當層TreeNode給上一層
-# 若沒有則代表左, 右其一有回報的必定是lca (包含嵌套case, p是ｑ的children之類的)
+# Time Complexity O(n), Space Complexity O(h)
+# 思路: 請用例圖做推演, 搜尋左右子樹是否為 p, q node, 若找到則回報該 node 給上一層, 若當層左右都有回報則代表該node 就是 lca, 並回報當層TreeNode給上一層
+# 從最上層root的角度看, 若沒有左右同時回報, 則代表左, 右其一有回報的必定是lca (包含嵌套case, p是ｑ的children之類的)
+# 但從其他node看, 若沒有左右同時回報, 則回報該分支的結果給上一層
 class Solution(object):
     def lowestCommonAncestor(self, root, p, q) -> 'TreeNode':
         if not root: #沒搜索到

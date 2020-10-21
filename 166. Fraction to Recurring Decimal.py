@@ -17,7 +17,8 @@ Input: numerator = 2, denominator = 3
 Output: "0.(6)"
 '''
 
-
+#刷題用這個, time complexity O(n), space complexity O(n)
+#思路: 利用divmod 來不斷製造小數, 使用while loop 來檢查是否出現循環小數, 若有則離開while loop, 並使用index 來確認循環小數的第一個數的index => 使用括號
 class Solution:
 # @return a string
     def fractionToDecimal(self, numerator, denominator):
@@ -30,12 +31,27 @@ class Solution:
             n, remainder = divmod(remainder*10, abs(denominator))
             result.append(str(n))
 
-        idx = stack.index(remainder)
+        idx = stack.index(remainder) #從stack找index
         result.insert(idx+2, '(') #inx +2 因為原本result就有兩個元素
         result.append(')') #最後加上)
-        return ''.join(result).replace('(0)', '').rstrip('.') #.replace('(0)', '').rstrip 是應付一開始就被整除的狀況 ex: 12/6 '2.(0)'
+        return ''.join(result).replace('(0)', '').rstrip('.') #.replace('(0)', '').rstrip('.') 是應付一開始就被整除的狀況 ex: 12/6 '2.(0)'
 
 
+#自己重寫
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        n, remainder = divmod(abs(numerator), abs(denominator))
+        sign = "" if numerator*denominator >= 0 else "-"
+        res = [sign+str(n), "."]
+        stack = []
+        while remainder not in stack:
+            stack.append(remainder)
+            n, remainder = divmod(remainder*10, abs(denominator))
+            res.append(str(n))
+        repeatIndex = stack.index(remainder)
+        res.insert(repeatIndex+2, "(")
+        res.append(")")
+        return "".join(res).replace("(0)","").rstrip(".")
 
 '''
 The syntax of insert() method is

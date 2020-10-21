@@ -9,14 +9,9 @@ Both num1 and num2 does not contain any leading zero.
 You must not use any built-in BigInteger library or convert the inputs to integer directly.
 '''
 #time complexity O(n),
-#思路:carry 進位思想要有
+#思路:先list化, carry 進位思想要有
 class Solution:
     def addStrings(self, num1, num2):
-        """
-        :type num1: str
-        :type num2: str
-        :rtype: str
-        """
         nums1 = list(num1)
         nums2 = list(num2)
         res, carry = [], 0
@@ -24,7 +19,7 @@ class Solution:
         while nums1 or nums2:
             n1 = n2 = 0  #n1, n2 一定要給個預設值0 不然下面 n1 + n2 會報錯
             if nums1: 
-                n1 = ord(nums1.pop()) - ord('0')
+                n1 = ord(nums1.pop()) - ord('0') #can't convert the inputs to integer directly
             if nums2: 
                 n2 = ord(nums2.pop()) - ord('0')
             

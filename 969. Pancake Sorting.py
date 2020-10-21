@@ -32,7 +32,7 @@ Note:
 A[i] is a permutation of [1, 2, ..., A.length]
 '''
 
-#自己想的 bfs TLE, time complexity O(n^n)
+#自己想的 naive bfs TLE, time complexity O(n^n)
 from collections import deque
 class Solution:
     def pancakeSort(self, A: List[int]) -> List[int]:

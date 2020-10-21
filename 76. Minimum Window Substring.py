@@ -23,7 +23,7 @@ If there is such window, you are guaranteed that there will always be only one u
 # 刷題用這個 2 pointer and sliding window, 
 # 思路 運用counter 來記錄target count 與 for loop and inner while loop 來表達sliding window(2 pointers)
 # 不在counter(t) 的字, start指針遍歷 key value不會大於0, 因為初始值 = 0, 但在counter(t) 的字則有機會>0, 因為初始值>0
-# time complexity O(n), n = len(s)*len(t), len(t) for while loop
+# time complexity O(n), n = len(s)
 import collections
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
@@ -44,7 +44,7 @@ class Solution:
                 if not min_window or window_len < len(min_window):
                     min_window = s[start:end+1]
                     
-                target_letter_counts[s[start]] += 1
+                target_letter_counts[s[start]] += 1 #start指針準備內縮
                 
                 if target_letter_counts[s[start]] > 0:
                     target_len += 1

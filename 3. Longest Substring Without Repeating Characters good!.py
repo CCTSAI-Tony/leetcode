@@ -19,7 +19,7 @@ Explanation: The answer is "wke", with the length of 3.
              Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
 '''
 
-#自己想的, time complexity O(n) 48ms
+#自己想的, time complexity O(n) 48ms, slinding window
 #思路: 利用雙指針, 並使用dict來紀錄右指針指導元素的index, 來確認之後是否遇到重複的元素, 並移動左指針到合適位置
 #若右指針指向重複元素, 則左指針往該重複元素紀錄的index移動, 注意的是, 左指針移動的過程要移除經過的元素的key, 代表slinding window, 
 #直到移動到重複元素index+1, 這樣新window就不包含舊重複元素的index

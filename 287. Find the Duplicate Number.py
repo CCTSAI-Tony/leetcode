@@ -59,25 +59,25 @@ class Solution:
                 count += 1
         return count
 
-#自己重寫
+#自己重寫, time complexity O(nlogn), space complexity O(1)
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-        l, r = 1, len(nums) -1
-        while l + 1 < r:
-            mid = l + (r - l) // 2
-            if self.check(mid, nums) > mid:
-                r = mid
+        n = len(nums) - 1
+        low, high = 1, n
+        while low + 1 < high:
+            mid = low + (high - low) // 2
+            if self.count(nums, mid) > mid:
+                high = mid
             else:
-                l = mid
-        if self.check(l, nums) > l:
-            return l
-        return r
-    
-    
-    def check(self, num, nums):
+                low = mid
+        if self.count(nums, low) > low:
+            return low
+        return high
+                
+    def count(self, nums, target):
         count = 0
-        for i in range(len(nums)):
-            if nums[i] <= num:
+        for num in nums:
+            if num <= target:
                 count += 1
         return count
 

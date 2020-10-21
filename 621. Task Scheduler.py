@@ -74,8 +74,8 @@ class Solution:
 
 # Time complexity is O(N * nlogN) where N is the number of tasks and n is the cool-off period.
 # Space complexity is O(1) => will not be more than O(26).
-# 自己重寫, 刷題用這個
-# 思路: 依頻率高低優先填入period, 若元素不夠則填入idle, 在period裡面元素都是不重複的
+# 自己重寫, 刷題用這個, heap
+# 思路: 依頻率高低優先填入period, 若元素不夠湊滿n則填入idle, 在period裡面元素都是不重複的
 # 若count 相同, heap 預設以字母順序排序, 因此新period元素都會與舊period隔n個interval
 from collections import Counter
 import heapq
@@ -87,15 +87,15 @@ class Solution:
             heapq.heappush(heap, (-v, i))
         
         while heap:
-            period = 0  # task interval interval, n= 2, period = 3, 滿足period 則開啟新的period
+            period = 0  # task interval interval, n= 2, period = 3(包含自己), 滿足period 則開啟新的period
             temp = []
-            while (heap or temp) and period < n + 1:  #只要heap or temp 其中一個不為None 代表tasks 沒有完全執行完
+            while (heap or temp) and period < n + 1:  #只要heap or temp 其中一個不為None and period < n + 1 代表tasks 沒有完全執行完
                 total_interval += 1
                 period += 1
-                if heap:  #若heap還有元素則pop元素填充period, 若沒有則用idle 填充
+                if heap:  #若heap還有元素則pop元素填充period, 若沒有則暗示用idle 填充
                     (i, v) = heapq.heappop(heap)
                     if i != -1:
-                        temp.append((i+1, v))
+                        temp.append((i+1, v)) #準備push back to heap
             
             for item in temp:
                 heapq.heappush(heap, item)

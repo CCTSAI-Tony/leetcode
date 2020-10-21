@@ -58,7 +58,7 @@ class Solution:
 #  利用dict, 增加space complexity 來降低time complexity
 #  思路: 利用dict 來儲存所有兩個不同元素的組合,key = 兩個元素的和, 值 = 兩個元素indeces, 並從dict找出兩組key value的和 = target, key value可以重複 ex: 4+4 = 8
 #  再分別遍歷這兩組key 裡面的組合, 確認是否有共用的元素, 若無則新增這一組 四個元素的組合
-#  雖然這四組元素位置跟別人不可能全部一樣, 但有可能某些值相同, 因此res 要使用set來過濾重複的答案
+#  雖然這四個元素位置跟其他組不可能全部一樣, 但有可能值相同, 因此res 要使用set來過濾重複的答案
 import collections
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:

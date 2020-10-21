@@ -31,7 +31,7 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 
 
 
-#convert to array first
+# convert to array first, time complexity O(n), space complexity O(h)
 # 思路:  先把linked list 變成list, 再用dfs把整個list區間分一半, 中間的當作root, 之後左邊的中間當作root.left, 右邊的中間當作root.right, 
 # why 整體區間 // 2 = mid 就可以當root, 若區間是偶數個node呢?  畫個圖就知道若是偶數個元素 mid 與 mid + 1 當root 都可以成為 height balanced BST
 # 但奇數個就只能是mid 

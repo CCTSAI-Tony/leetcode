@@ -37,19 +37,43 @@ class Solution(object):
                 max_to_now = max(max_to_now, dp[i+1]) #這樣做可以避免 input = ""
         return max_to_now
 
-#自己重寫
+#自己重寫, 36ms 96.67%, time complexity O(n), space complexity O(n)
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
         dp = [0] * (len(s) + 1)
-        max_len = 0
+        max_valid = 0
         for i in range(1, len(s)):
             if s[i] == ")":
                 if s[i-1] == "(":
                     dp[i+1] = dp[i-1] + 2
-                elif (i - dp[i] - 1) >= 0 and s[i - dp[i] -1] == "(":
-                    dp[i+1] = dp[i] + 2 + dp[i- dp[i] - 1]
+                else:
+                    if i - dp[i] -1 >= 0 and s[i-dp[i]-1] == "(":
+                        dp[i+1] = dp[i] + 2 + dp[i-dp[i]-1]
+                max_valid = max(max_valid, dp[i+1])
+            
+        return max_valid
+
+
+#重寫*2
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        if not s:
+            return 0
+        max_len = 0
+        dp = [0] * (len(s)+1)
+        for i in range(1, len(s)):
+            if s[i] == ")":
+                if s[i-1] == "(":
+                    dp[i+1] = dp[i-1] + 2
+                elif i-dp[i]-1 >= 0 and s[i-dp[i]-1] == "(":
+                    dp[i+1] = dp[i] + 2 + dp[i-dp[i]-1]
             max_len = max(max_len, dp[i+1])
         return max_len
+
+
+
+
+
 
 # list comprehension  兩種功能一樣
 # [[0]*5 for _ in range(5)]

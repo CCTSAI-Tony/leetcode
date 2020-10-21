@@ -22,7 +22,7 @@ So you should return 1, because there is only one bulb is on.
 #   因此，一盏灯在若干轮后，它的开关状态只与其乘数的个数有关，并且，由于灯初始为关闭状态，乘数个数和为奇数的灯会被开启，乘数个数和为偶数的灯会保持关闭。
 #   由上，本题可以化简成于求一个数乘积个数的问题；
 
-# 其中，数又可分为两类：开方后可取整的数与开方后不可取整的数，设为A,B两类。
+# 其中，数又可分为两类：开方后可取整的数(奇數)与开方后不可取整的数(偶數)，设为A,B两类。
 # 1.A类：乘数个数为奇数，因为它包含2n个不同数的积与1个相同数的积（如：16=1X16=2X8=4X4，乘数为2X2+1=5个），当轮数大于其位置时，始终开启；
 # 2.B类： 乘数为偶数，包含2n个不同数的积，当轮数大于等于其位置时，保持关闭。
 
@@ -47,3 +47,11 @@ So you should return 1, because there is only one bulb is on.
 class Solution(object):
     def bulbSwitch(self, n: int) -> int:
         return int(n**(1/2))  #很好想吧
+
+
+
+
+
+
+
+        

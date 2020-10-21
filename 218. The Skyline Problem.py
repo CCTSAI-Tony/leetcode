@@ -62,6 +62,43 @@ class Solution:
                     output.append([x,-1*heap[0]])
         return output
 
+
+#自己重寫, time complexity O(nlogn)
+import heapq
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        starts = []
+        ends = []
+        for start, end, h in buildings:
+            starts.append([start, h, "s"])
+            ends.append([end, h, "e"])
+        starts.sort(key=lambda x: (x[0], -x[1]))
+        ends.sort(key=lambda x: (x[0], x[1]))
+        
+        temp = sorted(starts + ends, key=lambda x: (x[0], -ord(x[2])))
+        res = []
+        heap = [0]
+        for x, h, t in temp:
+            max_heap = -heap[0]
+            if t == "s":
+                if h > max_heap:
+                    res.append([x, h])
+                heapq.heappush(heap, -h)
+            elif t == "e":
+                heap.remove(-h)
+                heapq.heapify(heap)
+                if max_heap != -heap[0]:
+                    res.append([x, -heap[0]])
+        return res
+
+
+
+
+
+
+
+
+
 # my implementation of the idea explianed here: https://www.youtube.com/watch?v=GSBLe8cKu0s
 
 # a = [9,8,7,6,5,4,3,2,1]

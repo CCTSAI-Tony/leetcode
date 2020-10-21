@@ -24,13 +24,14 @@ Input: num = "3456237490", target = 9191
 Output: []
 '''
 
+# 刷題用這個, time complexity O(n*3^n)
+# 思路: dfs backtracking, last 就是後面遇到*時, 要跟val乘的數 => 先乘除後加減
 # dfs() parameters:
 # num: remaining num string
 # temp: temporally string with operators added
 # cur: current result of "temp" string
 # last: last multiply-level number in "temp". if next operator is "multiply", "cur" and "last" will be updated
 # res: result to return
-
 class Solution(object):
     def addOperators(self, num, target):
         res, self.target = [], target
@@ -53,7 +54,28 @@ class Solution(object):
                 self.dfs(num[i:], temp + "*" + val, cur-last+last*int(val), last*int(val), res) #最重要是這個
 
 
-
+#自己重寫, 典型dfs backtracking
+class Solution:
+    def addOperators(self, num: str, target: int) -> List[str]:
+        res = []
+        self.target = target
+        for i in range(1, len(num)+1):
+            if i == 1 or (i > 1 and num[0] != "0"):
+                self.dfs(num[i:], num[:i], int(num[:i]), int(num[:i]), res)
+        return res
+    
+    def dfs(self, num, temp, cur, last, res):
+        if not num:
+            if cur == self.target:
+                res.append(temp)
+            else:
+                return
+        for i in range(1, len(num)+1):
+            if i == 1 or (i > 1 and num[0] != "0"):
+                val = int(num[:i])
+                self.dfs(num[i:], temp + "+" + num[:i], cur + val, val, res)
+                self.dfs(num[i:], temp + "-" + num[:i], cur - val, -val, res)
+                self.dfs(num[i:], temp + "*" + num[:i], (cur-last) + last*val, last*val ,res)
 
 
 

@@ -20,7 +20,7 @@ To the right of 1 there is 0 smaller element.
 # https://www.acwing.com/blog/content/80/
 
 # Binary Indexed Tree Method 樹狀數組
-# time complexity: build a binary index tree O(n), query O(logn), space complecity O(n)
+# time complexity: O(nlogn), build a binary index tree O(n), query O(logn), space complecity O(n)
 # 思路: 此題經典, 希望要熟練, 最大困難在於如何把nums轉化成num_to_index 數組
 class Solution(object):
     def countSmaller(self, nums):

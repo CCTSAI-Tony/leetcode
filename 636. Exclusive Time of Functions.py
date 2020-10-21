@@ -35,7 +35,7 @@
 # Otherwise, we ended the function that is most recent in our stack.
 
 # 重要觀念 id較前的fn若end之前有呼叫子程序, 一定是子程序先結束才會輪到母程序結束
-# 思路: 利用stack 存放fn指針, 分拆start, end 來做個別計算, 並把計算回應在ans裡, end指針的time 要 + 1
+# 思路: 利用stack 存放fn指針, 分拆start, end 來做個別計算, 並把計算回應在ans裡, 重要! end指針的time 要 + 1
 # time complexity O(n), space complexity O(n)
 class Solution:
     def exclusiveTime(self, n, logs):
@@ -72,7 +72,7 @@ class Solution:
                 stack.append(int(fn))
                 pre_time = int(time)
                 
-            elif typ == "end":
+            elif typ == "end": #func 結束, 要pop出來
                 res[stack.pop()] += (int(time) - pre_time + 1)
                 pre_time = int(time) + 1
         return res

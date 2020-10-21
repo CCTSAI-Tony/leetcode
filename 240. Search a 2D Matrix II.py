@@ -19,9 +19,9 @@ Given target = 5, return true.
 Given target = 20, return false.
 '''
 
-#自己重寫 time complexity O(m + n)
+#自己重寫 time complexity O(m + n), space complexity O(1)
 #思路: 此題與leetcode 74 不一樣的地方在於就算當層row最後一個數字大於target, 當層row的下一行中間元素也有機會等於target
-#因此, 跟74一樣 若當層row最後一個數字小於target skip, 直到當層row最後一個數字大於target, 
+#因此, 跟74一樣 若當層row最後一個數字小於target skip 該row, 直到當層row最後一個數字大於target, 
 #開始比對當層row最後一個元素, 比target大 col 往左(因為row往上只會更大), 比target小 row 往上(因為col往左只會更小)
 class Solution:
     def searchMatrix(self, matrix, target):

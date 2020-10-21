@@ -37,6 +37,10 @@ s[i] is one of  '(' , ')' and lowercase English letters.
 '''
 
 #time complexity O(n), 思路: 利用條件與stack 來忽視nonvalid parenthesis
+#思路: stack, 遇到"(" 則把目前的cur 結果存到 stack, 每個stack[i] 都象徵一個"(", 除非之後遇到")", 一起跟stack.pop 變成 cur => cur = stack.pop() + '(' + cur + ')', 不然不會出現在ans裡
+#若遇到字符則加進cur, 直到遇到"(", 則把cur 加進stack
+#若遇到")" 但沒有stack, 忽視")"
+#最後若stack還有殘餘 => 代表有殘餘"(" 沒法跟")"配對, 忽視它, 把這些字符接到ans裡
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
         
@@ -47,7 +51,7 @@ class Solution:
                 cur = ''
             elif c == ')':
                 if stack:  #代表前面有"(", 若沒有則忽視它
-                    cur = stack.pop() + '(' + cur + ')' 
+                    cur = stack.pop() + '(' + cur + ')' #stack.pop() => 之前的result, cur 則是在")" 之前存的字符
             else:
                 cur += c  #加入字串
         
@@ -56,7 +60,25 @@ class Solution:
         
         return cur
 
+#自己重寫, time complexity O(n)
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack = []
+        cur = ""
+        for c in s:
+            if c == "(":
+                stack.append(cur)
+                cur = ""
+            elif c == ")":
+                if stack:
+                    cur = stack.pop() + "(" + cur + ")"
+            else:
+                cur += c
+        while stack:
+            cur = stack.pop() + cur
+        return cur
 
+        
 "a" + "b"
 'ab'
 

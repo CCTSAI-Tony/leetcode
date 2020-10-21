@@ -60,7 +60,7 @@ test cases
 
 
 
-# 刷題用這個, 此題是undirected graph
+# 刷題用這個, 此題是undirected graph, time complexity O(n)
 # 思路: 最主要是check這個圖是否可以只被2個顏色區分而不衝突, 任何一邊相連接的兩個點不能為同個顏色
 # 利用dict 來記錄color
 class Solution:

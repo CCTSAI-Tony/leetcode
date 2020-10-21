@@ -24,7 +24,7 @@ class Solution:
         while l <= r: #l = r palindrom pivotal character
             while l < r and not s[l].isalnum(): # 若s[l]不是字母與數字 也就是空格, 其他符號等
                 l += 1
-            while l < r and not s[r].isalnum(): # ".," 答案是 True 注意這邊不能 <=, 不然下面 s[l].lower() or s[r].lower() 會 string index out of range
+            while l < r and not s[r].isalnum(): # ex: s = ".," 答案是 True 注意這邊不能 <=, 不然下面 s[l].lower() or s[r].lower() 會 string index out of range
                 r -= 1
             if s[l].lower() != s[r].lower(): #按順序比對
                 return False

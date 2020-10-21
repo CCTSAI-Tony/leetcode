@@ -21,7 +21,7 @@ Output:
 The longest substring is "ababb", as 'a' is repeated 2 times and 'b' is repeated 3 times.
 '''
 
-# recursive 28ms Time: O(n) 這個超屌的
+# recursive 28ms Time: O(n^3) 這個超屌的
 
 
 class Solution:
@@ -44,15 +44,11 @@ class Solution:
 
 # ['', 'rgfugidog', 'gfdlijwefoi', 'poto']
 
-
+# 刷題用這個, time complxity O(n^3)
 # iterative
+# 思路: 利用set 來找出distinct elements, 利用count 來確認有幾個相同元素, 若沒有達標, 用split 排除這元素, 剩下的子串們沒分別確認
 class Solution:
     def longestSubstring(self, s, k):
-        """
-        :type s: str
-        :type k: int
-        :rtype: int
-        """
         stack = []
         stack.append(s)
         ans = 0
@@ -60,7 +56,7 @@ class Solution:
             s = stack.pop()
             for c in set(s):
                 if s.count(c) < k:
-                    stack.extend([z for z in s.split(c)])  # 這裡用到extend, 可以搭配list comprehension
+                    stack.extend([z for z in s.split(c)])  # 切分字串 這裡用到extend, 可以搭配list comprehension
                     break  # break for-else loop
             else:  # for 與 else 的搭配 滿少見的, else 不可省略
                 ans = max(ans, len(s))

@@ -29,7 +29,7 @@ class Solution(object):
         # Time: O(n)
         # Space: O(n)
         left, right = 0, len(s) - 1
-        while left < right: # <= 也可以
+        while left < right: # <= 也可以, 但不必要
             if s[left] != s[right]:
                 one, two = s[left:right], s[left + 1:right + 1] 
                 return one == one[::-1] or two == two[::-1]  #只能刪一字 所以若刪左or 刪右 都不是palindrom 則return False

@@ -45,7 +45,7 @@ Note:
 # Space: O(K) for our heap.
 
 #刷題用這個, time complexity O(N * logK) where N is the length of points.
-#思路: 利用heapq
+#思路: 利用heapq, 數學公式 a與b的距離 = ((x1-x2)**2+(y1-y2)**2)**0.5, 使用max heap
 import heapq
 class Solution:
     def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:

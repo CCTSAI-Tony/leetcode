@@ -17,38 +17,38 @@ leetcode 92 經典
 # cur = pre.next #站在m點 建立cur指針, 重要!!, 但pre 的next 指向誰不受cur指針影響, 因為一開始cur與pre不是指向同一個物件(記憶體), cur影響的記憶體是pre.next
 class Solution:
     def reverseBetween(self, head, m, n):
-    dummy = pre = ListNode(0) #dummy 與 pre 是指向同一個物件
-    dummy.next = head
-    for _ in range(m-1): #pre 停在m 前一個
-        pre = pre.next
-    cur = pre.next #站在m點 建立cur指針, 重要!!, 但pre 的next 指向誰不受cur指針影響, 因為一開始cur與pre不是指向同一個物件
-    # reverse the defined part
-    node = None #只是預設值 其他值也可以
-    for _ in range(n-m+1): #reverse移動次數(reverse node的長度)
-        nxt = cur.next #現紀錄下一個node是誰
-        cur.next = node # 處理當下元素
-        node = cur # node: none-> 2>none-> 3>2>none-> 4>3>2>none, 移動node指針 by 一直替換node.head
-        cur= nxt #回到最初的線
-    # connect three parts
-    pre.next.next = cur #pre.next 原本是沒reverse的第一個node, 因為reverse變成最後一個, 要接回剩下沒反轉的
-    pre.next = node # 改接回反轉後的第一個node
-    return dummy.next
+        dummy = pre = ListNode(0) #dummy 與 pre 是指向同一個物件
+        dummy.next = head
+        for _ in range(m-1): #pre 停在m 前一個
+            pre = pre.next
+        cur = pre.next #站在m點 建立cur指針, 重要!!, 但pre 的next 指向誰不受cur指針影響, 因為一開始cur與pre不是指向同一個物件
+        # reverse the defined part
+        node = None #只是預設值 其他值也可以
+        for _ in range(n-m+1): #reverse移動次數(reverse node的長度)
+            nxt = cur.next #現紀錄下一個node是誰
+            cur.next = node # 處理當下元素
+            node = cur # node: none-> 2>none-> 3>2>none-> 4>3>2>none, 移動node指針 by 一直替換node.head
+            cur= nxt #回到最初的線
+        # connect three parts
+        pre.next.next = cur #pre.next 原本是沒reverse的第一個node, 因為reverse變成最後一個, 要接回剩下沒反轉的
+        pre.next = node # 改接回反轉後的第一個node
+        return dummy.next
 
 
 #自己重寫
 class Solution:
     def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
-        dummy = pre = ListNode
+        dummy = pre = ListNode()
         pre.next = head
         for _ in range(m-1):
             pre = pre.next
         cur = pre.next
         temp = None
         for _ in range(n-m+1):
-            next = cur.next
+            nxt = cur.next
             cur.next = temp
             temp = cur
-            cur = next
+            cur = nxt
         pre.next.next = cur
         pre.next = temp
         return dummy.next

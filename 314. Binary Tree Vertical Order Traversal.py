@@ -93,8 +93,9 @@ class Solution:
         return [cols[i] for i in sorted(cols.keys()) ]
 
 
-#自己想的dfs, time complexity O(klogk*mlogm), k: len(cols) m: len(col's nodes)
-#dfs 就要給予足夠的參數, 排序才能正確, ex: row, col, num(同個layer的位置)
+#自己想的dfs, time complexity O(klogk*mlogm), k: len(cols) m: len(col's nodes), 相比bfs 要兩個sort
+#dfs 就要給予足夠的參數, 排序才能正確, ex: row, col, num(同個layer的位置) => 其實num位置參數可以不用, 因為dfs 早已左邊優先放進list
+#只要sort(row) 就行了, 相同row, col 的先後順序不受sort(row)影響
 from collections import defaultdict
 class Solution:
     def verticalOrder(self, root: TreeNode) -> List[List[int]]:
@@ -102,7 +103,7 @@ class Solution:
             return []
         cols = defaultdict(list)
         self.dfs(root, 0, 0, 0, cols)
-        return [[item[2] for item in sorted(cols[i], key= lambda x: -x[0])] for i in sorted(cols.keys())]
+        return [[item[2] for item in sorted(cols[i], key= lambda x: (-x[0], x[1]))] for i in sorted(cols.keys())]
         
     def dfs(self, node, row, col, num, cols):
         cols[col].append((row, num, node.val))
@@ -111,5 +112,19 @@ class Solution:
         if node.right:
             self.dfs(node.right, row-1, col+1, 2*num + 1, cols)
 
-
-
+#自己重寫 8/28/2020
+from collections import defaultdict
+class Solution:
+    def verticalOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        cols = defaultdict(list)
+        self.dfs(root, 0, 0, cols)
+        return [[item[1] for item in sorted(cols[i], key= lambda x: -x[0])] for i in sorted(cols.keys())]
+        
+    def dfs(self, node, row, col, cols):
+        cols[col].append((row, node.val))
+        if node.left:
+            self.dfs(node.left, row-1, col-1, cols)
+        if node.right:
+            self.dfs(node.right, row-1, col+1, cols)

@@ -1,0 +1,38 @@
+# Write a bash script to calculate the frequency of each word in a text file words.txt.
+
+# For simplicity sake, you may assume:
+
+# words.txt contains only lowercase characters and space ' ' characters.
+# Each word must consist of lowercase characters only.
+# Words are separated by one or more whitespace characters.
+# Example:
+
+# Assume that words.txt has the following content:
+
+# the day is sunny the the
+# the sunny is is
+# Your script should output the following, sorted by descending frequency:
+
+# the 4
+# is 3
+# sunny 2
+# day 1
+# Note:
+
+# Don't worry about handling ties, it is guaranteed that each word's frequency count is unique.
+# Could you write it in one-line using Unix pipes?
+
+# Read from the file words.txt and output the word frequency list to stdout.
+
+cat words.txt | tr -s [:blank:] '\n' | sort | uniq -c | sort -nr -k 1 | awk '{print $2, $1}'
+tr -s translate, squeeze+replace: replaces [tab, newline, vertical tab, form feed, carriage return, and space] i.e., space characters [:space:] with a newline \n.
+sort sort: sorts alphabetically (ascending order)
+uniq -c unique, count: prints after omitting repeating adjacent lines uniq along with number of occurrences -c
+sort -nr -k 1 sort, numeric+reverse, key: sorts numerically and in reverse -nr based on the key - first column -k 1
+awk '{print $2 $1}' awk - split line into fields splitting each line into specified fields (word first and then frequency). You can find more info on awk here.
+
+TEST CASE:
+In case there are punctuations in the text:
+
+cat words.txt | tr -s [:blank:] '\n' | tr -d [:punct:] | sort | uniq -c | sort -nr -k 1 | awk '{print $2, $1}'
+tr -d translate, delete: deletes any [! ” # $ % & ‘ ( ) * + , – . / : ; < = > ? @ [ \ ] ^ _ ` { | } ~. ] i.e., punctuation characters [:punct:]

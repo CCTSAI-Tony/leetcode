@@ -57,9 +57,39 @@ class Solution:
 # a = [1,2,3]
 # a[2:3]
 # [3]
+#自己重寫, time complexity O(n^2*m)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        dp = [False]*(len(s) + 1)
+        dp[0] = True
+        for i in range(len(s)):
+            for j in range(i, len(s) + 1):
+                if dp[i] and s[i:j] in wordDict:
+                    dp[j] = True
+        return dp[-1]
 
 
 
+#自己重寫 time complexity O(n^2*m) => m: len(wordDict) 每個字節in n最多有m個children, space complexity O(n^2)
+#思路: memo top down dp
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        memo = {}
+        return self.dfs(s, wordDict, memo)
+    
+    def dfs(self, s, wordDict, memo):
+        if not s:
+            return True
+        if s in memo:
+            return memo[s]
+        for word in wordDict:
+            if s[:len(word)] == word:
+                memo[s] = self.dfs(s[len(word):], wordDict, memo) #index split O(n)
+                if memo[s]:
+                    break
+        if s not in memo:
+            memo[s] = False
+        return memo[s]
 
 
 

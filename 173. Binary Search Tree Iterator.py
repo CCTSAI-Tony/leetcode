@@ -38,7 +38,7 @@ You may assume that next() call will always be valid, that is, there will be at 
 #         self.right = None
 
 # 先搞清楚Binary Search Tree 的特性 左邊小 右邊大
-# stack solution: 刷題用這個!!
+# stack solution: 刷題用這個!! time complexity O(n)
 # 思路: 利用stack 先往最左邊一路收集node, 直到最底層是最小的, 之後往上pop, 若pop的node有右節點則在next的時候加入, 一樣先往左遍歷, 這樣一來下一個smallest node
 # 就是右節點左子數最下層
 # 畫張圖就清楚了
@@ -62,9 +62,43 @@ class BSTIterator:
             x = x.left
         return node.val
 
+#自己重寫, time complexity O(n)
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+        self.last = root
+        while self.last and self.last.right:
+            self.last = self.last.right
+        self.current = None
+        self.q = self.iterate(root)
+        
+
+    def next(self) -> int:
+        """
+        @return the next smallest number
+        """
+        return next(self.q)
+        
+
+    def hasNext(self) -> bool:
+        """
+        @return whether we have a next smallest number
+        """
+        return self.current != self.last
+        
+    def iterate(self, node):
+        if not node:
+            return
+        for x in self.iterate(node.left):
+            yield x
+        self.current = node
+        yield node.val
+        for x in self.iterate(node.right):
+            yield x
 
 
 
+#刷題可用這個, time complexity O(n)
 #generator solution:
 class BSTIterator:
     def __init__(self, root):
@@ -80,9 +114,9 @@ class BSTIterator:
 
     # @return an integer, the next smallest number
     def next(self):
-        return next(self.g) #觸發生成器
+        return next(self.g) #觸發生成器, next func
         
-    def iterate(self, node): #cool!! 看不懂請看書籤
+    def iterate(self, node): #cool!! 看不懂請看書籤, for x in self.iterate(node.left), yield x 並不會全部return, 因為next(self.iterate(root))
         if node is None:
             return
         for x in self.iterate(node.left):  #recursion, 直接下探最底層, 最底層for x in None: 不會yield x, 所以執行self.current = node

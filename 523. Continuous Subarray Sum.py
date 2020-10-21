@@ -32,21 +32,16 @@ space complexity: O(min(k, n)) if k != 0, else O(n). 因為if k != 0, sum % k �
 
 # 這也算hash table
 # 思路: if k != 0, 利用 sum % k 的值來紀錄, 若之前有遇到一樣%k值, 則sum(nums[i:j]) % k == 0, 我們可以利用hash table紀錄每個index 的 sum % k 值
-# 此題陷阱很多, 注意此題k為任何整數, 負數,正數, 0都有可能, nums 只有可能為正整數與0
+# 此題陷阱很多, 注意此題k為任何整數, 負數,正數, 0都有可能, nums 只有可能為正整數與0, => 0可以是所有非0整數數的倍數, 但0的倍數只能是自己
 class Solution():
     def checkSubarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: bool
-        """
         dic = {0:-1}  #這個初始條件代表 sum % k == 0, index = -1(無元素), ex: k =5, nums[:1] = 10, 10 % 5 == 0, return false, 0-(-1) =1 < 2
         summ = 0
         for i, n in enumerate(nums):
             if k != 0:
                 summ = (summ + n) % k
             else:  #k == 0 時
-                summ += n  #因為不能被0整除所以直接加
+                summ += n  #因為不能被0整除所以直接加, ex: index 3: sum = 5 => i = 7, sum = 5, sum(nums[4:8]) = 0
             if summ not in dic:
                 dic[summ] = i
             else:

@@ -57,6 +57,28 @@ class Solution:
             jumps += 1
         return jumps
 
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        last_max_reach, current_max_reach = 0, 0
+        i, n_jump = 0, 0
+        while last_max_reach < len(nums) - 1:
+            while i <= last_max_reach:
+                current_max_reach = max(current_max_reach, i + nums[i])
+                i += 1
+            if current_max_reach == last_max_reach:
+                return -1
+            last_max_reach = current_max_reach
+            n_jump += 1
+        return n_jump
+
+
+
+
+
+
+
+
 
 #自己想的 naive bfs time complexity O(sum(nums)), TLE => 遍歷每個num in nums, 每個num 有 nums[i] 選擇
 #思路: 每一步都考慮所有可能, 導致TLE

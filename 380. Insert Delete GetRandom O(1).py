@@ -77,7 +77,7 @@ class RandomizedSet:
         return random.choice(self.nums) #從nums list 挑一個元素出來
 
 #  自己重寫, 刷題用這個
-#  思路: 利用stack 儲存元素, 並同時利用dict儲存在stack 的 index, 以利之後要remove特定元素做準備, 把要remove的item 與最後一個元素做交換, 之後pop()比較方便
+#  思路: 利用stack 儲存元素, 並同時利用dict儲存在stack 的 index, 以利之後要remove特定元素做準備, 把要remove的item 與最後一個元素做交換, 之後pop() O(1) 比較方便
 #  最後利用random.choice 隨機從stack 挑選一個元素出來   
 import random
 class RandomizedSet:

@@ -64,7 +64,7 @@ class Solution:
                     right = mid
                 
             else:  #若上面<=情況不成立而是 nums[mid] > nums[right], 則 nums[mid] 到 nums[left] 這個區間就不會出現假區間,可以安心使用, ex: [3,3,3,0,3] or [3,3,3,0,1] 
-                                                                # 反之若出現假區間, 則上面=情況先成立, 假區間 指的是 nums[mid] = nums[left] 但中間有其他元素 ex:[1,3,1,1,1]
+                                                                # 反之若出現假區間, 則上面=情況先成立, 左邊假區間 指的是 nums[mid] = nums[left] 但中間有其他元素 ex:[1,3,1,1,1]
                                                                 # 上面 < 成立 不是已消除假區間, 不然就是原本就沒假區間 [1,1,3,1] or [1,1,1,3]
                 if nums[mid] >= target >= nums[left]:
                     right = mid

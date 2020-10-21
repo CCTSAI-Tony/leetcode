@@ -2,8 +2,8 @@
 Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and put.
 
 get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
-put(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, 
-it should (invalidate the least recently used item before inserting a new item.)v
+put(key, value) - Set or insert the value if the key is not already present. 
+When the cache reached its capacity, it should (invalidate the least recently used item before inserting a new item.)v
 
 The cache is initialized with a positive capacity. => capacity 是正數
 
@@ -26,9 +26,10 @@ cache.get(4);       // returns 4
 '''
 
 
-#刷題用這個
-#Python concise solution with comments (Using OrderedDict).
+# 刷題用這個 還是使用OrderedDict 好
+# Python concise solution with comments (Using OrderedDict).
 # 思路: 利用orderdict 來記錄建立key:value pair 的順序, 這樣之後到達capacity就不會 remove錯 item
+# 遇到operate 的 item, pop 該item 並重新加進dict裡, pop key in dic, time complexity O(1)
 import collections
 class LRUCache:
     def __init__(self, capacity):
@@ -38,7 +39,7 @@ class LRUCache:
     def get(self, key):  #O(1) time complexity
         if key not in self.dic:
             return -1
-        v = self.dic.pop(key) #把對應的 key:value pair pop 出來, 並return value
+        v = self.dic.pop(key) #把對應的 key:value pair pop 出來, 並return value, time complexity O(1)
         self.dic[key] = v   # 再重新建立key:value pair, 放在orderdict 最後面, 也就是最近用的item放在最後面
         return v
 

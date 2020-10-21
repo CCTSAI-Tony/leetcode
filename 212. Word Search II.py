@@ -27,7 +27,7 @@ The values of words are distinct.
 '''
 
 #刷題用這個
-#time complexity: O(max(n*m, w)), w 指的是words全部字數 388ms
+#time complexity: O(w + (nm)^2), w 指的是words全部字數 388ms
 #思路: 這題就是Trie 與 backtracking 的合體
 #藉由Trie 與 TrieNode 結構 來解題, 一開始就建立prefix tree, 之後再遍歷board 看是否有相對應的word在prefix tree
 #技巧, backtracking 分支遍歷結束返回上層要恢復動到過的global variable, 使其上層其他分支遍歷不受影響
@@ -74,7 +74,7 @@ class Solution(object):
     def dfs(self, board, node, i, j, path, res):
         if node.isWord:
             res.append(path) #藉由trieNode 特性, 收集文字串
-            node.isWord = False #改回false 防止重複(board 可能出現相同字元), 繼續遍歷, ex: board["a","a"] words:["a"]
+            node.isWord = False #改回false 防止重複(board 可能出現相同字元), 繼續遍歷, ex: board["a","a"] words:["a"], or 同一個node上下左右遍歷
         if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]): #beyond boundary
             return 
         tmp = board[i][j]
@@ -93,8 +93,51 @@ Great solution, but no need to implement Trie.search() since the search is essen
 '''
 time complexity: O(max(n*m, w)), w 指的是words全部字數
 
+#自己重寫第二次, 360ms, time complexity O((m*n)^2 + w), w: words 全部字數
+import collections
+class TrieNode:
+    def __init__(self):
+        self.children = collections.defaultdict(TrieNode)
+        self.isWord = False
 
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            node = node.children[w]
+        node.isWord = True
 
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        m, n = len(board), len(board[0])
+        root = trie.root
+        res = []
+        for i in range(m):
+            for j in range(n):
+                self.dfs(root, board, i, j, m, n, "", res)
+        return res
+    
+    def dfs(self, node, board, i, j, m, n, path, res):
+        if node.isWord:
+            res.append(path)
+            node.isWord = False #避免res 裡面有重複word
+        if 0 <= i < m and 0 <= j < n: 
+            temp = board[i][j]
+            if temp not in node.children:
+                return
+            board[i][j] = "#"
+            node = node.children[temp]
+            self.dfs(node, board, i+1, j, m, n, path+temp, res)
+            self.dfs(node, board, i-1, j, m, n, path+temp, res)
+            self.dfs(node, board, i, j+1, m, n, path+temp, res)
+            self.dfs(node, board, i, j-1, m, n, path+temp, res)
+            board[i][j] = temp
 
 import collections
 a = collections.defaultdict(int)

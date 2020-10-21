@@ -17,7 +17,8 @@ search("b..") -> true
 Note:
 You may assume that all words are consist of lowercase letters a-z.
 '''
-#思路: TrieNode, defaultdict, search and dfs
+#思路: TrieNode, defaultdict, search and dfs, initial self.res = False => via dfs it may change to True
+#once meet ".", we choose all the values to be our next node
 class TrieNode():
     def __init__(self): #一定要用__init__, 這樣TrieNode 才會被定義與使用
         self.children = collections.defaultdict(TrieNode)

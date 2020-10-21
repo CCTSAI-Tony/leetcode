@@ -54,6 +54,7 @@ The target node is a node in the tree.
 #  DFS AND GRAPH METHOD, TIME COMPLEXITY O(N)
 #  The given tree is non-empty. 所以不用check if not root...
 #  思路: 利用dict 建立往parent 的橋樑, 把binary tree轉化成undirected graph, 從target向外遍歷, 離target k edges的 nodes => append to ans
+#  記得建立visited 防止重複遍歷, undiredted graph
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
         parent_map = {}

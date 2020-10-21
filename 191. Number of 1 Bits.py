@@ -43,6 +43,7 @@ class Solution:
 
 
 #自己想的, time complexity O(1)
+#思路: 不斷讓n往右移, 對應1 bit, 直到n = 0
 class Solution:
     def hammingWeight(self, n: int) -> int:
         count = 0

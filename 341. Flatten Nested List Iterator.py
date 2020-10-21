@@ -58,7 +58,7 @@ Explanation: By calling next repeatedly until hasNext returns false,
 
 #time complexity: next: O(1) and hasNext: O(N) 
 #思路: 手動建立__listEmpty, __isComplete, 利用原生method isInteger 來確認current element 是否為integer, 
-#若不是, 代表是list, 此時利用 self.__lists 先暫存下一個元素與index, 因為要準備原生method getList 進入nested list, 進入前 self.__positione 歸0
+#若不是, 代表是list, 此時利用 self.__lists 先暫存下一個元素與index, 因為要準備原生method getList 進入nested list, 進入前 self.__position 歸0
 #若nested complete, 則在從self.__lists pop 出 上層list下一個元素與index 繼續flatten
 #next 是回報integer, hasNext 則是回報self.__nestedList下一個元素是否是數字, 有則return True, 若是nested list, 則進入nested list
 #若nested list 裡面有數字則一樣return True, 若裡面沒數字or complete, 則確認self.__lists 裡面是否還有元素, 有則從self.__lists pop出上層list的接續點
@@ -85,7 +85,7 @@ class NestedIterator:
                 return True
             else:
                 self.__position += 1  #先往下一個
-                self.__lists.append((self.__nestedList, self.__position))  #紀錄下一個起始位置 by tuple
+                self.__lists.append((self.__nestedList, self.__position))  #紀錄當層下一個起始位置 by tuple
                 self.__position = 0  #position 歸0, 為了進入list中的list做準備
                 self.__nestedList = currNode.getList()  #進入nestedinteger 裡的list
             

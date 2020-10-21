@@ -42,7 +42,7 @@ class Solution:
 
         #return  [list(t) for t in set(tuple(element) for element in res)] 利用set 避免重複
 
-#自己重寫 time complexity O(n^2)
+#自己重寫 time complexity O(n^2), space complexity O(1)
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
         nums.sort()

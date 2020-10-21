@@ -35,7 +35,7 @@ Explanation: The palindromes are ["battab","tabbat"]
 
 # hash table, 上面解釋很棒, 刷題用這個
 # Worst case time complexity takes O(n * m * m) where n is the length of words and m is the length of word(每個字的長度). why n*m*m 因為還要計算 is_palindrome
-# 思路: 若prefix是palindrom, prefix前面加上 suffix[::-1] 就會變成組合palindrom, 若suffix是palindrom, suffix後面加上 prefix[::-1] 就會變成組合palindrom
+# 思路: 若該字prefix是palindrom, prefix前面加上 suffix[::-1] 就會變成組合palindrom, 若suffix是palindrom, suffix後面加上 prefix[::-1] 就會變成組合palindrom
 # 還要排除加到自己的情況ex: [1,1], [2,2], 另外還要避免重複組合, 留下back + word when prefix[:0], 但沒有 word + back when suf[n:], 不然就用set
 class Solution:
     def palindromePairs(self, words: List[str]) -> List[List[int]]:
@@ -50,7 +50,7 @@ class Solution:
                     back = suf[::-1]
                     if back != word and back in words:  #if back != word, 注意不能選自己, 規定要跟別人配對
                         valid_pals.append([words[back],  k])
-                if j != n and self.is_palindrome(suf):  #if j != n, 避免重複組合
+                if j != n and self.is_palindrome(suf):  #if j != n, 避免重複
                     back = pref[::-1]
                     if back != word and back in words:
                         valid_pals.append([k, words[back]])
@@ -58,6 +58,59 @@ class Solution:
 
     def is_palindrome(self, check):
             return check == check[::-1]
+
+#刷題用這個!
+#自己重寫 time complexity O(n * m * m) where n is the length of words and m is the length of word(每個字的長度). why n*m*m 因為還要計算 is_palindrome, space complexity O(n)
+#思路: 用set
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        words = {v:i for i, v in enumerate(words)}
+        res = set() #用set去重
+        for word, k in words.items():
+            n = len(word)
+            for i in range(n+1):
+                pre = word[:i]
+                suf = word[i:]
+                if self.is_palindrome(pre):
+                    if suf[::-1] in words and suf[::-1] != word: # suf[::-1] != word 不能重複選自己
+                        res.add((words[suf[::-1]], k))
+                if self.is_palindrome(suf):
+                    if pre[::-1] in words and pre[::-1] != word:
+                        res.add((k, words[pre[::-1]]))
+        return res
+            
+        
+    def is_palindrome(self, word):
+        return word == word[::-1]
+
+#第二次重寫, time complexity O(n*m*m), m is the longest length of word, space complexity O(n)
+class Solution:
+    def palindromePairs(self, words: List[str]) -> List[List[int]]:
+        dic = {v:i for i, v in enumerate(words)}
+        pairs = set()
+        for word in dic:
+            n = len(word)
+            for i in range(len(word)+1):
+                pre = word[:i]
+                sub = word[i:]
+                if self.check(pre):
+                    back = sub[::-1]
+                    if back in dic and back != word:
+                        pairs.add((dic[back], dic[word]))
+                if self.check(sub):
+                    back = pre[::-1]
+                    if back in dic and back != word:
+                        pairs.add((dic[word], dic[back]))
+        return pairs
+                
+    def check(self, word):
+        if word == word[::-1]:
+            return True
+        return False
+
+
+
+
 
 # [] == [][::-1], empty string 也是palindrom
 # True

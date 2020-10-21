@@ -34,7 +34,7 @@ A[i] is 0 or 1
 class Solution:
     def longestOnes(self, A: List[int], K: int) -> int:
         start, end = 0, 0
-        count = K
+        count = K #k counts to replace 0 with 1
         max_len = 0
         while end < len(A):
             if A[end] == 0:

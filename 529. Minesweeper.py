@@ -117,7 +117,7 @@ class Solution(object):
 
 
 
-#自己重寫 time complexity O(m*n)
+#  自己重寫 time complexity O(m*n), space complexity O(h)
 #  思路: 使用dfs 來執行擴散, 若當下cell 附近沒有地雷, 則向八方擴散, 若遭擴散的cell不是"B", 則停止擴散下去
 #  利用八個方向來尋找附近有幾顆地雷, 若0顆 則"B", 超過0顆 則 "count"
 #  發現b, recursive reveal adjacent squares, until that square is not a b(with none mine around it), 若不是b停止擴散
@@ -154,7 +154,7 @@ class Solution:
 
 
 
-#  bfs 自己寫的 196ms, time complexity O(m*n)
+#  bfs 自己寫的 196ms, time complexity O(m*n), space complexity O(m*n)
 #  思路: 記住不能像dfs 利用inplace mark 來避掉已visited 的cell, 因為無法向dfs一樣, 馬上改變該E cell 的mark
 #  在把E cell 拿進queue以前就要mark 進 visited
 #  同layer 的cell 可能加入還沒pop out 的對方 or 一樣的 E cell, 所以要建立visited 來避免重複加入E cell

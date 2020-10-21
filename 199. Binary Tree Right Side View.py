@@ -22,7 +22,7 @@ Explanation:
 #         self.right = None
 
 # DFS recursively, time complexity O(n), 刷題用這個
-# 思路: 增加level 參數, 使得可以針對每層的nodes看要回報第一個還是最後一個
+# 思路: 增加level 參數, 使得可以針對每層的nodes看要回報第一個(right side view)還是最後一個(left side view)
 class Solution:
     def rightSideView(self, root):
         res = []

@@ -17,10 +17,11 @@ Output: 6
 # We keep the left side and right side until we find a higher side
 
 
-#  刷題用這個,參考別人自己重寫
+#  刷題用這個,參考別人自己重寫, 此題的monotonic queue 可以存在相等元素且不會刪除裡面的元素, 
+#  但其他的monotonic題可能不存在相等元素, 且會從尾or頭刪除不適合元素, 跟著239一起服用
 #  O(n) time, O(n) space
 #  Given n non-negative integers, 題目有說height 不會是負數, 所以left, right 初始為0即可
-#  思路: 先從左邊建立monotonic queue => height_left, height_left[i] 理解為 height[i] 從自己往左邊最高的牆
+#  思路: 先從左邊往右邊建立monotonic queue => height_left, height_left[i] 理解為 height[i] 往左邊遇到最高的牆
 #  一樣從右邊往左邊建立monotonic queue => height_right, 最後遍歷height[i], 取左右牆較小的 - height[i] 就是該點能儲的儲水量
 class Solution:
     def trap(self, height: List[int]) -> int:
@@ -39,10 +40,41 @@ class Solution:
             water += min(height_left[i], height_right[i]) - v
         return water
 
+#自己重寫
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        left, right = [], []
+        max_left = 0
+        max_right = 0
+        water = 0
+        for i in range(len(height)):
+            max_left = max(max_left, height[i])
+            left.append(max_left)
+        for j in range(len(height)-1, -1, -1):
+            max_right = max(max_right, height[j])
+            right.append(max_right)
+        right.reverse()
+        for i in range(len(height)):
+            water += min(left[i], right[i]) - height[i]
+        return water
 
-
-
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        left, right = [], []
+        max_left = 0
+        max_right = 0
+        for i in range(len(height)):
+            max_left = max(max_left, height[i])
+            left.append(max_left)
+        for i in range(len(height)-1, -1, -1):
+            max_right = max(max_right, height[i])
+            right.append(max_right)
+        right.reverse()
+        water = 0
+        for i in range(len(height)):
+            water += min(left[i], right[i]) - height[i]
+        return water
 
 class Solution:
 # @param A, a list of integers

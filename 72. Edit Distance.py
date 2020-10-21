@@ -53,6 +53,7 @@ exection -> execution (insert 'u')
 
 # And in Python:
 
+#naive recursive form
 class Solution:
     def minDistance(self, word1, word2):
         """Naive recursive solution"""
@@ -101,6 +102,11 @@ The way we fix this is by caching. We save intermediate computations in a dictio
 instead of doing the same work again, we return the saved value. Here is the memoized solution, 
 where we build from bigger subproblems to smaller subproblems (top-down).
 
+#刷題用這個, top down dp time complexity O(mn)
+#思路: 利用memo 來儲存重複的子問題, 建立basecase, 
+#若word1[i] == word2[j] => 則不用任何動作, 各自往後一個字再比較, 若word1[i] != word2[j] => 則有三種操作 => 
+#1, insert 跟word2 相同的字 to word1 j + 1, 2, delete word1 的字 i + 1, 3. replace word1的字 變得跟word2一樣 i+1, j+1=> 此三種都要加一步
+#若其中一方先比到空字符, 則剩餘步數則是另一方的總長度-目前比較的index, ex: j = 5 (第6個字), len(word2) = 10, 剩下步數 = 5 (包含第6個字)
 class Solution:
     def minDistance(self, word1, word2):
         memo = {}
@@ -108,7 +114,7 @@ class Solution:
 
     def minDistance2(self, word1, word2, i, j, memo):
         """Memoized solution"""
-        if i == len(word1) and j == len(word2):
+        if i == len(word1) and j == len(word2): #兩者都比到空字符了
             return 0
         if i == len(word1):
             return len(word2) - j
@@ -137,7 +143,7 @@ class Solution:
 # For both the memoized and dynamic programming solutions, 
 # the runtime is O(mn) and the space complexity is O(mn) where m and n are the lengths of word1 and word2, respectively.
 
-
+# 思路: bottom up dp, table[i][j] means  比對並match完  word1[i-1], word[j-1] 所要花的最小總步數
 class Solution:
     def minDistance(self, word1, word2):
         """Dynamic programming solution"""
@@ -158,6 +164,7 @@ class Solution:
                     table[i][j] = 1 + min(table[i - 1][j], table[i][j - 1], table[i - 1][j - 1])
         return table[-1][-1]
 
+# table[i - 1][j] => delete, table[i][j - 1] => insert, table[i - 1][j - 1] => replace
 # 一樣的 table[i][j] means word1[:i], word[:j]
 
 #min(table[i - 1][j], table[i][j - 1], table[i - 1][j - 1]), delete, insert, replace

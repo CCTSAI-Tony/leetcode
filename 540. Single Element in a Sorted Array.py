@@ -22,7 +22,18 @@ Constraints:
 0 <= nums[i] <= 10^5
 '''
 
-# 刷題用這個
+#自己重寫, time complexity O(n), space complexity O(1)
+#思路: bit manipulation xor
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+
+
+
+# follow up 刷題用這個
 # 模板2 自己重寫 time complexity O(logn) space complexity O(1) ex: [1,1,2,2,3,3,4,4,5,5]
 # 思路: 若沒有單獨的元素, 偶數index => nums[i] = nums[i+1], 奇數index => nums[i] == nums[i-1] 插入單獨元素才導致以上關係不成立
 # 觀察數列, input不會出現ex:[1,1,2,3,2,4,4] 這樣的情形, 都是兩兩一起, 除了單獨元素, 因此單獨元素後面的數列以上關係會不成立, 前面的數列則成立,
@@ -34,7 +45,7 @@ class Solution:
         left, right = 0, len(nums)-1
         while left + 1 < right:
             mid = left + (right - left) // 2
-            if self.check(mid, nums):
+            if self.check(mid, nums): #單獨元素在右邊
                 left = mid
             else:
                 right = mid

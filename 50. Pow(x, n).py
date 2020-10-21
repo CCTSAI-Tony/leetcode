@@ -25,6 +25,7 @@ n is a 32-bit signed integer, within the range [−231, 231 − 1]
 # 思路: 對大問題進行拆分, 不斷拆半, ex: b = 17, 17//2 = 8(2^8*2^8*2), 8//2 = 4, 4//2 = 2, 2//2 = 1, 1//2 = 0 (return 1)
 # 這題就是divide and conquer, conquer的部分就是回報 half*half or half*half * a, b是integer
 # 0^0 == 1 (數學上定義)
+# n is a 32-bit signed integer, within the range [−231, 231 − 1]
 class Solution:
     def myPow(self, x: float, n: int) -> float:
         if x == 0:  #此題input 應該不會出現 0^-3 這種情況, or 0^0, 所以大膽給他return 0
@@ -37,7 +38,7 @@ class Solution:
     def helper(self, x, n):
         if n == 0:  #base case
             return 1
-        half = self.helper(x, n//2)
+        half = self.helper(x, n//2) #2^13 => 2^6 * 2^6 * 2
         if n % 2 == 0:
             return half * half
         else:

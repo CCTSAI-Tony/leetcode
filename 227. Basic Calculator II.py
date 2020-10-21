@@ -21,7 +21,7 @@ You may assume that the given expression is always valid.
 Do not use the eval built-in library function.
 '''
 #use stack to store different result, if you meet '*' or '/', it will take the last element of stack to do some operation
-#利用" 3+5 / 2 " 做logic run through 比較好搞懂
+#利用" 3 + 5 / 2 " 做logic run through 比較好搞懂
 #  time complexity O(n)
 #  思路: 指針遍歷 利用stack 來存取相關計算元, 以isdigit, isspace 來區分計算元 or 計算子, 碰到下一個計算子or最後一個元素 就處理之前的expression
 #  記得除法比較複雜要分除完是負數還是正數, 若是負數且有小數則要加1, 因為python // 是向下取整, 但題目是truncate toward zero, @@ 可以使用int() 來實現truncate toward zero 不論正負數

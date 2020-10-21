@@ -22,6 +22,9 @@ Assume that the total area is never beyond the maximum possible value of int.
 ##     If width or height is not positive, they won't overlap
 ##
 ## Complexity: Time O(1), Space O(1)
+
+#刷題用這個, time complexity O(1), space complexity O(1)
+#思路: 現判斷兩個矩形是否重疊, 若有重疊則計算完兩個矩形面積再減掉這塊重疊
 class Solution:
     def computeArea(self, A, B, C, D, E, F, G, H):
         """
@@ -39,7 +42,14 @@ class Solution:
         area2 = abs(E-G)*abs(F-H)
         w = min(C,G)-max(A,E)
         h = min(D, H)-max(B,F)
-        if w<=0 or h<=0:
+        if w<=0 or h<=0: #兩個不重疊
             return area1 + area2
         else:
             return area1 + area2 - w*h
+
+
+
+
+
+
+

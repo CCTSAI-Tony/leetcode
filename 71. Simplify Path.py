@@ -62,7 +62,7 @@ class Solution:
                 continue
             elif i in (".."):
                 if stack:
-                    stack.pop()
+                    stack.pop() #回到上一層
             else:
                 stack.append(i)
         return "/" + "/".join(stack)

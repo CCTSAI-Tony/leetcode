@@ -19,8 +19,10 @@ Output: false
 
 # This approach is similar to longest increasing subsequence where you maintain a new list 
 # and iterate through the given list and either append the new element to result list or replace it's upper bound with current value
-#Algo is called patience sorting, 這個思路很棒!
+# Algo is called patience sorting, 這個思路很棒!
 
+#刷題用這個, time complexity O(n)
+#思路: subsequence 不需要連續, 使用if elif else 來層層篩選出increasing triplet subsequence
 class Solution:
     def increasingTriplet(self, nums: List[int]) -> bool:
         nums1, nums2 = float("inf"), float("inf")
@@ -32,3 +34,20 @@ class Solution:
             else:
                 return True  # n > num1 and n > num2 i.e. increasing triplet
         return False
+
+
+#自己重寫, time complexity O(n)
+class Solution:
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        n1, n2 = float("inf"), float("inf")
+        for num in nums:
+            if num <= n1:
+                n1 = num
+            elif num <= n2:
+                n2 = num
+            else:
+                return True
+        return False
+
+
+

@@ -30,7 +30,7 @@ You may assume that there are no duplicate edges in the input prerequisites.
 '''
 
 # 刷題用這個
-# 自己重寫 time complexity O(n)
+# 自己重寫 time complexity O(V + E^2), space complexity O(V+E)
 # 思路: dfs directed graph, topological sort, 有趣的是建立graph, edge 方向相反, 不影響答案, 可以想像成不是dag的graph, 反方向也不是dag, vise versa
 # dag不會有backedge, 有backedge 就會出現circle, 就不能完成全部課程
 from collections import defaultdict

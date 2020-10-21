@@ -65,7 +65,7 @@ class Solution(object):
         res = []
         # Build up the graph.
         for i, account in enumerate(accounts):  #enumerate 功用: 提供id
-            for j in range(1, len(account)):  #why range 0, 因為range 0 是姓名
+            for j in range(1, len(account)):  #why range 1, 因為range 0 是姓名
                 email = account[j]
                 emails_accounts_map[email].append(i)
         
@@ -80,7 +80,7 @@ class Solution(object):
 
     # DFS code for traversing accounts.
     def dfs(self, i, accounts, emails, visited_accounts, emails_accounts_map): #這邊的emails當作一個收集set()
-        if visited_accounts[i]:  #因為已加入set
+        if visited_accounts[i]:  #避免重複遍歷
             return
         visited_accounts[i] = True  #mark, 若不畫記會陷入無限循環, 
         for j in range(1, len(accounts[i])):  #針對該帳號底下的每個mail 來做dfs 看是否有其他帳號擁有該相同mail並收集該帳號mail, 本題最難的地方

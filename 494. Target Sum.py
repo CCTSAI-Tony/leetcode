@@ -28,7 +28,7 @@
 #紀錄當下有可能產生幾種值, 並紀錄該值當下有幾種方式組成, 
 #當index = 3 => dp = {1:1, 2:2, 3:3}, 當index = 4 nums[4] = 1 => new_dp的key = 舊dp裡的key +/- nums[4]產生新key, 並加上舊dp裡的key value =>
 #新dp key = 2 => 舊dp 1 + 1 and 舊dp 3 - 1, 因此新dp[2] = 舊dp[1] + 舊dp[3], 最後答案return finalDP[S]
-#跟暴力解法相比, 此方法會合併舊dp +/- nums[i] = 相同的key 的路徑, 但還是改變不了worst case = O(2^n) 的事實
+#跟dfs暴力解法相比, 此方法會合併舊dp +/- nums[i] = 相同的key 的路徑, 但還是改變不了worst case = O(2^n) 的事實
 class Solution(object):
     def findTargetSumWays(self, nums, S):
         if not nums:
@@ -68,6 +68,7 @@ class Solution:
 
 # 分治法 + Memoization Solution, time complexity O(2^n)
 # 思路: 建立memo 來紀錄(index, curr_sum) 以免重複遍歷
+# 有可能出現重複子問題 => ex: +5 -5 => 子問題 or -5 +5 => 子問題
 class Solution:
     def findTargetSumWays(self, nums, S):
         index = len(nums) - 1
@@ -91,7 +92,9 @@ class Solution:
         self.memo[(index, curr_sum)] = positive + negative
         return self.memo[(index, curr_sum)]
 
+#比較直覺, 刷題用這個
 #自己重寫, time complexity O(2^n)
+#思路: 有可能出現重複子問題 => ex: +5 -5 => 子問題 or -5 +5 => 子問題
 class Solution:
     def findTargetSumWays(self, nums: List[int], S: int) -> int:
         if not nums:

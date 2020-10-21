@@ -48,7 +48,7 @@ class Solution(object):
         return res
 
 
-# Solution 3: time complexity O(m*n) 刷題用這個
+# Solution 3: time complexity O(max(m,n)) 刷題用這個
 # 思路: use dict/hashmap to record all nums appeared in the first list, 
 # and then check if there are nums in the second list have appeared in the map.
 
