@@ -59,7 +59,7 @@ class Solution:
 3.遍历结束后，判断是否为空”如果直接输入[/{/( ，只循环一次就结束循环，且stack不为空 ，所以只能用stack判断“
 '''
 
-#自己重寫, time complexity O(n), 刷題用這個, 指針應用搭配stack
+#自己重寫, time complexity O(n), space complexity O(n) 刷題用這個, 指針應用搭配stack
 #思路: 遇到closoing bracket, 若stack.pop() 不是對應的另一半, 就return False, 因為不能([)] 一定要 ([{}]), 大包小, 對應的一定要優先pop出來
 #最後若stack 有殘餘沒配對成功的 要return False
 class Solution:

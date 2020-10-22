@@ -39,8 +39,8 @@ b
 {'3', 3}
 '''
 
-#刷題用這個 Time Complexity: O(26^len(word))  Worst case here is every word transformed happens to be in the list, 
-# 自己重寫, 建立graph, 
+# 刷題用這個 Time Complexity: O(M^2*N), where M is the length of each word and N is the total number of words in the input word list.
+# 自己重寫, 建立graph, , space complexity O(M^2*N)
 #思路: 最短距離就要想到bfs, 並把它連結graph, 此題重點就是建立graph, 找尋建立連結其他字(vertex)的方法
 #利用一個字不同位置切分當作key, 會對應許多字, 這些字就是鄰居, 彼此只差一個字, 利用bfs遍歷找出到endWord 最短距離, 記得設visited 以防重複遍歷
 

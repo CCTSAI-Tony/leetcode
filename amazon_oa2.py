@@ -838,6 +838,175 @@ print(findPairWithGivenSum([20, 50, 40, 25, 30, 10], 90))
 
 
 #leetcode 239, 127, 572, 20, 829
+#time complexity O(n), space complexity O(k)
+from collections import deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        queue = deque()
+        for i in range(k-1):
+            self.helper(nums, i, queue)
+        res = []
+        start = 0
+        for i in range(k-1, len(nums)):
+            self.helper(nums, i, queue)
+            if queue[0] < start:
+                queue.popleft()
+            res.append(nums[queue[0]])
+            start += 1
+        return res
+        
+    def helper(self, nums, i, queue):
+        while queue and nums[i] >= nums[queue[-1]]:
+            queue.pop()
+        queue.append(i)
+
+
+
+# 刷題用這個 Time Complexity: O(M^2*N), where M is the length of each word and N is the total number of words in the input word list.
+# 自己重寫, 建立graph, , space complexity O(M^2*N)
+from collections import defaultdict, deque
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        graph = defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                s = word[:i] + "_" + word[i+1:]  #關鍵, 建立不同切分的狀態: 對應有哪些字
+                graph[s].append(word)
+        
+        return self.bfs(beginWord, endWord, graph)
+    
+    def bfs(self, beginWord, endWord, graph):
+        queue, visited = deque(), set(beginWord) #一開始就加入beginword
+        queue.append((beginWord, 1))
+        while queue:
+            for _ in range(len(queue)):
+                word, step = queue.popleft()
+                if word == endWord:
+                    return step
+                for i in range(len(word)):
+                    s = word[:i] + "_" + word[i+1:]
+                    for nextWord in graph[s]:  #在字典種查找
+                        if nextWord not in visited:  #避免重複
+                            visited.add(nextWord)  #登錄
+                            queue.append((nextWord, step + 1))
+        return 0
+
+
+#time complexity O(s*t)
+#思路: 利用dfs 分治法 來解題, 往左右child 找可能的子樹
+class Solution:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        if not t:
+            return True
+        return self.dfs(s, t)
+    
+    def dfs(self, s, t):
+        if not s:
+            return False
+        if s.val == t.val and self.check(s, t):
+            return True
+        return self.dfs(s.left, t) or self.dfs(s.right, t)
+    
+    def check(self, s, t):
+        if not s and not t:
+            return True
+        if (not s and t) or (not t and s) or (s.val != t.val):
+            return False
+    
+        return self.check(s.left, t.left) and self.check(s.right, t.right)
+
+
+
+#自己重寫, time complexity O(n), space complexity O(n), 刷題用這個, 指針應用搭配stack
+#思路: 遇到closoing bracket, 若stack.pop() 不是對應的另一半, 就return False, 因為不能([)] 一定要 ([{}]), 大包小, 對應的一定要優先pop出來
+#最後若stack 有殘餘沒配對成功的 要return False
+class Solution:
+    def isValid(self, s: str) -> bool:
+        if not s:
+            return True
+        stack= []
+        for i in range(len(s)):
+            if s[i] == ")":
+                if not stack or stack.pop() != "(":
+                    return False
+            elif s[i] == "}":
+                if not stack or stack.pop() != "{":
+                    return False
+            elif s[i] == "]":
+                if not stack or stack.pop() != "[":
+                    return False
+            else:
+                stack.append(s[i])
+        if not stack:
+            return True
+
+
+#刷題用這個, time complexity O(N^0.5)
+#思路: N can be expressed as i consecutive numbers: k, k + 1, k + 2, ..., k + (i - 1), where k is a positive integer;
+#思路: 數學推導, N = k * i + (i - 1 + 0) * i / 2 => N - (i - 1) * i / 2 = k * i => 若 N - (i - 1) * i / 2 可以被i整除, 代表可以找到正整數k
+#因為k * i 一定是正的, 所以  N > (i - 1) * i / 2
+class Solution:
+    def consecutiveNumbersSum(self, N: int) -> int:
+            i, ans = 1, 0
+            while N > i * (i - 1) / 2:
+                if (N - i * (i - 1) / 2) % i == 0:
+                    ans += 1
+                i += 1
+            return ans
+
+
+#lifting weights, time complexity O(n*m), 
+def liftWeights(weights, max_capacity):
+    cache = set()
+    max_weight = 0
+    for weight in weights:
+        new_cache = set()
+        for ele in cache:
+            temp = ele + weight
+            if temp > max_capacity:
+                continue
+            new_cache.add(temp)
+            max_weight = max(max_weight, temp)
+        new_cache.add(weight)
+        cache = cache.union(new_cache)
+    return max(cache)
+
+liftWeights([5,7,12,18], 20) => 19
+
+
+#time complexity O(nlogn)
+import heapq
+def maxEvents(arrival, duration):
+    # Write your code here
+    heap = []
+    for x, y in zip(arrival, duration):
+        heapq.heappush(heap, (x+y, x))
+    res = []
+    while heap:
+        e, s = heapq.heappop(heap)
+        if not res or res[-1][0] <= s:
+            res.append((e, s))
+    return len(res)
+
+
+#time complexity O(nlogn)
+def efficientJanitor(weight):
+    # Write your code here
+    weight.sort(reverse=True)
+    
+    left, right = 0, len(weight)-1
+    res = 0
+    while left <= right:
+        if left == right:
+            res += 1
+            break
+        temp = weight[left]
+        while left < right and temp + weight[right] <= 3.0:
+            temp += weight[right]
+            right -= 1
+        left += 1
+        res += 1
+    return res
 
 
 
