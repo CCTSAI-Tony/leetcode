@@ -62,6 +62,31 @@ class Solution(object):
         return longest
 
 
+#自己重寫, 刷題用這個, time complexity O(n), space complexity O(n)
+class Solution:
+    def lengthLongestPath(self, input: str) -> int:
+        dic = {}
+        max_len = 0
+        for i in input.split("\n"):
+            if "." not in i:
+                key = i.count("\t")
+                value = len(i.replace("\t", ""))
+                dic[key] = value
+            else:
+                key = i.count("\t")
+                value = len(i.replace("\t", ""))
+                temp = sum(dic[k] for k in dic if k < key) + value + key
+                max_len = max(max_len, temp)
+                
+        return max_len
+
+
+
+
+
+
+
+
 #sum([1,2,3,4,5])
 
 #15

@@ -25,7 +25,7 @@ The given board size is always 9x9.
 #自己重寫 time complexity O(9!*9), 經典好題多練, 遇到dfs backtracking 要考慮 return 是否要return True or False, 這種設計使得回到上一層有多的資訊可以參考,例如是否要提前結束等..
 #思路: dfs backtracking, 這題有趣的是要先建立rols, cols, blocks 的 dict, 來check是否在同樣的區間出現重複的值
 #技巧: 此方法利用存儲"." 的位置 來當作dfs recursion的層數, 只有所有數字都填對 讓所有"." 都不見時, dfs才會到達最後一層, 不然會往上一層換其他選擇
-#回上層記得恢復所有動過的global variables, 
+#回上層記得恢復所有動過的global variables, remain 記得用deque 加回到最前面
 from collections import defaultdict, deque
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:

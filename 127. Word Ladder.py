@@ -43,7 +43,8 @@ b
 # 自己重寫, 建立graph, , space complexity O(M^2*N)
 #思路: 最短距離就要想到bfs, 並把它連結graph, 此題重點就是建立graph, 找尋建立連結其他字(vertex)的方法
 #利用一個字不同位置切分當作key, 會對應許多字, 這些字就是鄰居, 彼此只差一個字, 利用bfs遍歷找出到endWord 最短距離, 記得設visited 以防重複遍歷
-
+#Note, for each of M intermediate words we save the original word of length M. This simply means, for every word we would need a space of M^2
+ 
 from collections import defaultdict, deque
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
@@ -75,8 +76,43 @@ class Solution:
 
 
 
-from collections import defaultdict
-from collections import deque
+
+
+
+
+
+
+
+
+#重寫第二次, time complexity O(m^2*n), space complexity O(m^2*n), where M is the length of each word and N is the total number of words in the input word list.
+from collections import defaultdict, deque
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        graph = defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                temp = word[:i] + "_" + word[i+1:]
+                graph[temp].append(word)
+        queue, visited = deque([beginWord]), set([beginWord])
+        step = 1
+        while queue:
+            for _ in range(len(queue)):
+                word = queue.popleft()
+                if word == endWord:
+                    return step
+                for i in range(len(word)):
+                    temp = word[:i] + "_" + word[i+1:]
+                    for nxt in graph[temp]:
+                        if nxt not in visited:
+                            queue.append(nxt)
+                            visited.add(nxt)
+            step += 1
+        return 0
+
+
+
+
+from collections import defaultdict, deque
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         """

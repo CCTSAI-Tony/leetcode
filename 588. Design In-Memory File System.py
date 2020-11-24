@@ -52,7 +52,7 @@ class FileSystem(object):
         curr=self.root
         if len(path)==1:
             return self.root
-        for word in path.split("/")[1:]:
+        for word in path.split("/")[1:]: #split("/")[0] = ""
             curr=curr.child[word]
         return curr
         
@@ -116,8 +116,46 @@ class FileSystem:
         return node.content
 
 
+#重寫第二次, time complexity O(path)
+from collections import defaultdict
+class TrieNode:
+    
+    def __init__(self):
+        self.child = defaultdict(TrieNode)
+        self.content = ""
+        
+class FileSystem:
 
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def find(self, path):
+        cur = self.root
+        if len(path) == 1: #這很重要, return root
+            return cur
+        for w in path.split("/")[1:]:
+            cur = cur.child[w]
+        return cur
+        
+    def ls(self, path: str) -> List[str]:
+        cur = self.find(path)
+        if cur.content:
+            return [path.split("/")[-1]]
+        return sorted(cur.child.keys())
+        
 
+    def mkdir(self, path: str) -> None:
+        self.find(path)
+        
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        cur = self.find(filePath)
+        cur.content += content
+        
+
+    def readContentFromFile(self, filePath: str) -> str:
+        cur = self.find(filePath)
+        return cur.content
 
 
 

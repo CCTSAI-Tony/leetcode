@@ -46,8 +46,27 @@ class Solution:
         return False
 
 
-
-
+#重寫第二次, time complexity O(m + logn), space complexity O(1)
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix or not matrix[0]:
+            return None
+        for row in matrix:
+            if row[-1] < target:
+                continue
+            l, r = 0, len(row)-1
+            while l + 1 < r:
+                mid = l + (r - l) // 2
+                if row[mid] > target:
+                    r = mid
+                else:
+                    l = mid
+            if row[l] == target:
+                return True
+            if row[r] == target:
+                return True
+            return False
+        return False
 
 
 

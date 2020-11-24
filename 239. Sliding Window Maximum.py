@@ -100,6 +100,30 @@ class Solution:
         queue.append(i)
 
 
+#重寫第三次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        queue = deque()
+        for i in range(k-1):
+            self.helper(i, nums, queue)
+        res = []
+        start = 0
+        for end in range(k-1, len(nums)):
+            self.helper(end, nums, queue)
+            if queue[0] < start:
+                queue.popleft()
+            res.append(nums[queue[0]])
+            start += 1
+        return res
+        
+    def helper(self, i, nums, queue):
+        while queue and nums[i] >= nums[queue[-1]]:
+            queue.pop()
+        queue.append(i)
+
+
+
 
 
 

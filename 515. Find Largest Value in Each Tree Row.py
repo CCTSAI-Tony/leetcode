@@ -20,6 +20,30 @@ Output: [1, 3, 9]
 #         self.left = left
 #         self.right = right
 
+
+
+#刷題用這個
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def largestValues(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        levels = defaultdict(int)
+        self.dfs(root, 0, levels)
+        return levels.values()
+        
+    def dfs(self, node, level, levels):
+        if level not in levels or node.val > levels[level]:
+            levels[level] = node.val
+        if node.left:
+            self.dfs(node.left, level+1, levels)
+        if node.right:
+            self.dfs(node.right, level+1, levels)
+
+
+
+
 #自己想的, time complexity O(hlogh, n), 因為有sort
 #思路: 利用defaultdict(list), 與dfs遍歷 來紀錄不同level的值, 
 from collections import defaultdict

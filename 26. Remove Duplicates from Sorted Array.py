@@ -35,7 +35,7 @@ for (int i = 0; i < len; i++) {
 }
 '''
 
-# 刷題用這個, time complexity O(n)
+# 刷題用這個, time complexity O(n), space complexity O(1)
 # 思路: 利用2 pointer, end指針若與start指針元素一樣的話, end指針往下走(避掉重複), 直到不一樣時, start指針的下一個元素就是end指針目前元素
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
@@ -43,7 +43,7 @@ class Solution:
         for i in range(len(nums)):  #模仿end 指針
             if nums[i] != nums[start]:
                 start += 1
-                nums[start] = nums[i]
+                nums[start] = nums[i] #變成i指針的數字, 當作visited 
         return start + 1  #length
 
 

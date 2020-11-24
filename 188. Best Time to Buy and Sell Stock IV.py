@@ -19,13 +19,18 @@ Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-
              Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
 '''
 
+
+
+
+#經典dp, time complexity O(nk), sdpace complexity O(nk)
+#思路: bottom up dp, localMax[j] = max(dp[i-1][j-1] + price, dp[i-1][j-1], localMax[j-1] + price) => dp[i][j] = max(dp[i][j - 1], loacalMax[j])
 class Solution:
     def maxProfit4(self, k, prices):
         n = len(prices)
         if n < 2:
             return 0
         # k is big enougth to cover all ramps.
-        if k >= n / 2:
+        if k >= n // 2:
             return sum(i - j for i, j in zip(prices[1:], prices[:-1]) if i - j > 0) #sum函數用法
         globalMax = [[0] * n for _ in range(k + 1)] #range(k+1) 表示0 transaction 至 k transaction
         for i in range(1, k + 1):
@@ -53,11 +58,26 @@ class Solution:
 
 '''
 list(zip(prices[1:], prices[:-1])) = list((zip([2,6,5,0,3], [3,2,6,5,0]))) -> [(2, 3), (6, 2), (5, 6), (0, 5), (3, 0)]
-
-
-
-
 '''
+
+#重寫第二次, TLE(leetcode的問題), time complexity O(nk), space complexity O(nk)
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        if n < 2:
+            return 0
+        if k >= n // 2:
+            return sum(y-x for (x, y) in zip(prices[:n-1], prices[1:]) if y > x)
+        dp = [[0] * n for _ in range(k+1)]
+        for i in range(1, k+1):
+            localMax = [0] * n
+            for j in range(1, n):
+                profit = prices[j] - prices[j-1]
+                localMax[j] = max(dp[i-1][j-1] + profit,
+                                 dp[i-1][j-1],
+                                 localMax[j-1] + profit)
+                dp[i][j] = max(dp[i][j-1], localMax[j])
+        return dp[k][-1]
 '''
 I think the general idea has been thoroughly explained by other brilliant leetcoders. 
 All of the solutions are beautiful and concise. However, most of the them don't look obvious to me,
@@ -91,35 +111,49 @@ Performance is not too bad though.
 
 
 
+DP algorithm with O(k n) time and O(k n) space (beat 45%)
+Let dp[i][k] = maxProfit of prices[:i+1] with at most k transactions, the base cases and recursive relationship are
+(i) dp[i][k]= 0 if i <= 0 or k <= 0
+(ii) dp[i][k] = max(dp[i-1][k], prices[i] - prices[j] + dp[j-1][k-1] for j from 0 to i-1)
+We can further use DP to get local_max = - prices[j] + dp[j-1][k-1] for j from 0 to i-1.
 
 
-#簡化版
+#time complexity O(nk), time complexity O(n)
+#思路: 1D bottom up dp, profits[i] 指的是prices[:i+1]
+#preprofit = max(preprofit+profit, profits[i]) => 若profit 是負的, profits[i] 是在交易次數j-1的情況就等於preprofit
+#思想核心: 交易次數k 代表的就是可以迴避幾次 profit 是負的狀況, preprofit 藉由profits[i]上一次交易的更新來迴避當下 profit = prices[i] - prices[i-1] 是負的情況
 class Solution(object):
     def maxProfit(self, k, prices):
-        """
-        :type k: int
-        :type prices: List[int]
-        :rtype: int
-        """
-    
         if not prices:
             return 0
         
-        if k >= len(prices) // 2:
+        if k >= len(prices) / 2: # problem 122. Best Time to Buy and Sell Stock II, 交易次數多到允許使用greedy
             return sum(x - y for x, y in zip(prices[1:], prices[:-1]) if x > y)
         
         
         profits = [0]*len(prices)
         for j in range(k):
-
             preprofit = 0
             for i in range(1,len(prices)):
             
                 profit = prices[i] - prices[i-1]
                 preprofit = max(preprofit+profit, profits[i]) #此時的profits[i] 是在交易次數j-1的情況, 交易次數越多 錢不會比交易次數少的 來得少
-                profits[i] = max(profits[i-1], preprofit) #preprofit 有可能比profits[i-1] 想像profit 為負的r
+                profits[i] = max(profits[i-1], preprofit) #preprofit 有可能比profits[i-1]小, 想像profit 是負的
     
         return profits[-1]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

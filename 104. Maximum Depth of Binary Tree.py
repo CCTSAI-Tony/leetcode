@@ -40,7 +40,42 @@ class Solution:
         right = self.dfs(root.right)
         return max(left, right) + 1
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return self.dfs(root)
+    
+    def dfs(self, node):
+        left, right = 0, 0
+        if not node.left and not node.right:
+            return 1
+        if node.left:
+            left = self.dfs(node.left)
+        if node.right:
+            right = self.dfs(node.right)
+        return max(left, right) + 1
 
+
+
+#自己想的, bfs, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        queue = deque([(root, 1)])
+        max_depth = 0
+        while queue:
+            for _ in range(len(queue)):
+                node, depth = queue.popleft()
+                max_depth = max(max_depth, depth)
+                if node.left:
+                    queue.append((node.left, depth+1))
+                if node.right:
+                    queue.append((node.right, depth+1))
+        return max_depth
 
 #dfs
 class Solution(object):

@@ -22,7 +22,7 @@ Your algorithm should run in O(n) time and uses constant extra space.
 #自己想的 time complexity O(n), space complexity O(1), #有待確認 str() and int() time complexity 是否近似 O(1)? 不過在此題是可以當作O(1)的, 因為長度不可能超過32
 #思路: 這題的主要想法就是如何inplace modify, ex: 遇到一個數, 直接修改以那個數-1 當索引的值 就達成了inplace modify, 
 #所以數列 index 0 代表positive 1, 直到最後一個index 代表 len(nums), 若遇到一個數超過len(nums) 則跳過, 因為已經能保證在1 ~ len(nums) 裡一定有missing positive
-#因為裡面包含負數, 所以不能單純乘以-1 又能不破壞原本的值(假如前面的數指向該位置), 所以使用 str() 來改變type, 第一個沒被改動的index + 1 就是 first missing positive
+#因為裡面包含負數, 所以不能單純乘以-1 又能不破壞原本的值(假如前面的數指向該位置而改變屬性), 所以使用 str() 來改變type, 第一個沒被改動的index + 1 就是 first missing positive
 #技巧 int("5") 等於 int(5) = 5, 使用這個技巧就能還原被改動的值type, 對沒被改動的也沒影響
 #ex: [1,2,3,4,5] => 6, [1,2,-1,4,5] => 3
 
@@ -32,11 +32,30 @@ class Solution:
             temp = int(nums[i])
             if temp < 1 or temp > len(nums):
                 continue
-            nums[temp-1] = str(nums[temp-1])
+            nums[temp-1] = str(nums[temp-1]) #改變type
         for i in range(len(nums)):
             if nums[i] != str(nums[i]): #比對type
                 return i+1
         return len(nums) + 1
+
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        for i in range(len(nums)):
+            temp = int(nums[i])
+            if temp <= 0 or temp > len(nums):
+                continue
+            nums[temp-1] = str(nums[temp-1])
+        for i in range(len(nums)):
+            if type(nums[i]) != str:
+                return i+1
+        return len(nums) + 1
+
+
+
+
+
 
 # int(-5)
 # -5

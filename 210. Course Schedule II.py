@@ -28,7 +28,7 @@ You may assume that there are no duplicate edges in the input prerequisites.
 
 
 
-#參考別人修改 刷題用這個 96ms, time complexity O(VE), space complexity O(V)
+#參考別人修改 刷題用這個 96ms, time complexity O(V+E), space complexity O(E+V)
 #思路: dfs topological sort 可以同時return True or False 與修改res 來提早結束recursion 若遇到backedge, 而不是像下面單純return, 跑完全部recursion 才要return []
 #好技巧, 學起來!
 #order 最後的course, 愈早被加進path => 所以return path[::-1]
@@ -61,7 +61,7 @@ class Solution:
         return True
 
 
-#自己重寫, 刷題不用這個, dfs topological sort, time complexity O(VE) 196ms
+#自己重寫, 刷題不用這個, dfs topological sort, time complexity O(V+E) 196ms
 #思路: 先建立directed graph, 最初每個vertex = -1, 開始遍歷 = 0, 利用2代表有back edge, return [], 遍歷完所有children, vertex = 1
 from collections import defaultdict
 class Solution:
@@ -90,6 +90,42 @@ class Solution:
         if 2 not in visited:
             visited[i] = 1
             path.append(i)
+
+#重寫第二次, time complexity O(E+V), space complexity O(E+V)
+from collections import defaultdict
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        visited = [-1] * numCourses
+        graph = defaultdict(list)
+        for pre in prerequisites:
+            graph[pre[0]].append(pre[1])
+        path = []
+        for i in range(numCourses):
+            if not self.dfs(i, graph, visited, path):
+                return []
+        return path
+    
+    def dfs(self, i, graph, visited, path):
+        if visited[i] == 1:
+            return True
+        elif visited[i] == 0:
+            return False
+        visited[i] = 0
+        for j in graph[i]:
+            if not self.dfs(j, graph, visited, path):
+                return False
+        path.append(i)
+        visited[i] = 1
+        return True
+
+
+
+
+
+
+
+
+
 
 
 # time complexity O(VE)

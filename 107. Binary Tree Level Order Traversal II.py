@@ -18,15 +18,17 @@ return its bottom-up level order traversal as:
 ]
 '''
 
+#思路: bfs
+from collections import deque
 class Solution:
     def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
         if not root:
             return []
-        queue, res = [root] , []
+        queue, res = deque([root]) , []
         while queue:
             cur_level = []
             for i in range(len(queue)): 
-                node = queue.pop(0)
+                node = queue.popleft()
                 if node.left:
                     queue.append(node.left)
                 if node.right:

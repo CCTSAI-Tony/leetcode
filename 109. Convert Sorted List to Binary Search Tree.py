@@ -37,7 +37,7 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 # 但奇數個就只能是mid 
 # 因為是sorted list, 所以直接取list 的中間值, 左半邊都是比mid小, 右半邊都是比mid大, 符合bst 特性
 
-#模板3 刷題用這個
+#模板2 刷題用這個
 class Solution:
     def sortedListToBST(self, head: ListNode) -> TreeNode:
         if not head:
@@ -55,11 +55,11 @@ class Solution:
             return TreeNode(lst[left])
         if left + 1 == right:  #[1,2]
             temp = TreeNode(lst[right])  
-            temp.left = self.dfs(lst, left, left)
+            temp.left = TreeNode(lst[left])
             return temp
         mid = (left + right) // 2
         root = TreeNode(lst[mid])  
-        root.left = self.dfs(lst, left, mid - 1)  #跟普通模板3不一樣, 因為要避開mid 避免重複, 但剩下處理都一樣
+        root.left = self.dfs(lst, left, mid - 1)  #跟普通模板2不一樣, 因為要避開mid 避免重複, 但剩下處理都一樣
         root.right = self.dfs(lst, mid + 1, right)
         return root
 

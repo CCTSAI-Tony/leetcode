@@ -23,7 +23,7 @@ Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","
 
 Python Recursive DFS, the key bit here is to prove that when we get struck, its indeed the last destination.
 # https://leetcode.com/problems/reconstruct-itinerary/discuss/78768/Short-Ruby-Python-Java-C%2B%2B 解題思想! 強烈推薦
-# 思路: 此題就是euler path, 遍歷圖的每個有向邊,且只能遍歷一次, 機票用完一次就沒了
+# 思路: 此題就是euler path, 遍歷圖的每個有向邊,且只能遍歷一次, 機票用完一次就沒了 => 此題有變種 => retoreNumbersOnCircle
 # 題目有說from JFK 出發一定能遍歷全部的tickets, 代表全部有向邊都會run過一次, 且只有一次, 注意不是每個頂點出發都可以用光所有機票
 # 此題重點是針對start 的airports 能到達的地方做排序, lexicographical order小的放後面, 這樣優先pop出來, 也就是route優先選擇lexicographical order當下一站
 # 此題利用dfs來做深度排序, 同一個airport 在dfs遍歷有可能遍歷一次以上, 但每次遍歷到同一個 airport的時, 此airport選擇數都不一樣, 越接近底層選擇數越接近0, 也越早被寫進res
@@ -108,6 +108,38 @@ class Solution:
             next_air = graph[airport].pop()
             self.dfs(next_air, graph, res)
         res.append(airport)
+
+
+#retoreNumbersOnCircle 變種題 => euler path 走完所有有向邊各一次 => 剛好走完一個環所有有向邊, 但頭尾vertex重複, 去掉其中一個, 從哪個vertex開始遍歷就是頭
+from collections import defaultdict
+class Solution:
+    def restoreNumbersOnCircle(self, pairs: list) -> list:
+        graph = defaultdict(list)
+        res = []
+        visited = set()
+        for i in range(len(pairs)): #record key:vertec, value: edge
+            graph[pairs[i][0]].append(i)
+            graph[pairs[i][1]].append(i)
+        first = pairs[0][0] #開頭
+        self.dfs(first, graph, res, pairs, visited)
+        return res[:-1]
+
+    def dfs(self, node, graph, res, pairs, visited):
+        for edge in graph[node]:
+            if edge in visited:
+                continue
+            visited.add(edge)
+            new_node = pairs[edge][0] if pairs[edge][0] != node else pairs[edge][1]
+            self.dfs(new_node, graph, res, pairs, visited)
+        res.append(node)
+
+a = Solution()
+a.restoreNumbersOnCircle([(3,4),(5,3),(2,4),(3,5),(3,2)])
+
+
+
+
+
 
 
 https://www.quora.com/What-is-the-degree-of-vertex-in-a-directed-graph

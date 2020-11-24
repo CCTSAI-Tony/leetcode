@@ -20,10 +20,15 @@ You must use only standard operations of a queue -- which means only push to bac
 Depending on your language, queue may not be supported natively. You may simulate a queue by using a list or deque (double-ended queue), 
 as long as you use only standard operations of a queue.
 You may assume that all operations are valid (for example, no pop or top operations will be called on an empty stack).
+
+Follow-up: Can you implement the stack such that each operation is amortized O(1) time complexity? In other words, 
+performing n operations will take overall O(n) time even if one of those operations may take longer.
 '''
 
+#刷題用這個, 使用deque 來實現stack
+#思路: extend() time complexity O(k), k: len(argument), push 一個item 上面放滿100個credit => amortized O(1) => 其去follow up 沒有答案
+#time complexity: push O(k), pop O(1), top O(1), empty O(1)
 from collections import deque
-
 class MyStack:
 
     def __init__(self):
@@ -33,12 +38,12 @@ class MyStack:
         self.queue = deque()
         
 
-    def push(self, x: int) -> None:
+    def push(self, x: int) -> None: #這裡最關鍵
         """
         Push element x onto stack.
         """
         tmp = deque([x]) #to arrange [x] to be put on the front
-        tmp.extend(self.queue)
+        tmp.extend(self.queue) 
         self.queue = tmp #aassign it back to self.queue
         
 
@@ -61,6 +66,45 @@ class MyStack:
         Returns whether the stack is empty.
         """
         return len(self.queue) == 0
+
+
+#重寫第二次
+from collections import deque
+class MyStack:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.queue = deque()
+
+    def push(self, x: int) -> None:
+        """
+        Push element x onto stack.
+        """
+        temp = deque([x])
+        temp.extend(self.queue)
+        self.queue = temp
+
+    def pop(self) -> int:
+        """
+        Removes the element on top of the stack and returns that element.
+        """
+        return self.queue.popleft()
+
+    def top(self) -> int:
+        """
+        Get the top element.
+        """
+        return self.queue[0]
+
+    def empty(self) -> bool:
+        """
+        Returns whether the stack is empty.
+        """
+        return len(self.queue) == 0
+
+
 
 '''
 extend(iterable) :- This function is used to add multiple values at the right end of deque. The argument passed is an iterable.

@@ -37,7 +37,7 @@ grid[i][j] is only 0, 1, or 2.
 
 #自己想的, time complexity O(m*n), 52ms
 #思路: 典型bfs 求最短時間, 距離等, 建立rotten 收集2 當作擴散源, 建立 origin_fresh 收集1 當作驗證是否有殘留的fresh orange
-#每次擴散若有找到新鮮的orange 把它變成2 => 放進 rotten  => 進行下一輪 minutes += 1, 若沒有結束while loop 迴圈, check 是否有殘留fresh, 有則return -1
+#每次擴散若有找到新鮮的orange 把它變成2 => 放進 rotten  => 進行下一輪 minutes += 1, 若結束while loop 迴圈, check origin_fresh是否有殘留fresh, 有則return -1
 #若沒有殘留fresh, return minutes
 from collections import deque
 class Solution:
@@ -71,3 +71,32 @@ class Solution:
         return minutes
 
 
+#重寫第二次, time complexity O(m*n), space complexity O(m*n)
+from collections import deque
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        rotten = deque()
+        originFresh = []
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    originFresh.append((i, j))
+                elif grid[i][j] == 2:
+                    rotten.append((i, j))
+        time = 0
+        direc = [(1,0),(-1,0),(0,1),(0,-1)]
+        m, n = len(grid), len(grid[0])
+        while rotten:
+            for _ in range(len(rotten)):
+                x, y = rotten.popleft()
+                for d in direc:
+                    nx, ny = x + d[0], y + d[1]
+                    if 0<=nx<m and 0<=ny<n and grid[nx][ny] == 1:
+                        grid[nx][ny] = 2
+                        rotten.append((nx, ny))
+            if rotten:
+                time += 1
+        for (i, j) in originFresh:
+            if grid[i][j] == 1:
+                return -1
+        return time

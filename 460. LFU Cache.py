@@ -40,7 +40,7 @@ cache.get(4);       // returns 4
 # With this tool, we can easily write a simple code like this:
 
 #time complexity get, put time complexity O(1), 使用defaultdict & OrderedDict
-#思路: 此題跟146 最大不同是, 此題要紀錄每個key的使用頻率, pop出頻率最小的, 而不是最近使用的, 然而若頻率一樣的話則pop出 least recently item
+#思路: 此題跟146 最大不同是, 此題要紀錄每個key的使用頻率, 使用Node class, pop出頻率最小的, 而不是最近使用的, 然而若頻率一樣的話則pop出 least recently item
 #利用defaultdict 與 OrderedDict 的搭配來儲存不同count 的item, 每個count 裡面是一個OrderedDict, 用來處理count相同時能pop掉 least recently item
 #小心此題capacity 有可能=None
 #此題 count2node empty key 要清除key還是不清除key都可以, 
@@ -48,7 +48,7 @@ cache.get(4);       // returns 4
 from collections import defaultdict, OrderedDict
 class Node:
     def __init__(self, key, val, count):
-        self.key = key
+        self.key = key #這個attribute 是不必要的
         self.val = val
         self.count = count
     
@@ -56,7 +56,7 @@ class LFUCache(object):
     def __init__(self, capacity):
         self.cap = capacity
         self.key2node = {}
-        self.count2node = defaultdict(OrderedDict)
+        self.count2node = defaultdict(OrderedDict) #重要, 使用OrderedDict
         self.minCount = None
         
     def get(self, key):
@@ -64,7 +64,7 @@ class LFUCache(object):
             return -1
         
         node = self.key2node[key]
-        del self.count2node[node.count][key] #
+        del self.count2node[node.count][key] 
         
         # clean memory
         if not self.count2node[node.count]:
@@ -92,12 +92,71 @@ class LFUCache(object):
         if len(self.key2node) == self.cap:
             # popitem(last=False) is FIFO(first in first out), like queue
             # it return key and value!!!
-            k, n = self.count2node[self.minCount].popitem(last=False) 
+            k, n = self.count2node[self.minCount].popitem(last=False) #OrderedDict popitem(), 才能用last=False, 一般dict不行
             del self.key2node[k] #別忘了 也要 key2node delete掉
         #新 node
         self.count2node[1][key] = self.key2node[key] = Node(key, value, 1)
         self.minCount = 1
         return
+
+#刷題用這個
+#重做第二次, time complexity O(1), space complexity O(n)
+class Node:
+    def __init__(self, val, count):
+        self.val = val
+        self.count = count
+
+from collections import defaultdict, OrderedDict
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.count2node = defaultdict(OrderedDict)
+        self.key2node = {}
+        self.minCount = None
+        
+        
+
+    def get(self, key: int) -> int:
+        if key not in self.key2node:
+            return -1
+        node = self.key2node[key]
+        del self.count2node[node.count][key]
+        if not self.count2node[node.count]:
+            del self.count2node[node.count]
+        node.count += 1
+        self.count2node[node.count][key] = node
+        if self.minCount not in self.count2node:
+            self.minCount += 1
+        return node.val
+        
+
+    def put(self, key: int, value: int) -> None:
+        if not self.capacity:
+            return
+        if key in self.key2node:
+            node = self.key2node[key]
+            node.val = value
+            self.get(key)
+            return
+        else:
+            if len(self.key2node) == self.capacity:
+                k, n = self.count2node[self.minCount].popitem(last=False)
+                if not self.count2node[self.minCount]:
+                    del self.count2node[self.minCount]
+                del self.key2node[k]
+            newNode = Node(value, 1)
+            self.key2node[key] = self.count2node[1][key] = newNode
+            self.minCount = 1
+
+
+
+
+
+
+
+
+
 
 
 #自己重寫, 刷題用這個 get, put time complexity O(1), 沒有clean memory

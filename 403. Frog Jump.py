@@ -46,7 +46,9 @@ the gap between the 5th and 6th stone is too large.
 # Finally, we check if stones[-1] is in dic, if it is, we return True; Else we return False.
 
 # Time complexity: O(n^2), space complexity: O(n^2).
-
+# 思路: 使用hashmap 來紀錄當前石塊是從多少jump跳過來的, 再以該值跳到之後的石塊, 若該值 <= 1, 則不能選擇少跳一步這個選項, 若最後在hashmap出現最後一個石塊, 代表成功
+# Note that the frog can only jump in the forward direction. 所以 stepsize.val < 1 是不行的
+import collections
 class Solution:
     def canCross(self, stones):
         """
@@ -58,20 +60,56 @@ class Solution:
         for i in range(len(stones)):
             if stones[i] in dic:
                 for val in dic[stones[i]]:
-                    if val > 0:  #val > 0 出了初始0 其他都可以加上本次jump size的 value, Note that the frog can only jump in the forward direction. 所以 stepsize 1>0 是不行的
-                        dic[stones[i]+val].add(val)  #這裡用set 避免重複
+                    if val > 0:  #val > 0 除了初始0 其他都可以加上本次jump size的 value, 
+                        dic[stones[i]+val].add(val)  #這裡用set 避免重複, add(val) 代表到達這一格時是跳val step 來的, 這樣從那塊石頭跳時, 就知道要跳多少
                     if val > 1:  #  val > 1 還可以選擇跳少一格的選擇
                         dic[stones[i]+val-1].add(val-1)
-                    dic[stones[i]+val+1].add(val+1)  #跳多一格不管任何值都可以
+                    dic[stones[i]+val+1].add(val+1)  #跳多一格不管任何值都可以, 0也可以
         return stones[-1] in dic
 
 # a = [1,2,3]
 # 4 in a
 # False
 
-
+#自己重寫, time complexity O(n^2) Two nested loops are there, space complexity O(n^2) 
+from collections import defaultdict
+class Solution:
+    def canCross(self, stones: List[int]) -> bool:
+        dic = defaultdict(set)
+        dic[0] = {0}
+        for i in range(len(stones)):
+            if stones[i] not in dic:
+                continue
+            for val in dic[stones[i]]:
+                if val > 0:
+                    dic[stones[i] + val].add(val)
+                if val > 1:
+                    dic[stones[i] + (val - 1)].add(val - 1)
+                dic[stones[i] + (val + 1)].add(val + 1)
+        if stones[-1] in dic:
+            return True
+        return False
 
  
+#重寫第二次, time complexity O(n^2), space complexity O(n^2)
+from collections import defaultdict
+class Solution:
+    def canCross(self, stones: List[int]) -> bool:
+        dic = defaultdict(set)
+        dic[0] = {0}
+        for i in range(len(stones)-1):
+            if stones[i] not in dic:
+                continue
+            for jump in dic[stones[i]]:
+                if jump > 0:
+                    dic[stones[i] + jump].add(jump)
+                if jump > 1:
+                    dic[stones[i] + (jump-1)].add(jump-1)
+                dic[stones[i] + (jump+1)].add(jump+1)
+        if stones[-1] in dic:
+            return True
+        return False
+
 # Dynamic programming top-down:
 
 # We first construct a dictionary mapping the position of each stone in stones to its index in stones. 

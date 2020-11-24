@@ -27,6 +27,79 @@
 # Input: "{[]}"
 # Output: true
 
+#自己重寫, time complexity O(n), space complexity O(n) 刷題用這個, 指針應用搭配stack
+#思路: 遇到closoing bracket, 若stack.pop() 不是對應的另一半, 就return False, 因為不能([)] 一定要 ([{}]), 大包小, 對應的一定要優先pop出來
+#最後若stack 有殘餘沒配對成功的 要return False
+class Solution:
+    def isValid(self, s: str) -> bool:
+        if not s:
+            return True
+        stack= []
+        for i in range(len(s)):
+            if s[i] == ")":
+                if not stack or stack.pop() != "(":
+                    return False
+            elif s[i] == "}":
+                if not stack or stack.pop() != "{":
+                    return False
+            elif s[i] == "]":
+                if not stack or stack.pop() != "[":
+                    return False
+            else:
+                stack.append(s[i])
+        if not stack:
+            return True
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        for b in s:
+            if b == ")":
+                if not stack or stack.pop() != "(":
+                    return False
+            elif b == "}":
+                if not stack or stack.pop() != "{":
+                    return False
+            elif b == "]":
+                if not stack or stack.pop() != "[":
+                    return False
+            else:
+                stack.append(b)
+        if stack:
+            return False
+        return True
+
+
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def isValid(self, s: str) -> bool:
+        if not s:
+            return True
+        stack = []
+        for i in range(len(s)):
+            if s[i] == ")":
+                if not stack or stack.pop() != "(":
+                    return False
+            elif s[i] == "]":
+                if not stack or stack.pop() != "[":
+                    return False
+            elif s[i] == "}":
+                if not stack or stack.pop() != "{":
+                    return False
+            else:
+                stack.append(s[i])
+        if len(stack) > 0:
+            return False
+        return True
+
+
+
+
+
+
+
+
 
 class Solution:
     def isValid(self, s: str) -> bool:
@@ -59,28 +132,7 @@ class Solution:
 3.遍历结束后，判断是否为空”如果直接输入[/{/( ，只循环一次就结束循环，且stack不为空 ，所以只能用stack判断“
 '''
 
-#自己重寫, time complexity O(n), space complexity O(n) 刷題用這個, 指針應用搭配stack
-#思路: 遇到closoing bracket, 若stack.pop() 不是對應的另一半, 就return False, 因為不能([)] 一定要 ([{}]), 大包小, 對應的一定要優先pop出來
-#最後若stack 有殘餘沒配對成功的 要return False
-class Solution:
-    def isValid(self, s: str) -> bool:
-        if not s:
-            return True
-        stack= []
-        for i in range(len(s)):
-            if s[i] == ")":
-                if not stack or stack.pop() != "(":
-                    return False
-            elif s[i] == "}":
-                if not stack or stack.pop() != "{":
-                    return False
-            elif s[i] == "]":
-                if not stack or stack.pop() != "[":
-                    return False
-            else:
-                stack.append(s[i])
-        if not stack:
-            return True
+
 
 
 

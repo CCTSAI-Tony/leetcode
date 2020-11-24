@@ -44,8 +44,18 @@ class Solution:
                 heapq.heappush(heap, i[1])
         return len(heap)
 
-
-
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+import heapq
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda x: x[0])
+        heap = []
+        for interval in intervals:
+            if not heap or interval[0] < heap[0]:
+                heapq.heappush(heap, interval[1])
+            else:
+                heapq.heapreplace(heap, interval[1])
+        return len(heap)
 
 
 # heapq.heapreplace(heap, item)

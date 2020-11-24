@@ -60,7 +60,7 @@ cells[i] is in {0, 1}
 #破題: cells pattern 一定會有loop 且loop_len 只有一個, 
 #why 一定有loop, 想一下若N > 64, 假設之前每一天cells都不一樣, 最久經過64天cells一定會遇到之前一樣的排列, 若沒有遇到一樣的代表有第65種新排列 => 矛盾!!
 #cells pattern 會從N=0 or 1 開始loop, 若初始頭尾其一不是0的話 => N=0 不能算進loop pattern, 要從N=1 開始
-#利用dict 來紀錄改天的cells排列, 若之後遇到一樣的就能計算loop_len, 把剩餘天數 % loop_len 就能大幅減少之後要迭代的天數, 若%完 == 0, 直接retrun 當下cells 排列
+#利用dict 來紀錄該天的cells排列, 若之後遇到一樣的就能計算loop_len, 把剩餘天數 % loop_len 就能大幅減少之後要迭代的天數, 若%完 == 0, 直接retrun 當下cells 排列
 #trick: 此題若沒找loop直接一天一天迭代, time complexity => O(n), 因此先計算所有排列的可能性就能知道是否有優化的可能
 #time complexity O(64), space complexity O(64 or 65), ex:N = 127, loop_len = 64 => 總共迭代127天 < 2 * 64
 class Solution:
@@ -106,7 +106,26 @@ class Solution:
         return new_cells
 
 
-
+#重寫第二次, 使用tuple, time complexity O(64), space complexity O(64)
+class Solution:
+    def prisonAfterNDays(self, cells: List[int], N: int) -> List[int]:
+        memo = {}
+        for i in range(N):
+            cells_tpl = tuple(cells)
+            if cells_tpl in memo:
+                loop_len = i - memo[cells_tpl]
+                return self.prisonAfterNDays(cells, (N-i) % loop_len) #很重要, 只考慮剩餘天數, 為什麼不直接從memo得答案, 因為day0 可能不在loop里
+            else:
+                memo[cells_tpl] = i
+                cells = self.nxt(cells)
+        return cells
+    
+    def nxt(self, cells):
+        temp = [0] * 8
+        for i in range(1,7):
+            temp[i] = int((cells[i-1] == cells[i+1]))
+        cells = temp
+        return cells
 
 
 

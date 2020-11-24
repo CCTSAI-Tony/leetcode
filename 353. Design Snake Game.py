@@ -97,7 +97,10 @@ class SnakeGame(object):
         return len(self.snake)-1
 
 
-#自己重寫 time complexity move: O(1)
+
+
+
+#重寫第二次, time complexity move O(1), space complexity O(n)
 from collections import deque
 class SnakeGame:
 
@@ -110,13 +113,13 @@ class SnakeGame:
         E.g food = [[1,1], [1,0]] means the first food is positioned at [1,1], the second is at [1,0].
         """
         self.snake = deque([(0,0)])
+        self.food = deque(food)
         self.width = width
         self.height = height
-        self.food = deque(food)
-        self.direc = {"U":(-1,0), "L":(0,-1), "D":(1,0), "R":(0,1)}
+        self.direc = {"U": (-1, 0), "L": (0, -1), "R": (0, 1), "D": (1, 0)}
         
         
-        
+
     def move(self, direction: str) -> int:
         """
         Moves the snake.
@@ -125,20 +128,16 @@ class SnakeGame:
         Game over when snake crosses the screen boundary or bites its body.
         """
         newHead = (self.snake[0][0] + self.direc[direction][0], self.snake[0][1] + self.direc[direction][1])
-        if (newHead[0] < 0 or newHead[0] >= self.height) or (newHead[1] < 0 or newHead[1] >= self.width) or \
+        if newHead[0] < 0 or newHead[0] >= self.height or newHead[1] < 0 or newHead[1] >= self.width or \
         (newHead in self.snake and newHead != self.snake[-1]):
-            return -1
+            return  -1
         if self.food and list(newHead) == self.food[0]:
-            newHead = self.food.popleft()
-            self.snake.appendleft(tuple(newHead))
+            self.food.popleft()
+            self.snake.appendleft(newHead)
         else:
-            self.snake.appendleft(tuple(newHead))
+            self.snake.appendleft(newHead)
             self.snake.pop()
         return len(self.snake) - 1
-
-
-
-
 
 
 

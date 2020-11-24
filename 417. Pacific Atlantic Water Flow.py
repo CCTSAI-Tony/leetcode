@@ -173,8 +173,35 @@ class Solution:
                 self.dfs(x,y,matrix,visited,m,n)
 
 
-
- 
+#自己重寫第二次, time complexity O(m*n), space complexity O(m*n)
+ class Solution:
+    def pacificAtlantic(self, matrix: List[List[int]]) -> List[List[int]]:
+        if not matrix or not matrix[0]:
+            return []
+        m, n = len(matrix), len(matrix[0])
+        pacific = set()
+        atlantic = set()
+        for i in range(m):
+            for j in range(n):
+                if i == 0 or j == 0:
+                    self.dfs(i, j, matrix, pacific, m, n)
+                if i == m-1 or j == n-1:
+                    self.dfs(i, j, matrix, atlantic, m, n)
+        res = []
+        for c in pacific:
+            if c in atlantic:
+                res.append(c)
+        return res
+    
+    
+    def dfs(self, i, j, matrix, ocean, m, n):
+        ocean.add((i, j))
+        direc = [(1,0),(-1,0),(0,1),(0,-1)]
+        for d in direc:
+            x, y = i + d[0], j + d[1]
+            if 0 <= x < m and 0 <= y < n and matrix[i][j] <= matrix[x][y] and (x, y) not in ocean:
+                self.dfs(x, y, matrix, ocean, m, n)
+        return
 
 
 # bfs 參考別人, 自己重寫

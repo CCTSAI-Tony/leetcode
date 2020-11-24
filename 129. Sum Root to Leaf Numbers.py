@@ -79,6 +79,27 @@ class Solution:
             self.dfs(node.right, path + str(node.val), res)
 
 
+#自己重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def sumNumbers(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        self.res = 0
+        self.dfs(root, 0)
+        return self.res
+    
+    def dfs(self, node, path):
+        if not node.left and not node.right:
+            temp = path*10 + node.val
+            self.res += temp
+        if node.left:
+            self.dfs(node.left, path*10+node.val)
+        if node.right:
+            self.dfs(node.right, path*10+node.val)
+
+
+
+
 
 
 # dfs + stack top-down

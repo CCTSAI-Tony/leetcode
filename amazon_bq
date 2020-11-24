@@ -1,7 +1,7 @@
 Be professional
 it’s a pleasure to be here and I am very excited about this opportunity.
 Thank you for giving me the opportunity to interview today.
-I am very exited to have the opportunity to be interviewed here in Amazon.
+
 Show your curiosity
 research the company before interview
 come up with two or three reasons you want to work for the company
@@ -28,20 +28,22 @@ use independent, third-party shippers
 
 
 
-
+Introduce yourself
+- My name is CHIH CHIN TSAI. Now studied in computer engineering master degree at Texas A&M university. I’ve been working on web development related projects for past one year. My experience includes implementing some web applications that all meet to the user needs very well along with good user experiences and elegant UIs. The projects I've developed includes student tracking system that help our computer science department to follow every student's degree profile very well. The modules and features I’ve built in this project includes file storage system and student's profile pages, CSV parser, etc. I’m especially passionate about working on solutions from a full-stack standpoint, because by understanding not only user requirements but also overall system architecture thoroughly, I can deliver products with both great performance and easy-to-use experience. I am also happy to learn new technologies and incorporate them with what I’ve been doing. Finally, keeping learning and being curious always refresh my mind with better solutions and designs.
 
 
 Why Amazon?
-Amazon is a top internet retailing company with a strong focus on customer experience and obsession. Its motto- work hard, have fun, make history, and it’s vision, earth’s most customer centric company, inspires me. I’m a person who respect hard working and care a lot about customer experience, so the culture of Amazon attracts me a lot. Furthermore, the growth of this company is pretty impressive, it’s not only an online retail shop but also has a wide range of products like Alexa, Kindle, fire tablet and TV, Amazon cloud service, etc. Hundreds of thousands of talented engineers are working passionately here, building innovative system and solving problems at unprecedented scale. Therefore, this is a place where I can learn a lot, and use my skills and experience to make things happen with a team.
+Amazon is a top internet retailing company with a strong focus on customer experience and obsession. Its motto- work hard, have fun, make history, and it’s vision, earth’s most customer centric company, inspires me a lot. I’m a person who respect hard working and care a lot about customer experience, so the culture of Amazon really attracts me a lot. Moreover, the growth of this company is pretty impressive, it’s not only an online retail shop but also has a wide range of products like Alexa, Kindle, Amazon web service, etc. And, hundreds of thousands of talented engineers are working passionately here, building innovative system and designs at unprecedented scale. Therefore, this is a place where I can learn a lot, and contribute my skills and experience to make things happen with a team.
 
 Why choose this position?
-The job I have applied is the software development position in Amazon Books, I am interested in this position because:  
-First of all, Amazon Books uses innovative technology to merge physical and online worlds into one unique and delightful shopping experience. The concept is really cool and pioneering. I am really excited about learning and using new technologies to create new exceptional experiences that firmly obsess customers.
-Secondly, I’d like to work with solutions from a full-stack point of view, by engaging with requirements, frontend, middle tier, backend, storage, and all the other stuff, I can understand problems and solutions thoroughly, and thus scale and optimize them with the best practices.
-Thirdly, I’m happy to work in an environment with a lot of challenges so that I’ll never be boring. In Amazon, I can take ownership of the projects I am truly passionate about. I am sure I can take the challenges and provide successful solutions.
+I am interested in this position because:  
+First, Amazon uses innovative technology to merge physical and online worlds into one unique and delightful shopping experience. The concept is really cool and pioneering. I am really excited about using new technologies to create new exceptional experiences that firmly obsess customers.
+Secondly, I’d like to work on solutions from a full-stack stand point, by engaging with user requirements, frontend, backend, storage, and all the other stuff, so I can deliver great experience to users, I also can analyze problems and solutions thoroughly, and then scale and optimize them with the best practices.
+Third, I’m happy to work in an environment with a lot of challenges so that I’ll always learn new things. 
+Forth, In Amazon, I can take ownership of the projects I am truly passionate about. 
+Finally, I am sure I can take the challenges and provide successful solutions here.
 
-Introduce yourself
-- My name is X. I’ve been working on software design and development related work for past two years. My experience includes communicating and analyzing user requirements, authoring functional requirement documentation and workflows, building wireframes and interactive prototypes, and then helping implement web applications within a team. The web applications I helped design and develop all meet to user needs very well and also have great user experiences and elegant UIs. The modules and features I’ve developed includes document metadata and status management, news tag prediction and recommendation, online collaborative coding platform, etc. I’m especially passionate about working on solutions from a full-stack standpoint, because by understanding user requirements as well as overall system architecture thoroughly, I can deliver products with both great performance and easy-to-use experience. I am also happy to learn new technologies and incorporate them with what I’ve been doing. Keeping learning and being curious always refreshes my mind with better designs and solutions.
+
 
 
 
@@ -49,18 +51,242 @@ Introduce yourself
 
 Describe a situation where you had a tight deadline and how did you handle that deadline.
 
-In order to reduce and face the stress of a deadline, I make sure that I have mapped out all of the tasks that I need to complete to finish the project before deadline, 
-including quality checks and confirming all aspects of the project are in place. 
-In general, I would try to complete all of the most difficult aspects of the project first, so that the deadline does not feel as difficult. 
-I also communicate with every member of the team and the client to make sure that everyone is on the same page and let them know what needs to be completed next.
+Whem I was building the student tracking system, my original schedule is in one week, but my professor suddenly sent me an email said that he wanted to see demo two days later. One core feature of the demo is the document storage system. Ideally, our web app should be run under our university web domain . But I can not finish that in such a short time. So I immediately discuss this with my professor and figured out a temporary solution, is to make it run by integrating google cloud drive api. If you run it, it will behave like the normal document storage system, so for the demo, the customer will have exactly the same experience.  After that, I can make it stored under private domain. Finally, I successfully create a demo before deadline.
+From this experience, I learned that If I couldn’t finish tasks before deadline, I will discuss with my teamates, trying to figure out a way that can improve the efficiency. After all, finishing the task with high quality as soon as possible is what we want. However, I’ll never sacrifice the customer experience or the quality of the product because of the tight deadline. Customer experience is always the most important thing. We must make sure that the product we are gonna deliver is qualified. If we still can not finish the tasks, we will communicate with the customers, and tell them why and earn their trust. At the same time, we will try our best to finish the tasks as soon as possible.
+
+
+UMC: 
+When I was working at a semiconductor company, our manager assigned me a job to expand a production line within two weeks. The deadline is really tight cause I need to do everything from scrach like check performance for every equipments and tune in parameters of machines. 
+In this situatiton:
+First, I would make a time table to make sure I finish some intermediate task within specific time span.
+second, I would make a report to address the process of the project to my manager, so my manager can fully understand waht extent the work has been done, 
+Third, If I need help, I would isuue that on the meeting, and explaned them clearly, also I will find out some external resources to help me solve the problem like cross department cooperation.
+Finally, I sucessfully completed the project. The production line has been expanded smoothly, and brought a lot of profit to our company.
+
+
+
 
 
 Most challenging project?
 
-The most challenging project I’ve done was a student's tracking system, it’s like a profile website but with interactive features. The most challenging part was to incorporate cloud drive system onto our website, that is, students or teachers can upload any material to their profile, being securely saved and fetched directly.
-It was challenging because I was supposed to come up with the solution and implement it by myself, and I have never developed something like this before.
-So I started with composing a simple demo first, the work I’ve done included researching google drive document code, listing core features I needed, building functions, and designing UI. With the sample demo, I had a good understanding on how the application would work. Then, I googled and read a lot of system design solutions for products with similar features, like Google drive, dropbox, etc. With what I’ve read, I was able to draft out my own solutions and selected corresponding technologies.
-I implemented it successfully within the given time, and my solution received a positive feedback because it is not only working well, but user-friendly. Throughout this process, I learned that it is important to be curious and keep learning, try to read as many technical blogs or articles as you can, the more you read, the better you’ll ace a problem or design. The feeling of ownership is very important, some other students just gave up with the excuse “I don’t know how to do it"
+When I was buiding the student's tracking system, it’s like a profile page website. And the most challenging part was to incorporate file storage system onto our website, that is, students or teachers can upload files to their profile, being securely saved and fetched directly from our web site.
+It was challenging because I was supposed to come up with a solution and implement it by myself, and I have never developed something like this before.
+So I started with composing a simple demo first, the work I’ve done included listing core features, building functions, and designing UI. With the demo, I had a good understanding on how the application would work. After that, I read some external api solutions from similiar features product, like Google drive, dropbox, etc. With what I’ve read, I was able to draft out a solutions and selected corresponding technologies.
+I implemented it successfully, and received a positive feedback from our customer. Throughout this process, I learned that it is important to be curious and keep learning, try to read as many technical blogs or articles as you can, the more you read, the better you’ll solve a problem or design. 
+Also, the feeling of ownership is very important, some other students just give up with the excuse “I don’t know how to do it"
+
+
+Most interesting project?
+
+The most interesting project I’ve done was a face-recognition web app, in this app you can upload any photo that has people in there and then it will locate human face in the photo. The most interesting part was to incorporate calrify face-recognition api to my web app which is built by node.js and react.js. From this project, I deeply understand how the backend and frontend work, and how to combine them together so it can give the great servece to the end users. After completing this project, I become more eager to explore more knowledge and techniques about web designs and developments, and then learn from it to come up with a simpler manner and invent some new ideas on my web apps.
+
+
+
+
+
+
+The biggest mistake you made and what did you learn from it? (earn trust, customer obsession)
+Case 1: When I was building the student tracking system. The original schedule was in one week, but I suddenly received a message from my professor says he wanted to see a demo after two days. And at that time I was working on building the profile's ui, that would be an important part of the demo. But I paid too much attention on the details, I wanted to make everything perfect. I didn’t notice I don’t have enough time to finish that. Last day before the demo day, my professor pointed that out. Then we started to figure it out if there is a way to keep the demo the same as what we wanted it to be. So we use external api solution to speed up the process. For the demo, our customer can still have the same experience. After the demo, I can rewrite the code to meet the requirements. Fortunately, the demo was not affected in the end. But from this experience, I learnt that details are definitely important, but I also need to pay attention to the whole schedule, I need to always keep good communication with my teammates and earn their trust. I need to make sure that my schedule won’t affect other’s schedule.
+
+UMC:
+When I was working at a semiconductor company, I've been assign a job to improve our product yield rate. At the beginning, I reserch some previous experence so that I can have a good understading about where should I start. I plan a lot of experiments to make sure everything is perfect, however I pay too much time on this part, that could leed to the delay of the whole project schedule, so I decided to make a time table and make a report to my boss, telling him the schedule is under control. Finally, I successfully complete the project before the deadline. Bur from this experience, I learnt that details are definitely important, but I also need to pay attention to the whole schedule, I need to always keep good communication with my teammates and earn their trust. I need to make sure that my schedule won’t affect other’s schedule.
+
+
+
+
+
+Couldn’t finish tasks before deadline
+Whem I was building the student tracking system, my original schedule is in one week, but my professor suddenly sent me an email said that he wanted to see demo two days later. One core feature of the demo is the document storage system. Ideally, our web app should be run under our university web domain . But I can not finish that in such a short time. So I figured out another temporary solution with my professor, is to make it run by integrating google cloud drive api. If you run it, it will behave like the normal document storage system, so for the demo, the customer will have exactly the same experience.  After that, I can make it stored under private domain. Finally, I successfully create a demo before deadline.
+From this experience, I learned that If I couldn’t finish tasks before deadline, I will discuss with my teamates, trying to figure out a way that can improve the efficiency. After all, finishing the task with high quality as soon as possible is what we want. However, I’ll never sacrifice the customer experience or the quality of the product because of the tight deadline. Customer experience is always the most important thing. We must make sure that the product we are gonna deliver is qualified. If we still can not finish the tasks, we will communicate with the customers, and tell them why and earn their trust. At the same time, we will try our best to finish the tasks as soon as possible.
+
+UMC:
+When I was working at semiconductor company, I was assigned a job to reduce the photoresist cost on the wafers. It was kind of the cost down project. The deadline was very short cause I need to find a way to tune the parameters of machine to make sure reducing the photoresist, our product's quality still keeped the same. However, sometimes it was hard to find out the optimal parameters, so it could delay the project. 
+In this situation, I would make a report to express waht the issues I faced. So my manager can easily point out and give me the help. Also, reporting to my manager actively can earn his trust, cause I let him know the progress transparentaly.
+Because I always keep good communication with my manager, so I can complete the project before the deadline.
+
+
+
+1. Customer Obsession
+Leaders start with the customer and work backward. They work vigorously to earn and keep customer trust. Although leaders pay attention to competitors, they obsess over customers.
+
+Case 1: When I was building the student tracking system, it is very challenging to me. Cause I have no idea about how to build the storage system. In order to understand it better, I googled a lot of official document and learnt a lot of basic concepts about file storage API. Based on that, I started to work with customers to figure out what kind of problems that customers concerned the most. Cause most of the customers are not professional web developer. We need to use their language to tell them the story. All they need to do is just make final decisions based on the suggestions we provide. We will take care of all the requirements and deliver the results they are satisfied with.
+
+• Who was your most difficult customer?
+
+From my perspective, there was no difficult customer, when I was working at a semiconductor company, as a process engineer I always need to maintain our product's quality and generate the maximum profit to our company, Sometimes, my production manager want me to increase the throughput of the products, however process manager want me to decrease the throughput of the products, cause there is a risk that may break out the wafers if we produce too much of them at the same time, In this situation, I think having a good communication is the most important thing at that time, tell them what we concerns and try our best to reach their requirements and make compromise, so we all can solve this problem smoothly.
+
+
+
+
+• Give me an example of a time when you did not meet a client’s expectation. What happened, and how did you attempt to rectify the situation? discuss with customer again along with leader and professor, make another plan to address the issue. We must satisfied our customers. 
+• When you’re working with a large number of customers, it’s tricky to deliver excellent service to them all. How do you go about prioritizing your customers’ needs?
+impact more, do first
+• Tell the story of the last time you had to apologize to someone.
+
+
+2. Ownership => long-term reward
+Leaders are owners. They think long term and don’t sacrifice long-term value for short-term results. They act on behalf of the entire company, beyond just their own team. They never say “that’s not my job.
+
+Case 1: When I was bulding the student tracking system, I was required to deploy file storage system. Our storage system main purpose is that customer can upload student's file and save securely. Customer just gave us a story like uploading transcript pdf file. Since I was the person who was leading this project, I want my customers to always have the best experience. So I started to think about other file format like doc, csv even vedio file format. After the agreement from my professor, I start to create different storage sections. I also created different APIs for those files format, so if the customer want to save different file format in the future, he can just click the specific button to save the file. After delivery, we had strong positive feedbacks from our customer. Even though our customer don't put these additional functions on the requirements, if we don't think far, our customer can still notice the quality's difference. 
+
+• Tell me about a time when you had to leave a task unfinished. back to Couldn’t finish tasks before deadline
+• Tell me about a time when you had to work on a project with unclear responsibilities. Can use case1
+
+
+3. Invent and Simplify
+Leaders expect and require innovation and invention from their teams and always find ways to simplify. They are externally aware, look for new ideas from everywhere, and are not limited by “not invented here”. As we do new things, we accept that we may be misunderstood for long periods of time.
+
+Case 1: When I was building the student tracking system, we have a database to record all the student's information. But you know we need to manually type in all the information initially. It only waste a lot of time if you want to store a bunch of data. So to simplify it, I come out a csv parser that you have all the information in this csv file, and upload it to this parser, and then the funcion would automatically fill all the information into the database. Therefore, our customers don't need to type in every words into it, and we save alot of time of our customers.
+
+• Tell me about a time when you gave a simple solution to a complex problem. => google cloud drive api
+• Tell me about a time when you invented something.
+
+
+
+4. Are Right, A Lot
+Leaders are right a lot. They have strong judgment and good instincts. They seek diverse perspectives and work to disconfirm their beliefs.
+
+Case 1: When I was building the student tracking system, I was asked to create the file storage feature. I have my initial plan to upload all the files onto google drive. But I'm not sure if I can store privite information onto third party service, so I discussed with my professor, and he disagreed with my plan. Actually we want to upload all the file to privita domain cause we don't want our student's private information to be saved on a external site. If we use google drive api, it may become very complicated and unsecure. So, after that I changed my design and everyone is happy. From this experience, I know keeping good communication with my professor is very important, because he would give you some advices that you may not noticed.
+
+
+• Tell me about a time when you were wrong.
+• Tell me about a time when you had to work with incomplete data or information.
+
+
+5. Learn and Be Curious
+Leaders are never done learning and always seek to improve themselves. They are curious about new possibilities and act to explore them.
+
+Case 1:
+
+• Tell me about a time when you influenced a change by only asking questions.
+• Tell me about a time when you solved a problem through just superior knowledge or observation.
+
+My professor asked me if there’s a way to export and import student's profile data more easily. Cause through the UI side, it has the number limit and it is hard to manipulate from back end. So I came up with an idea that we can utilize the csv parser api. We can write scripts to automate the loading process according to our own needs. So finally I wrote the scripts and all the stuff in student's profile can be exported and imported automatically in the back end.
+
+
+6. Hire and Develop The Best
+Leaders raise the performance bar with every hire and promotion. They recognize exceptional talent and will move them throughout the organization. Leaders develop leaders and take seriously their role in coaching others.  We work on behalf of our people to invent mechanisms for development like Career Choice.
+
+Case 1: (umc) Few years ago, when I was working at semiconductor company, there was an intern assigned to my project. He was helping me to build the inspection system. 
+But I found that he got lost about what we are doing and what he is going to do. So, I told him that it was not as complex as what he thinked. 
+I explained the basic operational concepts to him step by step and categorized the things about what we are doing. 
+After he was getting comfortable of the whole environment, I started to assign him some specific task. And he was doing pretty well.
+So when someone comes to a new environment, getting lost is quite normal. 
+We need to have patience to make him feel comfortable of the new environment. Otherwise the efficiency will be very low. 
+If he gets used to the working environment as soon as possible and he would get more enthusiasm and devote more to the work.
+
+• Tell me about a time when you mentored someone
+
+
+
+7. Insist on the Highest Standards
+Leaders have relentlessly high standards – many people may think these standards are unreasonably high. Leaders are continually raising the bar and driving their teams to deliver high-quality products, services, and processes. Leaders ensure that defects do not get sent down the line and that problems are fixed so they stay fixed.
+
+Case 1: When I was building the student tracking system, one of the important features is to create the profile system which store every student's information. But I found that if the project scaled, the efficiency of the import and export profiles would be very low. Cause we use relational sql - all the data are stored in a big table. So I decided to change database to MongoDB, NoSQL databases have dynamic schemas for unstructured data, it is very suitable for our project that different student's profile has different fields. After changed, it turned out that the efficiency was improved a lot.
+
+• Tell me about a time when you couldn’t meet your own expectations on a project.
+• Tell me about a time when a team member didn’t meet your expectations on a project.
+
+
+8. Think Big
+Thinking small is a self-fulfilling prophecy. Leaders create and communicate a bold direction that inspires results. They think differently and look around corners for ways to serve customers.
+
+
+• Tell me about your proudest professional achievement.
+When I was bulding the student tracking system. I tried my best to make it look perfect and make my customers have best experience. I build the file storage tools for students to uplaod their transcript or thesis, they also can uplaod video if they want to show more to their professors. And I also created the csv parser, so department's staff can upload a csv file, it would automatically transfer all the data from the file into database, so they don't do any manual type in to fill the student information, they also can do it by batch. Customers love that, cause it really saves them a lot of time and it is very user-friendly.
+
+• Tell me about a time when you went way beyond the scope of the project and delivered.
+When I was building the student tracking system, when the first version was delivered with only pdf file can be uploaded, I was starting to think about other file formats to be uploaded and saved either. But each file format has its own data storage interface, so we need to build specific api for them to store. So, users can choose any format they want to uplaod. Eventually, by using google cloud api, we can realize the need for the users. After making a new release, they all feel satisfied with that. Although, users don't put this feature in the requirements at first, but if we don't think far, our customers still can notice the difference. Because I know that customer always want the best experience, so we need to keep improving our outcome.
+
+UMC:
+Whem I was working at a semiconductor company, I was assigned a job to set up a new process flow. This mission was thst I need to copy the process flow from another factory and hope to make the yield rate of the product as same as the original foundry. Though, I can copy all the way from the mother factory, however, I still did a lot of reserch and make tons of experiments to improve the quality. During this process, I found that some key steps can be improve that original factory did't notice about. So, not only I successfully finish the job but also I improve the whole process of the product. Because I know that customer always want the best experience, so we need to keep improving our outcome.
+
+
+9. Bias for Action
+Speed matters in business. Many decisions and actions are reversible and do not need extensive study. We value calculated risk taking.  
+
+• Describe a time when you saw some problem and took the initiative to correct it rather than waiting for someone else to do it.
+
+When I was building the student tracking system, when it was at the final stage, we need to deployed all the work onto google app engine to see if it was successful, After it be deployed, I found some problems about the environment incompatible issue which could lead some functions broke. Before I started to fixed that, I know that changing different version libraries and replacing some scripts may bring some other bugs or destroy the underlying architecture. If I failed, we need to spend more time to solve these bugs and our customer would not get our product in time. I decided to report this issue to my professor, and then I quick review the project and google search the solution immediately, I decided to solve this problem because I know old version migrate to new version, I can definitely find out some suggestive code to replace the old one. Fortunately, the final result went well and most importantly, our customer feel very satisfied with it. 
+However, if I did't make the decision to report the issue, the project would fail, and no one could be out of the responsibility.
+
+UMC:
+When I was working at a semiconductor company, at one time, I found out our product's quality went down unusually and I report this issue directly to our manager. I quickly made a decision that ask the workers to stop all the machine. Untill I found the true cause I would not open the production line. Cause I know if I ignore this alarm, the company would suffer more loss. If we just submit these product to our customer, we would lose customer's trust. After finding out the true cause, I reopen the production line and our customer are satidfied with that. If I did't make this decision, the project would fail, and no one could be out of the responsibility.
+
+
+• Tell me about a time when you took a calculated risk.
+When I was building the student tracking system, when it was at the final stage, we need to deployed all the work onto google app engine to see if it was successful, After it be deployed, I found some problems about the environment incompatible issue which could lead some functions broke. Before I started to fixed that, I know that changing different version libraries and replacing some scripts may bring some other bugs or destroy the underlying architecture. If I failed, we need to spend more time to solve these bugs and our customer would not get our product in time. I decided to report this issue to my professor, and then I quick review the project and google search the solution immediately, I decided to solve this problem because I know old version migrate to new version, I can definitely find out some suggestive code to replace the old one. Fortunately, the final result went well and most importantly, our customer feel very satisfied with it. 
+However, if I did't make the decision to report the issue, the project would fail, and no one could be out of the responsibility.
+
+UMC:
+When I was working at a semiconductor company, at one time, I found out our product's quality went down unusually and I report this issue directly to our manager. I quickly made a decision that ask the workers to stop all the machine. Untill I found the true cause I would not open the production line. Cause I know if I ignore this alarm, the company would suffer more loss. If we just submit these product to our customer, we would lose customer's trust. After finding out the true cause, I reopen the production line and our customer are satidfied with that. If I did't make this decision, the project would fail, and no one could be out of the responsibility.
+
+
+
+
+• Tell me about a time you needed to get information from someone who wasn’t very responsive. What did you do?
+Actively, find external help, or get information by your own, tell manager, do whatever I can to solve things.
+
+
+10. Frugality
+Accomplish more with less. Constraints breed resourcefulness, self-sufficiency, and invention.  There are no extra points for growing headcount, budget size or fixed expense.
+
+• Tell me about a time when you had to work with limited time or resources.
+
+When I was building the student tracking system, We only have three days and two people to built the file uploading system, I discuss the plan with my teammate that we use one day to search all the possible solutions and build a very simple demo. From the demo, we can have a good understanding about how the application works. In the rest of two days, we make a time table to strickly finish the intermediate task within the given time. If one person get stuck, the other person help to search resouces to fix the issue as soon as possible. Eventually, we complete our mission and our whole project's time line did't get any delay.
+
+
+11. Earn Trust
+Leaders listen attentively, speak candidly, and treat others respectfully. They are vocally self-critical, even when doing so is awkward or embarrassing.  Leaders do not believe their or their team’s body odor smells of perfume.  They benchmark themselves and their teams against the best.
+
+• What would you do if you found out that your closest friend at work was stealing?
+I have no choice but report all the information to our manager, because what he was doing could harm all the team or even worse, harm the company. If I choose to ignore, I would be the accomplice no matter how severity this thing was. And I don't want that kind of things happen.
+
+• Tell me about a time when you had to tell someone a harsh truth.
+It's a hard question, when I was building the student tracking system, I found one of our teamate was slacked that did't reply other's email promptly and delay whole project many days, being a leader I must say the harsh truth to the person cause he had already made other teammates anxious and nervous. Some people may say I'm so harsh, but I have told him if he needs any help, he needs to tell us and we could deal it together, what let me unconfortable is that no any communication between him and us, and that doesn't solve any problems, so I decided to tell him if he still did't respond to our questions anymore we should report this kind of behavior to our professor.
+
+
+
+12. Dive Deep
+Leaders operate at all levels, stay connected to the details, audit frequently, and are skeptical when metrics and anecdote differ. No task is beneath them.
+
+•Give me two examples of when you did more than what was required in any job experience.
+
+When I built the student tracking system, we have created student's profile page, however I found it would be tedious for students or teachers to type in all the information into the profile fields, so I search a little bit to find a solution to solve this issue. And then, I create csv parsor to automatically load all the information to our database and we just need to upload a csv file that include the information of students. So, it can save tons of time of users.
+
+Another case is when I was working in a semiconductor company, I was assigned a job to copy the process flow from other factory. It can be essy just to copy all the way, however I insist on doing more experiments to improve the process flow and I find out some aspects can be improved. So, not only I complete the job but also enhence the product's quality.
+After all, I know customer always want the best experience, so we need to keep improving our outcome.
+
+13. Have Backbone; Disagree and Commit
+Leaders are obligated to respectfully challenge decisions when they disagree, even when doing so is uncomfortable or exhausting. Leaders have conviction and are tenacious. They do not compromise for the sake of social cohesion. Once a decision is determined, they commit wholly.
+
+• Tell me about a time when you did not accept the status quo(現狀). => related to 7. Insist on the Highest Standards
+• Tell me about an unpopular decision of yours. => could talk about deadline and work 24/7
+• Tell me about a time when you had to step up and disagree with a team members approach.
+
+When we built the student tracking system project, there was a important feature which is every student can create their own profile that record all kind of information in it, like GPA, degree plan, graduate year, etc. At first, one of our teammate commented that we should use relational SQL to be our database, cause it can be set up on our django framework very easily, and other teammates all agree with that, they are all familiar with relational SQL like mySQL. I respect their idea. However, I issued that when the project scaled, the efficiency may go down very quickly, because all the information stored in one big table, any operation in this table would be very slow. Beyond that, if we want to add new fields to the profile page, it would be a pain. After group discussion, we choose MongoDB which is new for us, the reason why we choose it is that MongoDB is a non-relational database, every student profile's fields could be different, so it become very flexible and very suitable to our project, cause some students may need to submit their thesis but others don't, or some students have competition record but others don't. Eventually, our web project went very well, it can smoothly search specific student's profile very quickly even when the database is very big. From this experience, I learned that even though we have different ideas, if we could have a good communication, we still can solve the problem.
+
+• If your direct manager was instructing you to do something you disagreed with, how would you handle it?
+
+When we built the student tracking system project, there is a important feature which is every student can create their own profile that record all kind of information in it, like GPA, degree plan, graduate year, etc. At first, our professor comment that we should use relational SQL to be our database, cause it can be set up on our django framework very easily. We are all familiar with relational SQL like MySQL. I respect his idea. However, I issued that when the project scaled, the efficiency may go down very quickly, because all the information stored in one big table, any operation in this table would be very slow. And if we wanted to add new fields to our database in the future, it would be a pain. Communication is very important at this time, so I quickly make a demo and show him the issues. After group discussion, we choose MongoDB which was new for us, the reason why we choose it is that MongoDB is a non-relational database, every student profile's fields could be different, so it become very flexible and very suitable to our project, cause some students may need to submit their thesis but others don't, or some students have competition record but others don't. Eventually, our web project went very well, it can smoothly search specific student's profile very quickly and correctly even when the database was very big and everyone's profile was different. From this experience, I learned that even though we have different ideas, if we could have a good communication, we still can solve the problem.
+
+
+
+14. Deliver Results
+Leaders focus on the key inputs for their business and deliver them with the right quality and in a timely fashion. Despite setbacks, they rise to the occasion and never settle.
+
+• By providing an example, tell me when you have had to handle a variety of assignments. Describe the results. Make plans, catch schedule firmly, don't give up, find resource and external help.
+
+• What is the most difficult situation you have ever faced in your life? How did you handle it?
+When I was working at a semiconductor company, one of the toughest parts of the job is that we do many yield rate improvement project. That means almost every week we need to work till mid-night. But, the good news is – the entire team is there. The shift work is scheduled two months or so in advance. And, we can take a weekday off for every day we work on the weekend. Plus, we order out for pizza!
+
+
+• Give me an example of a time when you were 75% of the way through a project, and you had to pivot strategy–how were you able to make that into a success story?
+
+
+
+
+
 
 
 

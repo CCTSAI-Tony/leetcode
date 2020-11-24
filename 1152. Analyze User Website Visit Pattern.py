@@ -55,8 +55,8 @@ No user visits two websites at the same time.
 #思路: 首先zip username, timestamp, website, 然後對其依time stamp 做排序, 建一個dict => user: visited webs
 #若前一步奏沒有排序, 則個別user visited webs 順序會亂, 
 #再建一個dict 紀錄所有3_sequence 的組合: count, 使用iteration combinations 來對個別user visited_web 做挑選, 
-#記得用set消除同個user 的重複組合sequence, 同個user 相同的3_sequence, count 只能算1
-#注意: combonation 的每一個組合都是升序排列的, 利用這個特性就可以當作sequence 的 key
+#記得用set消除同個user 的重複組合sequence, 同個user 相同的3_sequence, count 只能算1 => 超級重要!!
+#注意: combonation 的每一個組合都是升序排列的, 因為之前按照時間排序過了, 利用這個特性就可以當作sequence 的 key
 #最後利用sorted 回報 sequence.items() 裡面count 最多且lexico 最小的key, 因為sort 是升序, 紀錄count的時候是-=1
 from itertools import combinations
 from collections import defaultdict
@@ -82,6 +82,21 @@ class Solution:
 # list(combinations(a, 3)) 
 # [(1, 2, 3), (1, 2, 4), (1, 3, 4), (2, 3, 4)]
 
+#重寫第二次, time complexity O(n*k^3), space complexity O(n*k^3)
+from itertools import combinations
+from collections import defaultdict
+class Solution:
+    def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+        sequences = defaultdict(int)
+        webs = defaultdict(list)
+        for username, website, timestamp in sorted(zip(username, website, timestamp), key=lambda x: x[2]):
+            webs[username].append(website)
+        for user in webs:
+            if len(webs[user]) < 3:
+                continue
+            for comb in set(combinations(webs[user], 3)):
+                sequences[comb] -= 1
+        return min(sequences.items(), key=lambda x: (x[1], x[0]))[0]
 
 
 

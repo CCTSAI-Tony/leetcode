@@ -40,7 +40,7 @@ Constraints:
 IP consists only of English letters, digits and the characters "." and ":".
 '''
 
-#自己想的 36ms, time complexity O(n), n: len(IP.split())
+#自己想的 36ms, time complexity O(1), space complexity O(1)
 #思路: 利用split(".") and split(":") 來初步區分是IPv4 還是 IPv6, 再個別詳細確認是否符合該區條件
 class Solution:
     def validIPAddress(self, IP: str) -> str:
@@ -69,8 +69,31 @@ class Solution:
         
         return "Neither"
 
-
-
+#自己重寫第二次, time complexity O(1), space complexity O(1)
+class Solution:
+    def validIPAddress(self, IP: str) -> str:
+        if len(IP.split(".")) == 4:
+            for num in IP.split("."):
+                if len(num) == 0:
+                    return "Neither"
+                elif len(num) > 1 and num[0] == "0":
+                    return "Neither"
+                for d in num:
+                    if not d.isdigit():
+                        return "Neither"
+                if int(num) > 255:
+                    return "Neither"
+            return "IPv4"
+        
+        elif len(IP.split(":")) == 8:
+            for num in IP.split(":"):
+                if not 1 <= len(num) <= 4:
+                    return "Neither"
+                for d in num:
+                    if not d.isdigit() and d.lower() not in ["a", "b", "c", "d", "e", "f"]:
+                         return "Neither"
+            return "IPv6"
+        return "Neither"
 
 
 

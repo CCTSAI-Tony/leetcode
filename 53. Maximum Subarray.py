@@ -41,6 +41,23 @@ class Solution:
 [4, -1, 2, 1] => 最佳方案
 6 => sum最大
 
+#自己想的, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        s, e = 0, 0
+        cur_sum = nums[0]
+        max_sum = nums[0]
+        for e in range(1, len(nums)):
+            if nums[e] > cur_sum + nums[e]:
+                cur_sum = nums[e]
+            else:
+                cur_sum += nums[e]
+            max_sum = max(max_sum, cur_sum)
+        return max_sum
+
+
+
+
 
 # Divide conquer easy to understand, 316ms
 # time complexity O(nlogn)
@@ -69,8 +86,26 @@ class Solution:
             
         return max(leftMax + nums[m] + rightMax, max(leftAns, rightAns))
 
-
-
+#自己重寫, time complexity O(nlogn), space complexity O(logn)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        return self.helper(l, r, nums)
+    
+    def helper(self, l, r, nums):
+        if l > r:
+            return float("-inf")
+        m = l + (r-l) // 2
+        left_max, sum_l = 0, 0
+        for i in range(m-1, l-1, -1):
+            sum_l += nums[i]
+            left_max = max(left_max, sum_l)
+        right_max, sum_r = 0, 0
+        for i in range(m+1, r+1):
+            sum_r += nums[i]
+            right_max = max(right_max, sum_r)
+        return max(left_max + nums[m] + right_max, max(self.helper(l, m-1, nums), self.helper(m+1, r, nums)))
+            
 
 class Solution:
     def maxSubArray(self, nums):

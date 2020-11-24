@@ -11,6 +11,7 @@ Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefor
 '''
 
 #搭配leetcode 128一起服用
+#time complexity O(n)
 #這題是求sequence, 所以不必連續字串
 #思路: 先用set來消除重複元素, 找longest consecutive sequence 只需一個元素代表即可, 此題概念首尾貪吃蛇
 #若一個元素在consecutive sequence上, 往前往後查找其他成員值, 一定可以把全部元素找出來, 
@@ -19,7 +20,7 @@ class Solution:
     def longestConsecutive(self, num):
         num=set(num)
         maxLen=0
-        while num:
+        while num:  #切記不能用for loop, 因為nums set.remove() 遍歷過程size會變小 => 導致alarm, 增加item倒不會alarm
             n=num.pop()
             i=n+1 #找是否有元素 =  n+ 1
             l1=0
@@ -58,3 +59,38 @@ class Solution:
                 i -= 1
             max_len = max(max_len, l1+l2+1)
         return max_len
+
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nums = set(nums)
+        max_len = 0
+        while nums: 
+            num = nums.pop()
+            l = 0
+            temp = num - 1
+            while temp in nums:
+                nums.remove(temp)
+                temp -= 1
+                l += 1
+            r = 0
+            temp = num + 1
+            while temp in nums:
+                nums.remove(temp)
+                temp += 1
+                r += 1
+            max_len = max(max_len, l + r + 1)
+        return max_len
+
+
+
+
+
+
+
+
+
+
+
+

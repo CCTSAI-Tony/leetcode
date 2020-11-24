@@ -8,13 +8,15 @@ There is no restriction on how your encode/decode algorithm should work.
 You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.
 '''
 
-# Map index of the urls to the 62 digit system, 0,1...8,9,a,b...y,z,A,B...Y,Z.
-# I avoid 0 to simplfy the 0 case for while loop
 
-#time complexity encode: O(1), decode: O(n)
-#思路: 使用string and OrderedDict 先建立 letter:int pair, 建立self.urls = [] 來儲存未encode 的urls, 使用建立的dict來加密此url在self.urls 的(index+1) => 輸出成加密url
+
+#time complexity encode: O(1), decode: O(1), space complexity O(n)
+#思路: 使用string and OrderedDict 先建立 letter:int pair, 建立self.urls = [] 來儲存未encode 的urls, 使用建立的self.base來加密此url在self.urls 的位置 index + 1 => 輸出成加密url
+#每個不同的n (self.urls 的index + 1) 加密後的結果都不同
 #解密 加密的url => 轉化成index => self.urls[n-1] => 原本的url
 #加密機制 n%62 => letter, n//62 => 解密機制 n = 0 => n*62 + self.base[ch]
+# Map index of the urls to the 62 digit system, 0,1...8,9,a,b...y,z,A,B...Y,Z.
+# I avoid 0 to simplfy the 0 case for while loop
 import string
 from collections import OrderedDict
 class Codec:
@@ -26,7 +28,7 @@ class Codec:
         self.urls.append(longUrl)
         n = len(self.urls) #紀錄在self.urls 的位置 => n = index + 1
         code = []
-        while n > 0: #有url 才能encode, n > 0
+        while n > 0: #有url 才能encode, n > 0, => 每個不同的n 加密後的結果都不同
             code.append(list(self.base.keys())[n % len(self.base)]) #ex: 106 % 62 = 44 => 106//62 => 1, self.base.keys()[44] = "I", self.base.keys()[1] = "1"
             n = n // len(self.base)
             
@@ -77,11 +79,63 @@ class Codec:
         return self.urls[n-1]
 
 
+#自己重寫第二次, time complexity encode: O(1), decode: O(1), space complexity O(n)
+import string
+class Codec:
+    def __init__(self):
+        self.url = []
+        self.base = {j:i for i, j in enumerate(string.digits + string.ascii_letters)}
+        self.m = len(self.base)
 
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        self.url.append(longUrl)
+        n = len(self.url)
+        code = ""
+        while n != 0:
+            code += list(self.base.keys())[n % self.m]
+            n //= self.m
+        return "http://tinyurl.com/" + code
+        
 
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        code = shortUrl.split("/")[-1][::-1]
+        n = 0
+        for c in code:
+            n += n*self.m + self.base[c]
+        return self.url[n-1]
 
+#重寫第三次
+import string
+class Codec:
+    def __init__(self):
+        self.base = {v:i for i, v in enumerate(string.digits + string.ascii_letters)}
+        self.url = []
+        self.m = len(self.base)
+        
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        self.url.append(longUrl)
+        n = len(self.url)
+        code = ""
+        while n != 0:
+            code += list(self.base.keys())[n % self.m]
+            n //= self.m
+        return "http://tinyurl.com/" + code
+        
 
-
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        code = shortUrl.split("/")[-1][::-1]
+        n = 0
+        for c in code:
+            n = n * self.m + self.base[c]
+        return self.url[n-1]
 
 
 

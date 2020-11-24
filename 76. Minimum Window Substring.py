@@ -53,6 +53,30 @@ class Solution:
         return min_window
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        target = Counter(t)
+        target_len = len(t)
+        min_window = ""
+        start, end = 0, 0
+        for end in range(len(s)):
+            if target[s[end]] > 0:
+                target_len -= 1
+            target[s[end]] -= 1
+            while target_len == 0:
+                temp = (end - start + 1)
+                if not min_window or temp < len(min_window):
+                    min_window = s[start:end+1]
+                target[s[start]] += 1
+                if target[s[start]] > 0:
+                    target_len += 1
+                start += 1
+        return min_window
+
+
+
 
 
 

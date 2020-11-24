@@ -30,3 +30,13 @@ class Solution:
             if target - nums[i] in numsIndex:
                 return [numsIndex[target - nums[i]], i]
             numsIndex[nums[i]] = i
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        dic = {}
+        for i in range(len(nums)):
+            temp = (target - nums[i])
+            if temp in dic:
+                return (dic[temp], i)
+            dic[nums[i]] = i

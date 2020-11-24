@@ -25,7 +25,7 @@ The median is (2 + 3)/2 = 2.5
 # https://www.youtube.com/watch?v=LPFhl65R7ww 影片強烈建議看, 真的幫助很多
 
 # 思路： 利用兩指針i,j 來對nums1, nums2 切割, 若找到nums1[:i] and nums2[:j] 皆小於 nums1[i:] and nums2[j:], 則看整體nums1 + nums2 是奇數還是偶數
-# 若是奇數, 左邊最大值就是中位數, 若是偶數 (左邊最大值+ 右邊最大值) / 2 就是中問數, 這邊不能//2 因為答案要float
+# 若是奇數, 左邊最大值就是中位數, 若是偶數 (左邊最大值+ 右邊最小值) / 2 就是中問數, 這邊不能//2 因為答案要float
 # 因為i+j = half_len 這個關係, 可以移動i指針順便移動j指針, 因此對較小序列做binary search 找尋最佳i指針位置是整題重點!!
 # combined partition: (m + n + 1)//2 此公式特指左邊partition, 若m+n 是odd, left side partition 會比右邊partition 多一個, 這樣安排是故意的
 # 因此若整體是奇數的狀況下 median 會放在left partition, 針對比較短的序列做binary search, 因此 time complexity O(log min(m,n))
@@ -60,7 +60,7 @@ class Solution:
 
                 if (m + n) % 2 == 1:  #整體是奇數的狀況,左邊多一個元素就是median
                     return max_of_left
-                #考慮整體是偶數要算min_of_right
+                #考慮整體是偶數所以要算min_of_right
                 if i == m: 
                     min_of_right = nums2[j]  #min_right_m == None, 所以直接為 min_right_n
                 elif j == n: 
@@ -122,8 +122,37 @@ class Solution:
                 return (max_of_left + min_of_right) / 2
 
 
-
-
+#重寫第二次, time complexity O(log(min(m,n))) space complexity O(1)
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+        m, n = len(nums1), len(nums2)
+        half_len = (m+n+1)//2
+        imin, imax = 0, m
+        while imin <= imax:
+            i = (imin+imax) // 2
+            j = half_len - i
+            if i > 0 and nums1[i-1] > nums2[j]:
+                imax = i - 1
+            elif i < m and nums2[j-1] > nums1[i]:
+                imin = i + 1
+            else:
+                if i == 0:
+                    max_of_left = nums2[j-1]
+                elif j == 0:
+                    max_of_left = nums1[i-1]
+                else:
+                    max_of_left = max(nums1[i-1], nums2[j-1])
+                if (m + n) % 2:
+                    return max_of_left
+                if i == m:
+                    min_of_right = nums2[j]
+                elif j == n:
+                    min_of_right = nums1[i]
+                else:
+                    min_of_right = min(nums1[i], nums2[j])
+                return (max_of_left + min_of_right) / 2
 
 
 

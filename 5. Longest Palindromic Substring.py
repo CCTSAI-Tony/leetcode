@@ -73,7 +73,25 @@ class Solution:
         return s[(max_center-max_len)//2:(max_center+max_len)//2]
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        s_m = "#" + "#".join(s) + "#"
+        n = len(s_m)
+        lps = [0] * n
+        r, c = 0, 0
+        for i in range(n):
+            if r > i:
+                lps[i] = min(r-i, lps[c - (i-c)])
+                
+            while i-lps[i] - 1 >= 0 and i + lps[i] + 1 < n and s_m[i-lps[i] - 1] == s_m[i + lps[i] + 1]:
+                lps[i] += 1
+                
+            if i + lps[i] > r:
+                r, c = i + lps[i], i
+                
+        max_idx = lps.index(max(lps))
+        return s[(max_idx-lps[max_idx])//2: (max_idx+lps[max_idx])//2]
 
 
 # get the longest palindrome, l, r are the middle indexes   

@@ -44,7 +44,7 @@ class Solution:
 
 #刷題用這個, stack, time complexity O(n), 比上面straightforward
 #思路: 利用stack 來存遞增height, 直到指針遍歷到height[i] < height[stack[-1]] 代表之後無法以height[stack[-1]] 當作h 形成rectangle
-#因此使用while loop 來處理stack 裡面的height, 比height[i] 小的都要被pop 出來 計算以該值當作h的rectangle 的面積, w則是i 與 pop後 stack[-1] 中間的區域, 畫個圖就清楚了
+#因此使用while loop 來處理stack 裡面的height, 比height[i] 大的都要被pop 出來 計算以該值當作h的rectangle 的面積, w則是i 與 pop後 stack[-1] 中間的區域, 畫個圖就清楚了
 #因為height[i] 比 heights[stack.pop()] 小, heights[stack[-1]] 比 heights[stack.pop()] 小(遞增序列), w的區間就是這樣計算出來的
 #遍歷完heights後, 若還殘留stack 利用while loop 來回算stack裡面height 形成的面積, 因為後面沒有height了
 #此時的height 都是以該stack[前一個] 到 len(height)可以用height來當作h形成rectangle, 
@@ -59,7 +59,7 @@ class Solution:
                 if stack:
                     w = i-stack[-1]-1
                 else:
-                    w = i
+                    w = i #zerobased index issue
                 max_area = max(max_area, h*w)
             stack.append(i)
         if stack:

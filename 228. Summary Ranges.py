@@ -12,6 +12,29 @@ Input:  [0,2,3,4,6,8,9]
 Output: ["0","2->4","6","8->9"]
 Explanation: 2,3,4 form a continuous range; 8,9 form a continuous range.
 '''
+
+#刷題用這個
+#自己重寫, time complexity O(n), space complexity O(n)
+#思路: 使用deque
+from collections import deque
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        res = []
+        nums = deque(nums)
+        while nums:
+            s = nums.popleft()
+            e = s + 1
+            while nums and e == nums[0]:
+                nums.popleft()
+                e += 1
+            if s == e - 1:
+                res.append(str(s))
+            else:
+                temp = str(s) + "->" + str(e-1)
+                res.append(temp)
+        return res
+
+
 class Solution:
     def summaryRanges(self, nums):
         if not nums:
@@ -30,3 +53,4 @@ class Solution:
             return str(l)
         else:
             return str(l) + "->" + str(r)
+

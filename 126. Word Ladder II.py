@@ -35,7 +35,7 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 '''
 
 # 刷題用這個, 自己重寫 284ms
-# BFS, Time Complexity: O(26*m*n) => 26個一字不同的字, m: len(wordList), n: len(word), space complexity O(26*m*n)
+# BFS, Time Complexity: O(26*m*n^2) => 26個一字不同的字, m: len(wordList), n: len(word), space complexity O(26*m*n^2)
 # 思路:  此題跟word ladder最不一樣的地方就是找出所有最短路徑轉換的可能性, 最大的技巧在於每層結束後才把新加入的字加入 visited裡, 
 # 這樣就能確保所有可能性, queue裡的元素則是包含path來紀錄轉換的過程
 
@@ -73,8 +73,38 @@ class Solution:
         return res
 
 
-
-
+#重寫第二次, time complexity O(m*n^2), space complexity O(m*n^2), m: len(wordList), n: len(word)
+from collections import defaultdict, deque
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        dic = defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                temp = word[:i] + "_" + word[i+1:]
+                dic[temp].append(word)
+        queue = deque([(beginWord, [beginWord])])
+        visited = set([beginWord])
+        res = []
+        while queue:
+            layer_words = set()
+            for _ in range(len(queue)):
+                word, path = queue.popleft()
+                if word == endWord:
+                    res.append(path)
+                    continue
+                for i in range(len(word)):
+                    temp = word[:i] + "_" + word[i+1:]
+                    for new_word in dic[temp]:
+                        if new_word not in visited:
+                            new_path = path.copy()
+                            new_path += [new_word]
+                            queue.append((new_word, new_path))
+                            layer_words.add(new_word)
+            new_visited = visited.union(layer_words)
+            visited = new_visited
+            if res:
+                return res
+        return []
 
 
 # It seems that exit code can be simplified:

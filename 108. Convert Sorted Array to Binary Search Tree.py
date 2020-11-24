@@ -25,9 +25,36 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 #         self.right = None
 
 #跟109,449,105 題一起服用
-#自己重寫, time complexity O(n), 刷題用這個, 80ms
+#自己重寫 模板2, time complexity O(n), 刷題用這個, 80ms
 #思路: 因為是sorted list, 所以直接取list 的中間值, 左半邊都是比mid小, 右半邊都是比mid大, 符合bst 特性
 #dfs 左右子樹, 當作root的 left or right, 左右子樹也是取該區間的中間值當作root, 這樣做出來的bst 才會是height-balanced binary search tree
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if not nums:
+            return None
+        return self.helper(0, len(nums)-1, nums)
+    
+    def helper(self, l, r, nums):
+        if l + 1 > r:
+            return TreeNode(nums[l])
+        if l + 1 == r:
+            temp = TreeNode(nums[r])
+            temp.left = TreeNode(nums[l])
+            return temp
+        mid = l + (r - l) // 2
+        root = TreeNode(nums[mid])
+        root.left = self.helper(l, mid - 1, nums)
+        root.right = self.helper(mid + 1, r, nums)
+        return root
+
+
+
+
+
+
+
+
+
 
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
@@ -58,20 +85,7 @@ class Solution:
 
 
 
-class Solution:
-    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        return self.helper(nums, 0, len(nums))
 
-    def helper(self, nums, lower, upper):
-        if lower == upper:
-            return None
-
-        mid = (lower + upper) // 2 #向下取整
-        node = TreeNode(nums[mid]) #slice take O(n)
-        node.left = self.helper(nums, lower, mid) #passing in bounds
-        node.right = self.helper(nums, mid+1, upper) 
-
-        return node #dfs的精髓 就是return
 
 '''
 A lot of the Python solutions use slices to split the array; however, it takes O(n) to slice, making the entire algorithm O(n logn). 

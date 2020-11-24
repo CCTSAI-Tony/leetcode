@@ -56,6 +56,29 @@ class Solution(object):
         @@#與非nested func的寫法最大差在local variable 要手動定義在參數上,使其連結特定變數
 
 
+#重做第二次, time complexity O(n^3), space complexity O(n^2)
+from collections import defaultdict
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        dp = defaultdict(int)
+        nums = [1] + nums + [1]
+        n = len(nums)
+        return self.dfs(0, n-1, nums, dp)
+    
+    def dfs(self, i, j, nums, dp):
+        if (i, j) in dp:
+            return dp[(i, j)]
+        if i + 1 == j:
+            return 0
+        coins = 0
+        for k in range(i+1, j):
+            coins = max(coins, nums[i]*nums[k]*nums[j] + self.dfs(i, k, nums, dp) + self.dfs(k, j, nums, dp))
+        dp[(i, j)] = coins
+        return dp[(i, j)]
+
+
+
+
 
 
 # bottom-up version with explanation:

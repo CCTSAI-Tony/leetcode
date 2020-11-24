@@ -26,10 +26,67 @@ cache.get(4);       // returns 4
 '''
 
 
-# 刷題用這個 還是使用OrderedDict 好
+
+https://www.youtube.com/watch?v=7v_mUfpg46E&feature=youtu.be
+#刷題用這個
+#Python Dict + Double LinkedList
+class Node:
+    def __init__(self, k, v):
+        self.key = k
+        self.val = v
+        self.prev = None
+        self.next = None
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.dic = dict() # self.dic = {}
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
+        self.head.next = self.tail
+        self.tail.prev = self.head
+
+    def get(self, key):
+        if key in self.dic:
+            n = self.dic[key] #key:node
+            self._remove(n) #每get一次 就要把get項目拿出來放在排序第一的位置 因此先remoce 再 add
+            self._add(n)
+            return n.val
+        return -1
+
+    def put(self, key, value):
+        if key in self.dic:
+            n = self.dic[key]
+            self._remove(n) #一樣 put因為觸碰了原本的key 變常用了 在listNode 把key remove
+        n = Node(key, value)
+        self._add(n) #重新加回listNode
+        self.dic[key] = n #新建 key:value pair or 重新定義key:value 相同key 可以有不同value 
+        if len(self.dic) > self.capacity:
+            n = self.head.next #把head 下一個 remove 也就是the least recently used item
+            self._remove(n)
+            del self.dic[n.key] #把dict node對應的key消除
+
+    def _remove(self, node): #消除當前node
+        p = node.prev 
+        n = node.next
+        p.next = n
+        n.prev = p
+
+    def _add(self, node): #把當前node 放在最後, self.tail的前一個
+        p = self.tail.prev #這樣寫是不干擾self.head 預設值
+        p.next = node
+        self.tail.prev = node
+        node.prev = p
+        node.next = self.tail
+
+
+
+
+# 刷題用這個 還是使用OrderedDict 好, 搭配460
 # Python concise solution with comments (Using OrderedDict).
 # 思路: 利用orderdict 來記錄建立key:value pair 的順序, 這樣之後到達capacity就不會 remove錯 item
 # 遇到operate 的 item, pop 該item 並重新加進dict裡, pop key in dic, time complexity O(1)
+# time complexity of OrderedDict.move_to_end() => O(1)
 import collections
 class LRUCache:
     def __init__(self, capacity):
@@ -55,6 +112,60 @@ class LRUCache:
 
 # OrderedDict.popitem() returns the first or last key-value, after deleting it. 
 # Setting last to False signals you wanted to remove the first.
+
+#重寫第二次, get, put => time complexity O(1)
+from collections import OrderedDict
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.dic = OrderedDict()
+        self.capacity = capacity
+        
+
+    def get(self, key: int) -> int:
+        if key not in self.dic:
+            return -1
+        self.dic.move_to_end(key)
+        return self.dic[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dic:
+            self.dic.move_to_end(key)
+        else:
+            if self.capacity == 0:
+                self.dic.popitem(last=False)
+            else:
+                self.capacity -= 1
+        self.dic[key] = value
+
+#重寫第三次, time complexity O(1) for get, put method
+from collections import OrderedDict
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.dic = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key: int) -> int:
+        if key in self.dic:
+            self.dic.move_to_end(key)
+            return self.dic[key]
+        return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dic:
+            self.dic[key] = value
+            self.dic.move_to_end(key)
+        else:
+            if self.capacity == 0:
+                self.dic.popitem(last=False)
+            else:
+                self.capacity -= 1
+            self.dic[key] = value
+
+
+
+
 
 
 

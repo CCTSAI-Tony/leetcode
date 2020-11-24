@@ -59,7 +59,8 @@ class PeekingIterator:
 #     val = iter.peek()   # Get the next element but not advance the iterator.
 #     iter.next()         # Should return the same value as [val].
 
-#用這個
+#刷題用這個
+#思路: 利用iterator interface 來做題, 若cur element 往下沒有element, hasNext => return None, call next() => get cur element, 但self.cur 指針往下走
 class PeekingIterator:
     def __init__(self, iterator):
         self.iter = iterator
@@ -77,3 +78,34 @@ class PeekingIterator:
         return self.cur != None
 
 
+#重寫第二次, time complexity O(1)
+class PeekingIterator:
+    def __init__(self, iterator):
+        """
+        Initialize your data structure here.
+        :type iterator: Iterator
+        """
+        self.iterator = iterator
+        self.cur = self.iterator.next() if self.iterator.hasNext() else None
+
+    def peek(self):
+        """
+        Returns the next element in the iteration without advancing the iterator.
+        :rtype: int
+        """
+        return self.cur
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        temp = self.cur
+        self.cur = self.iterator.next() if self.iterator.hasNext() else None
+        return temp
+        
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.cur != None

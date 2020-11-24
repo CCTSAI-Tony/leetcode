@@ -27,7 +27,7 @@ The values of words are distinct.
 '''
 
 #刷題用這個
-#time complexity: O(w + (nm)^2), w 指的是words全部字數 388ms
+#time complexity: O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
 #思路: 這題就是Trie 與 backtracking 的合體
 #藉由Trie 與 TrieNode 結構 來解題, 一開始就建立prefix tree, 之後再遍歷board 看是否有相對應的word在prefix tree
 #技巧, backtracking 分支遍歷結束返回上層要恢復動到過的global variable, 使其上層其他分支遍歷不受影響
@@ -93,7 +93,7 @@ Great solution, but no need to implement Trie.search() since the search is essen
 '''
 time complexity: O(max(n*m, w)), w 指的是words全部字數
 
-#自己重寫第二次, 360ms, time complexity O((m*n)^2 + w), w: words 全部字數
+#自己重寫第二次, 360ms, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
 import collections
 class TrieNode:
     def __init__(self):
@@ -138,6 +138,111 @@ class Solution:
             self.dfs(node, board, i, j+1, m, n, path+temp, res)
             self.dfs(node, board, i, j-1, m, n, path+temp, res)
             board[i][j] = temp
+
+
+
+#重寫第三次 O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.children = defaultdict(TrieNode)
+        self.isWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            node = node.children[w]
+        node.isWord = True
+            
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        if not board or not board[0]:
+            return None
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        res = []
+        root = trie.root
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                self.dfs(i, j, board, root, res, "")   
+        return res
+    
+    def dfs(self, i, j, board, node, res, path):
+        if node.isWord:
+            res.append(path)
+            node.isWord = False
+        if 0 <= i < len(board) and 0 <= j < len(board[0]):
+            temp = board[i][j]
+            node = node.children.get(temp)
+            if not node:
+                return
+            board[i][j] = "#"
+            self.dfs(i+1, j, board, node, res, path+temp)
+            self.dfs(i-1, j, board, node, res, path+temp)
+            self.dfs(i, j+1, board, node, res, path+temp)
+            self.dfs(i, j-1, board, node, res, path+temp)
+            board[i][j] = temp
+
+
+#重寫第四次, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.child = defaultdict(TrieNode)
+        self.isWord = False
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            node = node.child[w]
+        node.isWord = True
+        
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        if not board or not board[0]:
+            return []
+        m, n = len(board), len(board[0])
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        res = []
+        root = trie.root
+        for i in range(m):
+            for j in range(n):
+                self.dfs(i, j, board, root, res, "", m, n)
+        return res
+    
+    def dfs(self, i, j, board, node, res, path, m, n):
+        if node.isWord:
+            res.append(path)
+            node.isWord = False
+        if 0 <= i < m and 0 <= j < n:
+            temp = board[i][j]
+            node = node.child.get(temp)
+            if not node:
+                return
+            board[i][j] = "#"
+            self.dfs(i+1, j, board, node, res, path+temp, m, n)
+            self.dfs(i-1, j, board, node, res, path+temp, m, n)
+            self.dfs(i, j+1, board, node, res, path+temp, m, n)
+            self.dfs(i, j-1, board, node, res, path+temp, m, n)
+            board[i][j] = temp  
+
+
+
+
+
+
 
 import collections
 a = collections.defaultdict(int)

@@ -67,7 +67,7 @@ class Solution:
     def binary(self, nums, left, right, target):
         while left + 1 < right:
             mid = left + (right - left) // 2
-            if nums[mid] >= target:
+            if nums[mid] >= target: # >= 是關鍵, 找尋最左邊的相同元素
                 right = mid
             else:
                 left = mid

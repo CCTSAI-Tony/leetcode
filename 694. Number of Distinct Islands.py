@@ -44,11 +44,7 @@ Note: The length of each dimension in the given grid does not exceed 50.
 #這裡的back是指所有該節點能走的路經都遍歷完畢回上一個node, 然而backtrack是指所有的路徑還沒全部遍歷完畢就知道無法往下走而回到上一個node 來查看其他可能路徑
 class Solution:
     def numDistinctIslands(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        self.steps = ''
+        self.steps = '' # => str, just reference, so use 全域變數 to modified
         distinctIslands = set()
         for i in range(len(grid)):
             for j in range(len(grid[0])):
@@ -67,7 +63,7 @@ class Solution:
             self.helper(grid, i-1, j, 'u')  # upper
             self.helper(grid, i, j+1, 'r')  # right
             self.helper(grid, i, j-1, 'l')  # left
-            self.steps += 'b'  # back
+            self.steps += 'b'  # back, 很重要
 
 
 #自己重寫 time complexity O(m*n)
@@ -93,6 +89,25 @@ class Solution:
             self.dfs(i, j-1, grid, "l")
             self.steps += "b"
 
-
-
+#重寫第三次, time complexity O(m*n), space complexity O(m*n)
+class Solution:
+    def numDistinctIslands(self, grid: List[List[int]]) -> int:
+        self.distinct = set()
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    steps = []
+                    self.dfs(i, j, grid, "o", steps)
+                    self.distinct.add(tuple(steps))
+        return len(self.distinct)
+    
+    def dfs(self, i, j, grid, step, steps):
+        if 0 <= i < len(grid) and 0 <= j < len(grid[0]) and grid[i][j] == 1:
+            steps.append(step)
+            grid[i][j] = 0
+            self.dfs(i+1, j, grid, "d", steps)
+            self.dfs(i-1, j, grid, "t", steps)
+            self.dfs(i, j+1, grid, "r", steps)
+            self.dfs(i, j-1, grid, "l", steps)
+            steps.append("b")
 

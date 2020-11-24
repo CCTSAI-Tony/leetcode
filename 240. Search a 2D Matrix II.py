@@ -43,6 +43,33 @@ class Solution:
         return False
 
 
+#重寫第二次, time complexity O(m+n), space complexity O(1)
+class Solution:
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix or not matrix[0]:
+            return False
+        row, col = 0, len(matrix[0]) - 1
+        while row < len(matrix) and col >= 0:
+            if target > matrix[row][col]:
+                row += 1
+            elif target < matrix[row][col]:
+                col -= 1
+            else:
+                return True
+        return False
+
+
+
+
+
+
+
+
 #binary search 自己重寫 模板2
 #Time complexity O(mlogn), space complexity O(1)
 class Solution:

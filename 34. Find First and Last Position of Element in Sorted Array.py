@@ -53,7 +53,7 @@ class Solution:
         left, right = binarySearchLeft(nums, target), binarySearchRight(nums, target)
         return (left, right) if left <= right else [-1, -1]
 
-
+# time complexity O(logn), space complexity O(1)
 # 模板2, 136ms
 # 思路: left, right 指針針對nums[mid] = target 的動作來過濾左邊重複元素還是右邊重複元素
 class Solution:

@@ -19,7 +19,7 @@ Input: 1234567891
 Output: "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One"
 '''
 
-#刷題用這個
+#刷題用這個, time complexity O(1), space complexity O(1)
 #字典用法 不需要int()
 #思路: dfs top down dp + hash table, 中間要間隔所以return 前面要空一格, 
 class Solution:

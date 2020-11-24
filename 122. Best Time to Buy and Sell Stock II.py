@@ -25,6 +25,8 @@ Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
 '''
+#經典greedy, time complexity O(n), space complexity O(1)
+#思路: 此題允許交易多次無限制, 使用greedy, 當日比前一日高即賺取價差
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         sum = 0
@@ -32,3 +34,19 @@ class Solution:
             if prices[i] > prices[i-1]:
                 sum += prices[i] - prices[i-1] #greedy method
         return sum
+
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        profitSum = 0
+        for i in range(1, len(prices)):
+            if (prices[i] - prices[i-1]) > 0:
+                profitSum += (prices[i] - prices[i-1])
+        return profitSum
+
+
+
+
+
+        

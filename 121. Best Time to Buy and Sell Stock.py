@@ -18,7 +18,7 @@ Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
 '''
-#自己重寫, time complexity O(n)
+#自己重寫, time complexity O(n), 此題只允許一次交易 => 總共買與賣個一次
 #思路: greedy, 隨著指針紀錄最小價格, 並遍歷每天股價同時紀錄當天股價-最小股價的獲利, update 最大獲利, 同時遵守賣股票的日期一定出現在買股票日期的後面或當天
 #可以允許當天買當天賣, 當然這樣獲利為0
 class Solution:
@@ -32,6 +32,29 @@ class Solution:
             profit = max(profit, prices[i] - min_price)
         
         return profit  #profit 至少為0 當天買當天賣=>相當於什麼都不買
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        max_profit = 0
+        min_price = float("inf")
+        for price in prices:
+            min_price = min(min_price, price)
+            max_profit = max(max_profit, (price - min_price))
+        return max_profit
+
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        min_price = float("inf")
+        max_profit = 0
+        for num in prices:
+            min_price = min(min_price, num)
+            max_profit = max(max_profit, num-min_price)
+        return max_profit
+
+
+
 
 
 

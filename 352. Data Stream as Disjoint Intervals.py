@@ -21,7 +21,7 @@ What if there are lots of merges and the number of disjoint intervals are small 
 # Append interval to heap when addNum called
 # Merge intervals when getIntervals called
 
-# python solution using heap, 刷題用這個 利用heap排序 好招學起來
+# python solution using heap, 刷題用這個 利用heap排序 好招學起來, time complexity O(nlogn), space complexity O(n)
 import heapq as hq
 class SummaryRanges:
 
@@ -56,6 +56,40 @@ def getIntervals(self) -> List[List[int]]:
             res[-1][1] = max(res[-1][1], hq.heappop(self.intervals)[1])
     self.intervals = res
     return res
+
+
+
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+import heapq
+class SummaryRanges:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.visited = set()
+        self.heap = []
+        
+
+    def addNum(self, val: int) -> None:
+        if val not in self.visited:
+            self.visited.add(val)
+            heapq.heappush(self.heap, [val, val])
+
+    def getIntervals(self) -> List[List[int]]:
+        res = []
+        while self.heap:
+            res.append(heapq.heappop(self.heap))
+            while self.heap and res[-1][-1] + 1 == self.heap[0][0]:
+                res[-1][1] = max(res[-1][1], heapq.heappop(self.heap)[1])
+        self.heap = res
+        return res
+
+
+
+
+
+
 
 
 # simple python solution with binary search, 面試用這個, 刷題用這個

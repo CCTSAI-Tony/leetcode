@@ -57,7 +57,7 @@ class Solution:
         if not node: 
             return 0
         
-        # only add positive contributions
+        # only add positive contributions, 可以斷支
         leftST_sum = max(0, self.dfs(node.left))
         rightST_sum = max(0, self.dfs(node.right))
 

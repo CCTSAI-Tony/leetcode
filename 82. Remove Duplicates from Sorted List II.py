@@ -1,10 +1,28 @@
+'''
+
+Given a sorted linked list, delete all nodes that have duplicate numbers, 
+leaving only distinct numbers from the original list.
+
+Example 1:
+
+Input: 1->2->3->3->4->4->5
+Output: 1->2->5
+Example 2:
+
+Input: 1->1->1->2->3
+Output: 2->3
+
+'''
+
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
-
+#刷題用這個, time complexity O(n), space complexity O(1)
+#思路: 使用dummy node 與 pre, head 異步指針來解題
 class Solution:
     def deleteDuplicates(self, head):
         dummy = pre = ListNode(0) #dummy head  想像dummy 跟 pre 是同一條線 與head是不同條, pre 來負責接縫
@@ -56,27 +74,7 @@ dummy.next = 1->2
 
 
 
-'''
 
-Given a sorted linked list, delete all nodes that have duplicate numbers, 
-leaving only distinct numbers from the original list.
-
-Example 1:
-
-Input: 1->2->3->3->4->4->5
-Output: 1->2->5
-Example 2:
-
-Input: 1->1->1->2->3
-Output: 2->3
-
-
-
-
-
-
-
-'''
 
 
 

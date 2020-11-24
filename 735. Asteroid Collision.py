@@ -38,6 +38,57 @@ The length of asteroids will be at most 10000.
 Each asteroid will be a non-zero integer in the range [-1000, 1000]..
 '''
 
+
+
+
+#刷題用這個, sliding window
+#別人的解法, time complexity O(N)
+#思路: while else 的組合, 若不執行while loop 就執行else
+class Solution(object):
+    def asteroidCollision(self, asteroids):
+        res = []
+        for asteroid in asteroids:
+            while res and asteroid < 0 and res[-1] > 0:
+                if res[-1] == -asteroid: 
+                    res.pop()
+                    break
+                elif res[-1] < -asteroid:
+                    res.pop()
+                    continue #到下一個while loop interation, 若不符合while 條件 就執行else
+                elif res[-1] > -asteroid: #asteroid 爆炸, 換下一個asteroid
+                    break
+            else:
+                res.append(asteroid)
+        return res
+
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        stack = []
+        for asteroid in asteroids:
+            if asteroid > 0 or not stack:
+                stack.append(asteroid)
+                continue
+                
+            exploded = False
+            while stack and stack[-1] > 0 and not exploded:
+                if -asteroid > stack[-1]:
+                    stack.pop()
+                elif -asteroid < stack[-1]:
+                    exploded = True
+                elif -asteroid == stack[-1]:
+                    stack.pop()
+                    exploded = True
+            if not exploded:
+                stack.append(asteroid)
+        return stack
+
+
+
+
+
+
 #自己想的, time complexity O(2n) => O(n), 100ms
 #思路: 利用stack 來儲存asteroids, 當目前asteroid < 0 and stackp[-1] > 0, 才會發生碰撞
 #碰撞後設一變數 explode 來代表碰撞後asteroid是否消失, 若沒消失after while loop 加到stack, 若消失換下一個asteroid
@@ -67,24 +118,6 @@ class Solution:
 
 
 
-#別人的解法, time complexity O(N)
-#思路: while else 的組合, 若不執行while loop 就執行else
-class Solution(object):
-    def asteroidCollision(self, asteroids):
-        res = []
-        for asteroid in asteroids:
-            while res and asteroid < 0 and res[-1] > 0:
-                if res[-1] == -asteroid: 
-                    res.pop()
-                    break
-                elif res[-1] < -asteroid:
-                    res.pop()
-                    continue #到下一個while loop interation, 若不符合while 條件 就執行else
-                elif res[-1] > -asteroid:
-                    break
-            else:
-                res.append(asteroid)
-        return res
 
 
 

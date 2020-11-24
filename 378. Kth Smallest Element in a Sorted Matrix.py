@@ -70,8 +70,42 @@ class Solution:
 # 一切都是因為bisect_right, 所以要往小收斂
 
 
-
-
+#重寫第二次, time complexity O(nlogn), space complexity O(1)
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        if not matrix or not matrix[0]:
+            return False
+        l, r = matrix[0][0], matrix[-1][-1]
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if self.helper(mid, matrix) >= k: # >= => 重複的最左邊 
+                r = mid
+            else:
+                l = mid
+        if self.helper(l, matrix) >= k:
+            return l
+        return r
+        
+        
+    def helper(self, val, matrix):
+        count = 0
+        for row in matrix:
+            count += self.binary(val, row)
+        return count
+    
+    def binary(self, val, row):
+        l, r = 0, len(row)-1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if row[mid] > val:
+                r = mid
+            else:
+                l = mid
+        if row[l] > val:
+            return l
+        if row[r] > val:
+            return r
+        return r + 1
 
 
 

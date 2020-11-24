@@ -106,8 +106,32 @@ class Solution:
         return False
 
 
-
-
+#重寫第二次, time complexity O(logn) if no duplicate, O(n) if all are duplicate
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        if not nums:
+            return False
+        l, r = 0, len(nums) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            while mid < r:
+                if nums[mid] == nums[r]:
+                    r -= 1
+                else:
+                    break
+            if nums[mid] <= nums[r]:
+                if nums[mid] <= target <= nums[r]:
+                    l = mid
+                else:
+                    r = mid
+            else:
+                if nums[l] <= target <= nums[mid]:
+                    r = mid
+                else:
+                    l = mid
+        if nums[l] == target or nums[r] == target:
+            return True
+        return False
 
 
 # 模板2 刷題用這個 time complexity O(logn)

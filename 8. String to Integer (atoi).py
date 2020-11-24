@@ -77,6 +77,37 @@ class Solution:
 # 'yytt  rere'
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        s = s.lstrip()
+        res = []
+        for i in range(len(s)):
+            if i == 0 and not s[i].isdigit():
+                if s[i] in ["+", "-"]:
+                    res.append(s[i])
+                else:
+                    return 0
+            elif s[i].isdigit():
+                res.append(s[i])
+                
+            elif not s[i].isdigit():
+                break
+        res = "".join(res)
+        if not res or res in ["+", "-"]:
+            return 0
+        else:
+            temp = int(res)
+            if temp > 2**31-1:
+                return 2**31-1
+            elif temp < -2**31:
+                return -2**31
+            else:
+                return temp
+
+
+
+
 
 class Solution:
     def myAtoi(self, str: str) -> int:
@@ -94,6 +125,10 @@ class Solution:
                 return m
         else:
             return 0
+
+
+
+
 
 # \s It indicates a single whitespace character           
 # ^\s* 開頭的space 0 ~ 許多個

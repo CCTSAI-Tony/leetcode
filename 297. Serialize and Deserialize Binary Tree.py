@@ -51,7 +51,7 @@ class Codec:
         res = []
         while q:
             node = q.popleft()
-            if node:
+            if node: #preorder
                 q.append(node.left)
                 q.append(node.right)
             res.append(str(node.val) if node else '#')

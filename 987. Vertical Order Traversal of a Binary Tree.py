@@ -43,6 +43,7 @@ Each node's value will be between 0 and 1000.
 
 
 python queue + hash map, time complexity O(nlogn) 因為有sort
+#刷題用這個
 #思路: 利用dict 儲存同一x軸的座標的node, 再利用tuple (vd,node.val) 來對x軸的座標的 nodes 做排序, 例如 vd 越大者優先, 相同座標值 => 值越小者優先
 # stack iteration
 import collections
@@ -64,6 +65,28 @@ class Solution:
             ans.append(level)
         return ans
 
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def verticalTraversal(self, root: TreeNode) -> List[List[int]]:
+        vertical = defaultdict(list)
+        stack = [(root, 0, 0)]
+        while stack:
+            node, x, y = stack.pop()
+            vertical[x].append((y, node.val))
+            if node.right:
+                stack.append((node.right, x+1, y-1))
+            if node.left:
+                stack.append((node.left, x-1, y-1))
+        res = []
+        for k in sorted(vertical.keys()):
+            temp = [x[1] for x in sorted(vertical[k], key=lambda x: (-x[0], x[1])) ]
+            res.append(temp)
+        return res
+
+
+
+
 
 # key=lambda x:(-x[0],x[1]), x[1] => 相同位置以數字小的優先
 
@@ -75,7 +98,7 @@ class Solution:
 
 
 
-#  自己重寫, 刷題用這個, time complexity O(n)
+#  自己重寫, 刷題用這個, time complexity O(nlogn)
 #  思路: 利用dict 儲存同一x軸的座標的node(hd = key), 儲存以tuple 的形式 (vd, node.val)
 #  再利用tuple (vd,node.val) 來對x軸的座標的 nodes 做排序, 例如 vd 越大者優先, 相同座標值越小者優先, res再append排序後的node.val, 
 #  重複此流程從左到右遍歷每個x軸座標

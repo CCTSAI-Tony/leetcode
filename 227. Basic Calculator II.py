@@ -22,7 +22,7 @@ Do not use the eval built-in library function.
 '''
 #use stack to store different result, if you meet '*' or '/', it will take the last element of stack to do some operation
 #利用" 3 + 5 / 2 " 做logic run through 比較好搞懂
-#  time complexity O(n)
+#  time complexity O(n), space complexity O(n)
 #  思路: 指針遍歷 利用stack 來存取相關計算元, 以isdigit, isspace 來區分計算元 or 計算子, 碰到下一個計算子or最後一個元素 就處理之前的expression
 #  記得除法比較複雜要分除完是負數還是正數, 若是負數且有小數則要加1, 因為python // 是向下取整, 但題目是truncate toward zero, @@ 可以使用int() 來實現truncate toward zero 不論正負數
 #  這題與224最大不同在於, 224有parenthesis 且沒有*/, 
@@ -80,7 +80,31 @@ class Solution:
         return sum(stack)
 
 
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        num = 0
+        sign = "+"
+        for i in range(len(s)):
+            if s[i].isdigit():
+                num = num * 10 + int(s[i])
+            if (not s[i].isdigit() and not s[i].isspace()) or i == len(s) - 1:
+                if sign == "+":
+                    stack.append(num)
+                elif sign == "-":
+                    stack.append(-num)
+                elif sign == "*":
+                    pre = stack.pop()
+                    num = pre * num
+                    stack.append(num)
+                elif sign == "/":
+                    pre = stack.pop()
+                    num = int(pre / num)
+                    stack.append(num)
+                num = 0
+                sign = s[i]
+        return sum(stack)
 
 
         

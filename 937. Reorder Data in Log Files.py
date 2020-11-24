@@ -40,8 +40,19 @@ class Solution:
         letters.sort(key = lambda x: (x.split()[1:],x.split()[0]))
         return letters + digits
 
-
-
+#自己重寫, time complexity O(nlogn), space complexity O(n)
+class Solution:
+    def reorderLogFiles(self, logs: List[str]) -> List[str]:
+        letter = []
+        digit = []
+        for log in logs:
+            temp = log.split()
+            if not temp[1].isdigit():
+                letter.append(log)
+            else:
+                digit.append(log)
+        letter.sort(key=lambda x: (x.split()[1:], x.split()[0]))
+        return letter + digit
 
 
 

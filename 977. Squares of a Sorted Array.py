@@ -51,6 +51,30 @@ class Solution:
         res.appendleft(A[left]**2)
         return res
 
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+from collections import deque
+class Solution:
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        queue = deque()
+        l, r = 0, len(A) - 1
+        while l <= r:
+            square1, square2 = A[l]**2, A[r]**2
+            if square1 > square2:
+                queue.appendleft(square1)
+                l += 1
+            else:
+                queue.appendleft(square2)
+                r -= 1
+        return queue
+
+
+
+
+
+
+
+
 # The question boils down to understanding that if we look at the magnitude of the elements 
 # in the array, A, both ends "slide down" and converge towards the center of the array. 
 # With that understanding, we can use two pointers, one at each end, to iteratively collect the larger square to a list. 
@@ -58,8 +82,17 @@ class Solution:
 # To circumvent this, we need to append to the left of the list. 
 # Using a collections.deque() allows us to append elements to the left of answer in O(1) time, maintaining the required increasing order.
 
-
-
+#自己想的, time complexity O(nlogn), space complexity O(n)
+import heapq
+class Solution:
+    def sortedSquares(self, A: List[int]) -> List[int]:
+        heap = []
+        for num in A:
+            heapq.heappush(heap, num**2)
+        res = []
+        for _ in range(len(heap)):
+            res.append(heapq.heappop(heap))
+        return res
 
 
 

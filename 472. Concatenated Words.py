@@ -107,7 +107,7 @@ class Solution:
 #                                                   - X [not to take dog as prefix doesn't work]
 #                                   -  [not to take cats as prefix doesn't work]
 
-#刷題用這個
+#刷題用這個, time complexity O(N), space complexity O(N), N: total length of string
 #思路: 使用trie 結構來解題, 使用space_inserted 當作新的參數, 來代表目前是否有接字
 import collections
 class TrieNode():
@@ -147,6 +147,59 @@ class Solution:
                 return False
             else:
                 return self.dfs(node.children[w[i]], i + 1, w, space_inserted)
+
+
+#重寫第二次, time complexity O(N), space complexity O(N), N: total length of string
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.children = defaultdict(TrieNode)
+        self.isEnd = False
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            node = node.children[w]
+        node.isEnd = True
+            
+    
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        trie = Trie()
+        for word in words:
+            if word: #這句很重要, words 裡面有可能為 empty string, 過濾空字串, 避免自己接自己
+                trie.insert(word)
+        self.root = trie.root
+        res = []
+        for word in words:
+            if self.helper(word, 0, self.root, res, False):
+                res.append(word)
+        return res
+    
+    def helper(self, word, i, node, res, isConcatenated): #有backtracking 的影子
+        if node.isEnd:
+            if i == len(word) and isConcatenated:
+                return True
+            else:
+                if self.helper(word, i, self.root, res, True):
+                    return True
+        if i >= len(word) or not node.children.get(word[i]):
+            return False
+        node = node.children[word[i]]
+        return self.helper(word, i+1, node, res, isConcatenated)
+
+
+
+
+
+
+
+
+
 
 
 # why if self.dfs(self.trie.root, i, w, True), i 不是 i + 1, 因為回到最上層了重新搜索了, 所以i保持原樣

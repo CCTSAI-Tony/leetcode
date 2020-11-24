@@ -38,6 +38,28 @@ class Solution:
         return dummy.next
 
 
+#自己重寫, time complexity O(max(m, n)), space complexity O(1)
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        res = []
+        carry = 0
+        dummy = cur = ListNode()
+        while l1 or l2 or carry:
+            if l1:
+                temp1 = l1.val
+                l1 = l1.next
+            else:
+                temp1 = 0
+            if l2:
+                temp2 = l2.val
+                l2 = l2.next
+            else:
+                temp2 = 0
+            carry, num = divmod(temp1 + temp2 + carry, 10)
+            cur.next = ListNode(num)
+            cur = cur.next
+        
+        return dummy.next
 
 
 class Solution:  

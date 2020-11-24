@@ -43,15 +43,14 @@ class Solution:
 class Solution:
     def inorderTraversal(self, root):
         res, stack = [], []
-        while True: # 持續迴圈
+        while root or stack: # 持續迴圈
             while root:
                 stack.append(root) 
                 root = root.left 
-            if not stack:
-                return res
             node = stack.pop() 
             res.append(node.val)
             root = node.right #根節點右邊
+        return res
 
 '''
                          G

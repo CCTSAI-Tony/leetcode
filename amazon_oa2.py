@@ -418,7 +418,7 @@ multiProcessor(5, [3,1,7,2,4], 15)
 def createWiningSequence(num, lowerEnd, upperEnd):
     interval = upperEnd - lowerEnd + 1
     if num > interval*2-1:
-        return -1
+        return [-1]
     for i in range(1, (num-1)//2+1):
         if num - (i+1) > interval -1: #超過區間, 無法形成對應array
             continue
@@ -955,6 +955,7 @@ class Solution:
             return ans
 
 
+#roblox 2020
 #lifting weights, time complexity O(n*m), 
 def liftWeights(weights, max_capacity):
     cache = set()

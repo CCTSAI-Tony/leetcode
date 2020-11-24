@@ -44,7 +44,7 @@ The target node is a node in the tree.
 # If one gets the above intuition, then it should not be a daunting job to implement the solutions. Here are some examples.
 
 
-# set() 可以變 [] 不影響結果
+# set() 可以變 list() 不影響結果
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -83,6 +83,37 @@ class Solution:
             self.dfs(node.left, distance + 1, parent_map, visited, ans, K)
             self.dfs(node.right, distance + 1, parent_map , visited, ans, K)
             self.dfs(parent_map[node], distance + 1, parent_map, visited, ans, K)
+
+#刷題用這個
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
+        parents = {}
+        stack = [(root, None)]
+        while stack: #dfs iteration 遍歷
+            node, parent = stack.pop()
+            parents[node] = parent
+            if node.left:
+                stack.append((node.left, node))
+            if node.right:
+                stack.append((node.right, node))
+        res = []
+        visited = set()
+        self.dfs(target, 0, parents, res, visited, K)
+        return res
+    
+    def dfs(self, node, distance, parents, res, visited, K):
+        if not node or node in visited:
+            return 
+        visited.add(node)
+        if distance == K:
+            res.append(node.val)
+        else:
+            self.dfs(node.left, distance+1, parents, res, visited, K)
+            self.dfs(node.right, distance+1, parents, res, visited, K)
+            self.dfs(parents[node], distance+1, parents, res, visited, K)
+
+
 
 
 

@@ -81,7 +81,7 @@ class TicTacToe:
     def move(self, row: int, col: int, player: int) -> int:
         self.row[row]+=1 if player==1 else -1 #技巧
         self.col[col]+=1 if player==1 else -1
-        if row+col==self.n-1:
+        if row+col==self.n-1: #右上左下斜線
             self.diag1+=1 if player==1 else -1
         if row-col==0:
             self.diag2+=1 if player==1 else -1
@@ -129,7 +129,40 @@ class TicTacToe:
         return 0
 
 
+#重寫第二次, time complexity O(n), space complexity O(1)
+class TicTacToe:
 
+    def __init__(self, n: int):
+        """
+        Initialize your data structure here.
+        """
+        self.rows = [0] * n
+        self.cols = [0] * n
+        self.diagonal1 = 0
+        self.diagonal2 = 0
+        self.n = n
+        
+
+    def move(self, row: int, col: int, player: int) -> int:
+        """
+        Player {player} makes a move at ({row}, {col}).
+        @param row The row of the board.
+        @param col The column of the board.
+        @param player The player, can be either 1 or 2.
+        @return The current winning condition, can be either:
+                0: No one wins.
+                1: Player 1 wins.
+                2: Player 2 wins.
+        """
+        self.rows[row] += 1 if player == 1 else -1
+        self.cols[col] += 1 if player == 1 else -1
+        if row + col == self.n - 1:
+            self.diagonal1 += 1 if player == 1 else -1
+        if row - col == 0:
+            self.diagonal2 += 1 if player == 1 else -1
+        if abs(self.rows[row]) == self.n or abs(self.cols[col]) == self.n or abs(self.diagonal1) == self.n or abs(self.diagonal2) == self.n:
+            return 1 if player == 1 else 2
+        return 0
 
 
 

@@ -54,18 +54,30 @@ class Solution:
                     
         return max(d, key=d.get) # retrieve key thanks to the highest value, key=d.get => callable func
 
-
-
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter
 import string
-string.punctuation
-'!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+class Solution:
+    def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
+        paragraph = paragraph.lower()
+        for c in string.punctuation:
+            paragraph = paragraph.replace(c, " ")
+        paragraph_list = paragraph.split()
+        dic = Counter(paragraph_list)
+        return max([word for word in dic.keys() if word not in banned], key=lambda word: dic[word])
 
-a = "fihsefi  seflijlsef esfefs   sefef"
-a.split()
-['fihsefi', 'seflijlsef', 'esfefs', 'sefef']
-a.split()[1]
-'seflijlsef'
+
+
+
+# import string
+# string.punctuation
+# '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+
+# a = "fihsefi  seflijlsef esfefs   sefef"
+# a.split()
+# ['fihsefi', 'seflijlsef', 'esfefs', 'sefef']
+# a.split()[1]
+# 'seflijlsef'
 
 
 

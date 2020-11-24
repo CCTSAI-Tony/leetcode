@@ -81,31 +81,55 @@ class Solution(object):
 #這個方法不難懂, 但太麻煩了 思路: 大問題切成小問題 
 divide and conquer, avg O(n), worst (n^2); O(n), can be further reduced using in-place
 
-class Solution(object):
-    def kClosest(self, points, K):
-        def findK(Points, K):
-            if K == 0:
-                return []
-            if len(Points) <= K:
-                return [p[1] for p in Points]
-
-            pivot, left, right = Points[0], [], []
-            for p in Points:
-                if p[0] > pivot[0]:
-                    right.append(p)
-                elif p[0] < pivot[0]:
-                    left.append(p)
-            
-            if len(left) >= K:
-                return findK(left, K)
-            else:
-                return [l[1] for l in left] + [pivot[1]] + findK(right, K - 1 - len(left))
-            
+#刷題用這個, quick select, time complexity O(n) in avg, worst case O(n^2), space complexity O(n)
+#思路: 使用quick select 達成O(n) in avg using random
+import random
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
         Points = [[p[0]**2 + p[1]**2, p] for p in points]
-        return findK(Points, K)
+        return self.findK(Points, K)
+
+    def findK(self, Points, K):
+        if K == 0:
+            return []
+        if len(Points) <= K:
+            return [p[1] for p in Points]
+
+        pivot, left, right = random.choice(Points), [], []
+        for p in Points:
+            if p[0] >= pivot[0]:
+                right.append(p)
+            elif p[0] < pivot[0]:
+                left.append(p)
+        
+        if len(left) >= K:
+            return self.findK(left, K)
+        else:
+            return [l[1] for l in left] + self.findK(right, K - len(left))
 
 
-
+#重寫第二次, time complexity O(n) in avg, O(n^2) in worst, space complexity O(n)
+import random
+class Solution:
+    def kClosest(self, points: List[List[int]], K: int) -> List[List[int]]:
+        Points = [(x[0]**2+x[1]**2, x) for x in points]
+        return self.quickSelect(Points, K)
+    
+    def quickSelect(self, Points, K):
+        if K == 0:
+            return []
+        if K >= len(Points):
+            return [p[1] for p in Points]
+        left, right, pivot = [], [], random.choice(Points)
+        for p in Points:
+            if p[0] <= pivot[0]:
+                left.append(p)
+            else:
+                right.append(p)
+        if len(left) >= K:
+            return self.quickSelect(left, K)
+        else:
+            return [p[1] for p in left] + self.quickSelect(right, K-len(left))
 
 
 

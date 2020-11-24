@@ -86,6 +86,32 @@ class Solution:
         drops[0][0].val, drops[-1][1].val = drops[-1][1].val, drops[0][0].val  |
 
 
+
+#重寫第二次, time complexity O(n), space complexity O(1), 要注意的就是交換的位置
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        stack = []
+        drops = []
+        cur, prev = root, TreeNode(float("-inf"))
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            if cur.val < prev.val:
+                drops.append((cur, prev))
+            cur, prev = cur.right, cur
+        drops[0][1].val, drops[-1][0].val = drops[-1][0].val, drops[0][1].val
+
+
+
+
+
+
+
 Input: [1,3,null,null,2]  bst 表達
 
    1

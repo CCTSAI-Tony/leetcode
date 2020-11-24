@@ -58,8 +58,33 @@ class Solution:
         return dp[i][j]
 
 
-
-
+#重寫第二次, time complexity O(m*n), space complexity O(m*n)
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        m, n = len(matrix), len(matrix[0])
+        cache = {}
+        max_len = 0
+        for i in range(m):
+            for j in range(n):
+                path_len = self.helper(i, j, matrix, cache, m, n)
+                max_len = max(max_len, path_len)
+        return max_len
+    
+    def helper(self, i, j, matrix, cache, m, n):
+        if (i, j) in cache:
+            return cache[(i, j)]
+        val = matrix[i][j]
+        length = 1 + max(
+            self.helper(i+1, j, matrix, cache, m, n) if i+1 < m and val < matrix[i+1][j] else 0,
+            self.helper(i-1, j, matrix, cache, m, n) if i-1 >= 0 and val < matrix[i-1][j] else 0,
+            self.helper(i, j+1, matrix, cache, m, n) if j+1 < n and val < matrix[i][j+1] else 0,
+            self.helper(i, j-1, matrix, cache, m, n) if j-1 >= 0 and val < matrix[i][j-1] else 0,
+            )
+        
+        cache[(i, j)] = length
+        return cache[(i, j)]
 
 
 

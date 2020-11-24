@@ -35,13 +35,35 @@ class Solution:
         n = len(nums)
         output = []
         for i in range(0,n):  
-            output.append(p)  #排除第一個
+            output.append(p)  #先append p, 因為要不包含自己
             p = p * nums[i]
         p = 1
         for i in range(n-1,-1,-1):  #排除最後一個
             output[i] = output[i] * p
             p = p * nums[i]
         return output
+
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = []
+        p = 1
+        n = len(nums)
+        for i in range(n):
+            res.append(p)
+            p *= nums[i]
+        p = 1
+        for i in range(n-1, -1, -1):
+            res[i] = res[i] * p
+            p *= nums[i]
+        return res
+
+
+
+
+
+
 
 '''
 first time going through the array, it's beginning to the end. p keeps a running total of the product, 

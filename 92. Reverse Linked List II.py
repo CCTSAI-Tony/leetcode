@@ -53,8 +53,23 @@ class Solution:
         pre.next = temp
         return dummy.next
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def reverseBetween(self, head: ListNode, m: int, n: int) -> ListNode:
+        dummy = pre = ListNode(0)
+        dummy.next = head
+        for _ in range(m-1):
+            pre = pre.next
+        cur = pre.next
+        temp = None
+        for _ in range(n-m+1):
+            nxt = cur.next
+            cur.next = temp
+            temp = cur
+            cur = nxt
+        pre.next.next = cur
+        pre.next = temp
+        return dummy.next
 
 
 

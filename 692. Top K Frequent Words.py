@@ -35,7 +35,7 @@ class Solution:
 # And, the word behind means that if their -d[word] are equal, they will compare their alphabetical orders, as mentioned in the problem.
 
 
-#自己重寫, time complexity O(nlogn), space complexity O(n)
+# 自己重寫, time complexity O(nlogn), space complexity O(n)
 # 思路: 利用counter 與 heapq 來pop 出 k frequent words, 注意, heapq 對tuple 排序, 會自動對elements 做lexicographical 排序
 from collections import Counter
 import heapq
@@ -88,6 +88,41 @@ class Word:
    
     def __eq__(self, other):  #__eq__其實不需要
         return self.freq == other.freq and self.word == other.word
+
+
+#重寫第二次, time complexity O(nlogk), space complexity O(k)
+class Word:
+    def __init__(self, freq, word):
+        self.word = word
+        self.freq = freq
+        
+    def __lt__(self, other):
+        if self.freq == other.freq:
+            return self.word > other.word
+        return self.freq < other.freq
+        
+import heapq
+from collections import Counter
+class Solution:
+    def topKFrequent(self, words: List[str], k: int) -> List[str]:
+        dic = Counter(words)
+        heap = []
+        for word, freq in dic.items():
+            if len(heap) == k:
+                heapq.heappushpop(heap, Word(freq, word))
+            else:
+                heapq.heappush(heap, Word(freq, word))
+        res = []
+        for _ in range(len(heap)):
+            item = heapq.heappop(heap)
+            res.append(item.word)
+        return res[::-1]
+
+
+
+
+
+
 
 #. If two words have the same frequency, then the word with the lower alphabetical order comes first. 
 

@@ -38,6 +38,23 @@ class Solution:
         head.next = temp
         return head
 
+
+#自己重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head:
+            return None
+        cur = head
+        temp = None
+        while cur and cur.next:
+            nxt = cur.next
+            cur.next = temp
+            temp = cur
+            cur = nxt
+        cur.next = temp
+        return cur
+
+
 #自己重寫, recusion, time complexity O(n)
 #思路: 同樣利用 head, temp 指針轉換使後面node接前面node, 若head.next = None, 代表最後一個node, 等最後一個node接回前一個, return 此node, 結束遞迴
 class Solution:
@@ -54,8 +71,20 @@ class Solution:
             return head
         return self.dfs(next_node, head)
 
-
-
+#自己重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head:
+            return None
+        temp = None
+        return self.dfs(head, temp)
+    
+    def dfs(self, head, temp):
+        nxt = head.next
+        head.next = temp
+        if not nxt:
+            return head
+        return self.dfs(nxt, head)
 
 
 ....................................................................................................................................................................

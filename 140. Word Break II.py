@@ -36,10 +36,9 @@ wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output:
 []
 '''
-# time complexity O(n ^ 3), n: len(wordDict), space complexity O(n^2)
-# Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
+# time complexity O(N^2 + 2^N + W), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W)
 # memo recursive top down solution
-# 思路: back tracking 利用memo {} 來記錄重複 sub problem 的結果, 利用startswith 來尋找candidate, 經典好題
+# 思路: top down dp 利用memo {} 來記錄重複 sub problem 的結果, 利用startswith 來尋找candidate, 經典好題
 class Solution(object):
     def wordBreak(self, s, wordDict):
         """
@@ -84,7 +83,7 @@ print(str.startswith("Geeks", 8, 14)) => True
 
 
 # 自己重寫
-# Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
+# time complexity O(N^2 + 2^N + W), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W)
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         memo = {}
@@ -105,10 +104,29 @@ class Solution:
                 res.append(word + " " + w)
        
         memo[s] = res
-        return res
+        return memo[s]
 
-
-
+#重寫第二次, time complexity O(N^2 + 2^N + W), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        memo = {}
+        return self.helper(s, wordDict, memo)
+    
+    def helper(self, s, wordDict, memo):
+        if s in memo:
+            return memo[s]
+        res = []
+        for word in wordDict:
+            if s.startswith(word):
+                if len(s) == len(word):
+                    res.append(word)
+                    continue
+                else:
+                    restWords = self.helper(s[len(word):], wordDict, memo)
+                    for r in restWords:
+                        res.append(word + " " + r)
+        memo[s] = res
+        return memo[s]
 
 
 

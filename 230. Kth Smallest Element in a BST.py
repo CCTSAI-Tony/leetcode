@@ -45,17 +45,39 @@ class Solution:
         return self.ans
         
         
-    def dfs(self, root, k):
-        if not root:
+    def dfs(self, node, k):
+        if not node:
             return
-        self.dfs(root.left, k)
+        self.dfs(node.left, k) #直探最小
         self.level += 1
         if self.level == k:
-            self.ans = root.val
+            self.ans = node.val
             return   #提早結束
-        self.dfs(root.right, k)
+        self.dfs(node.right, k)
 
-#自己重寫 in order traversal, iterative, 要多練習
+
+#重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        self.level = 0
+        self.ans = None
+        self.inorder(root, k)
+        return self.ans
+    
+    def inorder(self, node, k):
+        if not node or self.ans != None:
+            return
+        self.inorder(node.left, k)
+        self.level += 1
+        if self.level == k:
+            self.ans = node.val
+            return
+        self.inorder(node.right, k)
+
+
+
+
+#自己重寫 in order traversal, dfs iterative, 要多練習
 class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
         stack = []
@@ -69,6 +91,25 @@ class Solution:
             if level == k:
                 return root.val
             root = root.right
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        stack = []
+        level = 0
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            level += 1
+            if level == k:
+                return root.val
+            root = root.right
+
+
+
+
 
 # Recursive:
 class Solution:

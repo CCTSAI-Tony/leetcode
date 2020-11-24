@@ -69,11 +69,30 @@ class Solution(object):
 
 
         
-        
-
 #  Given two non-empty binary trees s and t
 
 
+#重寫第二次, time complexity O(s*t), space complexity O(1)
+class Solution:
+    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+        if not t:
+            return True
+        return self.dfs(s, t)
+    
+    def dfs(self, s, t):
+        if not s:
+            return False
+        if s.val == t.val:
+            if self.check(s, t):
+                return True
+        return self.dfs(s.left, t) or self.dfs(s.right, t)
+    
+    def check(self, s, t):
+        if not s and not t:
+            return True
+        if (not s and t) or (not t and s) or s.val != t.val:
+            return False
+        return self.check(s.left, t.left) and self.check(s.right, t.right)
 
 
 

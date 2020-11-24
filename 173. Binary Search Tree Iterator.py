@@ -97,6 +97,38 @@ class BSTIterator:
             yield x
 
 
+#重寫第二次, time complexity next average O(1), hasNext O(1), space complexity O(h)
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+        self.stack = []
+        while root:
+            self.stack.append(root)
+            root = root.left
+        
+        
+
+    def next(self) -> int:
+        """
+        @return the next smallest number
+        """
+        node = self.stack.pop()
+        x = node.right
+        while x:
+            self.stack.append(x)
+            x = x.left
+        return node.val
+        
+
+    def hasNext(self) -> bool:
+        """
+        @return whether we have a next smallest number
+        """
+        return len(self.stack) > 0
+
+
+
+
 
 #刷題可用這個, time complexity O(n)
 #generator solution:

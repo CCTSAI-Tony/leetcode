@@ -20,6 +20,7 @@ return its zigzag level order traversal as:
 '''
 # time complexity O(n), bfs iterative
 # 思路: Simple straightforward solution using flag to decide whether from left to right or from right to left
+from collections import deque
 class Solution(object):
     def zigzagLevelOrder(self, root):
         """
@@ -28,18 +29,18 @@ class Solution(object):
         """
         if not root: 
             return []
-        res, stack, flag=[], [root], 1
-        while stack:
+        res, queue, flag = [], deque([root]), 1
+        while queue:
             cur_level=[] #當層node
-            for i in range(len(stack)):
-                node=stack.pop(0)
-                cur_level+=[node.val]
+            for i in range(len(queue)):
+                node = queue.popleft()
+                cur_level += [node.val]
                 if node.left: 
-                    stack+=[node.left]
+                    queue += [node.left]
                 if node.right: 
-                    stack+=[node.right]
-            res+=[cur_level[::flag]] #這裡cur_level 要list化 以利區隔 若用 res.append(cur_level[::flag]) 就不用
-            flag*=-1 #順序切換
+                    queue += [node.right]
+            res += [cur_level[::flag]] #這裡cur_level 要list化 以利區隔 若用 res.append(cur_level[::flag]) 就不用
+            flag *= -1 #順序切換
         return res
 
 '''

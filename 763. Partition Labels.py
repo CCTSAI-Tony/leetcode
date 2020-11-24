@@ -45,27 +45,33 @@ class Solution:
 
 
 #  別人的答案 time complexity O(n), 刷題用這個
-#  思路: 一樣儲存每個字母的rightmost index, 再遍歷S, 指針每遍歷一個元素就更新right 指針, 
+#  思路: greedy, 一樣儲存每個字母的rightmost index, 再遍歷S, 指針每遍歷一個元素就更新right 指針, 
 #  若指針走到right指針 , 代表這一part已結束, res append 此part, 此part之後的序列都不會出現此part的元素
 #  left指針移動此part的下一個index
 class Solution:
     def partition_labels(S):
-
         rightmost = {c:i for i, c in enumerate(S)} #dic comprehension
         left, right = 0, 0
-
         result = []
         for i, letter in enumerate(S):
-
             right = max(right,rightmost[letter])
-        
             if i == right:
                 result += [right-left + 1]
                 left = i+1
-
         return result
 
-
+#重寫一次, time complexity O(n), space complexity O(n)
+class Solution:
+    def partitionLabels(self, S: str) -> List[int]:
+        rightMost = {v:i for i,v in enumerate(S)}
+        left, right = 0, 0
+        res = []
+        for i in range(len(S)):
+            right = max(right, rightMost[S[i]])
+            if i == right:
+                res.append(right-left+1)
+                left = i+1
+        return res
 
 
 

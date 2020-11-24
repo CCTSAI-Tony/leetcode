@@ -47,7 +47,7 @@ https://www.geeksforgeeks.org/binary-search-tree-data-structure/ 建議複習一
 #         self.right = None
 
 # leetcode 105 相同概念順便練習, time complexity O(n)
-# 思路: 利用preorder 來封裝binary search tree, 並以此傳送string, 記得node 與 node 之間要間隔, 以利之後解碼
+# 思路: 關鍵是利用preorder 來封裝binary search tree, 並以此傳送string, 記得node 與 node 之間要間隔, 以利之後解碼
 # 之後利用 bst 特性 minVal < vals[0] < maxVal 搭配preorder pop root的順序 來重建binary tree, 
 import collections
 class Codec:
@@ -72,7 +72,7 @@ class Codec:
         return self.build(float("-inf"), float("inf"), vals)  
     
     def build(self, minVal, maxVal, vals):
-        if vals and minVal < vals[0] < maxVal:  #一旦 vals[0] 的值不符合此不等式, 代表此node 為null, 換右邊tree
+        if vals and minVal < vals[0] < maxVal:  #一旦 vals[0] 的值不符合此不等式, 代表此位置node 為null, 換右邊tree
             val = vals.popleft()
             node = TreeNode(val)
             node.left = self.build(minVal, val, vals)  #建立左邊, 高招, recursion, maxVal = val
@@ -111,6 +111,47 @@ class Codec:
             root.right = self.build(root_val, maxval, preorder)
             return root
         return None
+
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Codec:
+
+    def serialize(self, root: TreeNode) -> str:
+        """Encodes a tree to a single string.
+        """
+        val = []
+        self.preorder(root, val)
+        return " ".join(map(str, val))
+        
+    def preorder(self, node, val):
+        if not node:
+            return
+        val.append(node.val)
+        self.preorder(node.left, val)
+        self.preorder(node.right, val)
+        
+
+    def deserialize(self, data: str) -> TreeNode:
+        """Decodes your encoded data to tree.
+        """
+        code = deque([int(i) for i in data.split()])
+        return self.helper(code, float("-inf"), float("inf"))
+    
+    def helper(self, code, lower, upper):
+        if code and lower < code[0] < upper:
+            temp = code.popleft()
+            root = TreeNode(temp)
+            root.left = self.helper(code, lower, root.val)
+            root.right = self.helper(code, root.val, upper)
+            return root
+        return None
+
+
+
+
+
+
 #binary search tree 重點: 左邊都是放比root 小的, 右邊都是放比root大的
 
 # vals = [1,2,3,4,5,6]

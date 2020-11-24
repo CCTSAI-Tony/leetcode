@@ -27,7 +27,7 @@ There must be no consecutive horizontal lines of equal height in the output skyl
 For instance, [...[2 3], [4 5], [7 5], [11 5], [12 7]...] is not acceptable; 
 the three lines of height 5 should be merged into one in the final output as such: [...[2 3], [4 5], [12 7], ...]
 '''
-# time complexity O(nlogn), n: len(buildings)
+# time complexity O(n^2), n: len(buildings) => heapq.heapify
 # 思路: 此題利用heap 來紀錄目前skyline的高度, max_heap
 # 並使用sort 來對starts, ends, 進行個別排序, 都是x 越小排愈前, 相同x: starts => 愈高排愈前, ends => 愈矮排愈前 (都是為了維持天際線)
 # 合併start, end, x 越小排愈前, 相同x: start 優先ends, 利用指針遍歷合併triplets, 來更新heap(高度)
@@ -43,7 +43,7 @@ class Solution:
         # sort starts by x and -1*height
         starts.sort(key=lambda x : (x[0], -1*x[1])) #x小的優先,h高的優先
         # sort ends by x and height
-        ends.sort(key=lambda x:(x[0],x[1])) #x小的優先,h矮的優先(這樣才能使得最高的最後一個remove, 不然結束那條垂直線會有很多點)
+        ends.sort(key=lambda x:(x[0],x[1])) #x小的優先,h矮的優先(這樣才能使得最高的最後一個remove, 不然最後結束那條垂直線會有很多點)
         # combine the 2 and sort by x but starts has priority to ends
         temp = sorted(starts+ends, key = lambda x: (x[0], -1 *ord(x[2])))# x小的優先, -1 *ord(x[2] start 優先 end
         
@@ -63,7 +63,7 @@ class Solution:
         return output
 
 
-#自己重寫, time complexity O(nlogn)
+#自己重寫, time complexity O(n^2)
 import heapq
 class Solution:
     def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
@@ -92,8 +92,32 @@ class Solution:
         return res
 
 
-
-
+#重寫第二次, time complexity O(n^2), space complexity O(n)
+import heapq
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        start, end = [], []
+        for s, e, h in buildings:
+            start.append((s, h, "s"))
+            end.append((e, h, "e"))
+        start.sort(key=lambda x: (x[0], -x[1]))
+        end.sort(key=lambda x: (x[0], x[1]))
+        temp = sorted(start + end, key=lambda x: (x[0], -ord(x[2])))
+        heights = []
+        res = []
+        for t, h, w in temp:
+            max_h = -heights[0] if heights else 0
+            if w == "s":
+                if h > max_h:
+                    res.append((t, h))
+                heapq.heappush(heights, -h)
+            elif w == "e":
+                heights.remove(-h)
+                heapq.heapify(heights)
+                new_height = -heights[0] if heights else 0
+                if max_h > new_height:
+                    res.append((t, new_height))
+        return res
 
 
 

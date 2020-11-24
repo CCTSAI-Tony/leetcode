@@ -36,18 +36,22 @@ class Solution:
         return res   
 
 #自己重寫, 刷題用這個, time complexity O(klogn)
-#思路: 利用counter 與 heap 來pop出 k frequent elements, 使用heapify 來整理max_heap => O(n)
+#思路: 利用counter 與 heap 來pop出 k frequent elements, 
+#技巧: 使用heapify 來整理max_heap => O(n)
 from collections import Counter
 import heapq
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         res = []
         freq = Counter(nums)
-        max_heap = [(-v, i) for i, v in freq.items()]
+        max_heap = [(-v, i) for i, v in freq.items()] #max-heap
         heapq.heapify(max_heap)
         for  _ in range(k):
             res.append(heapq.heappop(max_heap)[1])
         return res
+
+
+
 
 #刷題不能用這個
 #自己重寫, time complexity(nlogn)
