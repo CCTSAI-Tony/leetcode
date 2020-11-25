@@ -1,24 +1,19 @@
-# Given an mxn grid of 0s,1s and 2s (0 denoting an obstacle, 1 denoting empty cell and 2 denoting cell with gold).
+# Given an mxn grid of 0s,1s and 2s (0 denoting an obstacle, 1 denoting empty cell and 2 denoting cell with gold). 
 # Find the path used to reach from (0,0) to (m - 1, n - 1) collecting maximum gold if you are allowed to travel in any four directions and can take a maximum of k steps.
 # Given {operator - precedence - explanation} :
 # a. '!' -1 - x!y = (y - x) % 10007
 # b. '@' -1 - x@y = (x + y) % 10007
 # c. '#' - 2 - x#y = (xxy) % 10007
 # d. '$' - 2 - x$y = (xyy) % 10007
-# Operators with higher precedence have higher priority.
-# Operators with precedence 1 are calculated from left to right and those with precedence 2 are calculated right to left. Operations in paranthesis() have higher priority.
+# Operators with higher precedence have higher priority. 
+# Operators with precedence 1 are calculated from left to right and those with precedence 2 are calculated right to left. Operations in paranthesis() have higher priority. 
 # Given an expression consisiting of the operators, paranthesis and digits, find it's result.
 # Eg. 1!(2$1) = 1
 # Eg. 1$2#3 = 144
 
-# 這個答案是錯的
-# 思路: 只記住gold 的visited, 因為若記住empted cell的話, 回程會回不來
-from itertools import combinations
-from collections import Counter
-from collections import defaultdict
+#這個答案是錯的
+#思路: 只記住gold 的visited, 因為若記住empted cell的話, 回程會回不來
 from collections import deque
-
-
 def bfs(grid, k):
     q = deque()
     # initialize origin point and also collected gold and steps taken
@@ -45,11 +40,11 @@ def bfs(grid, k):
                                   path + [(curr_x, curr_y)], hit_gold | {(curr_x, curr_y)}))
     return max_path, gold_max
 
-
-grid = [[1, 1, 2], [1, 1, 0], [0, 2, 1], [0, 1, 1], [1, 1, 1]]
+grid = [[1,1,2],[1,1,0],[0,2,1],[0,1,1],[1,1,1]]
 k = 9
 
 print(bfs(grid, k))
+
 
 
 def searchSnippet(s, q1, q2):
@@ -64,15 +59,13 @@ def searchSnippet(s, q1, q2):
             if start in [q1, q2] and (e-s) < max_len:
                 sd, ed = s, e
                 max_len = (e-s)
-            s = e
+            s = e       
     if sd < 3:
         return " ".join(s_list[0:ed+4])
     return " ".join(s_list[sd-3:ed+4])
-
-
 searchSnippet("Say hello to the world, Hello World", "hello", "world")
 
-
+from collections import defaultdict
 def buildNewRoads(road_list):
     n, m = road_list[0]
     roads = defaultdict(list)
@@ -87,22 +80,21 @@ def buildNewRoads(road_list):
             dfs(i, visited, roads)
     return counts - 1
 
-
 def dfs(i, visited, roads):
     if i in visited:
         return
     visited.add(i)
     for j in roads[i]:
         dfs(j, visited, roads)
+    
+buildNewRoads([(4,2),(0,1),(1,2)])
 
 
-buildNewRoads([(4, 2), (0, 1), (1, 2)])
-
-
+from collections import Counter
+from itertools import combinations
 def blackJackProbability(N, S, X):
-    cards = {"A": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6,
-             "7": 7, "8": 8, "9": 9, "10": 10, "J": 10, "Q": 10, "K": 10}
-    pool = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"] * 4
+    cards = {"A":1, "2":2, "3":3, "4":4, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "J":10, "Q":10, "K":10}
+    pool = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"] * 4
     initial = Counter(S)
     points = sum(cards[k]*initial[k] for k in initial)
     if points > 21:
@@ -119,8 +111,9 @@ def blackJackProbability(N, S, X):
             safe.append(comb)
     prob = len(safe) / len(list(combs))
     return round(prob, 6)
-
-
+   
+        
+    
 blackJackProbability(2, "K8", 2)
 
 
@@ -144,8 +137,8 @@ def versionControl(v1, v2):
             return -1
     return 0
 
-
 versionControl("1.0.0-alpha", "1.0.0")
+
 
 
 def selectPairs(arr):
@@ -162,12 +155,12 @@ def selectPairs(arr):
                 dp[i][j] |= dp[i-1][j-nums[i-1]]
     for j in range(su//2, -1, -1):
         if dp[-1][j]:
-            diff = su - (2*j)
+            diff = su -(2*j)
             break
     return diff
 
+selectPairs([5,6,7,8,10,11])
 
-selectPairs([5, 6, 7, 8, 10, 11])
 
 
 def smallestRectangle(arr):
@@ -177,7 +170,6 @@ def smallestRectangle(arr):
         return 0
     memo = {}
     return dfs(points, k, memo)
-
 
 def dfs(points, k, memo):
     if (tuple(points), k) in memo:
@@ -200,7 +192,7 @@ def dfs(points, k, memo):
             continue
         temp = dfs(l, 1, memo) + dfs(r, k-1, memo)
         min_area = min(min_area, temp)
-
+    
     for x in range(x_max, x_min-1, -1):
         l = [point for point in points if point[0] < x]
         r = [point for point in points if point[0] >= x]
@@ -215,7 +207,7 @@ def dfs(points, k, memo):
             continue
         temp = dfs(l, 1, memo) + dfs(r, k-1, memo)
         min_area = min(min_area, temp)
-
+    
     for x in range(y_max, y_min-1, -1):
         l = [point for point in points if point[0] < y]
         r = [point for point in points if point[0] >= y]
@@ -225,11 +217,11 @@ def dfs(points, k, memo):
         min_area = min(min_area, temp)
     memo[(tuple(points), k)] = min_area
     return memo[(tuple(points), k)]
+    
+smallestRectangle([(4,2),(1,1),(1,5),(1,6),(1,7)])
 
 
-smallestRectangle([(4, 2), (1, 1), (1, 5), (1, 6), (1, 7)])
-
-
+from collections import Counter
 def commonElementsInArray(arr1, arr2):
     a1 = Counter(arr1)
     a2 = Counter(arr2)
@@ -240,15 +232,14 @@ def commonElementsInArray(arr1, arr2):
             temp = [num] * q
             res += temp
     return res
-
-
-commonElementsInArray([3, 1, 3], [3, 3])
+    
+commonElementsInArray([3,1,3], [3,3])
 
 
 def realProgrammerGame(N, M, K):
     count = N//M + 1 if N % M else N//M
     if K < count:
-        return 0.0000
+        return 0
     prob = 0
     prev = 0
     for k in range(count, K+1):
@@ -256,7 +247,6 @@ def realProgrammerGame(N, M, K):
         prob += (comb-prev) * 0.5**k
         prev = comb
     return prob
-
 
 def helper(count, k):
     temp1, num = 1, k
@@ -270,9 +260,6 @@ def helper(count, k):
     return temp1 / temp2
 
 
-realProgrammerGame(100, 5, 2)
-
-
 def realProgrammerGame(N, M, K):
     dp = [1.0] + [0.0] * (N - 1)
     for _ in range(K):
@@ -284,30 +271,7 @@ def realProgrammerGame(N, M, K):
                         newdp[i + j] += dp[i] / (M + 1)
         dp = newdp
     return 1 - sum(dp)
-
-
 realProgrammerGame()
-
-
-def incrementalMemoryLeak(*args):
-    n = args[0]
-    for m1, m2 in args[1:]:
-        print(helper(m1, m2))
-
-
-def helper(m1, m2):
-    queue = [(m1, m2, 0)]
-    while queue:
-        t1, t2, s = queue.pop()
-        if s > t1 and s > t2:
-            return (s, t1, t2)
-        if t1 >= t2:
-            queue.append((t1-s, t2, s+1))
-        elif t1 < t2:
-            queue.append((t1, t2-s, s+1))
-
-
-incrementalMemoryLeak(2, (2, 2), (8, 11))
 
 
 def incrementalMemoryLeak(*args):
@@ -315,7 +279,6 @@ def incrementalMemoryLeak(*args):
     for m1, m2 in args[1:]:
         l, t1, t2 = binary(m1, m2)
         print(helper(t1, t2, l+1))
-
 
 def helper(m1, m2, t):
     queue = [(m1, m2, t)]
@@ -327,8 +290,8 @@ def helper(m1, m2, t):
             queue.append((t1-s, t2, s+1))
         elif t1 < t2:
             queue.append((t1, t2-s, s+1))
-
-
+            
+        
 def binary(m1, m2):
     if m1 == m2:
         return 0, m1, m2
@@ -342,7 +305,7 @@ def binary(m1, m2):
             elif m1 - temp <= m2:
                 r = mid
         if m1 - (0+l)*(l-0+1)/2 < m2:
-            return l - 1, m1 - (0+l)*(l-0+1)/2 + l, m2
+            return l -1, m1 - (0+l)*(l-0+1)/2 + l, m2
         if m1 - (0+l)*(l-0+1)/2 == m2:
             return l, m1 - (0+l)*(l-0+1)/2, m2
         if m1 - (0+r)*(r-0+1)/2 < m2:
@@ -359,38 +322,43 @@ def binary(m1, m2):
             elif m2 - temp <= m1:
                 r = mid
         if m2 - (0+l)*(l-0+1)/2 < m1:
-            return l - 1, m1, m2 - (0+l)*(l-0+1)/2 + l
+            return l -1, m1, m2 - (0+l)*(l-0+1)/2 + l
         if m2 - (0+l)*(l-0+1)/2 == m1:
             return l, m1, m2 - (0+l)*(l-0+1)/2
         if m2 - (0+r)*(r-0+1)/2 < m1:
             return r-1, m1, m2 - (0+r)*(r-0+1)/2 + r
         if m2 - (0+r)*(r-0+1)/2 == m1:
             return r, m1, m2 - (0+r)*(r-0+1)/2
+         
+incrementalMemoryLeak(2, (2,2), (8,11))    
 
 
-incrementalMemoryLeak(2, (2, 2), (8, 11))
-
-
-def minimumCharacterTransformation(s1, s2):
+def getMinTransform(source, target):
+    # Write your code here
+    print(source, target)
     m = {}
-    if not check(s1, s2, m):
+    if not check(source, target, m):
         return -1
     count = 0
     visited = set()
+    temp = m
     for k in m:
         if k not in visited:
-            count += helper(k, m, visited, 0)
+            temp, c = helper(k, temp, visited, 0, set())
+            count += c
     return count
 
-
-def helper(k, m, visited, path):
+def helper(k, m, visited, path, collect):
+    if k in collect:
+        return m, path + 1
     if k not in m:
-        return path
-    if k in visited:
-        return path+1
+        return m, path
     visited.add(k)
-    return helper(m[k], m, visited, path+1)
-
+    collect.add(k)
+    nxt = m[k]
+    dic = m.copy()
+    dic.pop(k)
+    return helper(nxt, dic, visited, path+1, collect)
 
 def check(s1, s2, m):
     for i in range(len(s1)):
@@ -403,4 +371,7 @@ def check(s1, s2, m):
     return True
 
 
-minimumCharacterTransformation("abc", "efg")
+
+
+
+

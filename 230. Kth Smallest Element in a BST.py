@@ -107,8 +107,20 @@ class Solution:
                 return root.val
             root = root.right
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        stack = []
+        level = 0
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            level += 1
+            if level == k:
+                return root.val
+            root = root.right
 
 
 # Recursive:
@@ -128,6 +140,30 @@ class Solution:
             self.res = node.val
             return
         self.helper(node.right)
+
+
+
+#自己想的, 重寫第四次 bottom up, time compplexity O(n), space complexity O(h)
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
+        self.res = None
+        self.inorder(root, 0, k)
+        return self.res
+    
+    def inorder(self, node, rank, k):
+        if not node:
+            return rank
+        cur = self.inorder(node.left, rank, k) + 1
+        if cur == float("inf"):
+            return float("inf")
+        if cur == k:
+            self.res = node.val
+            return float("inf") #提早回去
+        return self.inorder(node.right, cur, k)
+
+
+
+
 
 # Iterative: plz know how the binary search tree works
 class Solution:
