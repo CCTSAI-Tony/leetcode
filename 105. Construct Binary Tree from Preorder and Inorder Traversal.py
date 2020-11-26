@@ -58,8 +58,8 @@ class Solution:
             return root
         return None
 
-#重寫第二次, time complexity O(n^2), space complexity O(nlogn)
-from collections import deque #用deque 一樣不會減少time complexity, 因為 inorder[:idx]
+#重寫第二次, time complexity O(nlogn), space complexity O(nlogn)
+from collections import deque #用deque 減少time complexity, 因為 inorder[:idx]
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
         preorder = deque(preorder)
@@ -74,6 +74,30 @@ class Solution:
             root.right = self.helper(preorder, inorder[idx+1:])
             return root
         return None
+
+#重寫第三次, time complexity O(nlogn), space complexity O(nlogn)
+from collections import deque
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        preorder = deque(preorder)
+        return self.dfs(preorder, inorder)
+        
+    def dfs(self, preorder, inorder):
+        if not inorder:
+            return
+        val = preorder.popleft()
+        root = TreeNode(val)
+        idx = inorder.index(val)
+        left = inorder[:idx]
+        right = inorder[idx+1:]
+        root.left = self.dfs(preorder, left)
+        root.right = self.dfs(preorder, right)
+        return root
+
+
+
+
+
 
 #dfs 
 # https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/discuss/34579/Python-short-recursive-solution.

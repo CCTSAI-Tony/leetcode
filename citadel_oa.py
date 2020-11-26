@@ -48,3 +48,26 @@ def helper(queue, i, space):
 
     
 diskSpaceAnalysis(4, 2, [8,2,4,6])
+
+
+
+#sliding window 精彩
+def getMostVisited(n, sprints):
+    # Write your code here
+    incremental = [0] * (n + 2)
+    for i in range(len(sprints)-1):
+        start = min(sprints[i], sprints[i+1])
+        end = max(sprints[i], sprints[i+1])
+        incremental[start] += 1
+        incremental[end+1] -= 1
+    scores = [0] * (n + 1)
+    score = 0
+    for i in range(1, n+1):
+        score += incremental[i]
+        scores[i] = score
+    
+    result = (0, 0)
+    for i in range(1, n+1):
+        if scores[i] > result[1]:
+            result = (i, scores[i])
+    return result[0]

@@ -19,13 +19,27 @@ class Solution:
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         dummy = pre = cur = ListNode(0)
         dummy.next = head
-        for _ in range(n):
+        for _ in range(n): #先拉開快慢指針距離
             cur = cur.next
         while cur.next:
             cur = cur.next
             pre = pre.next
         pre.next = pre.next.next
         return dummy.next
+
+#重寫第二次, one pass time complexity O(n), space complexity O(1)
+class Solution:
+    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+        dummy = slow = fast = ListNode(0)
+        dummy.next = head
+        for _ in range(n):
+            fast = fast.next
+        while fast.next:
+            fast = fast.next
+            slow = slow.next
+        slow.next = slow.next.next
+        return dummy.next
+
 
 
 
