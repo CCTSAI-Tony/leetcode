@@ -7,9 +7,9 @@ Leetcode solutions write by CC (Tony).
 
 ## Linked List
 
-| #   | Title                                                                           | Solution                                           | Time     | Space  |
-| --- | ------------------------------------------------------------------------------- | -------------------------------------------------- | -------- | ------ |
-| 21  | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | [Python](./leetcode/21. Merge Two Sorted Lists.py) | _O(m+n)_ | _O(1)_ |
+| #   | Title                                                                           | Solution                                                   | Time     | Space  |
+| --- | ------------------------------------------------------------------------------- | ---------------------------------------------------------- | -------- | ------ |
+| 21  | [Merge Two Sorted Lists](https://leetcode.com/problems/merge-two-sorted-lists/) | [Python](./leetcode/21.%20Merge%20Two%20Sorted%20Lists.py) | _O(m+n)_ | _O(1)_ |
 
 ## Array
 
