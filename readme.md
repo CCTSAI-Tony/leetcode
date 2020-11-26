@@ -59,4 +59,7 @@ Leetcode solutions write by CC (Tony).
 | --- | ----- | -------- | ---- | ----- | ----- |
 
 
-> ![home](https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/house.svg) > [@CC-TONY](https://chih-chin-tsai.netlify.app/) &nbsp;&middot;&nbsp; > ![github](https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/github.svg) [@CC-TONY](https://github.com/CCTSAI-Tony) &nbsp;&middot;&nbsp; > ![linkedin](https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/linkedin.svg) [@CC-TONY](https://www.linkedin.com/in/chih-chin-tsai-38aa34114/)
+---
+
+> ![home](https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/house.svg)[@CC-TONY](https://chih-chin-tsai.netlify.app/) &nbsp;&middot;&nbsp; > ![github](https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/github.svg) [@CC-TONY](https://github.com/CCTSAI-Tony) &nbsp;&middot;&nbsp;
+> ![linkedin](https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/linkedin.svg) [@CC-TONY](https://www.linkedin.com/in/chih-chin-tsai38aa34114/)
