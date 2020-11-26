@@ -1,5 +1,5 @@
 <div align="center">
-	<img width="900" src="https://github.com/CCTSAI-Tony/leetcode/blob/master/logo.png" alt="smart-brain">
+	<img width="900" src="https://github.com/CCTSAI-Tony/leetcode/blob/master/legacy/logo.png" alt="leetcode">
 	<br>
 </div>
 
