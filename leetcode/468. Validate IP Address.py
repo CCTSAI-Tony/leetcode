@@ -96,8 +96,30 @@ class Solution:
         return "Neither"
 
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def validIPAddress(self, IP: str) -> str:
+        ip = IP.split(".")
+        if len(ip) == 4:
+            for t in ip:
+                for s in t:
+                    if not s.isdigit():
+                        return "Neither"
+                if len(t) > 1 and t[0] == "0":
+                    return "Neither"
+                if not t or int(t) > 255:
+                    return "Neither"
+            return "IPv4"
+        ip = IP.split(":")
+        if len(ip) == 8:
+            for t in ip:
+                if not t or len(t) > 4:
+                    return "Neither"
+                for s in t:
+                    if not s.isdigit() and s.lower() not in ["a", "b", "c", "d", "e", "f"]:
+                        return "Neither"
+            return "IPv6"
+        return "Neither"
 
 
 

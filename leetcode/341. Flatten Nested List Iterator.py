@@ -58,7 +58,7 @@ Explanation: By calling next repeatedly until hasNext returns false,
 
 #time complexity: next: O(1) and hasNext: O(N) 
 #思路: 手動建立__listEmpty, __isComplete, 利用原生method isInteger 來確認current element 是否為integer, 
-#若不是, 代表是list, 此時利用 self.__lists 先暫存下一個元素與index, 因為要準備原生method getList 進入nested list, 進入前 self.__position 歸0
+#若不是, 代表是list, 此時利用 self.__lists 先暫存目前的nestedList 與下一個元素的index, 因為要準備原生method getList 進入nested list, 進入前 self.__position 歸0
 #若nested complete, 則在從self.__lists pop 出 上層list下一個元素與index 繼續flatten
 #next 是回報integer, hasNext 則是回報self.__nestedList下一個元素是否是數字, 有則return True, 若是nested list, 則進入nested list
 #若nested list 裡面有數字則一樣return True, 若裡面沒數字or complete, 則確認self.__lists 裡面是否還有元素, 有則從self.__lists pop出上層list的接續點
@@ -142,8 +142,38 @@ class NestedIterator:
         return self.__list == []
 
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+#核心概念: 利用stack 存儲上一層list與下一個指針
+class NestedIterator:
+    def __init__(self, nestedList: [NestedInteger]):
+        self._list = []
+        self.nestedList = nestedList
+        self.pointer = 0
+    
+    def iscomplete(self):
+        return self.pointer >= len(self.nestedList)
+        
+        
+    
+    def next(self) -> int:
+        integer = self.nestedList[self.pointer].getInteger()
+        self.pointer += 1
+        return integer
+        
+    
+    def hasNext(self) -> bool:
+        while self.iscomplete():
+            if self._list:
+                self.nestedList, self.pointer = self._list.pop()
+            else:
+                return False
+        cur = self.nestedList[self.pointer]
+        if not cur.isInteger():
+            self._list.append((self.nestedList, self.pointer + 1))
+            self.pointer = 0
+            self.nestedList = cur.getList()
+            return self.hasNext()
+        return True
 
 
 

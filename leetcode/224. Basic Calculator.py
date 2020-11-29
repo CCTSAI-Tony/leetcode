@@ -67,10 +67,92 @@ class Solution:
             res -= num
         return res
         
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        num = 0
+        sumNum = 0
+        sign = "+"
+        for i in range(len(s)):
+            if s[i].isdigit():
+                num = num * 10 + int(s[i])
+            else:
+                if s[i] in ["+", "-"]:
+                    if sign == "+":
+                        sumNum += num
+                    elif sign == "-":
+                        sumNum -= num
+                    sign = s[i]
+                    num = 0
+                elif s[i] == "(":
+                    stack.append(sumNum)
+                    stack.append(sign)
+                    sign = "+"
+                    sumNum = 0
+                elif s[i] == ")":
+                    if sign == "+":
+                        sumNum += num
+                    elif sign == "-":
+                        sumNum -= num
+                    sign = stack.pop()
+                    prev = stack.pop()
+                    if sign == "+":
+                        sumNum = prev + sumNum
+                    elif sign == "-":
+                        sumNum =  prev - sumNum
+                    num = 0
+                    sign = "+"
+        if num:
+            if sign == "+":
+                sumNum += num
+            elif sign == "-":
+                sumNum -= num
+        return sumNum
 
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = []
+        num = 0
+        sign = "+"
+        curSum = 0
+        for i in range(len(s)):
+            if s[i].isdigit():
+                num = num*10 + int(s[i])
+            if s[i] in ["+", "-"]:
+                if sign == "+":
+                    curSum += num
+                elif sign == "-":
+                    curSum -= num
+                num = 0
+                sign = s[i]
+            if s[i] == "(":
+                stack.append(curSum)
+                stack.append(sign)
+                curSum = 0
+                sign = "+"
+                num = 0
+            if s[i] == ")":
+                if sign == "+":
+                    curSum += num
+                elif sign == "-":
+                    curSum -= num
+                sign = stack.pop()
+                prev = stack.pop()
+                if sign == "+":
+                    curSum = prev + curSum
+                elif sign == "-":
+                    curSum = prev - curSum
+                num = 0
+                sign = "+"
+        if num:
+            if sign == "+":
+                curSum += num
+            elif sign == "-":
+                curSum -= num
+        return curSum
 
 # 連同227一起服用
 # 注意此題只有加減符號而已誒, 也不會有22-3(2+5) 這樣的情況, "("前沒有數字

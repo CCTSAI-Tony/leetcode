@@ -25,7 +25,7 @@ Constraints:
 s consists only of lowercase English letters.
 '''
 
-#自己想的, 課本解法, time complexity O(n^2), 3088ms => 若優化 1244ms, 刷題用這個
+#刷題用這個, 自己想的, 課本解法, time complexity O(n^2), 3088ms => 若優化 1244ms, space complexity O(n) 
 #思路: dp[i] => s[:i], 此題找longest palindromic sequence, 其實就是longest common sequence的變形, 把自己reverse 來比對就能找到最長 palindromic sequence
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
@@ -44,8 +44,23 @@ class Solution:
             for j in range(1, len(s)+1):
                 if s[i-1] == s_rev[j-1]:
                     dp[i][j] = dp[i-1][j-1] + 1
-                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+                dp[i][j] = max(dp[i][j], dp[i-1][j], dp[i][j-1])
         return dp[-1][-1]
+
+#重寫第二次, time complexity O(n^2), space complexity O(n^2)
+class Solution:
+    def longestPalindromeSubseq(self, s: str) -> int:
+        if s == s[::-1]:
+            return len(s)
+        dp = [[0] * (len(s) + 1) for _ in range(len(s) + 1)]
+        s_rev = s[::-1]
+        for i in range(1, len(s) + 1):
+            for j in range(1, len(s) + 1):
+                if s[i-1] == s_rev[j-1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                dp[i][j] = max(dp[i][j], dp[i][j-1], dp[i-1][j])
+        return dp[-1][-1]
+
 
 #space complexity 優化 O(n*2) => O(n)
 #dp 代表 i-1狀態, new_dp 代表 i狀態

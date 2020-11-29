@@ -27,7 +27,7 @@ class Solution:
         for i in range(len(nums)-1, pos-1, -1):
             nums[i] = 0
 
-#自己重寫
+#自己重寫, 刷題用這個
 #思路, pos指針遇到0就會停住, 若pos指針不是0就不需要交換, 不管有沒有交換pos +=1
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
@@ -40,6 +40,20 @@ class Solution:
                 if nums[pos] == 0:
                     nums[i], nums[pos] = nums[pos], nums[i]
                 pos += 1
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        l = 0
+        for i in range(len(nums)):
+            if nums[i] != 0:
+                nums[i], nums[l] = nums[l], nums[i]
+                l += 1
+
+
 
 #2 pointer, time complexity O(n)
 #思路, j指針遇到0就會停住
