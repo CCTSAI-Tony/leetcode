@@ -80,7 +80,58 @@ class Solution:
                 matrix[i][0] = 0
 
 
+#重寫第二次, time complexity O(max(m, n)), space complexity O(1)
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        firstRowZero, firstColZero = False, False
+        m, n = len(matrix), len(matrix[0])
+        for i in range(m):
+            if matrix[i][0] == 0:
+                firstColZero = True
+        for j in range(n):
+            if matrix[0][j] == 0:
+                firstRowZero = True
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
+                    matrix[0][j] = 0
+                    matrix[i][0] = 0
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[0][j] == 0 or matrix[i][0] == 0:
+                    matrix[i][j] = 0
+        if firstRowZero:
+            for j in range(n):
+                matrix[0][j] = 0
+        if firstColZero:
+            for i in range(m):
+                matrix[i][0] = 0
 
+
+
+
+
+
+#naive method, time complexity O(m*n), space complexity O(m+n)
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        m, n = len(matrix), len(matrix[0])
+        row, col = set(), set()
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 0:
+                    row.add(i)
+                    col.add(j)
+        for i in range(m):
+            for j in range(n):
+                if i in row or j in col:
+                    matrix[i][j] = 0
 
 
 O(1) space solution in Python

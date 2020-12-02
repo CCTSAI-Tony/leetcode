@@ -27,7 +27,7 @@ A solution set is:
 ]
 '''
 
-#自己想的, time complexity O(n^2), 468ms
+#自己想的, time complexity O(n^(t/m)), space complexity O(n^(t/m)), t: target value, m: minimal value
 #思路: backtracking, 利用path.sort() 來避免重複組合
 #改進, 使用指針來避免重複組合 ex: (2,3,5) or (3,2,5) (5,2,3), 或者 (2,2,3), (2,3,2)=>順序不一樣, 但都是同一組合
 #指針使得後面元素無法回去找前面元素, 使得答案順序只有一種
@@ -66,7 +66,22 @@ class Solution:
             self.dfs(candidates, i ,target - candidates[i], path + [candidates[i]], res)
 
 
-
+#重寫第二次, time complexity O(n^(t/m)), space complexity O(n^(t/m))
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = set()
+        self.dfs(candidates, target, 0, [], 0, res)
+        return res
+    
+    def dfs(self, candidates, target, idx, path, total, res):
+        if total > target:
+            return
+        if total == target:
+            path.sort()
+            res.add(tuple(path))
+            return
+        for i in range(idx, len(candidates)):
+            self.dfs(candidates, target, i, path + [candidates[i]], total + candidates[i], res)
 
 
 class Solution:

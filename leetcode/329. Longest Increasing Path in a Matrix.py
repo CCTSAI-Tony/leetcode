@@ -87,7 +87,32 @@ class Solution:
         return cache[(i, j)]
 
 
-
+#重寫第三次, time complexity O(mn), space complexity O(mn)
+from collections import defaultdict
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        memo = defaultdict(lambda: 1)
+        m, n = len(matrix), len(matrix[0])
+        visited = set()
+        for i in range(m):
+            for j in range(n):
+                self.dfs(i, j, matrix, memo, visited)
+        return max(memo.values())
+                
+    def dfs(self, i, j, matrix, memo, visited):
+        m, n = len(matrix), len(matrix[0])
+        if (i, j) in memo:
+            return memo[(i, j)]
+        direc = [(1, 0),(-1, 0),(0, 1),(0, -1)]
+        visited.add((i, j))
+        for d in direc:
+            x, y = i + d[0], j + d[1]
+            if 0 <= x < m and 0 <= y < n and (x, y) not in visited and matrix[x][y] > matrix[i][j]:
+                memo[(i, j)] = max(memo[(i, j)], self.dfs(x, y, matrix, memo, visited) + 1)
+        visited.remove((i, j))
+        return memo[(i, j)]
 
 
 # We can find longest decreasing path instead, the result will be the same. Use dp to record previous results and choose the max dp value of smaller neighbors.

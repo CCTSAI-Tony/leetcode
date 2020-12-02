@@ -68,6 +68,27 @@ class Solution:
         return min_area if min_area != float("inf") else 0
 
 
+#重寫第二次, time complexity O(n^2), space complexity O(n)
+class Solution:
+    def minAreaRect(self, points: List[List[int]]) -> int:
+        min_area = float("inf")
+        points_set = set()
+        for p in points:
+            points_set.add(tuple(p))
+        for p1 in points:
+            for p2 in points:
+                if p1[0] > p2[0] and p1[1] > p2[1]:
+                    p3, p4 = (p1[0], p2[1]), (p2[0], p1[1])
+                    if p3 in points_set and p4 in points_set:
+                        min_area = min(min_area, (p1[0] - p2[0]) * (p1[1] - p2[1]))
+        return min_area if min_area != float("inf") else 0
+
+
+
+
+
+
+
 
 #這個會TLE, time complexity O(n^2*n)
 class Solution:

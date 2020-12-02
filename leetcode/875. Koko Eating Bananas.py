@@ -35,7 +35,7 @@ piles.length <= H <= 10^9
 # 當吃貨量為1, 會造成H所花時間最長 => lo, hi = 1, max(piles), 並利用 check來判斷此吃貨量是否可以 <= H, 來判斷與調整吃貨量
 # 題目跟1283 是一樣的
 
-# time complexity O(nlogm) (m=max(arr)), n = len(piles)
+# time complexity O(nlogm) (m=max(arr)), n = len(piles), space complexity O(1)
 from math import ceil
 class Solution:
     def minEatingSpeed(self, piles: List[int], H: int) -> int:
@@ -59,8 +59,29 @@ class Solution:
         return res <= H
 
 
-
-
+#重寫第二次, time complexity O(nlogm), m: max(piles), space complexity O(1)
+class Solution:
+    def minEatingSpeed(self, piles: List[int], H: int) -> int:
+        l, r = 1, max(piles)
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if self.helper(mid, piles) > H:
+                l = mid
+            else:
+                r = mid
+        if self.helper(l, piles) <= H:
+            return l
+        return r
+    
+    
+    def helper(self, k, piles):
+        hr = 0
+        for pile in piles:
+            if pile % k:
+                hr += (pile // k + 1)
+            else:
+                hr += pile // k
+        return hr
 
 
 

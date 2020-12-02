@@ -33,8 +33,19 @@ class Solution:
 
  
 
-
-
+#重寫第二次, time complexity O(n!), space complexity O(n!)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.dfs(nums, [], res)
+        return res
+    
+    def dfs(self, nums, path, res):
+        if not nums:
+            res.append(path)
+        for i in range(len(nums)):
+            nxt = nums[:i] + nums[i+1:]
+            self.dfs(nxt, path + [nums[i]], res)
 
 
 

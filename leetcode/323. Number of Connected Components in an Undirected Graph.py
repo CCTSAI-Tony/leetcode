@@ -72,3 +72,41 @@ class Solution:
         for j in graph[i]:
             self.dfs(j, graph, visited)
         return
+
+
+#重寫第三次, time complexity O(n), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -> int:
+        graph = defaultdict(list)
+        for edge in edges:
+            graph[edge[0]].append(edge[1])
+            graph[edge[1]].append(edge[0])
+        visited = set()
+        count = 0
+        for i in range(n):
+            if i not in visited:
+                count += 1
+                self.dfs(i, graph, visited)
+        return count
+    
+    def dfs(self, i, graph, visited):
+        visited.add(i)
+        for neighbor in graph[i]:
+            if neighbor not in visited:
+                self.dfs(neighbor, graph, visited)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

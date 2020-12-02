@@ -38,8 +38,26 @@ class Solution:
         return res
 
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        res = []
+        s, e = newInterval[0], newInterval[1]
+        flag = False
+        for i in range(len(intervals)):
+            if intervals[i][1] < s:
+                res.append(intervals[i])
+            elif intervals[i][0] > e:
+                res.append([s, e])
+                res += intervals[i:]
+                flag = True #已加入newInterval
+                break
+            elif intervals[i][1] >= s or intervals[i][0] <= e:
+                s = min(s, intervals[i][0])
+                e = max(e, intervals[i][1])
+        if not flag:
+            res.append([s, e])
+        return res
 
 
 
