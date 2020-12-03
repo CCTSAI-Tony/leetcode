@@ -38,11 +38,30 @@ Constraints:
 arr is guaranteed to be a mountain array.
 '''
 
+#自己想的, time complexity O(n), space complexity O(1)
+class Solution:
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        for i in range(1, len(arr)):
+            if arr[i] < arr[i-1]:
+                return i - 1
 
 
-
-
-
+#刷題用這個, time complexity O(logn), space complexity O(1)
+#思路: 模板2
+class Solution:
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        l, r = 1, len(arr) - 2
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if arr[mid - 1] < arr[mid] < arr[mid + 1]:
+                l = mid
+            elif arr[mid - 1] > arr[mid] > arr[mid + 1]:
+                r = mid
+            else:
+                return mid
+        if arr[l-1] < arr[l] > arr[l+1]:
+            return l
+        return r
 
 
 
