@@ -70,6 +70,43 @@ class Solution:
         return min(nums[left], nums[right])
        
 
+#重寫第二次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if nums[mid] > nums[r]:
+                l = mid
+            else:
+                r = mid
+        if nums[l] < nums[r]:
+            return nums[l]
+        return nums[r]
+
+
+
+
+
+#自己想的, time complexity O(logn), space complexity O(1)
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if nums[mid] > nums[l]:
+                if nums[mid] > nums[r]:
+                    l = mid
+                else:
+                    r = mid
+            elif nums[mid] < nums[l]:
+                if nums[mid] < nums[r]:
+                    r = mid
+                else:
+                    l = mid
+        if nums[l] < nums[r]:
+            return nums[l]
+        return nums[r]
 
 Input: [4,5,6,7,0,1,2]
 

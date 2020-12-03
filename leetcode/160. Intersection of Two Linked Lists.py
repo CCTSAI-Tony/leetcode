@@ -116,7 +116,34 @@ class Solution:
 
 
 
-
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        dummy1 = cur1 = ListNode(0)
+        dummy2 = cur2 = ListNode(0)
+        dummy1.next = headA
+        dummy2.next = headB
+        lenA, lenB = 0, 0
+        while cur1.next:
+            lenA += 1
+            cur1 = cur1.next
+        while cur2.next:
+            lenB += 1
+            cur2 = cur2.next
+        cur1, cur2 = dummy1, dummy2
+        diff = abs(lenA - lenB)
+        if lenA > lenB:
+            for _ in range(diff):
+                cur1 = cur1.next
+        elif lenA < lenB:
+            for _ in range(diff):
+                cur2 = cur2.next
+        while cur1:
+            cur1 = cur1.next
+            cur2 = cur2.next
+            if cur1 == cur2:
+                return cur1
+        return None
 
 
 
