@@ -136,6 +136,39 @@ class MedianFinder:
             return self.large[0]
 
 
+
+#重寫第三次, time complexity addNum log(n), findMedian O(1), space complexity O(n)
+import heapq
+class MedianFinder:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.lower = []
+        self.upper = []
+
+    def addNum(self, num: int) -> None:
+        if len(self.lower) == len(self.upper):
+            heapq.heappush(self.lower, -num)
+            heapq.heappush(self.upper, -heapq.heappop(self.lower))
+        elif len(self.upper) > len(self.lower):
+            heapq.heappush(self.upper, num)
+            heapq.heappush(self.lower, -heapq.heappop(self.upper))
+        
+
+    def findMedian(self) -> float:
+        if len(self.lower) == len(self.upper):
+            left = -self.lower[0]
+            right = self.upper[0]
+            return (left + right) / 2
+        else:
+            return self.upper[0]
+
+
+
+
+
 # 1. If all integer numbers from the stream are between 0 and 100, how would you optimize it?
 
 # We can maintain an integer array of length 100 to store the count of each number along with a total count. 

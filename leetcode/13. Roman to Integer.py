@@ -43,7 +43,7 @@
 # Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
 
-#自己想的 time compleixty O(n), space complexity O(1)
+#自己想的 time compleixty O(n), space complexity O(n)
 #思路: 利用dict 來存儲特定key, 並搜索s 若連續兩個字搭配有在dict, 就輸入該key值, 若沒有就輸入前一個字的key值
 #跑出while loop 記得加回最後一個字, 若倒數兩個字不在dict裡
 class Solution:
@@ -68,6 +68,25 @@ class Solution:
 # "MCMXCIV" = 1994
 
 # We would calculate it as 1000 - 100 + 1000 - 10 + 100 - 1 + 5 = 1994
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        romen = {"I" : 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000, "IV": 4, "IX": 9, \
+               "XL": 40, "XC": 90, "CD": 400, "CM": 900 }
+        res = 0
+        i = 1
+        while i < len(s):
+            if s[i-1:i+1] in romen:
+                res += romen[s[i-1:i+1]]
+                i += 2
+            else:
+                res += romen[s[i-1]]
+                i += 1
+        if i == len(s):
+            res += romen[s[i-1]]
+        return res
+
 
 
 

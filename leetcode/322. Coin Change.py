@@ -34,6 +34,25 @@ class Solution:
 
 
 
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        if not amount:
+            return 0
+        coins = [0] + coins
+        dp = [[float("inf") for i in range(amount+1)] for _ in range(len(coins))]
+        for j in range(len(coins)):
+            dp[j][0] = 0
+        for i in range(amount+1):
+            for j in range(1, len(coins)):
+                if coins[j] <= i:
+                    dp[j][i] = min(dp[j-1][i], dp[j][i-coins[j]] + 1)
+                else:
+                    dp[j][i] = dp[j-1][i]  #這步關鍵, 若amount < coin => 取前一個coin的值
+        if dp[-1][-1] == float("inf"):
+            return -1
+        return dp[-1][-1]
+
+
 
 
 #DP BOTTOM UP
