@@ -24,12 +24,80 @@ class Solution:
                 left += 1 #往右移一格
         return result if result <= len(nums) else 0
 
+#刷題用這個, time complexity O(n), space complexity O(1)
+#思路: sliding window
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        min_len = float("inf")
+        l = 0
+        curSum = 0
+        for r in range(len(nums)):
+            curSum += nums[r]
+            while curSum >= s:
+                min_len = min(min_len, r - l + 1)
+                curSum -= nums[l]
+                l += 1
+        return min_len if min_len != float("inf") else 0
+
+
+
+#模板2, time complexity O(nlogn), space complexity O(1)
+#思路: 建立prefix sum array, 再使用binary search 來找尋window 最靠近右邊 的 left index
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        result = float("inf")
+        for idx, n in enumerate(nums[1:], 1): # enumerate(iterable, start=1)
+            nums[idx] = nums[idx - 1] + n #[1,2,3,4,5] > [1,3,6,10,15]
+        left = 0
+        for right, n in enumerate(nums): #此時nums已修改
+            if n >= s:
+                left = self.find_left(left, right, nums, s, n)
+                result = min(result, right - left + 1)
+        return result if result != float("inf") else 0
+    
+    def find_left(self, left, right, nums, target, n):
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if n - nums[mid - 1] >= target:
+                left = mid 
+            else:
+                right = mid 
+        
+        if n - nums[left] >= target:
+            return right
+        return left
+
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        min_len = float("inf")
+        for i in range(1, len(nums)):
+            nums[i] += nums[i-1]
+        l = 0
+        for r in range(len(nums)):
+            n = nums[r]
+            if n >= s:
+                l = self.helper(l, r, n, s, nums)
+                min_len = min(min_len, r - l + 1)
+        return min_len if min_len != float("inf") else 0
+    
+    
+    def helper(self, l, r, n, s, nums):
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if n - nums[mid - 1] >= s:
+                l = mid
+            else:
+                r = mid
+        if n - nums[l] >= s:
+            return r
+        return l
 
 # O(n log n)  模板1
 class Solution:
     def minSubArrayLen(self, s: int, nums: List[int]) -> int:
         result = len(nums) + 1
-        for idx, n in enumerate(nums[1:], 1):
+        for idx, n in enumerate(nums[1:], 1): # enumerate(iterable, start=1)
             nums[idx] = nums[idx - 1] + n #[1,2,3,4,5] > [1,3,6,10,15]
         left = 0
         for right, n in enumerate(nums): #此時nums已修改
@@ -68,31 +136,7 @@ class Solution:
 # 102 repeat
 
 
-#模板2
-class Solution:
-    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
-        result = len(nums) + 1
-        for idx, n in enumerate(nums[1:], 1):
-            nums[idx] = nums[idx - 1] + n #[1,2,3,4,5] > [1,3,6,10,15]
-        left = 0
-        for right, n in enumerate(nums): #此時nums已修改
-            if n >= s:
-                left = self.find_left(left, right, nums, s, n)
-                result = min(result, right - left + 1)
-        return result if result <= len(nums) else 0
-    
-    def find_left(self, left, right, nums, target, n):
-        while left + 1 < right:
-            mid = (left + right) // 2
-            if n - nums[mid] >= target:
-                left = mid 
-            else:
-                right = mid 
-        
-        mid = (left + right) // 2
-        if n - nums[mid] >= target:
-            return right
-        return left
+
 
 
 

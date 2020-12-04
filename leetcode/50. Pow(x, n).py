@@ -44,6 +44,29 @@ class Solution:
         else:
             return half * half * x  #base case, n==1, half = x^0 == 1, return 1*1*x
 
+#重寫第二次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if x == 0:
+            return 0
+        if n == 0:
+            return 1
+        if n < 0:
+            return 1 / self.dfs(x, -n)
+        return self.dfs(x, n)
+        
+    def dfs(self, x, n):
+        if n == 1:
+            return x
+        half = self.dfs(x, n // 2)
+        if n % 2:
+            return half * half * x
+        else:
+            return half * half
+
+
+
+
 
 
             '''

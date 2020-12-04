@@ -55,6 +55,64 @@ where the largest sum among the two subarrays is only 18.
 # New range is [17,17]. This again gives [7,2,5]; [10]; [8] and we get the new range as [18,17].
 # [18,17] breaks the while loop! We have recorded 18 as the last answer and return it.
 
+
+
+#模板2
+#刷題用這個, time complexity O(nlog(sum(array)), space complexity O(1), 若包含input size => space complexity O(n)
+#思路: 這題使用binary search, low = max(nums) 因為最小可能的最大subarray sum 就是max(array) 自己, high = sum(array)
+#使用helper 來確認substring sum 的cap值 能否形成> m個 substring, 若行則low = mid, else high = mid
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        low, high = max(nums), sum(nums)
+        while low + 1 < high:
+            mid = (low + high) // 2
+            if self.valid(nums, m, mid):
+                high = mid 
+            else:
+                low = mid 
+        if self.valid(nums, m, low):
+            return low
+        else:
+            return high
+        
+    def valid(self, nums, m, mid):
+        cuts, curr_sum = 0, 0
+        for x in nums:
+            curr_sum += x
+            if curr_sum > mid:
+                cuts += 1
+                curr_sum  = x
+        subs = cuts + 1
+        return subs <= m  #這裡是關鍵! subs == m 時, high = mid => 找尋符合條件的最小值最小值
+
+#重寫第二次, time complexity O(nlog(sum(nums))), space complexity O(1)
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        l, r = max(nums), sum(nums)
+        while l + 1 < r:
+            mid = l + (r- l) // 2
+            if self.helper(mid, m, nums):
+                r = mid
+            else:
+                l = mid
+        if self.helper(l, m, nums):
+            return l
+        return r
+        
+    def helper(self, k, m, nums):
+        count = 1
+        temp = 0
+        for num in nums:
+            if temp + num > k:
+                count += 1
+                temp = 0
+            temp += num
+        return count <= m
+
+
+
+
+
 #刷題用這個
 #binary search 變異題型
 #模板1 這個解法太厲害了
@@ -88,30 +146,7 @@ class Solution(object):
     
     
 
-#模板2
-class Solution:
-    def splitArray(self, nums: List[int], m: int) -> int:
-        low, high, ans = max(nums), sum(nums), -1
-        while low + 1 < high:
-            mid = (low + high) // 2
-            if self.valid(nums, m, mid):
-                high = mid 
-            else:
-                low = mid 
-        if self.valid(nums, m, low):
-            return low
-        else:
-            return high
-        
-    def valid(self, nums, m, mid):
-        cuts, curr_sum = 0, 0
-        for x in nums:
-            curr_sum += x
-            if curr_sum > mid:
-                cuts += 1
-                curr_sum  = x
-        subs = cuts + 1
-        return subs <= m
+
 
 #模板1, 這題不會越界, 因為答案一定在low, high included 區間內
 class Solution:

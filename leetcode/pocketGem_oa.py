@@ -73,3 +73,37 @@ def dfs(node, level, levels):
         dfs(nxt, level + 1, levels)
 
 
+#time complexity O(nlogn), space complexity O(n)
+def universityCareerFair(arrival, duration):
+    aux = sorted(list(zip(arrival, duration)), key=lambda p: (sum(p), p[1])) #sum(p) = 以結束時間排序, 相同結束時間, duration 越小排前面 => greedy, 個人認為以p[1] 排序是多餘的
+    ans, end = 0, -float('inf')
+    for star, dur in aux:
+        if star >= end:
+            ans, end = ans + 1, star + dur
+    return ans
+    
+
+print(universityCareerFair([1, 3, 3, 5, 7], [2, 2, 1, 2, 1])) # 4
+print(universityCareerFair([1, 2], [7, 3])) # 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

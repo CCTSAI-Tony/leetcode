@@ -47,5 +47,18 @@ class Solution(object):
         return dummy.next   
 
 
-
+#重寫第二次, time compexity O(n), space complexity O(1)
+class Solution:
+    def swapPairs(self, head: ListNode) -> ListNode:
+        dummy = pre = cur = ListNode(0)
+        dummy.next = head
+        cur = cur.next
+        while cur and cur.next:
+            nxt = cur.next.next
+            pre.next = cur.next
+            cur.next.next = cur
+            pre = cur
+            cur = nxt
+        pre.next = cur
+        return dummy.next
 
