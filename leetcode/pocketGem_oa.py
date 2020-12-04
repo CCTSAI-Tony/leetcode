@@ -46,3 +46,30 @@ waysToSum(5, 3)
 
 
 
+from collections import defaultdict
+class NTreeNode:
+    def __init__(self, val = 0):
+        self.val = val
+        self.child = []
+def theJungleBook(predators):
+    Tree = []
+    for i in range(len(predators)):
+        node = NTreeNode(i)
+        Tree.append(node)
+    for i in range(len(predators)):
+        if predators[i] != -1:
+            node = Tree[predators[i]]
+            node.child.append(Tree[i])
+    levels = defaultdict(list)
+    for i in range(len(predators)):
+        if predators[i] == -1:
+            root = Tree[i]
+            dfs(root, 1, levels)
+    return len(list(levels.keys()))
+        
+def dfs(node, level, levels):
+    levels[level].append(node)
+    for nxt in node.child:
+        dfs(nxt, level + 1, levels)
+
+
