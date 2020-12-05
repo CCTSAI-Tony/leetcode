@@ -22,8 +22,7 @@ n is a 32-bit signed integer, within the range [−231, 231 − 1]
 
 时间复杂度 = 一叉树里面每层的时间复杂度 * 层数 = 1 * log(b) = log(b)
 空间复杂度 = O(h) 也就是一叉树的层数 = log(b)
-# 思路: 對大問題進行拆分, 不斷拆半, ex: b = 17, 17//2 = 8(2^8*2^8*2), 8//2 = 4, 4//2 = 2, 2//2 = 1, 1//2 = 0 (return 1)
-# 這題就是divide and conquer, conquer的部分就是回報 half*half or half*half * a, b是integer
+# 思路: dfs 對大問題進行拆分, 不斷拆半, ex: b = 17, 17//2 = 8(2^8*2^8*2), 8//2 = 4, 4//2 = 2, 2//2 = 1, 1//2 = 0 (return 1)
 # 0^0 == 1 (數學上定義)
 # n is a 32-bit signed integer, within the range [−231, 231 − 1]
 class Solution:
