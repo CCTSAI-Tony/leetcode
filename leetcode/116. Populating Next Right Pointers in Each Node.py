@@ -93,7 +93,25 @@ class Solution:
         return res
 
 
-
+#重寫第二次, time complexity O(n), space complexity O(1)
+#思路: 使用linkedlist 來串連下層node
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        res = root
+        dummy = cur = Node(0)
+        while root:
+            while root:
+                if root.left:
+                    cur.next = root.left
+                    cur = cur.next
+                if root.right:
+                    cur.next = root.right
+                    cur = cur.next
+                root = root.next
+            root = dummy.next
+            cur = dummy
+            dummy.next = None
+        return res
 
 
 

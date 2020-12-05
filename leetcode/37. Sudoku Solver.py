@@ -22,7 +22,8 @@ The given board size is always 9x9.
 '''
 
 
-#自己重寫 time complexity O(9!*9), 經典好題多練, 遇到dfs backtracking 要考慮 return 是否要return True or False, 這種設計使得回到上一層有多的資訊可以參考,例如是否要提前結束等..
+#自己重寫 time complexity O(9!^9), space complexity O(1) 經典好題多練, 遇到dfs backtracking 要考慮 return 是否要return True or False, 這種設計使得回到上一層有多的資訊可以參考,
+#例如是否要提前結束等..
 #思路: dfs backtracking, 這題有趣的是要先建立rols, cols, blocks 的 dict, 來check是否在同樣的區間出現重複的值
 #技巧: 此方法利用存儲"." 的位置 來當作dfs recursion的層數, 只有所有數字都填對 讓所有"." 都不見時, dfs才會到達最後一層, 不然會往上一層換其他選擇
 #回上層記得恢復所有動過的global variables, remain 記得用deque 加回到最前面
@@ -65,6 +66,44 @@ class Solution:
         return False
 
 
+#重寫第二次, time complexity O(9!)^9 => ^9 => 9條row, space complexity O(1)
+from collections import defaultdict
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        m, n = len(board), len(board[0])
+        row, col, block = defaultdict(set), defaultdict(set), defaultdict(set)
+        remain = []
+        for i in range(m):
+            for j in range(n):
+                temp = board[i][j]
+                if temp != ".":
+                    row[i].add(temp)
+                    col[j].add(temp)
+                    block[(i//3, j//3)].add(temp)
+                else:
+                    remain.append((i, j))
+        self.dfs(board, row, col, block, remain)
+        
+    def dfs(self, board, row, col, block, remain):
+        if not remain:
+            return True
+        i, j = remain.pop()
+        for d in range(1, 10):
+            d = str(d)
+            if d not in row[i] and d not in col[j] and d not in block[(i//3, j//3)]:
+                board[i][j] = d
+                row[i].add(d)
+                col[j].add(d)
+                block[(i//3, j//3)].add(d)
+                if self.dfs(board, row, col, block, remain):
+                    return True
+                row[i].remove(d)
+                col[j].remove(d)
+                block[(i//3, j//3)].remove(d)
+        remain.append((i, j))
 
 
 

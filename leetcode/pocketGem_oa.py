@@ -87,7 +87,49 @@ print(universityCareerFair([1, 3, 3, 5, 7], [2, 2, 1, 2, 1])) # 4
 print(universityCareerFair([1, 2], [7, 3])) # 1
 
 
-
+from collections import deque
+class NTreeNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.child = deque()
+from collections import defaultdict
+def bestSumAnyTreePath(parent, values):
+    tree = []
+    for i in range(len(values)):
+        node = NTreeNode(values[i])
+        tree.append(node)
+    for i in range(len(parent)):
+        if parent[i] != -1:
+            tree[parent[i]].child.append(tree[i])
+    max_sum = float("-inf")
+    stack = []
+    d = defaultdict(list)
+    t = defaultdict(int)
+    root = tree[0]
+    while root or stack:
+        while root.child:
+            stack.append(root)
+            root = root.child[0]
+        node = root
+        if stack:
+            root = stack.pop()
+            root.child.popleft()
+            d[root].append(node)
+        else:
+            root = None
+        first, second = 0, 0
+        if d[node]:
+            first = max(first, max(t[c] for c in d[node]))
+        for k in d[node]:
+            if t[k] == first:
+                d[node].remove(k)
+        if d[node]:
+            second = max(second, max(t[c] for c in d[node]))
+        max_sum = max(max_sum, node.val + first + second)
+        t[node] = node.val + first
+    return max_sum
+        
+bestSumAnyTreePath([-1, 0, 1, 2, 0], [5, 7, -10, 4, 15]) 
 
 
 

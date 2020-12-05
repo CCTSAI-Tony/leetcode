@@ -38,9 +38,9 @@ class Solution:
             for num in nums:
                 if num & (1<<i) == (1<<i): 
                     count += 1
-            single |= (count%3) << i
+            single |= (count%3) << i #這邊也可以用 += 
             
-        return single if single < (1<<31) else single - (1<<32)   #
+        return single if single < (1<<31) else single - (1<<32)   # 1 << 32 == 2 ** 32 (第33個bit)
 
 
 #自己重寫, time complexity O(32n) => O(n)
@@ -54,6 +54,30 @@ class Solution:
                     count += 1
             single |= (count % 3) << i
         return single if single < 2**31 else single - 2 ** 32
+
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        single = 0
+        for i in range(32):
+            count = 0
+            for num in nums:
+                count += num >> i & 1
+            single += (count % 3) << i
+        return single if single < (1 << 31) else single - (1 << 32)
+
+
+
+
+
+
+
+
+
+
+
+
 # why are we having overflows when there are negative numbers?
 # For this scenario you will encounter overflows.
 # [-2,-2,1,1,-3,1,-3,-3,-4,-2]
