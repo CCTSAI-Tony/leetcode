@@ -24,6 +24,54 @@ You may assume that nums' length ≥ k-1 and k ≥ 1. # add 後 剛好len(nums) 
 2,3,4,4,5,5,8,9,10
 '''
 
+
+
+
+#刷題用這個, time complexity, init=> O(n), add=> O(lgk), 雖然time complexity 不變, 但有優化
+#思路: 若add 的值 大於heap 的最小值, 才heapreplace heap裡最小值, 並再執行一次heap堆疊
+#若使用heappushpop, 則不管如何 把val 加到heap, 再pop heap裡的最小值, 這樣比上面多了許多不必要的heap堆疊
+import heapq
+class KthLargest(object):
+
+    def __init__(self, k, nums):
+        self.pool = nums
+        self.k = k
+        heapq.heapify(self.pool)
+        while len(self.pool) > self.k:
+            heapq.heappop(self.pool)  #只留前k大的, 這裡使用的是 min heap
+
+            
+    def add(self, val):
+        if len(self.pool) < self.k:
+            heapq.heappush(self.pool, val)
+        elif val > self.pool[0]:
+            heapq.heapreplace(self.pool, val)  #heapreplace 先pop最小的, 再把新的元素放進去(放進去一樣會執行 heap堆疊排序)
+        return self.pool[0]  #pop出來的一定就是 kth largest element, 因為 nums' length ≥ k-1, 第一次add 元素剛好達成k個
+
+#重寫第二次, time complexity init O(n) add O(logn), space complexity O(n)
+import heapq
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        self.nums = nums
+        self.k = k
+        heapq.heapify(self.nums)
+        while len(self.nums) > self.k:
+            heapq.heappop(self.nums)
+        
+
+    def add(self, val: int) -> int:
+        if len(self.nums) >= self.k:
+            if val > self.nums[0]:
+                heapq.heapreplace(self.nums, val)
+        else:
+            heapq.heappush(self.nums, val)
+        return self.nums[0]
+
+
+
+
+
 #自己重寫 time complexity, init=> O(n), add=> O(lgk)
 #思路: 維持一個長度為k的 heap, 該heap[0] 就是第k大的值
 from heapq import *
@@ -42,27 +90,6 @@ class KthLargest:
         return self.nums[0] #回傳最小值
 
 
-#刷題用這個, time complexity, init=> O(n), add=> O(lgk), 雖然time complexity 不變, 但有優化
-#思路: 若add 的值 大於heap 的最小值, 才heapreplace heap裡最小值, 並再執行一次heap堆疊
-#若使用heappushpop, 則不管如何 把val 加到heap, 再pop heap裡的最小值, 這樣比上面多了許多不必要的heap堆疊
-import heapq
-class KthLargest(object):
-
-    
-    def __init__(self, k, nums):
-        self.pool = nums
-        self.k = k
-        heapq.heapify(self.pool)
-        while len(self.pool) > self.k:
-            heapq.heappop(self.pool)  #只留前k大的, 這裡使用的是 min heap
-
-            
-    def add(self, val):
-        if len(self.pool) < self.k:
-            heapq.heappush(self.pool, val)
-        elif val > self.pool[0]:
-            heapq.heapreplace(self.pool, val)  #heapreplace 先pop最小的, 再把新的元素放進去(放進去一樣會執行 heap堆疊排序)
-        return self.pool[0]  #pop出來的一定就是 kth largest element, 因為 nums' length ≥ k-1, 第一次add 元素剛好達成k個
 
 
 from heapq import *

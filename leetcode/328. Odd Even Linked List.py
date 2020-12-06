@@ -18,8 +18,8 @@ The relative order inside both the even and odd groups should remain as it was i
 The first node is considered odd, the second node even and so on ...
 '''
 
-# Time complexity: O(n) where n is the number of nodes in the linked list
-# Space complexity: O(1)
+# 刷題用這個, Time complexity: O(n) where n is the number of nodes in the linked list, Space complexity: O(1)
+# 思路: 分別建立odd, and even head, 最後odd.next 接 evenhead
 class Solution:
     def oddEvenList(head):
             if not head or not head.next: 
@@ -37,6 +37,23 @@ class Solution:
             
             odd.next = evenHead
             return head
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def oddEvenList(self, head: ListNode) -> ListNode:
+        if not head:
+            return head
+        oddhead = head
+        evenhead = head.next
+        odd = oddhead
+        even = evenhead
+        while even and even.next:
+            odd.next = even.next
+            odd = odd.next
+            even.next = odd.next
+            even = even.next
+        odd.next = evenhead
+        return oddhead
 
 # 最主要注意就是不要在過程中出現None node 因為 None, which has no attribute 'next'
 # Four conditions I doubt for the while-loop:

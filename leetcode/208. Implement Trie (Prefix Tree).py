@@ -73,6 +73,62 @@ class Trie:
 
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+#思路: 典型trie 問題, 請背好模板
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.child = defaultdict(TrieNode)
+        self.isEnd = False
+class Trie:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = TrieNode()
+        
+
+    def insert(self, word: str) -> None:
+        """
+        Inserts a word into the trie.
+        """
+        node = self.root
+        for w in word:
+            node = node.child[w]
+        node.isEnd = True
+        
+
+    def search(self, word: str) -> bool:
+        """
+        Returns if the word is in the trie.
+        """
+        node = self.root
+        for w in word:
+            if w not in node.child:
+                return False
+            node = node.child[w]
+        return node.isEnd
+        
+
+    def startsWith(self, prefix: str) -> bool:
+        """
+        Returns if there is any word in the trie that starts with the given prefix.
+        """
+        node = self.root
+        for w in prefix:
+            if w not in node.child:
+                return False
+            node = node.child[w]
+        return True
+
+
+
+
+
+
+
+
 from collections import defaultdict
 class TrieNode:
     def __init__(self):
