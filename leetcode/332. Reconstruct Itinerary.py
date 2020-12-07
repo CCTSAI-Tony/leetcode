@@ -30,7 +30,7 @@ Python Recursive DFS, the key bit here is to prove that when we get struck, its 
 # 此題想法, 利用dfs 遍歷完該機場所有選擇路線後, 才 res append 該機場 -> 因為遍歷過程該機場還不是end node
 # 不容易懂, 看圖就清楚了, 只要記得此題從JFK 出發一定能找到euler path
 # 這種解法是bottom up的, 先找出last destination, => 請看下面補充知識
-# time complexity O(n)
+# time complexity O(nlogn), space complexity O(n)
 class Solution:
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
         adjMap = self.makeAdjMap(tickets)
@@ -55,6 +55,29 @@ class Solution:
         for ticket in tickets:  #對到達地做排序, 字母排序小的放後面
             adjMap[ticket[0]].sort(reverse=True)
         return adjMap    
+
+#刷題用這個
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        graph = defaultdict(list)
+        for star, end in tickets:
+            graph[star].append(end)
+        for k in graph:
+            graph[k].sort(reverse=True)
+        self.res = []  
+        self.dfs("JFK", graph)
+        return self.res[::-1]
+        
+    def dfs(self, start, graph):
+        while graph[start]:
+            nxt = graph[start].pop()
+            self.dfs(nxt, graph)
+        self.res.append(start)
+
+
+
 
 # 補充知識 重要!!
 # A directed graph has an Eulerian trail if and only if at most one vertex has (out-degree) − (in-degree) = 1, 

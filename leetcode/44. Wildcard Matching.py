@@ -78,9 +78,30 @@ class Solution:
             for j in range(1, len(p)+1):
                 if p[j-1] in {s[i-1], '?'}: #這邊也可以 (s[i-1], '?') or [s[i-1], '?']
                     dp[i][j] = dp[i-1][j-1]
-                elif p[j-1] == '*':
+                elif p[j-1] == '*': # * 可以當作當前比對leeter, 也可以比對多個字串, 也可以當作empty 
                     dp[i][j] = dp[i-1][j-1] or dp[i-1][j] or dp[i][j-1]  #這裡是重點, 可以簡化成 dp[i][j] = dp[i-1][j] or dp[i][j-1]
         return dp[-1][-1]
+
+
+#重寫第二次, time complexity O(mn), space complexity O(mn)
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        dp = [[False] * (len(s) + 1) for _ in range(len(p) + 1)]
+        dp[0][0] = True
+        for i in range(1, len(p) + 1):
+            if p[i - 1] == "*":
+                dp[i][0] = True
+            else:
+                break
+        for i in range(1, len(p) + 1):
+            for j in range(1, len(s) + 1):
+                if p[i - 1] == "*":
+                    dp[i][j] = dp[i-1][j] or dp[i][j-1] or dp[i-1][j-1]
+                elif p[i-1] in ["?", s[j-1]]:
+                    dp[i][j] = dp[i-1][j-1]
+        return dp[-1][-1]
+
+
 
 
 # p[j-1] == '*', dp[i-1][j] 代表 s[:i-1] vs p[:j], 若dp[i-1][j]是True 代表 dp[i][j] 也是True, 因為"*"可以代表 any sequence of characters
@@ -114,14 +135,31 @@ class Solution:
             
             memo[l, r] = False
             if p[r-1] == '*':
-                memo[l, r] = self.dfs(l-1, r, s, p, memo) or self.dfs(l, r-1, s, p, memo)    
+                memo[l, r] = self.dfs(l-1, r, s, p, memo) or self.dfs(l, r-1, s, p, memo) or self.dfs(l-1, r-1, s, p, memo)    
             elif s[l-1] == p[r-1] or p[r-1] == '?':
                 memo[l, r] = self.dfs(l-1, r-1, s, p, memo)
             return memo[l, r] 
 
  
-
-
+#top down 重寫第二次, time complexity O(mn), space complexity O(mn)
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        return self.dfs(len(s), len(p), s, p, memo)
+    
+    def dfs(self, l, r, s, p, memo):
+        if (l, r) in memo:
+            return memo[(l, r)]
+        if not r:
+            return not l
+        if not l:
+            return p[:r].count("*") == r
+        memo[(l, r)] = False
+        if p[r - 1] == "*":
+            memo[(l, r)] = self.dfs(l-1, r, s, p, memo) or self.dfs(l, r-1, s, p, memo) or self.dfs(l-1, r-1, s, p, memo)
+        elif p[r - 1] in [s[l - 1], "?"]:
+            memo[(l, r)] = self.dfs(l-1, r-1, s, p, memo)
+        return memo[(l, r)]
 
 # Top Down, dfs backtracking + memo
 class Solution:
@@ -141,7 +179,7 @@ class Solution:
             if s[i] == p[j] or p[j] == '?':
                 memo[(i, j)] = self.dfs(i+1, j+1, s, p, memo)
             elif p[j] == '*':    
-                memo[(i, j)] = self.dfs(i, j+1, s, p, memo) or self.dfs(i+1, j, s, p, memo)
+                memo[(i, j)] = self.dfs(i, j+1, s, p, memo) or self.dfs(i+1, j, s, p, memo) #可以不用加 self.dfs(l-1, r-1, s, p, memo), why 保留前兩個足矣, 想一下就知道了
             return memo[(i, j)]    
 
 

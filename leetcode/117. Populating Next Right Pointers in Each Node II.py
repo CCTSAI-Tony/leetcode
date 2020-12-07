@@ -41,31 +41,6 @@ class Node:
         self.next = next
 """
 
-#自己重寫, bfs, space complexity O(n), time complexity O(n)
-#思路: 使用new_queue 來代表下層node, 當層queue都沒有元素時, 代表目前node是當層最後一個(預設next = None), 不然node.next = 現在當層queue的左邊第一個
-from collections import deque
-class Solution:
-    def connect(self, root: 'Node') -> 'Node':
-        if not root:
-            return None
-        queue = deque([root])
-        while queue:
-            new_queue = deque()
-            for _ in range(len(queue)):
-                node = queue.popleft()
-                if node.left:
-                    new_queue.append(node.left)
-                if node.right:
-                    new_queue.append(node.right)
-                if not queue:
-                    break
-                else:
-                    node.next = queue[0]
-            queue = new_queue
-        return root
-
-
-
 
 #自己重寫, 刷題用這個, space complexity O(1), time complexity O(n)
 #思路: double while loops, 利用linked list 的想法 搭配dummy node 來連結同level的next, 記住, dummy.next都會連結下層最左邊的node, 當作下一個root
@@ -88,6 +63,52 @@ class Solution:
             temp = dummy
         return res
 
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+#思路: 跟116解法一樣, 使用linkedlist
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        dummy = cur = Node(0)
+        res = root
+        while root:
+            while root:
+                if root.left:
+                    cur.next = root.left
+                    cur = cur.next
+                if root.right:
+                    cur.next = root.right
+                    cur = cur.next
+                root = root.next
+            cur = dummy
+            root = cur.next
+            cur.next = None
+        return res
+
+
+
+
+#自己想的, bfs, space complexity O(n), time complexity O(n)
+#思路: 使用new_queue 來代表下層node, 當層queue都沒有元素時, 代表目前node是當層最後一個(預設next = None), 不然node.next = 現在當層queue的左邊第一個
+from collections import deque
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+        queue = deque([root])
+        while queue:
+            new_queue = deque()
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    new_queue.append(node.left)
+                if node.right:
+                    new_queue.append(node.right)
+                if not queue:
+                    break
+                else:
+                    node.next = queue[0]
+            queue = new_queue
+        return root
 
 .........................................................................................................................................................................       
 #space complexity O(1), time complexity O(n)

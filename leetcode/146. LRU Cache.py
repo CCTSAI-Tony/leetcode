@@ -28,8 +28,8 @@ cache.get(4);       // returns 4
 
 
 https://www.youtube.com/watch?v=7v_mUfpg46E&feature=youtu.be
-#刷題用這個
-#Python Dict + Double LinkedList
+#刷題用這個, two pointer!!
+#思路: Python Dict + Double LinkedList
 class Node:
     def __init__(self, k, v):
         self.key = k
@@ -60,7 +60,7 @@ class LRUCache:
             self._remove(n) #一樣 put因為觸碰了原本的key 變常用了 在listNode 把key remove
         n = Node(key, value)
         self._add(n) #重新加回listNode
-        self.dic[key] = n #新建 key:value pair or 重新定義key:value 相同key 可以有不同value 
+        self.dic[key] = n #新建 key:value pair or 重新定義key:value  => update
         if len(self.dic) > self.capacity:
             n = self.head.next #把head 下一個 remove 也就是the least recently used item
             self._remove(n)
@@ -78,6 +78,71 @@ class LRUCache:
         self.tail.prev = node
         node.prev = p
         node.next = self.tail
+
+
+#重寫第二次, time complexity O(1), space complexity O(n), using dict & double linkedlist
+class Node:
+    def __init__(self, k, v):
+        self.key = k
+        self.val = v
+        self.prev = None
+        self.next = None
+        
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.head = Node(0, 0)
+        self.tail = Node(0, 0)
+        self.head.prev = self.tail
+        self.tail.next = self.head
+        self.dict = dict()
+        self.capacity = capacity
+        
+
+    def get(self, key: int) -> int:
+        if key in self.dict:
+            n = self.dict[key]
+            self.remove(n)
+            self.add(n)
+            return n.val
+        else:
+            return -1
+        
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.dict:
+            n = self.dict[key]
+            self.remove(n)
+            n.val = value
+            self.add(n)
+        else: 
+            if len(self.dict) >= self.capacity:
+                k = self.tail.next
+                self.remove(k)
+            n = Node(key, value)
+            self.add(n)
+        
+    
+    def remove(self, n):
+        pre = n.prev
+        nxt = n.next
+        pre.next = nxt
+        nxt.prev = pre
+        del self.dict[n.key]
+        
+    
+    
+    def add(self, n):
+        pre = self.head.prev
+        pre.next = n
+        n.prev = pre
+        n.next = self.head
+        self.head.prev = n
+        self.dict[n.key] = n
+
+
+
+
 
 
 
