@@ -29,6 +29,23 @@ class Solution:
         return max(dp[i][0] for i in range(len(nums)))
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        dp = [(nums[0], nums[0])]
+        for i in range(1, len(nums)):
+            temp = [0, 0]
+            temp1 = nums[i] * dp[i-1][0]
+            temp2 = nums[i] * dp[i-1][1]
+            temp[0] = max(temp1, temp2, nums[i])
+            temp[1] = min(temp1, temp2, nums[i])
+            dp.append(temp)
+        return max(i[0] for i in dp)
+
+
+
 #dp, bottom up
 class Solution:
     def maxProduct(self, nums: List[int]) -> int

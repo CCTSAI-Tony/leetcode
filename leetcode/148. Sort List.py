@@ -17,7 +17,7 @@ Output: -1->0->3->4->5
 #         self.next = None
 
 #跟龜兔賽跑那題一起服用 leetcode 141, 142
-#自己重寫, time complexity O(nlogn)
+#自己重寫, time complexity O(nlogn), space complexity O(1)
 #思路: 就是merge sort, 重點在於如何平分ListNode, 這裡提出兩個指針, slow, fast, 一開始他們站在head, head.next, 分別代表 1, 2 node 位置
 #slow 動一格, fast 動兩格, => 1,2 => 2,4 => 3,6 => 4,8 => 5, 10 可以看出slow.next 就是平分的另一半, 之後slow.next = None 就能切分完畢, !!值得記起來這種指針位置
 # 之後就是merge 一樣利用多重指針 ex: dummy node 來執行排序
@@ -57,8 +57,36 @@ class Solution:
 # slow, fast = head, head.next 這邊可以改成 slow, fast = head, head.next.next 但複雜度會增加, 因為不是完美平分
 # 但不能 slow, fast = (head, head) or (head.next, head.next.next) => 1->2  脫離while loop後, l 依舊 1->2 => 造成無限循環, 這點需要注意
 
-
-
+#刷題用這個, 重寫第二次, time complexity O(nlogn), space complexity O(1)
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        if not head:
+            return None
+        if not head.next:
+            return head
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        second = slow.next
+        slow.next = None
+        l = self.sortList(head)
+        r = self.sortList(second)
+        return self.merge(l, r)
+    
+    def merge(self, l, r):
+        dummy = cur = ListNode(0)
+        while l and r:
+            if l.val > r.val:
+                cur.next = r
+                cur = cur.next
+                r = r.next
+            else:
+                cur.next = l
+                cur = cur.next
+                l = l.next
+        cur.next = l or r
+        return dummy.next
 
 
 
