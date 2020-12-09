@@ -52,6 +52,27 @@ class Solution(object):
             l.reverse() #不能l = l[::-1] 因為這樣只代表l 指向一個新的reverse l list而已, 並沒有修改原data
 
 
+#重寫第二次, time complexity O(n^2), space complexity O(1)
+class Solution:
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        n = len(matrix)
+        for i in range(n):
+            for j in range(n):
+                if i < j:
+                    matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        for i in range(n):
+            matrix[i].reverse()
+
+
+
+
+
+
+
+
 # t = a = [1,2,3,4]
 # a = a[::-1]
 # a[0] = 100

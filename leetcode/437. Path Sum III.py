@@ -83,6 +83,32 @@ class Solution:
         cache[path] -= 1
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> int:
+        if not root:
+            return 0
+        memo = defaultdict(int)
+        memo[0] = 1 #關鍵
+        self.count = 0
+        self.dfs(root, memo, 0, sum)
+        return self.count
+        
+    def dfs(self, node, memo, curSum, target):
+        if not node:
+            return
+        curSum += node.val
+        temp = curSum - target
+        self.count += memo[temp]
+        memo[curSum] += 1
+        self.dfs(node.left, memo, curSum, target)
+        self.dfs(node.right, memo, curSum, target)
+        memo[curSum] -= 1
+
+
+
+
 
 # Python step-by-step walk through. Easy to understand. Two solutions comparison. 
 

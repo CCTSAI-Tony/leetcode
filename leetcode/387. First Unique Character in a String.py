@@ -35,7 +35,15 @@ class Solution:
                 return i
         return -1
 
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        count = Counter(s)
+        for i, v in enumerate(s):
+            if count[v] == 1:
+                return i
+        return -1
 
 
 from collections import Counter

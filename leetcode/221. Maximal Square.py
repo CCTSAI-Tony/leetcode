@@ -40,7 +40,28 @@ class Solution:
 #max(row for row in dp): 取最大的一行, 比較定義: 從左邊第一格數比到最右邊
 #[max(row) for row in dp]: 每一行的最大值組成的數組
 
-
+#自己重寫第二次, time complexity O(mn), space complexity O(mn)
+from collections import defaultdict
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        memo = defaultdict(int)
+        largest_square = 0
+        for i in range(m):
+            if matrix[i][0] == "1":
+                memo[(i, 0)] = 1
+                largest_square = 1
+        for j in range(n):
+            if matrix[0][j] == "1":
+                memo[(0, j)] = 1
+                largest_square = 1
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == "1":
+                    area = min(memo[(i-1, j)], memo[(i, j-1)], memo[(i-1, j-1)]) + 1
+                    largest_square = max(largest_square, area)
+                    memo[(i, j)] = area
+        return largest_square ** 2
 
 
 #思路: 若cell為1 利用cell的上, 左, 左上的cells 看是否都為1, 若是則square邊長 + 1, 若不是則取這三個cell的最小值也就是0, 並加自身的1
