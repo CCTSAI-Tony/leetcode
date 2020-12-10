@@ -16,7 +16,7 @@
 
 #刷題用這個
 #自己想的, time complexity O(n), n: total length of characters, 136ms
-#思路: 利用frozenset 來使dict.items() hashable
+#思路: 利用frozenset 來使dict.items() set化 且 hashable, 避免排序
 from collections import defaultdict, Counter
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
@@ -27,8 +27,16 @@ class Solution:
         return groups.values()
 
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter, defaultdict
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dic = defaultdict(list)
+        for s in strs:
+            temp = Counter(s)
+            key = frozenset(temp.items())
+            dic[key].append(s)
+        return dic.values()
 
 
 

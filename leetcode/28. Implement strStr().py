@@ -18,6 +18,46 @@ What should we return when needle is an empty string? This is a great question t
 For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
 '''
 
+
+
+# For the purpose of this problem, we will return 0 when needle is an empty string.
+# 刷題用這個, time complexity O(n), space complexity O(n)
+# 思路: kmp 
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        m, n = len(haystack), len(needle)
+        if n == 0:
+            return 0
+        nxt = self.built(needle)
+        j = 0
+        for i in range(m):
+            while j > 0 and needle[j] != haystack[i]:
+                j = nxt[j]
+            if needle[j] == haystack[i]:
+                j += 1
+            if j == n:
+                return i - n  + 1
+        return -1
+        
+        
+    def built(self, p):
+        nxt = [0, 0]
+        j = 0
+        for i in range(1, len(p)):
+            while j > 0 and p[i] != p[j]:
+                j = nxt[j]
+            if p[i] == p[j]:
+                j += 1
+            nxt.append(j)
+        return nxt
+
+
+
+
+
+
+
+
 #brute force, time complexity O(nm) n: len(haystack), n: len(needle)
 class Solution(object):
     def strStr(self, haystack, needle):
@@ -33,3 +73,9 @@ class Solution(object):
         Output: 2
 
         '''
+
+#自己想的, naive solution, time complexity O(n*m), space complexity O(1)
+#思路: n: len(haystack), m: len(needle)
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        return haystack.find(needle)

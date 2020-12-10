@@ -46,7 +46,7 @@ class Solution:
             self.dfs(root.right, sum-root.val, ls+[root.val], res)
 
 
-#  自己重寫, time complexity O(n)
+#  自己重寫, time complexity O(n), space complexity O(n^2)
 #  思路: 典型dfs, 要注意的是往下dfs 不能直接在code修改mutable參數, 會影響原始變數, 而是在傳參的時候修改==建立一個新list
 class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
@@ -83,6 +83,37 @@ a
 c
 [50, 2, 3]
 
+
+#刷題用這個, 重寫第二次, backtracking, time complexity O(n), space complexity O(n)
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
+        if not root:
+            return []
+        self.res = []
+        self.dfs(root, [], 0, sum)
+        return self.res
+    
+    def dfs(self, node, path, curSum, sum):
+        curSum += node.val
+        path.append(node.val)
+        if not node.left and not node.right and curSum == sum:
+            self.res.append(path[:])
+        else:
+            if node.left:
+                self.dfs(node.left, path, curSum, sum)
+            if node.right:
+                self.dfs(node.right, path, curSum, sum)
+        path.pop()
+
+
+
+
+
+
+
+
+
+
 #再次重寫
 class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
@@ -103,7 +134,6 @@ class Solution:
             self.dfs(node.left, sum, res, new_path, path_sum)
         if node.right:
             self.dfs(node.right, sum, res, new_path, path_sum)
-
 
 
 

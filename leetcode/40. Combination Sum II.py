@@ -1,4 +1,4 @@
-# time complexity O(n^2), backtracking 刷題用這個
+# time complexity O(2^n), backtracking 刷題用這個
 
 class Solution(object):
     def combinationSum2(self, candidates, target):
@@ -17,6 +17,54 @@ class Solution(object):
             if i > index and candidates[i] == candidates[i-1]:
                 continue  #避免當層出現重複元素並往下展開
             self.dfs(candidates, target-candidates[i], i+1, path+[candidates[i]], res) #i+1 當前元素只能用一次
+
+
+
+#重寫第二次, time complexity O(2^n), space complexity O(2^n)
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates. sort()
+        self.res = []
+        self.dfs(0, candidates, target, [], 0)
+        return self.res
+        
+    def dfs(self, idx, candidates, target, path, curSum):
+        if curSum >= target:
+            if curSum == target:
+                self.res.append(path)
+            return
+        for i in range(idx, len(candidates)):
+            if i > idx and candidates[i] == candidates[i - 1]:
+                continue
+            self.dfs(i + 1, candidates, target, path + [candidates[i]], curSum + candidates[i])
+
+
+
+重寫第三次, time complexity O(2^n), space complexity O(2^n)
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        if not candidates:
+            return []
+        self.res = []
+        candidates.sort()
+        self.dfs(0, candidates, [], 0, target)
+        return self.res
+    
+    
+    def dfs(self, idx, candidates, path, curSum, target):
+        if curSum >= target:
+            if curSum == target:
+                self.res.append(path)
+            return
+        for i in range(idx, len(candidates)):
+            if i > idx and candidates[i] == candidates[i - 1]:
+                continue
+            self.dfs(i + 1, candidates, path + [candidates[i]], curSum + candidates[i], target)
+
+
+
+
+
 
 
 '''
