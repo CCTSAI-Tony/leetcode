@@ -14,6 +14,25 @@
 # The order of your output does not matter.
 
 
+
+#刷題用這個, time complexity O(nk), space complexity O(nk), n: len(strs), k: maxlen of strs's element
+#思路: 建立26字母數組tuple, 避免排序
+from collections import defaultdict
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        dic = defaultdict(list)
+        for s in strs:
+            letter = [0] * 26
+            start = ord("a")
+            for w in s:
+                letter[ord(w) - start] += 1
+            dic[tuple(letter)].append(s)
+        return dic.values()
+
+
+
+
+
 #刷題用這個
 #自己想的, time complexity O(n), n: total length of characters, 136ms
 #思路: 利用frozenset 來使dict.items() set化 且 hashable, 避免排序
