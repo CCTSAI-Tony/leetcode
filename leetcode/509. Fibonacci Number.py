@@ -44,6 +44,36 @@ class Solution:
             
         return dp[-1]
 
+
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+from functools import lru_cache
+class Solution:
+    @lru_cache
+    def fib(self, N: int) -> int:
+        if N == 0:
+            return 0
+        if N == 1:
+            return 1
+        return self.fib(N-1) + self.fib(N-2)
+
+
+
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def fib(self, N: int) -> int:
+        memo = {}
+        memo[0] = 0
+        memo[1] = 1
+        return self.helper(N, memo)
+    
+    def helper(self, N, memo):
+        if N in memo:
+            return memo[N]
+        memo[N] = self.helper(N-1, memo) + self.helper(N-2, memo)
+        return memo[N]
+
+
 #使用memo decorator
 class Memorize:
     def __init__(self, fn):

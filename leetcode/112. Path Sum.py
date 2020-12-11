@@ -46,6 +46,31 @@ class Solution:
 
 
 
+#重寫第二次, backtracking, time complexity O(n), space complexity O(1)
+class Solution:
+    def hasPathSum(self, root: TreeNode, sum: int) -> bool:
+        if not root:
+            return False
+        return self.dfs(root, sum, 0)
+    
+    def dfs(self, node, k, curSum):
+        if not node.left and not node.right:
+            if curSum + node.val == k:
+                return True
+            return False
+        
+        if node.left:
+            if self.dfs(node.left, k, curSum + node.val):
+                return True
+        if node.right:
+            if self.dfs(node.right, k, curSum + node.val):
+                return True
+        return False
+
+
+
+
+
 
 # DFS Recursively 
 class Solution:

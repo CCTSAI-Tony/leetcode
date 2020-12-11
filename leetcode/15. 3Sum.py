@@ -67,6 +67,34 @@ class Solution:
                     right -= 1
         return res
 
+
+
+#重寫第二次, time complexity O(n^2), space complexity O(1)
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        res = set()
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            fixed = nums[i]
+            l, r = i + 1, len(nums) - 1
+            while l <ｒ:
+                temp = (fixed, nums[l], nums[r])
+                if sum(temp) == 0:
+                    res.add(temp)
+                if sum(temp) > 0:
+                    r -= 1
+                else:
+                    l += 1
+        return res
+
+
+
+
+
+
+
 #  自己想的 time complexity O(n^2) 1584s
 #  思路: 利用fixNum, 在剩下的數組中搜尋2 elements sum to -fixNum => 把問題變成2 sum, 利用dict來紀錄之前的值
 #  注意: ans_set 要add前 裡面的東西要先記得sorted, 不然會出現重複的答案只是順序不同

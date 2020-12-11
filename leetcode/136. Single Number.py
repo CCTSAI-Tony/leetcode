@@ -33,6 +33,19 @@ class Solution:
 #0 為 initial value 防止empty list, 但此題不需要, 因為題目有說non-empty list
 
 
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+
+
+
+
+
+
 
 
 # [Python] Space O(1), XOR+Reduce, Very Simple One Liner (With Explanation)

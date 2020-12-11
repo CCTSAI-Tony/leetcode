@@ -90,7 +90,24 @@ class Solution:
 
 
 
-
-
+#重寫第三次, time complexity O(n^2), space complexity O(1)
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        closest = float("inf")
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+            fixed = nums[i]
+            l, r = i + 1, len(nums) - 1
+            while l < r:
+                temp = fixed + nums[l] + nums[r]
+                if abs(temp - target) < abs(closest - target):
+                    closest = temp
+                if temp > target:
+                    r -= 1
+                else:
+                    l += 1
+        return closest
 
 
