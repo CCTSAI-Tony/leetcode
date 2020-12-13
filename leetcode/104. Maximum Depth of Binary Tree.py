@@ -40,7 +40,7 @@ class Solution:
         right = self.dfs(root.right)
         return max(left, right) + 1
 
-#重寫第二次, time complexity O(n), space complexity O(n)
+#重寫第二次, time complexity O(n), space complexity O(n), bottom up
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
         if not root:
@@ -56,6 +56,28 @@ class Solution:
         if node.right:
             right = self.dfs(node.right)
         return max(left, right) + 1
+
+
+#重寫第三次, time complexity O(n), space complexity O(h), top down
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        return self.dfs(root, 1)
+    
+    def dfs(self, node, depth):
+        if not node.left and not node.right:
+            return depth
+        left, right = 0, 0
+        if node.left:
+            left = self.dfs(node.left, depth + 1)
+        if node.right:
+            right = self.dfs(node.right, depth + 1)
+        return max(left, right)
+
+
+
+
 
 
 

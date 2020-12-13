@@ -49,8 +49,24 @@ class Solution:
 
 
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(1)
+#ex: -10, 3, 0, 5, 9
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if not nums:
+            return None
+        return self.helper(nums, 0, len(nums) - 1)
+    
+    def helper(self, nums, l, r):
+        if l == r:
+            return TreeNode(nums[l])
+        if l > r:
+            return None
+        mid = l + (r - l) // 2
+        node = TreeNode(nums[mid])
+        node.left = self.helper(nums, l, mid - 1)
+        node.right = self.helper(nums, mid + 1, r)
+        return node
 
 
 
