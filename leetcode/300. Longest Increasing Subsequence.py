@@ -91,7 +91,7 @@ class Solution(object):
 # 若num <= sub元素, 則替換該位置元素換成比較小的num, 最終發現雖然換成比較小的num, sub 有可能不是subsequence了, 但len of increasing subsequence 依舊不變
 # 因為換了比較小的元素不影響曾經有這個位置存在的事實, 比較小的元素屬於其他的 increasing subsequence(包含比它更小的)
 # 這麼做是增加未來的num 成為最長連續序列的可能, 另外在遍歷sub的過程可以使用binary search 來減少複雜度
-# 有russian doll envelopes的思想, 更新sub裡面的元素替換比較小的值, 因為之後遇到新元素,比較小的值比較容易連出長sequence
+# 有russian doll envelopes的思想, 更新sub裡面的元素替換比較小的值, 因為之後遇到新元素,比較小的值比較容易連出長sequence, 相同大小元素也會因此被替換 => strickly increase
 # 可以搭配russian doll envelopes 服用
 class Solution:
     def lengthOfLIS(self, nums: List[int]) -> int:
@@ -121,6 +121,33 @@ class Solution:
         return right + 1
 
  
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+#思路: monotonic queue
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        stack = []
+        for num in nums:
+            if not stack:
+                stack.append(num)
+            else:
+                idx = self.binarySearch(num, stack)
+                if idx >= len(stack):
+                    stack.append(num)
+                else:
+                    stack[idx] = num
+        return len(stack)
+            
+        
+    def binarySearch(self, x, stack):
+        l, r = 0, len(stack) - 1
+        while l <= r:
+            mid = l + (r - l) // 2
+            if stack[mid] < x:
+                l = mid + 1
+            else:
+                r = mid - 1
+        return l
+
 
 
 
@@ -175,6 +202,13 @@ class Solution(object):
 
 
 
-
-
+#重寫第二次, time complexity O(n^2), space complexity O(n) => 4020ms
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = [1] * len(nums)
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
 

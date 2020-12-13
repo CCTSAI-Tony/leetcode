@@ -37,6 +37,43 @@ class Solution(object):
                     ret.append(row.pop(0)) #依序取得最左邊一排  >若matrix還在 回到while頂 從頭執行 
         return ret
 
+
+
+#刷題用這個
+#重寫第二次, time complexity O(mn), space complexity O(1)
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        m, n = len(matrix), len(matrix[0])
+        res = []
+        m_l, m_r, n_l, n_r = 0, m-1, 0, n-1
+        while m_l <= m_r and n_l <= n_r:
+            for j in range(n_l, n_r + 1):
+                res.append(matrix[m_l][j])
+            m_l += 1
+            
+            for i in range(m_l, m_r + 1):
+                res.append(matrix[i][n_r])
+            n_r -= 1
+            
+            if m_r >= m_l: #加入此邊界條件來避免重複加入元素, ex: 3*4 matrix
+                for j in range(n_r, n_l - 1, -1):
+                    res.append(matrix[m_r][j])
+                m_r -= 1
+            
+            if n_r >= n_l: #加入此邊界條件來避免重複加入元素
+                for i in range(m_r, m_l - 1, -1):
+                    res.append(matrix[i][n_l])
+                n_l += 1
+        return res
+
+
+
+
+
+
+
+
+
         '''
 # matrix[0] 確保row 裡面有東西可以pop(), if matrix 確保裡面有row, ex: [[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]
 a = [4]

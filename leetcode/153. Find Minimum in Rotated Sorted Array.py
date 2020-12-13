@@ -62,7 +62,7 @@ class Solution:
         right = len(nums)-1
         while left + 1 < right:
             mid = (left + right)//2
-            if nums[mid]>nums[right]:  #一樣在模板2, >, or >= 一樣可以work, 因為 left, right 只移動邊界到mid的位置， 不會誤刪除target。
+            if nums[mid] > nums[right]:  #一樣在模板2, >, or >= 一樣可以work, 因為 left, right 只移動邊界到mid的位置， 不會誤刪除target。
                 left = mid  #右區間比較小, 往右區間搜尋
             else:
                 right = mid #左區間比較小, 往左區間搜尋

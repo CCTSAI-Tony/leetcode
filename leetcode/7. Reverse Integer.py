@@ -27,10 +27,19 @@ class Solution:
             res = int("".join([temp[0]] + temp[1:][::-1]))
         else:
             res = int("".join(temp[::-1]))
-        return res if res <= 2**31 -1 and res > -2**31 else 0
+        return res if res <= 2**31 -1 and res >= -2**31 else 0
 
 
-
+#重寫第二次, time complexity O(32), space complexity O(32)
+class Solution:
+    def reverse(self, x: int) -> int:
+        if x < 0:
+            num = str(x)[1:][::-1]
+            reverse = -int(num)
+        else:
+            num = str(x)[::-1]
+            reverse = int(num)
+        return reverse if reverse < 2 ** 31 and reverse >= -2 ** 31 else 0
 
 
 class Solution:

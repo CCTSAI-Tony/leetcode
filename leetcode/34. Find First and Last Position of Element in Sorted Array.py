@@ -92,9 +92,38 @@ class Solution:
         return -1
 
 
+#浮點數二分模板, 因為二分邊界不夠, 要額外處理 n < 1 的情況
 
+def squareRoot(n):
+    if n < 0:
+        return -1
+    
+    if n >= 1:
+        l, r = 0, n
+        while (r - l) > 10 ** -8:
 
+            mid = float((l +ｒ) / 2)
+            if mid * mid < n:
+                l = mid
+            else:
+                r = mid
 
+        return round(l, 6)
+        
+    else:
+        l, r = 0, 10 * n
+        while (r - l) > 10 ** -8:
+
+            mid = float((l +ｒ) / 2)
+            if mid * mid < n:
+                l = mid
+            else:
+                r = mid
+
+        return round(l, 6)
+        
+
+squareRoot(0.05) => 0.223607
 
 
 
