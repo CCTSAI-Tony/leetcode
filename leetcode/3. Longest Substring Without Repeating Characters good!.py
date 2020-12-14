@@ -40,7 +40,21 @@ class Solution:
         return max_length
 
 
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if not s:
+            return 0
+        max_len = 0
+        stored = set()
+        l = 0
+        for r in range(len(s)):
+            while s[r] in stored:
+                stored.remove(s[l])
+                l += 1
+            stored.add(s[r])
+            max_len = max(max_len, r - l + 1)
+        return max_len
 
 
 

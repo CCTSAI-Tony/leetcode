@@ -345,7 +345,7 @@ S[x1, y1] += c, S[x2 + 1, y1] -= c, S[x1, y2 + 1] -= c, S[x2 + 1, y2 + 1] += c =
 求n的第k位数字: n >> k & 1, 從0開始算
 返回n的最后一位1：lowbit(n) = n & -n => 樹狀數組的重要技巧
 
--x = ~x + 1 => sign integer => 取反補1
+-x = ~x + 1 => sign integer => 取反補1   => 知識點: 原碼, 反碼, 補碼
 
 def count1bits(n):
     count = 0
@@ -356,3 +356,57 @@ def count1bits(n):
 
 count1bits(550) => => 4
 bin(550) => '0b1000100110'
+
+
+整數離散 acwing 802
+def find(x):
+    """二分查找模板，从索引数组alls中找到大于等于x的最小的索引"""
+    l = 0
+    r = len(alls)-1
+    while l <= r:
+        mid = l + (r - l) // 2
+        if alls[mid] >= x: 
+            r = mid - 1   
+        else: l = mid+1
+    return l+1    # 因为要计算前缀和，所以加1保证索引从1开始
+
+if __name__=="__main__":
+    n, m = map(int, input().split())
+    N = 300010
+    a = [0]*N    # 用于存储离散化后的索引和对应值，其中索引对应离散化后的索引，值对应离散化前索引的取值
+    s = [0]*N    # 存a数组的前缀和数组
+
+    add = []    # 存储插入操作的二元组
+    query = []    # 存储查询操作的二元组
+
+    alls = []    # 存储离散化前输入的所有索引，n+2*m
+
+    for i in range(n):
+        x, c = map(int, input().split())
+        add.append((x, c))
+        alls.append(x)
+
+    for i in range(m):
+        l, r = map(int, input().split())
+        query.append((l, r))
+        alls.append(l)
+        alls.append(r)
+    
+    alls = sorted(set(alls)) # 将alls数组排序并去重
+
+
+    # 1. 处理插入
+    for x, c in add:
+        x2 = find(x)
+        a[x2]+=c
+
+    # 2. 处理前缀和
+    for i in range(1, len(alls)+1):
+        s[i] = s[i-1] + a[i]
+
+    # 3. 处理查询
+    for l, r in query:
+        l2 = find(l)
+        r2 = find(r)
+        res = s[r2]-s[l2-1]
+        print(res)

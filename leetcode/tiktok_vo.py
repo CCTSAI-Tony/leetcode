@@ -51,3 +51,4 @@ def waysToSum(n: int, k: int) -> int:
 waysToSum(5, 3)             
 
 
+#準備數據庫與網絡基礎知識

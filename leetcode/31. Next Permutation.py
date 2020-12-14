@@ -18,7 +18,7 @@
 class Solution:
     def nextPermutation(self, nums):
 	    i = j = len(nums)-1
-	    while i > 0 and nums[i-1] >= nums[i]: #記得>=, 前一個元素值相等也一樣符合條件ex: Input: [5,1,1]
+	    while i - 1 > 0 and nums[i-1] >= nums[i]: #記得>=, 前一個元素值相等也一樣符合條件ex: Input: [5,1,1]
 	        i -= 1  #倒序操作
 	    if i == 0:   # nums are in descending order
 	        nums.reverse() #反轉
@@ -33,6 +33,69 @@ class Solution:
 	        nums[l], nums[r] = nums[r], nums[l]
 	        l +=1 ; r -= 1
 	        #如果要在一行中书写多条句，就必须使用分号;分隔每个语句，否则Python无法识别语句之间的间隔
+
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        i = j = len(nums) - 1
+        while i - 1 >= 0 and nums[i - 1] >= nums[i]:
+            i -= 1
+        if i == 0:
+            nums.reverse()
+            return
+        k = i - 1
+        while nums[j] <= nums[k]:
+            j -= 1
+        nums[k], nums[j] = nums[j], nums[k]
+        l, r = i, len(nums) - 1
+        while l < r:
+            nums[l], nums[r] = nums[r], nums[l]
+            l += 1
+            r -= 1
+
+
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        r = len(nums) - 1
+        for i in range(len(nums) - 1, -1, -1):
+            if i - 1 >= 0 and nums[i] > nums[i-1]:
+                while r >= i:
+                    if nums[r] > nums[i-1]:
+                        nums[r], nums[i-1] = nums[i-1], nums[r]
+                        l, r = i, len(nums) - 1
+                        while l < r:
+                            nums[l], nums[r] = nums[r], nums[l]
+                            l += 1
+                            r -= 1
+                        return nums
+                    r -= 1
+            elif i == 0:
+                l, r = i, len(nums) - 1
+                while l < r:
+                    nums[l], nums[r] = nums[r], nums[l]
+                    l += 1
+                    r -= 1
+        return nums
+
+
+
+
+
+
+
+
+
+
+
 
         '''
         a  b  c  123

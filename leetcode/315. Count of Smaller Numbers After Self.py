@@ -56,6 +56,45 @@ class Solution(object):
         return num & - num 
 
 
+
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        temp = sorted(set(nums))
+        numsIndex = {v: i + 1 for i, v in enumerate(temp)}
+        bits = [0] * (len(numsIndex) + 1)
+        res = []
+        for i in range(len(nums) - 1, -1, -1):
+            idx = numsIndex[nums[i]]
+            self.update(bits, idx)
+            res.append(self.query(bits, idx - 1))
+        return res[::-1]
+    
+    def update(self, bits, idx):
+        while idx <= len(bits) - 1:
+            bits[idx] += 1
+            idx += (idx & -idx)
+            
+    def query(self, bits, idx):
+        res = 0
+        while idx > 0:
+            res += bits[idx]
+            idx -= (idx & -idx)
+        return res
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 nums: [5,2,6,1] -> sorted(nums): [1,2,5,6]
 res: [0,1,1,2]
 res[:: - 1]: [2,1,1,0]

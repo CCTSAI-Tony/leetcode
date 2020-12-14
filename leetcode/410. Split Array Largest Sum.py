@@ -111,6 +111,29 @@ class Solution:
 
 
 
+#重寫第三次, time complexity O(nlog(sum(nums))), space complexity O(1)
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        l, r = max(nums), sum(nums)
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if self.check(mid, nums, m):
+                r = mid
+            else:
+                l = mid
+        if self.check(l, nums, m):
+            return l
+        else:
+            return r
+                
+    def check(self, k, nums, m):
+        cut, cur = 0, 0
+        for num in nums:
+            cur += num
+            if cur > k:
+                cut += 1
+                cur = num
+        return cut + 1 <= m
 
 
 #刷題用這個

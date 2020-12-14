@@ -109,6 +109,62 @@ class NumArray:
 
 
 
+#重寫第二次, time complexity update, sumRange: O(logn), init: O(nlogn), space complexity O(n)
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        self.bits = [0] * (len(nums) + 1)
+        self.m = len(nums)
+        for i in range(len(nums)):
+            k = i + 1
+            while k <= self.m:
+                self.bits[k] += nums[i]
+                k += (k & -k)
+        
+        
+
+    def update(self, i: int, val: int) -> None:
+        diff = val - self.nums[i]
+        self.nums[i] = val
+        i = i + 1
+        while i <= self.m:
+            self.bits[i] += diff
+            i += (i & -i)
+            
+        
+
+    def sumRange(self, i: int, j: int) -> int:
+        res = 0
+        j = j + 1
+        while j > 0:
+            res += self.bits[j]
+            j -= (j & -j)
+        while i > 0:
+            res -= self.bits[i]
+            i -= (i & -i)
+        return res
 
 
 
+
+
+#naive approach, 差分法, time complexity update O(n), sumRange O(1) => total O(n^2)
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        self.nums = [0] + nums
+        self.s = [0] * (len(nums) + 1)
+        for k in range(1, len(self.nums)):
+            self.s[k] = self.s[k-1] + self.nums[k]
+        
+
+    def update(self, i: int, val: int) -> None:
+        i = i + 1
+        self.nums[i] = val
+        for k in range(1, len(self.nums)):
+            self.s[k] = self.s[k-1] + self.nums[k]
+
+    def sumRange(self, i: int, j: int) -> int:
+        j = j + 1
+        return self.s[j] - self.s[i]
