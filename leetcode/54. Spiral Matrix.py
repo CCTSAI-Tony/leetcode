@@ -68,8 +68,31 @@ class Solution:
 
 
 
-
-
+#重寫第二次, time complexity O(mn), space complexity O(1)
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        m_l, n_l, m_r, n_r = 0, 0, len(matrix) - 1, len(matrix[0]) - 1
+        res = []
+        while m_l <= m_r and n_l <= n_r:
+            for i in range(n_l, n_r + 1):
+                res.append(matrix[m_l][i])
+            m_l += 1
+            
+            for j in range(m_l, m_r + 1):
+                res.append(matrix[j][n_r])
+            n_r -= 1
+            
+            if m_l <= m_r:
+                for i in range(n_r, n_l -1, -1):
+                    res.append(matrix[m_r][i])
+            m_r -= 1
+            
+            if n_l <= n_r:
+                for j in range(m_r, m_l -1, -1):
+                    res.append(matrix[j][n_l])
+            n_l += 1
+            
+        return res
 
 
 

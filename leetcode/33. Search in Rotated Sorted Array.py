@@ -104,6 +104,40 @@ class Solution:
             return r
         return -1
 
+
+
+
+#重寫第三次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l , r = 0, len(nums) - 1
+        while l + 1 < r:
+            mid = l + (r - l) //2
+            if nums[mid] < nums[r]:
+                if nums[mid] <= target <= nums[r]:
+                    l = mid
+                else:
+                    r = mid
+            else:
+                if nums[l] <= target <= nums[mid]:
+                    r = mid
+                else:
+                    l = mid
+        if nums[l] == target:
+            return l
+        if nums[r] == target:
+            return r
+        return -1
+
+
+
+
+
+
+
+
+
+
 '''
 You may assume no duplicate exists in the array.
 

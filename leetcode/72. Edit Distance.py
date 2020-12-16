@@ -133,6 +133,39 @@ class Solution:
         return memo[(i, j)]
 
 
+
+#重寫第二次, time complexity O(mn), space complexity O(mn)
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        memo = {}
+        return self.dfs(word1, word2, 0, 0, memo)
+    
+    def dfs(self, word1, word2, i, j, memo):
+        if i == len(word1) and j == len(word2):
+            return 0
+        if i == len(word1):
+            return len(word2) - j
+        if j == len(word2):
+            return len(word1) - i
+        if (i, j) in memo:
+            return memo[(i, j)]
+        if word1[i] == word2[j]:
+            return self.dfs(word1, word2, i + 1, j + 1, memo)
+        insert = 1 + self.dfs(word1, word2, i, j + 1, memo)
+        delete = 1 + self.dfs(word1, word2, i + 1, j, memo)
+        replace = 1 + self.dfs(word1, word2, i + 1, j + 1, memo)
+        ans = min(insert, delete, replace)
+        memo[(i, j)] = ans
+        return memo[(i, j)]
+
+
+
+
+
+
+
+
+
 # Of course, an interative implementation is usually better than its recursive counterpart 
 # because we don't risk blowing up our stack in case the number of recursive calls is very deep. 
 # We can also use a 2D array to do essentially the same thing as the dictionary of cached values. 

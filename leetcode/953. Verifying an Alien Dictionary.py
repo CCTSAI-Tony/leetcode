@@ -42,7 +42,7 @@ Return True
 
 
 #time complexity O(n*k) n:len(words), k: average len of word
-#思路: 建立hash table 比新oder順序紀錄下來, 技巧: 利用zip 使前後兩兩一起比較, 若出現亂序則比較途中會發現 => ex: 5 < 9 < 11 > 2 途中比較若前者>後者 return False
+#思路: 建立hash table 把新oder順序紀錄下來, 技巧: 利用zip 使前後兩兩一起比較, 若出現亂序則比較途中會發現 => ex: 5 < 9 < 11 > 2 途中比較若前者>後者 return False
 #比較a, b 的每一個letter => 使用zip 兩兩相同位置letter 一起比較> 
 #若前者letter order > 後者 letter order return False, 前者letter order < 後者 letter order => break the inner for loop => 換下一組word比對
 #若前者letter order == 後者 letter order => 換下一對字符繼續比對
