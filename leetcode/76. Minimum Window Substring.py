@@ -76,7 +76,28 @@ class Solution:
         return min_window
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        dic = Counter(t)
+        count = len(t)
+        l, r = 0, 0
+        res = ""
+        for r in range(len(s)):
+            temp = s[r]
+            if dic[temp] > 0:
+                count -= 1
+            dic[temp] -= 1
+            while count == 0:
+                window = s[l:r+1]
+                if not res or len(window) < len(res):
+                    res = window
+                dic[s[l]] += 1
+                if dic[s[l]] > 0:
+                    count += 1
+                l += 1
+        return res
 
 
 
