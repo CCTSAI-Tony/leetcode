@@ -14,13 +14,29 @@ Output: [1,2]
 Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
 '''
 
-#time complexity O(n)
+#刷題用這個
+#重寫第二次, time complexity O(n), space complexity O(1)
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
-        map = {}
-        for index, val in enumerate(numbers):
-            diff = target - val
-            if diff in map:
-                return [map[diff]+1,index+1] #not zero-based index
+        l, r = 0, len(numbers) - 1
+        while l < r:
+            temp = numbers[l] + numbers[r]
+            if temp > target:
+                r -= 1
+            elif temp < target:
+                l += 1
             else:
-                map[val] = index
+                return [l + 1, r + 1]
+
+
+
+
+
+
+
+
+
+
+
+
+

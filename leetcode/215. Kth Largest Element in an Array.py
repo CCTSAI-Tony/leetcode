@@ -27,7 +27,7 @@ class Solution:
             # 2. move all smaller elements to the left
             store_index = left
             for i in range(left, right):
-                if nums[i] < pivot:
+                if nums[i] < pivot: #這句精華, 也可以 <=
                     nums[store_index], nums[i] = nums[i], nums[store_index]
                     store_index += 1
 
@@ -93,8 +93,34 @@ class Solution:
         return store_idx
 
 
-
-
+#重寫第二次, time complexity O(n) in everage, O(n^2) in worst case, space complexity O(1)
+import random
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        k_smallest = len(nums) - k
+        return self.select(0, len(nums) - 1, nums, k_smallest)
+        
+    def select(self, left, right, nums, k_smallest):
+        if left == right:
+            return nums[left]
+        idx = random.randint(left, right)
+        index = self.partition(left, right, idx, nums)
+        if index == k_smallest:
+            return nums[k_smallest]
+        if index > k_smallest:
+            return self.select(left, index - 1, nums, k_smallest)
+        if index < k_smallest:
+            return self.select(index + 1, right, nums, k_smallest)
+    
+    def partition(self, left, right, idx, nums):
+        nums[idx], nums[right] = nums[right], nums[idx]
+        l = left
+        for i in range(left, right):
+            if nums[i] < nums[right]:
+                nums[i], nums[l] = nums[l], nums[i]
+                l += 1
+        nums[l], nums[right] = nums[right], nums[l]
+        return l
 
 
 #quick sort

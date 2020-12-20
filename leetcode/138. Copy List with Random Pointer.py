@@ -89,6 +89,34 @@ class Solution:
             cur = cur.next
         return dic[head]
 
+
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if not head:
+            return None
+        cur = head
+        dic = {}
+        while cur:
+            node = Node(cur.val)
+            dic[cur] = node
+            cur = cur.next
+        cur = head
+        while cur:
+            copy = dic[cur]
+            nxt = cur.next
+            rand = cur.random
+            if nxt:
+                copy.next = dic[nxt]
+            if rand:
+                copy.random = dic[rand]
+            cur = cur.next
+        return dic[head]
+
+
+
+
+
 #  這有可能follow up, space complexity 優化
 #  time complexity O(n), space complexity O(1)
 #  思路: 先建立A --> A' --> B --> B' --> C --> C' --> D --> D', 再從頭遍歷把各個copynode 的random pointer 接上 random copynode

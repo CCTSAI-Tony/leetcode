@@ -40,6 +40,25 @@ class Solution:
         return min_len if min_len != float("inf") else 0
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        min_len = float("inf")
+        for r in range(1, len(nums)):
+            nums[r] += nums[r - 1]
+        nums = [0] + nums
+        l = 0
+        for r in range(1, len(nums)):
+            while nums[r] - nums[l] >= s:
+                min_len = min(min_len, r - l)
+                l += 1
+        return min_len if min_len != float("inf") else 0
+
+
+
+
 
 #模板2, time complexity O(nlogn), space complexity O(1)
 #思路: 建立prefix sum array, 再使用binary search 來找尋window 最靠近右邊 的 left index

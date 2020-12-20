@@ -141,8 +141,60 @@ class LRUCache:
         self.dict[n.key] = n
 
 
+#重寫第三次, time complexity O(1), space complexity O(n)
+class Node:
+    
+    def __init__(self, key=0, val=0):
+        self.val = val
+        self.key = key
+        self.next = None
+        self.prev = None
+        
+class LRUCache:
 
-
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.dic = {}
+        self.head = Node()
+        self.tail = Node()
+        self.head.next = self.tail
+        self.tail.prev = self.head
+    
+    def remove(self, node):
+        prev = node.prev
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+        del self.dic[node.key]
+        
+    def add(self, node):
+        prev = self.tail.prev
+        self.tail.prev = node
+        prev.next = node
+        node.next = self.tail
+        node.prev = prev
+        self.dic[node.key] = node
+    
+    def get(self, key: int) -> int:
+        if key in self.dic:
+            node = self.dic[key]
+            self.remove(node)
+            self.add(node)
+            return node.val
+        return -1
+    
+    def put(self, key: int, value: int) -> None:
+        if key in self.dic:
+            node = self.dic[key]
+            node.val = value
+            self.remove(node)
+            self.add(node)
+        else:
+            node = Node(key, value)
+            if len(self.dic) >= self.capacity:
+                old = self.head.next
+                self.remove(old)
+            self.add(node)
 
 
 
