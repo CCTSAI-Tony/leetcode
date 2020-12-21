@@ -17,7 +17,7 @@ You may assume that you have an infinite number of each kind of coin.
 '''
 
 #為什麼用dp而不是greedy, 因為coins 並不是單一個倍數
-#DP BOTTOM UP, 參考別人修改 用這個
+#思路: DP BOTTOM UP, 經典問題
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         if not amount:
@@ -31,6 +31,19 @@ class Solution:
         if dp[-1] == float("inf"):
             return -1
         return dp[-1]
+
+#重寫第二次, time complexity O(mn), space complexity O(m)
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        dp = [float("inf")] * (amount + 1)
+        dp[0] = 0
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if i >= coin:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        return dp[-1] if dp[-1] != float("inf") else -1
+
+
 
 
 
