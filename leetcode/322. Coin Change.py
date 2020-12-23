@@ -17,7 +17,7 @@ You may assume that you have an infinite number of each kind of coin.
 '''
 
 #為什麼用dp而不是greedy, 因為coins 並不是單一個倍數
-#思路: DP BOTTOM UP, 經典問題
+#思路: DP BOTTOM UP, 經典問題 要多練習
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
         if not amount:
