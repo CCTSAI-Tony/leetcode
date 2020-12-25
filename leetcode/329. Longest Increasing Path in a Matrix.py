@@ -114,6 +114,58 @@ class Solution:
         visited.remove((i, j))
         return memo[(i, j)]
 
+#重寫第四次, time complexity O(mn), space compleixty O(mn)
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        max_len = 0
+        m, n = len(matrix), len(matrix[0])
+        memo = dict()
+        for i in range(m):
+            for j in range(n):
+                temp = self.dfs(i, j, matrix, memo, m, n)
+                max_len = max(max_len, temp)
+        return max_len
+    
+    def dfs(self, i, j, matrix, memo, m, n):
+        if (i, j) in memo:
+            return memo[(i, j)]
+        memo[(i, j)] = 1 + max(
+        self.dfs(i + 1, j, matrix, memo, m, n) if i + 1 < m and matrix[i + 1][j] > matrix[i][j] else 0,
+        self.dfs(i - 1, j, matrix, memo, m, n) if i - 1 >= 0 and matrix[i - 1][j] > matrix[i][j] else 0,
+        self.dfs(i, j + 1, matrix, memo, m, n) if j + 1 < n and matrix[i][j + 1] > matrix[i][j] else 0,
+        self.dfs(i, j - 1, matrix, memo, m, n) if j - 1 >= 0 and matrix[i][j - 1] > matrix[i][j] else 0
+        )
+        return memo[(i, j)]
+
+#重寫第五次, memo + bacltracking, time complexity O(mn), space complexity O(mn)
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        m, n = len(matrix), len(matrix[0])
+        memo = dict()
+        visited = set()
+        for i in range(m):
+            for j in range(n):
+                self.dfs(i, j, matrix, memo, visited, m, n)
+        
+        return max(memo.values())
+    
+    def dfs(self, i, j, matrix, memo, visited, m, n):
+        if (i, j) in memo:
+            return memo[(i, j)]
+        memo[(i, j)] = 1
+        visited.add((i, j))
+        direcs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        for d in direcs:
+            x, y = i + d[0], j + d[1]
+            if 0 <= x < m and 0 <= y < n and (x, y) not in visited and matrix[x][y] > matrix[i][j]:
+                memo[(i, j)] = max(memo[(i, j)], 1 + self.dfs(x, y, matrix, memo, visited, m, n))
+        visited.remove((i, j))
+        return memo[(i, j)]
+
 
 # We can find longest decreasing path instead, the result will be the same. Use dp to record previous results and choose the max dp value of smaller neighbors.
 
