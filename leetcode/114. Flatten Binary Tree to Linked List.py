@@ -30,7 +30,7 @@ The flattened tree should look like:
 #         self.right = right
 
 
-#刷題用這個, 自己重寫, time complexity O(n), space complexity O(h) => 93.99%
+#自己重寫, time complexity O(n), space complexity O(h) => 93.99%
 #思路: 先把right 暫存, node.right = node.left, set left to None => 利用recursion return right 的最底端node, 若temp is no none, 最底端node.right 接回temp
 #一樣再對node.right 做recursion來找最底端node, 最後return 最底端node 給上一層接temp
 #若 not node.left, 直接搜索node.right 最底層node
@@ -54,6 +54,37 @@ class Solution:
             return root
         else:
             return self.flatten(root.right)
+
+
+#重寫第二次, time complexity O(n), space complexity O(h)
+#注意: node.left 移至node.right 記得set node.left = None
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        self.dfs(root)
+        
+    def dfs(self, node):
+        if not node:
+            return
+        if not node.left and not node.right:
+            return node
+        right = node.right
+        left_last = self.dfs(node.left)
+        right_last = self.dfs(node.right)
+        if left_last and right_last:
+            node.right = node.left
+            node.left = None
+            left_last.right = right
+            return right_last
+        elif not right_last:
+            node.right = node.left
+            node.left = None
+            return left_last
+        else:
+            return right_last
+
 
 
 
@@ -84,12 +115,31 @@ class Solution:
             self.dfs(root.right)
 
 
- 
 
 
 
-
-
+#重寫第二次 time complexity O(n^2), space complexity O(h)
+class Solution:
+    def flatten(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        self.dfs(root)
+        
+    def dfs(self, node):
+        if not node:
+            return
+        if node.left:
+            right = node.right
+            node.right = node.left
+            node.left = None
+            self.dfs(node.right)
+            while node.right:
+                node = node.right
+            node.right = right
+            self.dfs(node.right)
+        else:
+            self.dfs(node.right)
 
 
 

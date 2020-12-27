@@ -72,6 +72,32 @@ class Solution(object):
         else:
             return left
 
+
+#重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+        return self.dfs(root, p, q)
+    
+    def dfs(self, node, p, q):
+        if not node:
+            return
+        elif node == p:
+            return p
+        elif node == q:
+            return q
+        left = self.dfs(node.left, p, q)
+        right = self.dfs(node.right, p, q)
+        if left and right:
+            return node
+        elif left or right:
+            return left or right
+
+
+
+
+
 # 不行 if root == (p or q), why, (p or q) 永遠只會return 第一個為True 的 object, q永遠不會被evaluated
 # (2 or 5) => 2, (5 or 2) => 5
 # 不行 if root == p or q:
