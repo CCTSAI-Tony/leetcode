@@ -11,7 +11,7 @@ Input:
 ]
 Output: 1->1->2->3->4->4->5->6
 '''
-# Python concise divide and conquer solution. time complexity O(M*lg(N)), Space complexity with recursion stack is O(lg(N))
+# Python concise divide and conquer solution. time complexity O(MN*lg(N)), Space complexity with recursion stack is O(lg(N))
 # where M is the size of the merged linked(總字數) list and N is the size of the lists argument.
 # 思路: 利用分治法來合併lists
 # Definition for singly-linked list.
@@ -43,7 +43,7 @@ class Solution(object):
         cur.next = l or r  #其中有一為none
         return dummy.next
 
-#重寫第二次, time complexity O(mlogn), space complexity O(1), m:len(sorted_list), n: len(lists)
+#重寫第二次, time complexity O(mnlogn), space complexity O(logn), m:len(sorted_list), n: len(lists)
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         if not lists:
@@ -70,7 +70,37 @@ class Solution:
         return dummy.next
 
 
-
+#重寫第三次, time complexity O(mnlogn), space complexity O(log(n)), m:len(sorted_list), n: len(lists), mn: total elements
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return None
+        return self.helper(lists, 0, len(lists) - 1)
+    
+    def helper(self, lists, left, right):
+        if left > right:
+            return None
+        elif left == right:
+            return lists[left]
+        else:
+            mid = left + (right - left) // 2
+            l = self.helper(lists, left, mid)
+            r = self.helper(lists, mid + 1, right)
+            return self.merge(l, r)
+        
+    def merge(self, l, r):
+        dummy = cur = ListNode()
+        while l and r:
+            if l.val < r.val:
+                cur.next = l
+                l = l.next
+                cur = cur.next
+            else:
+                cur.next = r
+                r = r.next
+                cur = cur.next
+        cur.next = l or r
+        return dummy.next
 
 
 
