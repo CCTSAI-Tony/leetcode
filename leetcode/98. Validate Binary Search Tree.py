@@ -53,7 +53,7 @@ class Solution(object):
             return self.dfs(node.left, lower, node.val) and self.dfs(node.right, node.val, upper)
 
 
-#重寫第二次, preorder, time complexity O(n), space complexity O(1)
+#重寫第二次, preorder, time complexity O(n), space complexity O(h)
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
         if not root:
@@ -66,6 +66,24 @@ class Solution:
         if not lower < node.val < upper:
             return False
         return self.dfs(node.left, lower, node.val) and self.dfs(node.right, node.val, upper)
+
+#重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        return self.helper(root, float("-inf"), float("inf"))
+    
+    def helper(self, node, low, high):
+        if not low < node.val < high:
+            return False
+        if node.left:
+            if not self.helper(node.left, low, node.val):
+                return False
+        if node.right:
+            if not self.helper(node.right, node.val, high):
+                return False
+        return True
+
+
 
 
  # dfs iteration, preorder

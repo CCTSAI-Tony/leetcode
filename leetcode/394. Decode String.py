@@ -42,6 +42,31 @@ class Solution:
         return string
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def decodeString(self, s: str) -> str:
+        num = 0
+        string = ""
+        stack = []
+        for w in s:
+            if w.isdigit():
+                num = num * 10 + int(w)
+            elif w == "[":
+                stack.append(string)
+                string = ""
+                stack.append(num)
+                num = 0
+            elif w == "]":
+                k = stack.pop()
+                prev = stack.pop()
+                string = prev + k * string
+            else:
+                string += w
+        return string
+
+
+
+
 
 #stack 
 class Solution(object):

@@ -89,8 +89,41 @@ class Solution:
         return dummy.next
 
 
-
-
+#time complexity O(nlogn), space complexity O(1)
+#指針遍歷的切分time complexity = merge time complexity = O(n), 因此total time complexity 一樣是 O(nlogn)
+class Solution:
+    def sortList(self, head: ListNode) -> ListNode:
+        if not head:
+            return None
+        return self.helper(head)
+    
+    def helper(self, head):
+        if not head.next:
+            return head
+        slow = head
+        fast = head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        nxt = slow.next
+        slow.next = None
+        left = self.helper(head)
+        right = self.helper(nxt)
+        return self.merge(left, right)
+    
+    def merge(self, l, r):
+        dummy = cur = ListNode()
+        while l and r:
+            if l.val < r.val:
+                cur.next = l
+                l = l.next
+                cur = cur.next
+            else:
+                cur.next = r
+                r = r.next
+                cur = cur.next
+        cur.next = l or r
+        return dummy.next
 
 
 

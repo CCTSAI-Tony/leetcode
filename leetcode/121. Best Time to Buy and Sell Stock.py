@@ -53,8 +53,15 @@ class Solution:
             max_profit = max(max_profit, num-min_price)
         return max_profit
 
-
-
+#重寫第四次, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        min_price = float("inf")
+        max_profit = 0
+        for p in prices:
+            min_price = min(min_price, p)
+            max_profit = max(max_profit, p - min_price)
+        return max_profit
 
 
 

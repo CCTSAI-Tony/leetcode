@@ -410,3 +410,27 @@ if __name__=="__main__":
         r2 = find(r)
         res = s[r2]-s[l2-1]
         print(res)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
