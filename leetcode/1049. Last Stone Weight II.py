@@ -26,6 +26,7 @@ Note:
 1 <= stones[i] <= 100
 '''
 
+@@
 # Explaining why this problem is equals to finding the difference between the sum of two groups
 
 # Suppose you have rock a, b, c and d.
@@ -39,7 +40,7 @@ Note:
 
 # Then you can see that depending on the order of the subtractions, we get a different setting of difference between two groups.
 
-@@
+
 # we could split the stones into two piles A and B, so that abs( A - B ) has a minimum value. Thus each stone is either in pile A or pile B. 
 # now we simply need to figure out how to spilt the stones.
 # as metioned above, each stone is only in one of the two piles, let's denote dp[i] as whether to put the i-th(starting from 0) stone in to A or B.
@@ -48,8 +49,11 @@ Note:
 # if we put it into B, then for all the results that before the i-th stone, we subtract the weight of i-th stone from them.
 # keep doing this until we put the last stone into calculation. at this point, 
 # we simply take a look at final results and the minimum abs value is the answer. below is the code:
+# actually, we don't need to keep track of dp arrays of all the stones, only the dp array of previous stone that matters.
 
-#time complexity O(n log n)
+#刷題用這個 time complexity O(n log n)
+#思路: 此題有點數學, ex: d-(a+b+c), 題目簡化成把stone 分成兩group, 並計算此兩group的差值, 不同相減順序會導致不同最終結果 => 使用dp
+#若決定把該石頭放入pile a => 放入i-1 stone的相減組合都加上該i-th石頭值, 若放入pile b => 之前 i-1 stone的相減組合都減上該i-th石頭值 => 對每個相減組合結果取絕對值排序 => 最小的就是ans
 class Solution:
     def lastStoneWeightII(self, stones) -> int:
         dp = [[]] #why dp = [[]] cause dp[0] need something to fill in 
@@ -61,12 +65,21 @@ class Solution:
         total.sort()  #sort() ascending order
         return total[0]
 
-# actually, we don't need to keep track of dp arrays of all the stones, only the dp array of previous stone that matters.
+
 
 set([1,1,1,1])
 {1}
 
-
+#重寫第二次, time complexity O(nlogn), space complexity O(2^n)
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        dp = []
+        dp.append([stones[0], -stones[0]])
+        for i in range(1, len(stones)):
+            dp.append(list(set([e + stones[i] for e in dp[i - 1]] + [e - stones[i] for e in dp[i - 1]])))
+        temp = [abs(e) for e in dp[-1]]
+        temp.sort()
+        return temp[0]
 
 
 
