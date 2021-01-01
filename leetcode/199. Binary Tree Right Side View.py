@@ -37,6 +37,23 @@ class Solution:
             self.dfs(root.right, level+1, res) #right first 
             self.dfs(root.left, level+1, res)
 
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        dic = {}
+        self.dfs(root, 0, dic)
+        return dic.values()
+    
+    def dfs(self, node, level, dic):
+        if not node:
+            return
+        dic[level] = node.val
+        self.dfs(node.left, level + 1, dic)
+        self.dfs(node.right, level + 1, dic)
+
+
+
 # DFS + stack
 class Solution:
     def rightSideView2(self, root):

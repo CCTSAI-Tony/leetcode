@@ -51,7 +51,7 @@ Note:
 # we simply take a look at final results and the minimum abs value is the answer. below is the code:
 # actually, we don't need to keep track of dp arrays of all the stones, only the dp array of previous stone that matters.
 
-#刷題用這個 time complexity O(n log n)
+#刷題用這個 time complexity O(2^nlog2^n), space complexity O(2^n)
 #思路: 此題有點數學, ex: d-(a+b+c), 題目簡化成把stone 分成兩group, 並計算此兩group的差值, 不同相減順序會導致不同最終結果 => 使用dp
 #若決定把該石頭放入pile a => 放入i-1 stone的相減組合都加上該i-th石頭值, 若放入pile b => 之前 i-1 stone的相減組合都減上該i-th石頭值 => 對每個相減組合結果取絕對值排序 => 最小的就是ans
 class Solution:
@@ -70,7 +70,7 @@ class Solution:
 set([1,1,1,1])
 {1}
 
-#重寫第二次, time complexity O(nlogn), space complexity O(2^n)
+#重寫第二次, time complexity O(2^nlog2^n), space complexity O(2^n)
 class Solution:
     def lastStoneWeightII(self, stones: List[int]) -> int:
         dp = []
