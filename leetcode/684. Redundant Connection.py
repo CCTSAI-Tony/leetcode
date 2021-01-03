@@ -98,7 +98,8 @@ class Solution:
     def find(self, u, parent):
         if parent[u] == u:
             return u
-        return self.find(parent[u], parent)
+        parent[u] = self.find(parent[u], parent)
+        return parent[u]
 
 
 
