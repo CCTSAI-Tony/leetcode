@@ -16,7 +16,7 @@
 #         self.next = next
 # 自己重寫 time complexity O(n)
 # 思路: 此題就是相加兩個list, 首先為個位數相加, 再來十位數, 但別忘了進位到下一round, 最後若有進位要手動加回
-#額外技巧, dummyhead and divmod
+# 額外技巧, dummyhead and divmod
 
 
 class Solution:

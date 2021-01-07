@@ -188,7 +188,7 @@ class Solution(object):
 
     # xr = x/parent(x), pr = parent(x)/root(x), update xr to xr*pr = x/root(x)
     def find(self, x, root):
-        p, xr = root.setdefault(x, (x, 1.0))
+        p, xr = root.setdefault(x, (x, 1.0)) #一旦有值, setdefault不會覆蓋原本的值
         if x != p:
             r, pr = self.find(p, root)
             root[x] = (r, xr*pr)
