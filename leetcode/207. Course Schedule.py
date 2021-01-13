@@ -30,7 +30,7 @@ You may assume that there are no duplicate edges in the input prerequisites.
 '''
 
 # 刷題用這個
-# 自己重寫 time complexity O(V + E^2), space complexity O(V+E)
+# 自己重寫 time complexity O(V + E), space complexity O(V+E)
 # 思路: dfs directed graph, topological sort, 有趣的是建立graph, edge 方向相反, 不影響答案, 可以想像成不是dag的graph, 反方向也不是dag, vise versa
 # dag不會有backedge, 有backedge 就會出現circle, 就不能完成全部課程
 from collections import defaultdict
@@ -82,7 +82,36 @@ class Solution:
             if not dfs(i):
                 return False
         return True
-       
+
+
+#自己想的, bfs topological sort, time complexity O(v+e), space complexity O(v+e)
+#思路: acwing 解法, 利用indegree 來逐層加入indegree == 0 的點, 最後確認indegree裡面都是0 否則代表圖有環
+from collections import deque, defaultdict
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        indegree, graph = defaultdict(int), defaultdict(list)
+        for edge in prerequisites:
+            if edge[1] not in indegree:
+                indegree[edge[1]] = 0
+            indegree[edge[0]] += 1
+            graph[edge[1]].append(edge[0])
+        queue = deque()
+        for i in indegree:
+            if indegree[i] == 0:
+                queue.append(i)
+        while queue:
+            i = queue.popleft()
+            for j in graph[i]:
+                indegree[j] -= 1
+                if indegree[j] == 0:
+                    queue.append(j)
+        return not any(indegree.values())
+
+
+
+
+
+
 # if node v has not been visited, then mark it as 0. white color
 # if node v is being visited, then mark it as -1. If we find a vertex marked as -1 in DFS, then their is a ring(backedge). gray color, 
 # if node v has been visited, then mark it as 1. If a vertex was marked as 1, then no ring contains v or its successors. black color, 不是 forwardedge 就是 cross edge

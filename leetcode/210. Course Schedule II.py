@@ -128,7 +128,7 @@ class Solution:
 
 
 
-# time complexity O(VE)
+# time complexity O(V + E)
 from collections import defaultdict
 class Solution:
     # @param {integer} numCourses

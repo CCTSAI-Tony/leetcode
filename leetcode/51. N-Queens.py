@@ -94,7 +94,6 @@ class Solution:
         self.diag_2[i - j] = 0
     
     def addAnswer(self):
-        self.queens.sort()
         ans = []
         for r, c in self.queens:
             row = "." * c + "Q" + "." * (self.n - (c + 1))
