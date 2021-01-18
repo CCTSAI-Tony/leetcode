@@ -17,6 +17,7 @@ def perfectNumbers(n):
             
     
     
+    
 perfectNumbers(1000000)
 215908
             

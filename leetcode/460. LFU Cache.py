@@ -197,7 +197,7 @@ class LFUCache:
             return
         else:
             if len(self.keyToNode) == self.cap:
-                k, n = self.countToNode[self.minfreq].popitem(last=False)
+                k, n = self.countToNode[self.minfreq].popitem(last=False) #orderedd dict 專屬用法
                 del self.keyToNode[k]
                 
             node = Node(key, value, 1)

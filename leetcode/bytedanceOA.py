@@ -372,6 +372,32 @@ def check(s1, s2, m):
 
 
 
+#tiktok intern 2nd vo question => assign books => every one has at least one book => return minimum of maximum books that one person can have
+def assignBooks(pages, n):
+    if n <= 0 or len(pages) < n:
+        return -1
+    l, r = max(pages), sum(pages)
+    while l + 1 < r:
+        mid = l + (r - l) // 2
+        if check(pages, mid, n):
+            r = mid
+        else:
+            l = mid
+    if not check(pages, l, n):
+        return r
+    return l
+            
+            
+def check(pages, k, n):
+    count = 0
+    temp = 0
+    for p in pages:
+        if p + temp > k:
+            count += 1
+            temp = 0
+        temp += p
+    return count + 1 <= n
+
 
 
 
