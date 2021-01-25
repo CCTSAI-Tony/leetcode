@@ -62,8 +62,25 @@ class Solution:
 
 
 
-
-
+#重寫第二次, time complexity O(mn), space complexity O(n)
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        n = len(matrix[0])
+        height = [0] * (n + 1) #技巧: 尾部多一個0
+        ans = 0
+        for row in matrix:
+            for i in range(n):
+                height[i] = height[i] + 1 if row[i] == "1" else 0 #不能 height[i] += 1 if row[i] == "1" else 0 => 此邏輯變為 else += 0
+            stack = [-1]
+            for i in range(n + 1): #技巧: n + 1 使得最後強制進行while loop 來計算面積
+                while height[i] < height[stack[-1]]:
+                    h = height[stack.pop()]
+                    w = i - stack[-1] - 1
+                    ans = max(ans, h * w)
+                stack.append(i)
+        return ans
 
 
 

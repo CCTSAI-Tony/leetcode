@@ -28,6 +28,8 @@ Output: 10
 # https://abhinandandubey.github.io/posts/2019/12/15/Largest-Rectangle-In-Histogram.html
 
 # time complexity O(n)
+#刷題用這個, time complexity O(n), space complexity O(n)
+#思路: 
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         heights.append(0) #這個重要, 遍歷完height 最後強迫回算留在stack 的遞增序列, stack pop的高度當作rectangle的高度
