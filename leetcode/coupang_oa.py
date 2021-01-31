@@ -102,6 +102,9 @@ bigramsWithSynonym("i am fed up with you", ["fed up,annoyed"])
  'with you']
 
 
+def evennumber():
+    print([i for i in range(2, 99) if i % 2 == 0])
+
 
 
 
