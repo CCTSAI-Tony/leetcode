@@ -86,5 +86,34 @@ class Solution:
 
 
 
-
+#重寫第二次,time complexity O(nlogm), space complexity O(1), m = max(nums) - min(nums)
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        lo, hi = min(nums), max(nums)
+        precision = 10 ** -6
+        while lo + precision < hi:
+            mid = lo + (hi - lo) / 2.0
+            if self.check(nums, k, mid):
+                lo = mid
+            else:
+                hi = mid
+        if self.check(nums, k, hi):
+            return hi
+        return lo 
+        
+        
+    def check(self, nums, k, x):
+        sum_until_j = 0
+        for i in range(k):
+            sum_until_j += nums[i] - x
+        if sum_until_j >= 0:
+            return True
+        min_prev, sum_until_i = 0, 0
+        for i in range(k, len(nums)):
+            sum_until_j += nums[i] - x
+            sum_until_i += nums[i-k] - x
+            min_prev = min(min_prev, sum_until_i)
+            if sum_until_j - min_prev >= 0:
+                return True
+        return False
 
