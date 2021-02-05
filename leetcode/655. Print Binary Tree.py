@@ -48,7 +48,9 @@ Output:
 Note: The height of binary tree is in the range of [1, 10].
 '''
 
-
+#刷題用這個, time complexity O(h*2^h), space complexity O(h*2^h) We need to fill the resres array of size h * 2^h - 1  Here, hh refers to the height of the given tree.
+#2^h - 1 是list 的長度, 有h層 => 所以最差要填滿 h * (2^h - 1) 個坑
+#思路: 先取得樹高得知list長度, 再利用遞迴與node在特定區間正中間的特性, 把lists填滿
 class Solution(object):
     def printTree(self, root):
         """
@@ -68,13 +70,30 @@ class Solution(object):
             
         height = get_height(root)
         width = 2 ** height - 1
-        self.output = [[''] * width for i in xrange(height)]
+        self.output = [[''] * width for i in range(height)]
         update_output(node=root, row=0, left=0, right=width - 1)
         return self.output
 
 
 
-
-
-
+#重寫第一次, time complexity O(h * (2**h - 1)), space complexity O(h * (2**h - 1))
+class Solution:
+    def printTree(self, root: TreeNode) -> List[List[str]]:
+        def get_height(node):
+            return 0 if not node else 1 + max(get_height(node.left), get_height(node.right))
         
+        def fill_positions(node, height, left, right):
+            if not node:
+                return 
+            mid = left + (right - left) // 2
+            self.rows[height][mid] = str(node.val)
+            fill_positions(node.left, height + 1, left, mid - 1)
+            fill_positions(node.right, height + 1, mid + 1, right)
+            
+        h = get_height(root)
+        self.rows = [[""] * (2 ** h - 1) for _ in range(h)]
+        fill_positions(root, 0, 0, 2 ** h - 2) # 2 ** h - 2 => zero based index issue
+        return self.rows
+
+
+
