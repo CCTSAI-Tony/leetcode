@@ -51,6 +51,36 @@ class Solution:
 
 
 
+#自己重寫第二次, time complexity O(1), space complexity O(1)
+class Solution:
+    def numberToWords(self, num: int) -> str:
+        self.digits = {1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 
+                      9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve", 13: "Thirteen", 14: "Fourteen",
+                      15: "Fifteen", 16: "Sixteen", 17: "Seventeen", 18: "Eighteen", 19: "Nineteen"}
+        self.tens = {20: "Twenty", 30: "Thirty", 40: "Forty", 50: "Fifty", 60: "Sixty", 70: "Seventy", 
+                    80: "Eighty", 90: "Ninety"}
+        if num == 0:
+            return "Zero"
+        return self.dfs(num).strip()
+        
+    def dfs(self, num):
+        if num >= 1e9:
+            return self.dfs(num//1e9) + " Billion" + self.dfs(num % 1e9)
+        elif num >= 1e6:
+            return self.dfs(num//1e6) + " Million" + self.dfs(num % 1e6)
+        elif num >= 1e3:
+            return self.dfs(num//1e3) + " Thousand" + self.dfs(num % 1e3)
+        elif num >= 1e2:
+            return self.dfs(num//1e2) + " Hundred" + self.dfs(num % 1e2)
+        elif num >= 20:
+            return " " + self.tens[num//10 * 10] + self.dfs(num % 10)
+        elif num >= 1:
+            return " " + self.digits[num]
+        else:
+            return ""
+
+
+
 
 class Solution:
     def numberToWords(self, num: int) -> str:

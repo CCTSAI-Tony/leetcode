@@ -77,6 +77,7 @@ class Solution(object):
 
 
 #重寫第一次, time complexity O(h * (2**h - 1)), space complexity O(h * (2**h - 1))
+#內鑲funcs style 要多練習
 class Solution:
     def printTree(self, root: TreeNode) -> List[List[str]]:
         def get_height(node):
@@ -86,7 +87,7 @@ class Solution:
             if not node:
                 return 
             mid = left + (right - left) // 2
-            self.rows[height][mid] = str(node.val)
+            self.rows[height][mid] = str(node.val) # self.rows 雖然未定義但可以先寫(因為此時還沒被運行, 運行時self.rows 已經定義了)
             fill_positions(node.left, height + 1, left, mid - 1)
             fill_positions(node.right, height + 1, mid + 1, right)
             
