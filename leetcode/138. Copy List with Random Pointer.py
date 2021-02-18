@@ -114,7 +114,27 @@ class Solution:
         return dic[head]
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if not head:
+            return None
+        dic = {}
+        dummy = head
+        while head:
+            copy_node = Node(head.val)
+            dic[head] = copy_node
+            head = head.next
+        head = dummy
+        while head:
+            nxt = head.next
+            random = head.random
+            if nxt:
+                dic[head].next = dic[nxt]
+            if random:
+                dic[head].random = dic[random]
+            head = head.next
+        return dic[dummy]
 
 
 #  這有可能follow up, space complexity 優化
