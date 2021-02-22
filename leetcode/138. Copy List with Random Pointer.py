@@ -137,8 +137,8 @@ class Solution:
         return dic[dummy]
 
 
-#  這有可能follow up, space complexity 優化
-#  time complexity O(n), space complexity O(1)
+#  這有可能follow up, 不使用dict 優化
+#  time complexity O(n), space complexity O(2n) => O(n)
 #  思路: 先建立A --> A' --> B --> B' --> C --> C' --> D --> D', 再從頭遍歷把各個copynode 的random pointer 接上 random copynode
 #  最後從頭遍歷拆分 old and new linked list
 class Solution(object):
