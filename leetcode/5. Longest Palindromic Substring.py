@@ -94,6 +94,28 @@ class Solution:
         return s[(max_idx-lps[max_idx])//2: (max_idx+lps[max_idx])//2]
 
 
+#重寫第四次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        manacher_str = "#" + "#".join(s) + "#"
+        n = len(manacher_str)
+        lps = [0] * n
+        r = 0
+        c = 0
+        for i in range(1, n):
+            if r >= i:
+                lps[i] = min(r - i, lps[c-(i-c)])
+            while i - lps[i] - 1 >= 0 and i + lps[i] + 1 < n and manacher_str[i - lps[i] - 1] == manacher_str[i + lps[i] + 1]:
+                lps[i] += 1
+            if lps[i] + i > r:
+                c = i
+                r = i + lps[i]
+        max_r, max_c = max((v, i) for i, v in enumerate(lps))
+        return s[(max_c-max_r)//2:(max_c+max_r)//2]
+
+
+
+
 # get the longest palindrome, l, r are the middle indexes   
 # from inner to outer
 class Solution:
