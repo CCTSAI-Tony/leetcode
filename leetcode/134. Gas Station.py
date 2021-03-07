@@ -43,6 +43,29 @@ Travel to station 1. Your tank = 3 - 3 + 3 = 3
 You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
 Therefore, you can't travel around the circuit once no matter where you start.
 '''
+
+# 重寫第二次, time complexity O(n)m space complexity O(1)
+# 思路: 
+# 走完一遍以后，油量增加 => 一定能找到解
+# 走完一遍以后油量不变 => 这种情况下， 解存在，即 “周期函数一定有最大值和最小值。 只要从最小值出发，永远不会低于初值。”
+# 走完一遍以后油量减少 => 一定无解
+# input => [4], [5] => 就會導致 min_gas_loc = None, 因為走一圈回來, 油量增加了
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if sum(gas) < sum(cost):
+            return -1
+        min_gas, min_gas_loc = 0, None
+        tank = 0
+        for i in range(len(gas)):
+            tank += (gas[i] - cost[i])
+            if tank <= min_gas:
+                min_gas = tank
+                min_gas_loc = i + 1
+        return 0 if min_gas_loc is None else min_gas_loc % len(gas)
+
+
+
+
 '''
 横轴为加油站的序号，纵轴为油箱油量。允许油箱油量为负，假设走完一遍以后油量不变，那画出来的图就是周期函数，想像sine函數
 每隔一定周期回到原点。如果从这个周期函数的最小值出发，可以保证油箱油量不为负，即有解。不知道这样说有没有说清楚。:)
@@ -52,12 +75,9 @@ Therefore, you can't travel around the circuit once no matter where you start.
 
 会有三种情况：
 
-走完一遍以后，油量增加
-走完一遍以后油量不变
-走完一遍以后油量减少
-1， 一定能找到解
-2，这种情况下， 解存在，即 “周期函数一定有最大值和最小值。 只要从最小值出发，永远不会低于初值。”
-3， 一定无解
+走完一遍以后，油量增加 => 一定能找到解
+走完一遍以后油量不变 => 这种情况下， 解存在，即 “周期函数一定有最大值和最小值。 只要从最小值出发，永远不会低于初值。”
+走完一遍以后油量减少 => 一定无解
 '''
 
 class Solution:
@@ -76,7 +96,7 @@ class Solution:
             if tank < min_gas: #注意這邊沒有等於
                 min_gas = tank
                 min_gas_loc = i + 1
-        return 0 if min_gas_loc is None else (min_gas_loc ) % len(gas) #永遠取初始油量最低的, % len(gas) 防止在最後一個
+        return 0 if min_gas_loc is None else (min_gas_loc ) % len(gas) #永遠取初始油量最低的, % len(gas) 防止在最後一個 => i + 1 >= n, circle
 
 '''
 First, you definitely cannot complete the trip if there is more gas required than gas given. That is pretty obvious.
