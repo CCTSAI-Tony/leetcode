@@ -59,7 +59,22 @@ class Solution:
         return words
 
 
-
+#自己重寫第二次, time complexity O(n), space complexity O(1), 刷題用這個
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        words = ""
+        word = ""
+        prev = ""
+        for i in range(len(s)-1, -1, -1):
+            if s[i] != " " and prev == " ":
+                if word:  # 避免" w" leading space 的情況
+                    words += word + " "
+                word = s[i]
+            elif s[i] != " " and prev != " ":
+                word = s[i] + word
+            prev = s[i]
+        words += word
+        return words
 
 #time complexty O(n), space complexity O(n)
 class Solution:

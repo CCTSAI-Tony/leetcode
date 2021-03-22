@@ -45,7 +45,7 @@ Therefore, you can't travel around the circuit once no matter where you start.
 '''
 
 # 重寫第二次, time complexity O(n)m space complexity O(1)
-# 思路: 
+# 思路: 尋找油量最小值的點
 # 走完一遍以后，油量增加 => 一定能找到解
 # 走完一遍以后油量不变 => 这种情况下， 解存在，即 “周期函数一定有最大值和最小值。 只要从最小值出发，永远不会低于初值。”
 # 走完一遍以后油量减少 => 一定无解

@@ -18,6 +18,34 @@ return its zigzag level order traversal as:
 ]
 
 '''
+
+#自己重寫第二次, time complexity O(n), space complexity O(n)
+#思路: bfs
+from collections import deque
+class Solution:
+    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        queue = deque([root])
+        flag = 0
+        res = []
+        while queue:
+            level = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                level.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            if not flag:
+                res.append(level)
+            else:
+                res.append(level[::-1])
+            flag = -flag + 1
+        return res
+
+
 # time complexity O(n), bfs iterative
 # 思路: Simple straightforward solution using flag to decide whether from left to right or from right to left
 from collections import deque

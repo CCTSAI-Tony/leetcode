@@ -91,3 +91,31 @@ class Solution:
             node = nxt
             count -= 1
         return (node, prev)
+
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
+        count = k - 1
+        node = head
+        while node and count:
+            node = node.next
+            count -= 1
+        if not node:
+            return head
+        new_head, cur_head = self.reverse(head, k)
+        cur_tail = head
+        cur_tail.next = self.reverseKGroup(new_head, k)
+        return cur_head
+    
+    def reverse(self, head, k):
+        cur, prev = head, None
+        while k:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+            k -= 1
+        return nxt, prev
+
+
+

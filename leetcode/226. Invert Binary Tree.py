@@ -21,8 +21,23 @@
 
 # Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so f*** off.
 
-
-
+#自己重寫, time complexity O(n), space complexity O(1)
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        self.invert(root)
+        return root
+    
+    def invert(self, node):
+        left, right = node.left, node.right
+        node.left = right
+        node.right = left
+        if node.left:
+            self.invert(node.left)
+        if node.right:
+            self.invert(node.right)
+        return node
 
 # Definition for a binary tree node.
 # class TreeNode:
@@ -32,6 +47,7 @@
 #         self.right = None
 
 # BFS
+from collections import deque
 class Solution:
     def invertTree2(self, root):
         queue = collections.deque([root])

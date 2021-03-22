@@ -48,7 +48,31 @@ class Solution(object):
         self.dfs(grid, i, j-1)
 
 
-
+#自己重寫, bfs, time complexity O(mn), space complexity O(1)
+from collections import deque
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        m, n = len(grid), len(grid[0])
+        counts = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == "1":
+                    counts += 1
+                    self.bfs(i, j, grid, m, n)
+        return counts
+    
+    def bfs(self, i, j, grid, m, n):
+        grid[i][j] = "#"
+        queue = deque([(i, j)])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        while queue:
+            for _ in range(len(queue)):
+                x, y = queue.popleft()
+                for d in directions:
+                    nx, ny = x + d[0], y + d[1]
+                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == "1":
+                        grid[nx][ny] = "#"
+                        queue.append((nx, ny))
 
 
 #Python Union Find solution, with both path compression and union by rank, time complexity O(m*n), space complexity O(m*n)
