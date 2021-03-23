@@ -83,8 +83,25 @@ class Solution:
                 return False
         return True
 
-
-
+#重寫第四次, time complexity O(n), space complexity O(h)
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        if self.check(root, float("-inf"), float("inf")):
+            return True
+        return False
+    
+    def check(self, node, low, high):
+        if not low < node.val < high:
+            return False
+        if not node.left and not node.right:
+            return True
+        if node.left:
+            if not self.check(node.left, low, node.val):
+                return False
+        if node.right:
+            if not self.check(node.right, node.val, high):
+                return False
+        return True
 
  # dfs iteration, preorder
 class Solution(object):
