@@ -37,7 +37,7 @@ Repeat until there are no more children, then ignore the "#".
 
 #搭配297, 449 
 #自己重寫, time complexity O(n), space complexity O(n)
-#思路: preorder, serislize: 利用preorder 搭配recursion 來紀錄node children, 並使用#隔間
+#思路: N叉樹 preorder, serislize: 利用preorder 搭配recursion 來紀錄node children, 並使用#隔間
 #deserialize: 利用preorder 搭配recursion 來回朔 node & node's children
 #利用# 來告知這個node's 的所有children 都已結束遍歷
 from collections import deque
@@ -84,3 +84,47 @@ class Codec:
         tokens.popleft() #ignore #, 回到上一層
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Codec:
+    def serialize(self, root: 'Node') -> str:
+        """Encodes a tree to a single string.
+        
+        :type root: Node
+        :rtype: str
+        """
+        if not root:
+            return ""
+        stack = list()
+        self.preorder(root, stack)
+        return " ".join(stack)
+        
+    def preorder(self, node, stack):
+        stack.append(str(node.val))
+        for child in node.children:
+            self.preorder(child, stack)
+        stack.append("#")
+        
+        
+    
+    def deserialize(self, data: str) -> 'Node':
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: Node
+        """
+        if not data:
+            return None
+        data = deque(data.split())
+        root = Node(data.popleft(), [])
+        self.helper(root, data)
+        return root
+    
+    def helper(self, node, data):
+        while data:
+            val = data.popleft()
+            if val == "#":
+                return
+            child = Node(int(val), [])
+            node.children.append(child)
+            self.helper(child, data)

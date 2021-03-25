@@ -10,7 +10,7 @@
 #   "()()()"
 # ]
 
-#自己想的, time complexity O(n), backtracking, 40ms, 刷題用這個
+#自己想的, time complexity O(2^n), space complexity O(n) backtracking, 40ms, 刷題用這個
 #思路: 設"(" = 1, ")" = -1, pathSum 來紀錄目前括號的數量狀態, 途中若出現<0代表有")" 無法跟"(" 配對的情況->提早return, 最後全部配對完成 pathSum = 0, 才是valid的答案
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:

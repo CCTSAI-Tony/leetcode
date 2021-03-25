@@ -94,8 +94,27 @@ class Solution:
         root.right = self.dfs(preorder, right)
         return root
 
-
-
+#重寫第四次, time complexity O(nlogn), space complexity O(nlogn)
+from collections import deque
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        preorder = deque(preorder)
+        return self.dfs(preorder, inorder)
+    
+    def dfs(self, preorder, inorder):
+        if not inorder or not preorder:
+            return
+        val = preorder.popleft()
+        index = inorder.index(val)
+        if len(inorder) == 1:
+            return TreeNode(val)
+        else:
+            node = TreeNode(val)
+            left = self.dfs(preorder, inorder[:index])
+            right = self.dfs(preorder, inorder[index+1:])
+            node.left = left
+            node.right = right
+            return node
 
 
 
