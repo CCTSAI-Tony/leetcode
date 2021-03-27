@@ -29,7 +29,7 @@ Each element nums[i] will be an integer in the range [-1000, 1000].
 '''
 
 #刷題用這個, time complexity O(n), space complexity O(1)
-#思路: two pointers
+#思路: two pointers, i 就是pivot, => right -= num 就是扣掉pivot的值, 此時left還不能加num, 因為num 還是pivor, 等到i 往下一個, left 才能加num
 class Solution:
     def pivotIndex(self, nums: List[int]) -> int:
         left, right = 0, sum(nums)
@@ -41,6 +41,16 @@ class Solution:
         return -1
 
 
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        l, r = 0, sum(nums)
+        for i in range(len(nums)):
+            r -= nums[i]
+            if l == r:
+                return i
+            l += nums[i]
+        return -1
 
 #自己想的, time complexity O(n), space complexity O(n)
 #思路: prefixSum

@@ -74,7 +74,28 @@ class Solution:
         self.dic[node] = d
         return self.dic[node]
 
-
+#刷題用這個
+#重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        memo = dict()
+        self.dfs(root, memo)
+        if False in memo:
+            return False
+        return True
+    
+    def dfs(self, node, memo):
+        left, right = 0, 0
+        if node.left:
+            left = self.dfs(node.left, memo)
+        if node.right:
+            right = self.dfs(node.right, memo)
+        if abs(left - right) > 1:
+            memo[False] = 1
+        memo[True] = 1
+        return max(left, right) + 1
 
 
 
