@@ -72,7 +72,7 @@ class Solution:
     
     def select(self, left, right, nums, k):
         pivot = random.randint(left, right)
-        pivot_final = self.partition(left, right, k, nums)
+        pivot_final = self.partition(left, right, pivot, nums)
         if pivot_final > k:
             return self.select(left, pivot_final-1, nums, k)
         elif pivot_final < k:
@@ -101,8 +101,6 @@ class Solution:
         return self.select(0, len(nums) - 1, nums, k_smallest)
         
     def select(self, left, right, nums, k_smallest):
-        if left == right:
-            return nums[left]
         idx = random.randint(left, right)
         index = self.partition(left, right, idx, nums)
         if index == k_smallest:
@@ -121,6 +119,38 @@ class Solution:
                 l += 1
         nums[l], nums[right] = nums[right], nums[l]
         return l
+
+#刷題用這個
+#重寫第三次, time complexity O(n) in average, O(n^2) in worst case
+import random
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        return self.select(nums, len(nums) - k, 0, len(nums) - 1)
+    
+    def select(self, nums, k, l, r):
+        pivot = random.randint(l, r)
+        pivot_idx = self.partition(nums, l, r, pivot)
+        if pivot_idx > k:
+            return self.select(nums, k, l, pivot_idx - 1)
+        elif pivot_idx < k:
+            return self.select(nums, k, pivot_idx + 1, r)
+        else:
+            return nums[k]
+        
+    def partition(self, nums, l, r, pivot):
+        nums[pivot], nums[r] = nums[r], nums[pivot]
+        pivot_idx = l
+        for i in range(l, r):
+            if nums[i] < nums[r]:
+                nums[i], nums[pivot_idx] = nums[pivot_idx], nums[i]
+                pivot_idx += 1
+        nums[r], nums[pivot_idx] = nums[pivot_idx], nums[r]
+        return pivot_idx
+
+
+
+
+
 
 
 #quick sort

@@ -72,12 +72,30 @@ class Solution:
         
     def dfs(self, start, graph):
         while graph[start]:
-            nxt = graph[start].pop()
+            nxt = graph[start].pop() #pop掉, 代表此路徑被用過了
             self.dfs(nxt, graph)
         self.res.append(start)
 
-
-
+#重寫第三次, time complexity O(nlogn), space complexity O(n), n = total tickets
+from collections import defaultdict
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        itinerary = list()
+        flights = defaultdict(list)
+        for ticket in tickets:
+            s, e = ticket
+            flights[s].append(e)
+        for source in flights:
+            flights[source].sort(reverse=True)
+        
+        self.dfs("JFK", flights, itinerary)
+        return itinerary[::-1]
+    
+    def dfs(self, start, flights, itinerary):
+        while flights[start]:
+            nxt = flights[start].pop()
+            self.dfs(nxt, flights, itinerary)
+        itinerary.append(start)
 
 # 補充知識 重要!!
 # A directed graph has an Eulerian trail if and only if at most one vertex has (out-degree) − (in-degree) = 1, 

@@ -69,7 +69,18 @@ class Solution:
         return pre
 
 
-
+#重寫第四次, time complexity O(n), space complexity O(1)
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        if not head:
+            return None
+        temp = None
+        while head:
+            nxt = head.next
+            head.next = temp
+            temp = head
+            head = nxt
+        return temp
 
 
 

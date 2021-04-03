@@ -104,7 +104,49 @@ class Solution:
                     w += 1
         return w
 
+#重寫第二次, time complexity O(n), space compleixty O(1)
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        l = 0
+        count = 1
+        prev = chars[0]
+        for i in range(1, len(chars)):
+            if chars[i] == prev:
+                count += 1
+            else:
+                chars[l] = prev
+                l += 1
+                if count > 1:
+                    for s in str(count):
+                        chars[l] = s
+                        l += 1
+                count = 1
+                prev = chars[i]
+        chars[l] = prev
+        l += 1
+        if count > 1:
+            for s in str(count):
+                chars[l] = s
+                l += 1
+        return l
 
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        l, r = 0, 0
+        while r < len(chars):
+            ch = chars[r]
+            cnt = 0
+            while r < len(chars) and chars[r] == ch:
+                cnt += 1
+                r += 1
+            chars[l] = ch
+            l += 1
+            if cnt > 1:
+                for s in str(cnt):
+                    chars[l] = s
+                    l += 1
+        return l
 
 #自己寫的, time complexity O(n), space complexity O(1), 112ms
 #思路: 利用for loop and slow 雙指針, 記得離開for loop 要手動處理最後一個common letter

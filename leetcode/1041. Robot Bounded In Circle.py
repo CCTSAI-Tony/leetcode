@@ -34,3 +34,26 @@ Constraints:
 instructions[i] is 'G', 'L' or, 'R'.
 '''
 
+#自己寫的, time complexity O(n), space complexity O(1)
+#思路: 若run完所有指令依然停留在原點 or 改變行徑方向 => 代表會一直轉圈 (不難想)
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        cur_pos = [0, 0]
+        direc = (0, 1)
+        l = {(0, 1): (-1, 0), (-1, 0): (0, -1), (0, -1): (1, 0), (1, 0): (0, 1)}
+        r = {(0, 1): (1, 0), (1, 0): (0, -1), (0, -1): (-1, 0), (-1, 0): (0, 1)}
+        for s in instructions:
+            if s == "G":
+                cur_pos[0] += direc[0]
+                cur_pos[1] += direc[1]
+            if s == "L":
+                direc = l[direc]
+            elif s == "R":
+                direc = r[direc]
+        if cur_pos == [0, 0] or direc != (0, 1):
+            return True
+        return False
+
+
+
+

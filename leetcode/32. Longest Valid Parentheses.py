@@ -15,7 +15,7 @@ Explanation: The longest valid parentheses substring is "()()"
 
 
 
-# Pure 1D-DP without using stack (python) with detailed explanation, time complexity O(n)
+# Pure 1D-DP without using stack (python) with detailed explanation, time complexity O(n), space complexity O(n)
 # 重點考慮 case 1: ()(), case 2: (()) 
 # 思路: 利用dp, dp[i+1] 代表最大的valid lenth ending at s[i], 若s[i] == ")" and s[i-1] == "(", dp[i+1] == 2 + dp[i-1]
 class Solution(object):
@@ -70,8 +70,17 @@ class Solution:
             max_len = max(max_len, dp[i+1])
         return max_len
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        dp = [0] * (len(s) + 1)
+        for i in range(1, len(s)):
+            if s[i] == ")":
+                if s[i-1] == "(":
+                    dp[i+1] = dp[i-1] + 2
+                elif i - dp[i] - 1 >= 0 and s[i - dp[i] - 1] == "(":
+                    dp[i+1] = dp[i] + 2 + dp[i - dp[i] - 1]
+        return max(dp)
 
 
 

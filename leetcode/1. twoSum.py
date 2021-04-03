@@ -40,3 +40,20 @@ class Solution:
             if temp in dic:
                 return (dic[temp], i)
             dic[nums[i]] = i
+
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        memo = dict()
+        for i, v in enumerate(nums):
+            x = target - v
+            if x in memo:
+                return [memo[x], i]
+            memo[v] = i
+
+
+
+
+
+
+
