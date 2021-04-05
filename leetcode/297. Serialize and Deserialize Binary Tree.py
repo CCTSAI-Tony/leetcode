@@ -86,11 +86,57 @@ class Codec:
 # '1,2,3'.split(",")
 # ['1', '2', '3']
 
+input: [1,2,3,null,null,4,5]
+data: ['1', '2', '3', '#', '#', '4', '5', '#', '#', '#', '#']
 
 
+#重寫第二次, time complexity O(n), space complexity O(n), n: number of nodes
+from collections import deque
+class Codec:
 
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return None
+        data = list()
+        q = deque([root])
+        while q:
+            node = q.popleft()
+            if node:
+                q.append(node.left)
+                q.append(node.right)
+            data.append(str(node.val) if node else "#")
+        return " ".join(data)
+        
+        
 
-
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        data = data.split()
+        root = TreeNode(int(data[0]))
+        q = deque([root])
+        idx = 1
+        while q:
+            node = q.popleft()
+            if data[idx] != "#":
+                node.left = TreeNode(int(data[idx]))
+                q.append(node.left)
+            idx += 1
+            if data[idx] != "#":
+                node.right = TreeNode(int(data[idx]))
+                q.append(node.right)
+            idx += 1
+        return root
 
 
 

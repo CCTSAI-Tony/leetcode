@@ -81,8 +81,41 @@ class Solution:
 
 
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        m, n = len(board), len(board[0])
+        cells = {}
+        idx = 1
+        for i in range(m-1, -1, -1):
+            if i % 2 == (m - 1) % 2:
+                for j in range(n):
+                    cells[idx] = board[i][j]
+                    idx += 1
+            else:
+                for j in range(n-1, -1, -1):
+                    cells[idx] = board[i][j]
+                    idx += 1
+        
+        q = deque([1])
+        visited = set([1])
+        move = 0
+        while q:
+            for _ in range(len(q)):
+                cur = q.popleft()
+                if cur == m * n:
+                    return move
+                for i in range(1, 7):
+                    nxt = cur + i
+                    if nxt <= m * n:
+                        if cells[nxt] != -1:
+                            nxt = cells[nxt]
+                        if nxt not in visited:
+                            visited.add(nxt)
+                            q.append(nxt)
+            move += 1
+        return -1
 
 
 
