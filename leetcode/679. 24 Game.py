@@ -16,8 +16,9 @@ You cannot concatenate numbers together. For example, if the input is [1, 2, 1, 
 '''
 
 #刷題用這個, time complexity O(1) => there is a hard limit of 9216 possibility, space complexity O(1)
-#思路: Backtracking 使用combination and set 來recursion
+#思路: Backtracking 使用combination and set(inter) 來recursion
 #技巧: 記得要用round => 因為除號有可能導致誤差
+#技巧, 為何要用enumerate(nums), 因為nums 裡有可能出現相同num, 所以使用index(unique) 來做比對是否相同
 import itertools as it
 class Solution:
     def judgePoint24(self, nums: List[int]) -> bool:
@@ -57,8 +58,22 @@ class Solution:
         return False
 
 
-
-
+#重寫第二次, time complexity O(1), space complexity O(1)
+from itertools import combinations
+class Solution:
+    def judgePoint24(self, nums: List[int]) -> bool:
+        if len(nums) == 1:
+            return round(nums[0], 4) == 24
+        for (i, m), (j, n) in combinations(enumerate(nums), 2):
+            inner = {m*n, m+n, abs(m-n)}
+            if m != 0:
+                inner.add(n/m)
+            if n != 0:
+                inner.add(m/n)
+            new_nums = [v for k, v in enumerate(nums) if i != k != j]
+            if any([self.judgePoint24(new_nums + [x]) for x in inner]):
+                return True
+        return False
 
 
 

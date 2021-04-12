@@ -63,6 +63,7 @@ class Solution:
 # 思路: 想成 partitioning problem, 一開始四個邊都是sum(nums)//4, 每個元素可以自由選擇任何一邊, 若加入 該邊減少那個元素的值, 若該邊的值 < 元素值, 怎不允許其加入
 # 最終確認是否有特定partition 可以讓每個元素都加入其中一邊, 這邊注意的是我們先對nums.sort(reverse=True) 是優化, 讓不適合的candidte 提早return, 很關鍵!!
 # 還有backtracking 精神, 若candidate fail, 回到上層記得恢復更改過的內容
+# 總結: partitioning problem 就是 backtracking
 class Solution(object):
     def makesquare(self, nums):
         if len(nums) < 4 : 
@@ -113,6 +114,35 @@ class Solution:
                     return True
                 sides[i] += nums[index] 
         return False
+
+
+#重寫第2次, time complexity O(4^n), space complexity O(h)
+class Solution:
+    def makesquare(self, nums: List[int]) -> bool:
+        if len(nums) < 4:
+            return False
+        nums_sum = sum(nums)
+        if nums_sum % 4 != 0:
+            return False
+        walls = [nums_sum // 4] * 4
+        nums.sort(reverse=True)
+        return self.dfs(nums, 0, walls)
+    
+    def dfs(self, nums, idx, walls):
+        if idx == len(nums):
+            return True
+        stick = nums[idx]
+        for i in range(4):
+            if walls[i] >= stick:
+                walls[i] -= stick
+                if self.dfs(nums, idx + 1, walls):
+                    return True
+                walls[i] += stick
+        return False
+
+
+
+
 
 # I -- Naive DFS
 

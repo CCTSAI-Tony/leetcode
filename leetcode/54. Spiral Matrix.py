@@ -39,7 +39,7 @@ class Solution(object):
 
 
 
-#刷題用這個
+#刷題用這個, 此解法不影響原本matrix
 #重寫第二次, time complexity O(mn), space complexity O(1)
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
@@ -85,17 +85,38 @@ class Solution:
             if m_l <= m_r:
                 for i in range(n_r, n_l -1, -1):
                     res.append(matrix[m_r][i])
-            m_r -= 1
+                m_r -= 1
             
             if n_l <= n_r:
                 for j in range(m_r, m_l -1, -1):
                     res.append(matrix[j][n_l])
-            n_l += 1
+                n_l += 1
             
         return res
 
-
-
+#重寫第三次, time complexity O(mn), space complexity O(mn)
+#技巧: 雙指針
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        m, n = len(matrix), len(matrix[0])
+        res = []
+        m_l, m_r, n_l, n_r = 0, m-1, 0, n-1
+        while m_l <= m_r and n_l <= n_r:
+            for j in range(n_l, n_r + 1):
+                res.append(matrix[m_l][j])
+            m_l += 1
+            for i in range(m_l, m_r + 1):
+                res.append(matrix[i][n_r])
+            n_r -= 1
+            if m_l <= m_r:
+                for j in range(n_r, n_l - 1, -1):
+                    res.append(matrix[m_r][j])
+                m_r -= 1
+            if n_l <= n_r:
+                for i in range(m_r, m_l - 1, -1):
+                    res.append(matrix[i][n_l])
+                n_l += 1
+        return res
 
         '''
 # matrix[0] 確保row 裡面有東西可以pop(), if matrix 確保裡面有row, ex: [[1],[2],[3],[4],[5],[6],[7],[8],[9],[10]]

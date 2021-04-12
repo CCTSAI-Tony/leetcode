@@ -118,8 +118,37 @@ class Solution:
         visited[i] = 1
         return True
 
-
-
+#重寫第三次, bfs inorder 解法, time complexity O(V+E), space complexity O(V+E)
+from collections import defaultdict, deque
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = defaultdict(list)
+        indegree = defaultdict(int)
+        vertices = [i for i in range(numCourses)]
+        for prerequisite in prerequisites:
+            graph[prerequisite[0]].append(prerequisite[1])
+            
+        for v in graph:
+            for k in graph[v]:
+                indegree[k] += 1
+        res = []
+        queue = deque()
+        for v in vertices:
+            if indegree[v] == 0:
+                queue.append(v)
+        while queue:
+            for _ in range(len(queue)):
+                v = queue.popleft()
+                for k in graph[v]:
+                    indegree[k] -= 1
+                    if indegree[k] == 0:
+                        queue.append(k)
+                
+                res.append(v)
+        if len(res) != len(vertices):
+            return []
+        else:
+            return res[::-1]
 
 
 
@@ -170,17 +199,17 @@ class Solution:
         for x, y in prerequisites:
             graph[x].append(y)
         def dfs(i):
-                if visit[i] == -1:
-                    return False
-                if visit[i] == 1:
-                    return True
-                visit[i] = -1 
-                for j in graph[i]: 
-                    if not dfs(j):
-                        return False
-                visit[i] = 1
-                res.append(i)
+            if visit[i] == -1:
+                return False
+            if visit[i] == 1:
                 return True
+            visit[i] = -1 
+            for j in graph[i]: 
+                if not dfs(j):
+                    return False
+            visit[i] = 1
+            res.append(i)
+            return True
 
         for i in range(numCourses):
             if not dfs(i):

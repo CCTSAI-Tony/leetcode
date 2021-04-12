@@ -102,8 +102,37 @@ class Solution:
         cur.next = l or r
         return dummy.next
 
-
-
+#重寫第四次, time complexity O(mnlogn), space complexity O(logn)
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return None
+        n = len(lists)
+        return self.helper(0, n - 1, lists)
+    
+    def helper(self, l, r, lists):
+        if l > r:
+            return None
+        if l == r:
+            return lists[l]
+        m = l + (r - l) // 2
+        left = self.helper(l, m, lists)
+        right = self.helper(m+1, r, lists)
+        return self.merge(left, right)
+    
+    def merge(self, left, right):
+        dummy = cur = ListNode(0)
+        while left and right:
+            if left.val <= right.val:
+                cur.next = left
+                cur = cur.next
+                left = left.next
+            elif right.val < left.val:
+                cur.next = right
+                cur = cur.next
+                right = right.next
+        cur.next = left or right
+        return dummy.next
 
 
 

@@ -114,7 +114,24 @@ class Solution:
         return res
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        res = root
+        dummy = temp = Node()
+        while root:
+            while root:
+                if root.left:
+                    temp.next = root.left
+                    temp = temp.next
+                if root.right:
+                    temp.next = root.right
+                    temp = temp.next
+                root = root.next
+            root = dummy.next
+            temp = dummy
+            dummy.next = None
+        return res
 
 
 

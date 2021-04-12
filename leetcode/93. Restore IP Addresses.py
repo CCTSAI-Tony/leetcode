@@ -31,6 +31,29 @@ class Solution:
                 continue
             self.dfs(s[i:], path + [s[:i]], res)  #注意, 到第四個數字時, 剩餘s小於3有可能造成答案重複, ex: 剩餘 len(s) = 2, 但 s[:3], s[:4] 皆一樣, 造成答案重複
 
+#重寫第三次, 刷題用這個, 用到backtracking, time complexity O(27), space complexity O(1)
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        res = set()
+        self.dfs(s, [], res)
+        return res
+    
+    def dfs(self, s, path, res):
+        if not s and len(path) == 4:
+            res.add(".".join(path))
+        
+        elif s and len(path) < 4:
+            for i in range(3):
+                temp = s[:i+1]
+                if len(temp) > 1 and temp[0] == "0":
+                    continue
+                elif int(temp) > 255:
+                    continue
+                else:
+                    self.dfs(s[i+1:len(s)], path+[temp], res)
+        if path: #prevent pop from empty list
+            path.pop()
+
 # a = [1,2]
 # a[:100]
 # [1, 2]
@@ -59,14 +82,6 @@ class Solution:
             if i + 1 < n + 1:
                 self.dfs(s[i+1:], path + [temp], res)
         return
-
-
-
-
-
-
-
-
 
 
 class Solution:

@@ -105,8 +105,34 @@ class Solution:
             else:
                 return temp
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def myAtoi(self, s: str) -> int:
+        value = 0
+        sign = "+"
+        s = s.strip()
+        if not s:
+            return 0
+        idx = 0
+        if not s[0].isdigit():
+            if s[0] in ["+", "-"]:
+                sign = s[0]
+                idx += 1
+            else:
+                return 0
+        while idx < len(s) and s[idx].isdigit():
+            digit = s[idx]
+            value = value * 10 + int(digit)
+            idx += 1
+        if sign == "-":
+            value *= -1
+            if value < -2**31:
+                return -2**31
+            return value
+        else:
+            if value > 2**31 - 1:
+                return 2**31 - 1
+            return value
 
 
 class Solution:

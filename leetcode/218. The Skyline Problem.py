@@ -119,8 +119,31 @@ class Solution:
                     res.append((t, new_height))
         return res
 
-
-
+#重寫第三次, time complexity O(n^2), space complexity O(n)
+import heapq
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        temp = []
+        for x, y, h in buildings:
+            heapq.heappush(temp, (x, -h, 0))
+            heapq.heappush(temp, (y, h, 1))
+        res = []
+        height = [0]
+        while temp:
+            max_height = -height[0]
+            x, y, z = heapq.heappop(temp)
+            if z == 0:
+                h = -y
+                if h > max_height:
+                    res.append([x, -y])
+                heapq.heappush(height, y)
+            else:
+                height.remove(-y)
+                heapq.heapify(height)
+                cur_height = -height[0]
+                if cur_height < max_height:
+                    res.append([x, cur_height])
+        return res
 
 
 # my implementation of the idea explianed here: https://www.youtube.com/watch?v=GSBLe8cKu0s
