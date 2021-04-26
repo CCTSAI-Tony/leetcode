@@ -50,7 +50,21 @@ Constraints:
 
 
 # Time Complexity: O(1) average, but O(∞) worst case.
-# 思路: 利用double call rand7(), 產生1-40 區間的數都是平均分佈的, 若數落在41-49 => reject sample
+# 思路: 利用double call rand7(), 產生1-49, 但只有1-40 區間的數都是平均分佈的, 可以直接轉化成1-10 range, 若數落在41-49 => reject sample, 再產生一組隨機值
+# 技巧: 1 + (idx - 1) % 10 是為了應付1 based index issue
+class Solution:
+    def rand10(self):
+        """
+        :rtype: int
+        """
+        while True:
+            row = rand7()
+            col = rand7()
+            idx = col + (row - 1) * 7
+            if idx <= 40:
+                return 1 + (idx - 1) % 10
+
+#重寫第二次, time complexity: O(1) average, but O(∞) worst case.
 class Solution:
     def rand10(self):
         """

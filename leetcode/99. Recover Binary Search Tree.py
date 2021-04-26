@@ -60,11 +60,12 @@ Python short and slick solution (108ms, beats 100%), both stack and Morris versi
 #                           drop #1     drop #2
 # In both cases, we want to swap A and B. 重要!! 題目說 Two elements of a binary search tree (BST) are swapped by mistake.
 
-#刷題用這個, stack, 題目有說2個node 位置要互換
+#刷題用這個, stack, 題目有說2個node 位置要互換 => inorder traversal
 #思路: 依序從最小的位置慢慢遍歷到最大, 並且跟pre_node比較, 若發現小於pre_node, 代表順序錯了, 要互換
 #利用bst特性 右邊的tree 比root大, cur好比右邊的tree, prev 好比root, prev, cur = node, node.right 
 #還有root 比左邊tree大, cur 好比root, prev 好比左邊的tree
 #隨著stack.pop() 逐步pop出root們, 此時root 就要跟左邊tree最後一個遇到的值比
+#注意: drop 裡面有可能只有一組mismatch case, 所以交換時要 drops[-1][1] 不能drops[1][1]
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -84,7 +85,6 @@ class Solution:
                 drops.append((prev, node)) #找到不match的地方
             prev, cur = node, node.right                                       |          cur = node.right
         drops[0][0].val, drops[-1][1].val = drops[-1][1].val, drops[0][0].val  |
-
 
 
 #重寫第二次, time complexity O(n), space complexity O(1), 要注意的就是交換的位置
@@ -107,7 +107,23 @@ class Solution:
         drops[0][1].val, drops[-1][0].val = drops[-1][0].val, drops[0][1].val
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def recoverTree(self, root: TreeNode) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        cur, prev, stack, drop = root, TreeNode(float("-inf")), [], []
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            node = stack.pop()
+            if node.val < prev.val:
+                drop.append([prev, node])
+            prev = node
+            cur = node.right
+        drop[0][0].val, drop[-1][1].val = drop[-1][1].val, drop[0][0].val
 
 
 

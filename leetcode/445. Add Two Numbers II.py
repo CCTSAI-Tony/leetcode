@@ -22,8 +22,9 @@ Output: 7 -> 8 -> 0 -> 7
 
 
 
-#刷題用這個, time complexity O(n), space complexity O(n)
+#刷題用這個, time complexity O(n), space complexity O(1)
 #思路: linkedlist reverse tacnic => 先同位置的數值加一起, reverse => 再進行進位處理 => reverse
+#技巧: 等同reverse 2 次
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         # find the length of both lists
@@ -85,7 +86,7 @@ class Solution:
         return head
 
 
-#重寫第二次, time complexity O(n), space complexity O(n)
+#重寫第二次, time complexity O(n), space complexity O(1)
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         n1, n2 = 0, 0
@@ -132,7 +133,51 @@ class Solution:
         return head
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        n1, n2 = 0, 0
+        cur1, cur2 = l1, l2
+        while cur1:
+            cur1 = cur1.next
+            n1 += 1
+        while cur2:
+            cur2 = cur2.next
+            n2 += 1
+        temp = None
+        cur1, cur2 = l1, l2
+        while n1 and n2:
+            val = 0
+            if n1 > n2:
+                val += cur1.val
+                cur1 = cur1.next
+                n1 -= 1
+            elif n1 < n2:
+                val += cur2.val
+                cur2 = cur2.next
+                n2 -= 1
+            else:
+                val += (cur1.val + cur2.val)
+                cur1 = cur1.next
+                cur2 = cur2.next
+                n1 -= 1
+                n2 -= 1
+            cur = ListNode(val)
+            cur.next = temp
+            temp = cur
+        temp = None
+        carry = 0
+        while cur:
+            val = (cur.val + carry) % 10
+            carry = (cur.val + carry) // 10
+            head = ListNode(val)
+            head.next = temp
+            temp = head
+            cur = cur.next
+        if carry:
+            head = ListNode(carry)
+            head.next = temp
+        return head
 
 #自己想的 time complexity O(max(len(l1), len(l2))
 #思路: 因為不能修改input LinkedList 所以只能walk through 取得兩條 linked list 的資訊

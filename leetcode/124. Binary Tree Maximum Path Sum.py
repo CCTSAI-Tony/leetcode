@@ -74,8 +74,20 @@ class Solution:
 
 # The key is to always choose the maximum cumulative sum path, while updating the "global" maximum value, from the leaves upwards.
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def maxPathSum(self, root: TreeNode) -> int:
+        self.max_sum = float("-inf")
+        self.dfs(root)
+        return self.max_sum
+    
+    def dfs(self, root):
+        if not root:
+            return 0
+        left = max(0, self.dfs(root.left)) # Here need to use max, to prevemt negative branch
+        right = max(0, self.dfs(root.right))
+        self.max_sum = max(self.max_sum, left + right + root.val)
+        return max(left, right) + root.val
 
 
 

@@ -13,6 +13,23 @@
 #   [3,2,1]
 # ]
 
+#刷題用這個, backtracking, time complexity O(n!), space complexity O(n!)
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.dfs(nums, [], res)
+        return res
+    
+    def dfs(self, nums, path, res):
+        if not nums:
+            res.append(path.copy())
+        for i in range(len(nums)):
+            nxt = nums[:i] + nums[i+1:]
+            path.append(nums[i])
+            self.dfs(nxt, path, res)
+            path.pop()
+
+
 #  自己重寫, time complexity O(n!)
 #  思路: 典型dfs backtracking, 從數列中找其中一個元素當開頭, 把沒這元素的序列當作下一個recursion的條件, 找出開頭的下一個值, 直到元素全部被找完
 #  因為順序不同也算一個答案, 且此recursion tree 不會找到相同的答案, 用階層想 k! 

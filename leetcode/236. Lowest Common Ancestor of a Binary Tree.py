@@ -94,8 +94,19 @@ class Solution:
         elif left or right:
             return left or right
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+        if root in [p, q]:
+            return root
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
+        if left and right:
+            return root
+        if left or right:
+            return left or right
 
 
 # 不行 if root == (p or q), why, (p or q) 永遠只會return 第一個為True 的 object, q永遠不會被evaluated

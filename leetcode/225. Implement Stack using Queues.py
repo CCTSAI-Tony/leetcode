@@ -25,7 +25,7 @@ Follow-up: Can you implement the stack such that each operation is amortized O(1
 performing n operations will take overall O(n) time even if one of those operations may take longer.
 '''
 
-#刷題用這個, 使用deque 來實現stack
+#刷題用這個, 使用deque 來實現stack, push item 至最前面
 #思路: extend() time complexity O(k), k: len(argument), push 一個item 上面放滿100個credit => amortized O(1) => 其去follow up 沒有答案
 #time complexity: push O(k), pop O(1), top O(1), empty O(1)
 from collections import deque

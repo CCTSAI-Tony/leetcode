@@ -96,10 +96,10 @@ class Solution:
             
             while type(nums[i]) == int and (nums[i] < 0) == direction and nums[i] % n != 0:
                 jump = nums[i]
-                nums[i] = mark  #回到當初的index, 完成circle
+                nums[i] = mark  #代表一個記號, 同屬一個circle 的 mark
                 i = (i + jump) % n
             
-            if nums[i] == mark:
+            if nums[i] == mark: #代表回到一樣的mark, 形成一個circle
                 return True
         
         return False
