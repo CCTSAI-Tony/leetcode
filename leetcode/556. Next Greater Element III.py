@@ -52,6 +52,19 @@ class Solution:
         res = int("".join(nums[:i+1] + nums[i+1:][::-1]))
         return res if res <= 2**31-1 else -1
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def nextGreaterElement(self, n: int) -> int:
+        n_str = list(str(n))
+        for i in range(len(n_str)-2, -1, -1):
+            if n_str[i] < n_str[i+1]:
+                for j in range(len(n_str)-1, -1, -1):
+                    if n_str[j] > n_str[i]:
+                        n_str[i], n_str[j] = n_str[j], n_str[i]
+                        n_str[i+1:] = n_str[i+1:][::-1]
+                        n_str = "".join(n_str)
+                        if int(n_str) > 2 ** 31 -1:
+                            return -1
+                        return int(n_str)
+        return -1
 

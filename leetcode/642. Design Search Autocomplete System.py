@@ -65,63 +65,9 @@ Please remember to RESET your class variables declared in class AutocompleteSyst
 Please see here for more details.
 '''
 
-#自己想的, 932ms
-#思路: 利用Trie 解題, 此題2個重點, 1, 排序priority (hot degree, lexicograph) 2, 遇到"#" 要insert self_term 並 update node.top3 的elements
-#如何remove 舊的top3 elements, 並插入一個新的是一個重點, 設一個memo 來紀錄每個sentence 的hot degree, 用以update node.top3
-#之後return search結果, 直接回傳node.top3 前三個elements
-from collections import defaultdict
-class TrieNode:
-    def __init__(self):
-        self.children = defaultdict(TrieNode)
-        self.top3 = []
 
-class AutocompleteSystem:
-    def __init__(self, sentences: List[str], times: List[int]):
-        self.root = TrieNode()
-        self.term = ""
-        self.memo = {}
-        history = zip(sentences, times)
-        for sentence in history:
-            self.memo[sentence[0]] = sentence[1]
-            node = self.root
-            self.dfs(sentence, node)
-    
-    def dfs(self, sentence, node):  #dfs time complexity O(k*Nlogn), k: len(sentence), N:total char len of node.top3, n:len of node.top3
-        for w in sentence[0]:
-            node = node.children[w]
-            pre_sentence = (sentence[0], (sentence[1]-1))
-            if pre_sentence in node.top3:
-                node.top3.remove(pre_sentence)
-            node.top3.append(sentence)
-            node.top3.sort(key=lambda x: (-x[1], x[0]))
-         
-    def input(self, c: str) -> List[str]:
-        node = self.root
-        if c != "#":
-            self.term += c
-            for w in self.term:
-                node = node.children[w]
-            return [i[0] for i in node.top3][:3]
-        else:
-            if self.term not in self.memo:
-                self.dfs((self.term, 1), node)
-                self.memo[self.term] = 1 #紀錄self.term
-            else:
-                self.memo[self.term] += 1
-                sentence = (self.term, self.memo[self.term])
-                self.dfs(sentence, node)
-            self.term = "" #reset
-
-
-
-
-
-
-
-
-
-
-
+#刷題用這個, 712ms
+#思路: 利用trie 搭配 hot 來做search 與 排序
 from collections import defaultdict
 class TrieNode():
     def __init__(self):
@@ -165,9 +111,9 @@ class AutocompleteSystem(object):
 
         for c in self.searchTerm:
             if c not in node.children:
-                return res
+                return res # return [], empty list
             # 6. add each character to path variable, path will added to res when we found node.isEnd ==True
-            path +=c
+            path += c
             node = node.children[c]
         # 7. at this point, node is at the given searchTerm.
         # for ex. if search term is "i_a", we are at "a" node.
@@ -187,6 +133,110 @@ class AutocompleteSystem(object):
         # until there is no more child (reached to bottom)
         for c in node.children:
             self.dfs(node.children[c], path+c, res)
+
+#重寫第二次
+from collections import defaultdict
+class TreeNode:
+    def __init__(self):
+        self.children = defaultdict(TreeNode)
+        self.isEnd = False
+        self.hot = 0
+
+class AutocompleteSystem:
+
+    def __init__(self, sentences: List[str], times: List[int]):
+        self.root = TreeNode()
+        self.term = ""
+        for sentence, time in zip(sentences, times):
+            self.add(sentence, time)
+    
+    def add(self, sentence, hot):
+        node = self.root
+        for c in sentence:
+            node = node.children[c]
+        node.isEnd = True
+        node.hot -= hot
+        
+    def dfs(self, node, path, res):
+        if node.isEnd:
+            res.append((node.hot, path))
+        for c in node.children:
+            self.dfs(node.children[c], path + c, res)
+        
+    def search(self):
+        node = self.root
+        res = []
+        path = ""
+        for c in self.term:
+            if c not in node.children:
+                return res
+            path += c
+            node = node.children[c]
+        self.dfs(node, path, res)
+        return [item[1] for item in sorted(res)][:3]
+        
+        
+    def input(self, c: str) -> List[str]:
+        if c != "#":
+            self.term += c
+            return self.search()
+        else:
+            self.add(self.term, 1)
+            self.term = ""
+
+
+
+#自己想的, 932ms
+#思路: 利用Trie 解題, 此題2個重點, 1, 排序priority (hot degree, lexicograph) 2, 遇到"#" 要insert self_term 並 update node.top3 的elements
+#如何remove 舊的top3 elements, 並插入一個新的是一個重點, 設一個memo 來紀錄每個sentence 的hot degree, 用以update node.top3
+#之後return search結果, 直接回傳node.top3 前三個elements
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.children = defaultdict(TrieNode)
+        self.top3 = []
+
+class AutocompleteSystem:
+    def __init__(self, sentences: List[str], times: List[int]):
+        self.root = TrieNode()
+        self.term = ""
+        self.memo = {}
+        history = zip(sentences, times)
+        for sentence in history:
+            self.memo[sentence[0]] = sentence[1]
+            node = self.root
+            self.dfs(sentence, node)
+    
+    def dfs(self, sentence, node):  #dfs time complexity O(k*nlogn), k: len(sentence[0]), n:len of node.top3
+        for w in sentence[0]:
+            node = node.children[w]
+            pre_sentence = (sentence[0], (sentence[1]-1)) # tuple 以利排序
+            if pre_sentence in node.top3:
+                node.top3.remove(pre_sentence)
+            node.top3.append(sentence)
+            node.top3.sort(key=lambda x: (-x[1], x[0]))
+         
+    def input(self, c: str) -> List[str]:
+        node = self.root
+        if c != "#":
+            self.term += c
+            for w in self.term:
+                node = node.children[w]
+            return [i[0] for i in node.top3][:3]
+        else:
+            if self.term not in self.memo:
+                self.dfs((self.term, 1), node)
+                self.memo[self.term] = 1 #紀錄self.term
+            else:
+                self.memo[self.term] += 1
+                sentence = (self.term, self.memo[self.term])
+                self.dfs(sentence, node)
+            self.term = "" #reset
+
+
+
+
+
 
     
 

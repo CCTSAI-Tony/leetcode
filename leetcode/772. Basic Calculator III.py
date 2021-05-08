@@ -70,14 +70,6 @@ class Solution(object):
             stack.append(int(stack.pop() / num))
 
 
-# We should use int(stack.pop() // num).
-
-# stack.pop() // num == floor(stack.pop() / num), which will round to the smaller int.
-# (In C++, it will truncate to the int)
-
-# e.g. in python3, -5//2 == -3 and int(-5/2) = -2.
-
-
 #重寫第二次, time complexity O(n), space complexity O(n)
 class Solution:
     def calculate(self, s: str) -> int:
@@ -87,26 +79,36 @@ class Solution:
             if s[i].isdigit():
                 num = num * 10 + int(s[i])
             elif s[i] in ["+", "-", "*", "/", ")"]:
-                self.helper(num, op, stack)
+                self.update(op, num, stack)
                 num = 0
                 if s[i] == ")":
                     while isinstance(stack[-1], int):
                         num += stack.pop()
                     op = stack.pop()
-                    self.helper(num, op, stack)
+                    self.update(op, num, stack)
                 num, op = 0, s[i]
             elif s[i] == "(":
                 stack.append(op)
                 num, op = 0, "+"
-        self.helper(num, op, stack)
+        self.update(op, num, stack)
         return sum(stack)
+    
+    def update(self, op, num, stack):
+        if op == "+":
+            stack.append(num)
+        elif op == "-":
+            stack.append(-num)
+        elif op == "*":
+            stack.append(stack.pop() * num)
+        elif op == "/":
+            stack.append(int(stack.pop() / num))  
 
+# We should use int(stack.pop() // num).
 
+# stack.pop() // num == floor(stack.pop() / num), which will round to the smaller int.
+# (In C++, it will truncate to the int)
 
-
-
-
-
+# e.g. in python3, -5//2 == -3 and int(-5/2) = -2.
 
 
 

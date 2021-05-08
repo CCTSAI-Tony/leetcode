@@ -35,7 +35,7 @@ The knight always initially starts on the board.
 '''
 
 #刷題用這個, time complexity O(K*n^2)
-#思路: 每一步都是1/8的機率, 若該步出界, 出借機率 += 該步機率, => return 1 - outboard possibility => on board possibility
+#思路: 每一步都是1/8的機率, 若該步出界, 出界機率 += 該步機率, => return 1 - outboard possibility => on board possibility
 #技巧, 使用bfs 搭配 memo 來儲存每步的機率
 from collections import defaultdict
 class Solution(object):
@@ -66,6 +66,23 @@ class Solution(object):
         # the on-board prob = 1 - the accumulate out board prob
         return 1-out_board_p
 
-
+#重寫第二次, time complexity O(k*n^2), space complexity O(n^2)
+from collections import defaultdict
+class Solution:
+    def knightProbability(self, N: int, K: int, r: int, c: int) -> float:
+        moves = [(1, 2), (1, -2), (-1, 2), (-1, -2), (2, 1), (2, -1), (-2, 1), (-2, -1)]
+        memo = {(r, c): 1}
+        out_p = 0
+        for i in range(K):
+            next_memo = defaultdict(int)
+            for (x, y), p in memo.items():
+                for d in moves:
+                    nx, ny = x + d[0], y + d[1]
+                    if 0 <= nx < N and 0 <= ny < N:
+                        next_memo[(nx, ny)] += p * 0.125
+                    else:
+                        out_p += p * 0.125
+            memo = next_memo
+        return 1- out_p
 
 

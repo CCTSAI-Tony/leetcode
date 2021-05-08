@@ -78,66 +78,119 @@ Interesting Examples
 ["a","b","a"] # Cycle
 ["wnlb"]
 
-# Time complexity: O(nm), space complexity: O(n), where n = len(words), and m is the length of the longest word in words.
-# 思路1:此題不能用defaultdict(set) 簡化, 因為之後遍歷 dic.values 時, 會 RuntimeError: dictionary changed size during iteration
-# 所以要 add_vertices 獨立method, 來登記所有letter 的key
-# 思路2: 首先建立graph, 比較兩個字的哪一個letter不一樣, 不一樣的letter就有先後順序 => 建立edge(directed graph), 但有時會出現不合理情況 ex:["wrtkj","wrt"] 就直接retrun {} 
-# 讓答案輸出成"", 之後dfs 遍歷graph, 利用visited(遍歷完), visiting(遍歷中), not in visited(未遍歷) 來找出是否有circle, 若有則return "", 若沒有則登錄在visited and remove該key in visiting
-# order 愈大者 愈先遍歷完 愈先被放入st, 因此最後輸出st 要先reverse()
-class Solution(object):
-    def alienOrder(self, words):
-        if words == []:
+
+# 刷題用這個, time complexity O(c), space complexity O(u + min(u^2, n)), 
+# c: the total length of all the words in the input list, added together. u: the total number of unique letters in the alien alphabet
+# n: the total number of strings in the input list.
+# 思路: bfs + topological sort, 一開始使用zip 來偵測第一相異的letter 來create graph
+from collections import defaultdict, Counter, deque
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        
+        # Step 0: create data structures + the in_degree of each unique letter to 0.
+        adj_list = defaultdict(set)
+        in_degree = Counter({c : 0 for word in words for c in word})
+                
+        # Step 1: We need to populate adj_list and in_degree.
+        # For each pair of adjacent words...
+        for first_word, second_word in zip(words, words[1:]): #這招學起來, zip 來串連相鄰兩item
+            for c, d in zip(first_word, second_word):
+                if c != d: #找尋第一個相異letter
+                    if d not in adj_list[c]: #避免 in_degree[d] 重複+1
+                        adj_list[c].add(d)  #重要, 加入neighbor node
+                        in_degree[d] += 1 # in_degree 越大, 代表order 越後面
+                    break  # out of the for-else loop
+            else: # Check that second word isn't a prefix of first word.
+                if len(second_word) < len(first_word): return ""
+        
+        # Step 2: We need to repeatedly pick off nodes with an indegree of 0.
+        output = []
+        queue = deque([c for c in in_degree if in_degree[c] == 0])
+        while queue:
+            c = queue.popleft()
+            output.append(c)
+            for d in adj_list[c]:
+                in_degree[d] -= 1
+                if in_degree[d] == 0:
+                    queue.append(d)
+                    
+        # If not all letters are in output, that means there was a cycle and so
+        # no valid ordering. Return "" as per the problem description.
+        if len(output) < len(in_degree):
             return ""
-        graph = self.build_graph(words)
-        visited, visiting, st = set([]), set([]), []
-        for k in graph.keys(): #dfs forest
-            if k not in visited:
-                if self.topo_dfs(k, graph, visited, visiting, st): #跑上來, visiting 都是空set()
-                    return "" #找到circle
-        st.reverse()
-        return "".join(st)
+        # Otherwise, convert the ordering we found into a string and return it.
+        return "".join(output)
 
-    def build_graph(self, words):
-        graph = {}
-        for i in range(len(words)-1):
-            w1, w2 = words[i], words[i+1]
-            if not self.add_words_to_graph(graph, w1, w2):
-                return {} #出現不合理的狀況, return 空 graph
-        self.add_vertices(words[-1], graph) #最後一個字沒有neighbor
-        return graph
+# 刷題用這個, time complexity O(c), space complexity O(u + min(u^2, n)), 
+# 思路: dfs + topological sort
+from collections import defaultdict, Counter, deque
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
 
-    def add_words_to_graph(self, graph, w1, w2):
-        self.add_vertices(w1, graph)
-        self.add_vertices(w2, graph)        
-        min_length = min(len(w1), len(w2))
-        found = False
-        for i in range(min_length):
-            if w1[i] != w2[i]: #不同的字才能比較
-                graph[w1[i]].add(w2[i])
-                found = True #找到造成order的letter, 離開loop
-                break
-        if found == False and len(w1) > len(w2): #ex: ["wrtkj","wrt"] => incorrect
-            return False # "abstract", "abs" is an error. But "abs", "abstract" is perfectly fine.
+        # Step 0: Put all unique letters into the adj list.
+        reverse_adj_list = {c : [] for word in words for c in word}
+
+        # Step 1: Find all edges and put them in reverse_adj_list.
+        for first_word, second_word in zip(words, words[1:]):
+            for c, d in zip(first_word, second_word):
+                if c != d: 
+                    reverse_adj_list[d].append(c) # This is the reason for calling reverse_adj_list.
+                    break
+            else: # Check that second word isn't a prefix of first word.
+                if len(second_word) < len(first_word): 
+                    return ""
+
+        # Step 2: Depth-first search.
+        seen = {} # False = grey, True = black.
+        output = []
+        def visit(node):  # Return True iff there are no cycles.
+            if node in seen:
+                return seen[node] # If this node was grey (False), a cycle was detected.
+            seen[node] = False # Mark node as grey.
+            for next_node in reverse_adj_list[node]:
+                result = visit(next_node)
+                if not result: 
+                    return False # Cycle was detected lower down.
+            seen[node] = True # Mark node as black.
+            output.append(node)
+            return True
+
+        if not all(visit(node) for node in reverse_adj_list):
+            return ""
+
+        return "".join(output)
+
+#重寫第二次, time complexity O(s), space complexity O(u + min(u^2, n))
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        graph = {c : [] for word in words for c in word}
+        for first_word, second_word in zip(words, words[1:]):
+            for c, d in zip(first_word, second_word):
+                if c != d:
+                    graph[d].append(c) # graph[d] 有可能加入重複元素, 但沒關係, 因為只要這些元素沒有產生backedge, 這些node就會遍歷完成存在seen, 這樣seen 就能skip掉重複元素
+                    break
+            else:
+                if len(second_word) < len(first_word):
+                    return ""
+        
+        seen = dict()
+        output = []
+        if not all(self.visit(node, graph, seen, output) for node in graph):
+            return ""
+        return "".join(output)
+        
+    def visit(self, node, graph, seen, output):
+        if node in seen:
+            return seen[node]
+        seen[node] = False
+        for nxt in graph[node]:
+            if not self.visit(nxt, graph, seen, output):
+                return False
+        seen[node] = True
+        output.append(node)
         return True
 
-    def add_vertices(self, w, graph):
-        for ch in w:
-            if ch not in graph:
-                graph[ch] = set([])        
-        return
 
-    def topo_dfs(self, x, g, visited, visiting, st): # Return True if there is a cycle
-        visiting.add(x) #正在遍歷
-        for nbr in g[x]:
-            if nbr in visiting: # Back-Edge!
-                return True
-            if nbr not in visited: #未被遍歷的node
-                if self.topo_dfs(nbr, g, visited, visiting, st): #找到Back-Edge
-                    return True
-        visiting.remove(x) #遍歷完成 => order愈大的, 愈先遍歷完成 被加入st, 所以最後要reverse st
-        visited.add(x) 
-        st.append(x)
-        return False
 
     
 

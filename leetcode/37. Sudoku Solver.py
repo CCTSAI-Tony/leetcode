@@ -66,7 +66,7 @@ class Solution:
         return False
 
 
-#重寫第二次, time complexity O(9!)^9 => ^9 => 9條row, space complexity O(1)
+#重寫第三次, time complexity O(9!)^9 => ^9 => 9條row, space complexity O(1)
 from collections import defaultdict
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
@@ -79,33 +79,34 @@ class Solution:
         for i in range(m):
             for j in range(n):
                 temp = board[i][j]
-                if temp != ".":
+                if temp == ".":
+                    remain.append((i, j))
+                else:
                     row[i].add(temp)
                     col[j].add(temp)
                     block[(i//3, j//3)].add(temp)
-                else:
-                    remain.append((i, j))
-        self.dfs(board, row, col, block, remain)
+        self.dfs(row, col, block, board, remain)
         
-    def dfs(self, board, row, col, block, remain):
+    def dfs(self, row, col, block, board, remain) -> bool:
         if not remain:
             return True
         i, j = remain.pop()
-        for d in range(1, 10):
-            d = str(d)
+        for num in range(1, 10):
+            d = str(num)
             if d not in row[i] and d not in col[j] and d not in block[(i//3, j//3)]:
                 board[i][j] = d
                 row[i].add(d)
                 col[j].add(d)
                 block[(i//3, j//3)].add(d)
-                if self.dfs(board, row, col, block, remain):
+                if not self.dfs(row, col, block, board, remain):
+                    board[i][j] = "."
+                    row[i].remove(d)
+                    col[j].remove(d)
+                    block[(i//3, j//3)].remove(d)
+                else:
                     return True
-                row[i].remove(d)
-                col[j].remove(d)
-                block[(i//3, j//3)].remove(d)
         remain.append((i, j))
-
-
+        return False
 
 
 from collections import defaultdict, deque

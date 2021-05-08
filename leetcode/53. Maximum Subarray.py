@@ -64,8 +64,15 @@ class Solution:
                 nums[i] += nums[i - 1]
         return max(nums)
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        max_sum = float("-inf")
+        for i in range(len(nums)):
+            if i > 0 and nums[i-1] > 0:
+                nums[i] += nums[i-1]
+            max_sum = max(nums[i], max_sum)
+        return max_sum
 
 
 

@@ -36,7 +36,7 @@ wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output:
 []
 '''
-# time complexity O(N^2 + 2^N + W), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W)
+# time complexity O(N^2 + 2^N + W^2), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W^2)
 # memo recursive top down solution
 # 思路: top down dp 利用memo {} 來記錄重複 sub problem 的結果, 利用startswith 來尋找candidate, 經典好題
 class Solution(object):
@@ -83,7 +83,7 @@ print(str.startswith("Geeks", 8, 14)) => True
 
 
 # 自己重寫
-# time complexity O(N^2 + 2^N + W), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W)
+# time complexity O(N^2 + 2^N + W^2), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N + W^2)
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         memo = {}
@@ -106,7 +106,7 @@ class Solution:
         memo[s] = res
         return memo[s]
 
-#重寫第二次, time complexity O(N^2 + 2^N + W), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W)
+#重寫第二次, time complexity O(N^2 + 2^N + W^2), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N + W^2)
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         memo = {}
@@ -128,7 +128,27 @@ class Solution:
         memo[s] = res
         return memo[s]
 
-
+#重寫第三次, time complexity O(N^2 + 2^N + W^2), space complexity O(N^2 + 2^N + W^2)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        memo = {}
+        return self.helper(s, wordDict, memo)
+        
+    def helper(self, s, wordDict, memo):
+        if s in memo:
+            return memo[s]
+        res = []
+        for word in wordDict:
+            if s.startswith(word):
+                if len(word) == len(s):
+                    res.append(word)
+                    continue
+                n = len(word)
+                rest = self.helper(s[n:], wordDict, memo)
+                for r in rest:
+                    res.append(word + " " + r)
+        memo[s] = res
+        return memo[s]
 
 
 

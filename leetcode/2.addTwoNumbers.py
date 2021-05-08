@@ -43,7 +43,6 @@ class Solution:
 # 自己重寫, time complexity O(max(m, n)), space complexity O(1)
 class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        res = []
         carry = 0
         dummy = cur = ListNode()
         while l1 or l2 or carry:
@@ -63,6 +62,23 @@ class Solution:
 
         return dummy.next
 
+# 重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+        dummy = cur = ListNode()
+        carry = 0
+        while l1 or l2 or carry:
+            temp1, temp2 = 0, 0
+            if l1:
+                temp1 = l1.val
+                l1 = l1.next
+            if l2:
+                temp2 = l2.val
+                l2 = l2.next
+            carry, remain = divmod(temp1 + temp2 + carry, 10)
+            cur.next = ListNode(remain)
+            cur = cur.next
+        return dummy.next
 
 class Solution:
     def addTwoNumbers(self, l1, l2):

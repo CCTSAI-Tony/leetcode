@@ -17,6 +17,7 @@ You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL
 #加密機制 n%62 => letter, n//62 => 解密機制 n = 0 => n*62 + self.base[ch]
 # Map index of the urls to the 62 digit system, 0,1...8,9,a,b...y,z,A,B...Y,Z.
 # I avoid 0 to simplfy the 0 case for while loop
+# 使用餘數 0 - 61 與商 n // 62 => 來encode, 還有可以不用OrderedDict
 import string
 from collections import OrderedDict
 class Codec:
@@ -138,7 +139,34 @@ class Codec:
         return self.url[n-1]
 
 
+#重寫第四次, time complexity encode: O(1), decode: O(1), space complexity O(n)
+import string
+class Codec:
+    def __init__(self):
+        self.url = []
+        self.base = {v:i for i, v in enumerate(string.digits + string.ascii_letters)}
+        self.m = len(self.base)
 
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        self.url.append(longUrl)
+        n = len(self.url)
+        code = ""
+        while n > 0:
+            code += list(self.base.keys())[n % self.m]
+            n //= self.m
+        return "http://tinyurl.com/" + code
+        
+
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        code = shortUrl.split("/")[-1]
+        n = 0
+        for w in code[::-1]:
+            n = n * self.m + self.base[w]
+        return self.url[n-1]
 
 
 
