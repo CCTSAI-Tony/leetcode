@@ -18,7 +18,7 @@ class Solution:
         """
         if n <= 2: return 0
             
-        primes = [True] * n #把0也算進去了
+        primes = [True] * n #把0也算進去了, 到n-1
         primes[0] = primes[1] = False
         for num in range(2, int(math.sqrt(n)) + 1): #到根號n
             if primes[num]:
@@ -26,6 +26,17 @@ class Solution:
         
         return sum(primes)
 
+#重寫第二次, time complexity O(n**(0.5)loglogn), space complexity O(n)
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        if n < 2:
+            return 0
+        primes = [True] * n
+        primes[0], primes[1] = False, False
+        for i in range(2, int(n**0.5 ) + 1):
+            if primes[i]:
+                primes[i**2:n:i] = [False] * len( primes[i**2:n:i])
+        return sum(primes)
 '''
 Hey man, I was trying to figure this out on my own but I couldn't come up with this "num**2:n:num" part, could you please explain me what it does?
 Thanks!
@@ -43,6 +54,7 @@ Here's an example given a range or number 30:
 then you repeat this process for 3 and so on up to the sqrt(n)+1 since everything over that you've already checked
 
 '''
+
 
 
 a = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]

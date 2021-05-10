@@ -64,6 +64,34 @@ class Solution:
                 return True
             return False
 
+#重寫第二次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        l, r = 0, len(nums) - 1
+        while l + 1 < r:
+            m = l + (r - l) // 2
+            if self.check(m, nums):
+                l = m
+            else:
+                r = m
+        if not self.check(l, nums):
+            return nums[l]
+        else:
+            return nums[r]
+        
+    def check(self, m, nums):
+        if m % 2:
+            if nums[m] == nums[m-1]:
+                return True
+            else:
+                return False
+        else:
+            if nums[m] == nums[m + 1]:
+                return True
+            else:
+                return False
 
 # If every element in the sorted array were to appear exactly twice, they would occur in pairs at indices i, i+1 for all even i.
 

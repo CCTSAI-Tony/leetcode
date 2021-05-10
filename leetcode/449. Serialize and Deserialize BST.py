@@ -148,8 +148,38 @@ class Codec:
         return None
 
 
+#重寫第三次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Codec:
 
+    def serialize(self, root: TreeNode) -> str:
+        """Encodes a tree to a single string.
+        """
+        vals = []
+        self.preorder(root, vals)
+        return " ".join(vals)
+    
+    def preorder(self, node, vals):
+        if node:
+            vals.append(str(node.val))
+            self.preorder(node.left, vals)
+            self.preorder(node.right, vals)
 
+    def deserialize(self, data: str) -> TreeNode:
+        """Decodes your encoded data to tree.
+        """
+        data = deque(map(int, data.split()))
+        root = self.build(float("-inf"), float("inf"), data)
+        return root
+        
+    def build(self, minval, maxval, data):
+        if data and minval < data[0] < maxval:
+            val = data.popleft()
+            node = TreeNode(val)
+            node.left = self.build(minval, val, data)
+            node.right = self.build(val, maxval, data)
+            return node
+        return None
 
 
 #binary search tree 重點: 左邊都是放比root 小的, 右邊都是放比root大的

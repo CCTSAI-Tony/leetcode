@@ -135,6 +135,27 @@ class Solution:
             memo[(s, p)] = False
             return memo[(s, p)]
 
+#重寫第三次, O(len(p)*len(s)), space complexity: O(len(p)*len(s))
+class Solution:
+    memo = {}
+    def isMatch(self, s: str, p: str) -> bool:
+        if (s, p) in self.memo:
+            return self.memo[(s, p)]
+        if not p:
+            return not s
+        if p[-1] == "*":
+            if self.isMatch(s, p[:-2]):
+                self.memo[(s, p)] = True
+                return True
+            if s and (s[-1] == p[-2] or p[-2] == "." ) and self.isMatch(s[:-1], p):
+                self.memo[(s, p)] = True
+                return True
+        else:
+            if s and (s[-1] == p[-1] or p[-1] == ".") and self.isMatch(s[:-1], p[:-1]):
+                self.memo[(s, p)] = True
+                return True
+        self.memo[(s, p)] = False
+        return False
 
 # DP version: 48ms
 #刷題用這個 此題重點 '*' can eliminate the charter before it, dp[i][j] 定義為p[:i] s[:j]
