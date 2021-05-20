@@ -37,32 +37,9 @@ You may assume that next() call will always be valid, that is, there will be at 
 #         self.left = None
 #         self.right = None
 
-# 先搞清楚Binary Search Tree 的特性 左邊小 右邊大
-# stack solution: 刷題用這個!! time complexity O(n)
-# 思路: 利用stack 先往最左邊一路收集node, 直到最底層是最小的, 之後往上pop, 若pop的node有右節點則在next的時候加入, 一樣先往左遍歷, 這樣一來下一個smallest node
-# 就是右節點左子數最下層
-# 畫張圖就清楚了
-class BSTIterator:
-    def __init__(self, root):
-        self.stack = []
-        while root:  #一路往最小走
-            self.stack.append(root)
-            root = root.left #get smaller one
-
-    # @return a boolean, whether we have a next smallest number
-    def hasNext(self):
-        return len(self.stack) > 0
-
-    # @return an integer, the next smallest number
-    def next(self):
-        node = self.stack.pop()
-        x = node.right #if it has node.right, go into the node right and find out all the left subtree nodes 
-        while x:
-            self.stack.append(x)
-            x = x.left
-        return node.val
-
-#自己重寫, time complexity O(n)
+#自己重寫, 刷題用這個, time complexity: next, hasnext average O(1), space complexity O(h)
+#思路: pointer + yield iterator + next() iterator, 並在 contruct 先尋找最後的node, 來利用此node來判斷是否hasnext
+#技巧: next(iterator, default), default value: when iterator is exausted, it returns the default value.
 class BSTIterator:
 
     def __init__(self, root: TreeNode):
@@ -70,14 +47,14 @@ class BSTIterator:
         while self.last and self.last.right:
             self.last = self.last.right
         self.current = None
-        self.q = self.iterate(root)
+        self.q = self.iterate(root) #生成器
         
 
     def next(self) -> int:
         """
         @return the next smallest number
         """
-        return next(self.q)
+        return next(self.q)  #next 來觸發iterator, next func
         
 
     def hasNext(self) -> bool:
@@ -96,37 +73,34 @@ class BSTIterator:
         for x in self.iterate(node.right):
             yield x
 
-
-#重寫第二次, time complexity next average O(1), hasNext O(1), space complexity O(h)
+#重寫第二次, time complexity: next, hasnext average O(1), space complexity O(h)
 class BSTIterator:
 
     def __init__(self, root: TreeNode):
-        self.stack = []
-        while root:
-            self.stack.append(root)
-            root = root.left
-        
+        self.cur = None
+        node = root
+        while node.right:
+            node = node.right
+        self.last= node
+        self.q = self.iterator(root)
         
 
     def next(self) -> int:
-        """
-        @return the next smallest number
-        """
-        node = self.stack.pop()
-        x = node.right
-        while x:
-            self.stack.append(x)
-            x = x.left
-        return node.val
+        return next(self.q)
         
 
     def hasNext(self) -> bool:
-        """
-        @return whether we have a next smallest number
-        """
-        return len(self.stack) > 0
-
-
+        return self.cur != self.last
+    
+    def iterator(self, node):
+        if not node:
+            return
+        for x in self.iterator(node.left):
+            yield x
+        self.cur = node
+        yield node.val
+        for x in self.iterator(node.right):
+            yield x
 
 
 
@@ -146,7 +120,7 @@ class BSTIterator:
 
     # @return an integer, the next smallest number
     def next(self):
-        return next(self.g) #觸發生成器, next func
+        return next(self.g) #觸發iterator, next func
         
     def iterate(self, node): #cool!! 看不懂請看書籤, for x in self.iterate(node.left), yield x 並不會全部return, 因為next(self.iterate(root))
         if node is None:
@@ -271,55 +245,61 @@ Python 之所以要提供这样的解决方案，是因为在很多时候，我�
 
 @@若還不懂 書籤有連結
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 '''
 
+# 先搞清楚Binary Search Tree 的特性 左邊小 右邊大
+# stack solution: 刷題用這個!! time complexity: next, hasnext average O(1), space complexity O(h)
+# 思路: 利用stack 先往最左邊一路收集node, 直到最底層是最小的, 之後往上pop, 若pop的node有右節點則在next的時候加入, 一樣先往左遍歷, 這樣一來下一個smallest node
+# 就是右節點左子數最下層
+# 畫張圖就清楚了
+class BSTIterator:
+    def __init__(self, root):
+        self.stack = []
+        while root:  #一路往最小走
+            self.stack.append(root)
+            root = root.left #get smaller one
 
+    # @return a boolean, whether we have a next smallest number
+    def hasNext(self):
+        return len(self.stack) > 0
+
+    # @return an integer, the next smallest number
+    def next(self):
+        node = self.stack.pop()
+        x = node.right #if it has node.right, go into the node right and find out all the left subtree nodes 
+        while x:
+            self.stack.append(x)
+            x = x.left
+        return node.val
+
+#重寫第二次, time complexity next average O(1), hasNext O(1), space complexity O(h)
+class BSTIterator:
+
+    def __init__(self, root: TreeNode):
+        self.stack = []
+        while root:
+            self.stack.append(root)
+            root = root.left
+        
+        
+
+    def next(self) -> int:
+        """
+        @return the next smallest number
+        """
+        node = self.stack.pop()
+        x = node.right
+        while x:
+            self.stack.append(x)
+            x = x.left
+        return node.val
+        
+
+    def hasNext(self) -> bool:
+        """
+        @return whether we have a next smallest number
+        """
+        return len(self.stack) > 0
 
 
 

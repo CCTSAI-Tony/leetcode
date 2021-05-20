@@ -108,7 +108,29 @@ class Solution:
         return not any(indegree.values())
 
 
-
+#重寫第二次, time complexity O(v + e), space complexity O(v + e)
+from collections import defaultdict, deque
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        graph = defaultdict(list)
+        indegrees = [0] * numCourses
+        for edge in prerequisites:
+            graph[edge[1]].append(edge[0])
+            indegrees[edge[0]] += 1
+        
+        queue = deque()
+        res = []
+        for i in range(len(indegrees)):
+            if indegrees[i] == 0:
+                queue.append(i)
+        while queue:
+            node = queue.popleft()
+            res.append(node)
+            for nxt in graph[node]:
+                indegrees[nxt] -= 1
+                if indegrees[nxt] == 0:
+                    queue.append(nxt)
+        return len(res) == numCourses
 
 
 

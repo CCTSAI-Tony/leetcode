@@ -29,8 +29,17 @@ class Solution:
             dic[tuple(letter)].append(s)
         return dic.values()
 
-
-
+#重寫第二次, time complexity O(nk), space complexity O(nk)
+from collections import defaultdict
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        memo = defaultdict(list)
+        for s in strs:
+            letters = [0] * 26
+            for w in s:
+                letters[ord(w) - ord("a")] += 1
+            memo[tuple(letters)].append(s)
+        return memo.values()
 
 
 #刷題用這個

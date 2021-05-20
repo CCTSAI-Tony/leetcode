@@ -84,8 +84,19 @@ class Solution:
             return nums[l]
         return nums[r]
 
-
-
+#重寫第三次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if nums[mid] > nums[r]:
+                l = mid
+            else:
+                r = mid
+        if nums[l] < nums[r]:
+            return nums[l]
+        return nums[r]
 
 
 #自己想的, time complexity O(logn), space complexity O(1)
