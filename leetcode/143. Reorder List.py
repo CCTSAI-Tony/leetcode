@@ -61,7 +61,24 @@ class Solution:
 
 # ListNode.next 可以接自己
 
-
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def reorderList(self, head: ListNode) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        stack = []
+        cur = head
+        while cur:
+            stack.append(cur)
+            cur = cur.next
+        l, r = 0, len(stack) - 1
+        while l < r:
+            temp = stack[l].next
+            stack[l].next = stack[r]
+            stack[r].next = temp
+            l += 1; r -= 1
+        stack[l].next = None
 
 class Solution:
     def reorderList(self, head: ListNode) -> None:

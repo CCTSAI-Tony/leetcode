@@ -50,6 +50,8 @@
 # time complexity O(log min(m,n))
 # 重要constraint: 0 <= m <= 1000, 0 <= n <= 1000, 1 <= m + n <= 2000
 # 只有這題強烈建議用模板1, binary search 的部分
+# nums1 都是取最短的, 可以只針對i指針做邊界確認
+# 還有因為指針範圍包含0, m => 因此不適合用模板2解法
 
 class Solution:
     def median(A, B):
@@ -61,10 +63,10 @@ class Solution:
         while imin <= imax:  # 左閉右閉
             i = (imin + imax) // 2 # 這裡的i 指的是 [:i] => nums1, 所以imax可以是m
             j = half_len - i  # 這裡的j 指的是 [:j] => nums2, 因為i+j = half_len 這個關係, 可以移動i指針順便移動j指針
-            if i < m and nums2[j-1] > nums1[i]:  # i < m, nums1[i] index not out of range
+            if i < m and nums2[j-1] > nums1[i]:  # i < m, avoid nums1[i] index not out of range
                 # i is too small, must increase it
                 imin = i + 1 #二分法
-            elif i > 0 and nums1[i-1] > nums2[j]: # 0 < i, nums1[i-1] index not out of range
+            elif i > 0 and nums1[i-1] > nums2[j]: # 0 < i, avoid nums1[i-1] index not out of range
                 # i is too big, must decrease it
                 imax = i - 1
             else:
@@ -207,8 +209,39 @@ class Solution:
                 return (max_left + min_right) / 2
 
 
-
-
+# 重寫第四次, time complexity O(log(min(m, n))), space complexity O(1)
+# nums1 都是取最短的, 可以只針對i指針做邊界確認
+# 還有因為指針範圍包含0, m => 因此不適合用模板2解法
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        m, n = len(nums1), len(nums2)
+        if m > n:
+            nums1, m, nums2, n = nums2, n, nums1, m
+        imin, imax = 0, m
+        half = (m + n + 1) // 2
+        while imin <= imax:
+            i = imin + (imax - imin) // 2
+            j = half - i
+            if i < m and nums2[j - 1] > nums1[i]:
+                imin = i + 1
+            elif i > 0 and nums1[i - 1] > nums2[j]:
+                imax = i - 1
+            else:
+                if i == 0:
+                    max_left = nums2[j-1]
+                elif j == 0:
+                    max_left = nums1[i-1]
+                else:
+                    max_left = max(nums1[i-1], nums2[j-1])
+                if (m + n) % 2:
+                    return max_left
+                if i == m:
+                    min_right = nums2[j]
+                elif j == n:
+                    min_right = nums1[i]
+                else:
+                    min_right = min(nums1[i], nums2[j])
+                return (max_left + min_right) / 2       
 
 
 

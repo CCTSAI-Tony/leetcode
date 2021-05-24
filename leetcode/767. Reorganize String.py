@@ -95,8 +95,8 @@ a = "1234"
 '1 2 3 4'
 
 
-#自己重寫
-#heap 思路 優先把頻率高的element 加到result,若元素==result[-1] 則加入頻率次高的, 整題最重要觀念 max_freq+(max_freq-1)<=len(S). 
+#自己重寫, Time Complexity is O(N * lg(A)), space complexity O(A), N is the length of the string. A is the size of the alphabet
+#max heap 思路 優先把頻率高的element 加到result,若元素==result[-1] 則加入頻率次高的, 整題最重要觀念 max_freq+(max_freq-1)<=len(S). 
 #交互加入保證相鄰不一樣, Alternate placing the most common letters. 所以用到heap
 #為什麼只要確認頻率最高的空格條件就好, 因為其他字符所需要的空格都不會比頻率最高的元素來得多
 from collections import Counter
@@ -129,7 +129,31 @@ class Solution:
                 
         return "".join(res)
 
-
-
+#重寫第二次, time complexity O(NlogA), space complexity O(A)
+from collections import Counter
+import heapq
+class Solution:
+    def reorganizeString(self, S: str) -> str:
+        count = Counter(S)
+        max_freq = max(count.values())
+        if max_freq * 2 - 1 > len(S):
+            return ""
+        heap = []
+        for k, v in count.items():
+            heapq.heappush(heap, (-v, k))
+        res = ""
+        while heap:
+            v, k = heapq.heappop(heap)
+            if not res or res[-1] != k:
+                res += k
+                if v < -1:
+                    heapq.heappush(heap, (v + 1, k))
+            else:
+                v2, k2 = heapq.heappop(heap)
+                res += k2
+                if v2 < -1:
+                    heapq.heappush(heap, (v2 + 1, k2))
+                heapq.heappush(heap, (v, k))
+        return res
 
 
