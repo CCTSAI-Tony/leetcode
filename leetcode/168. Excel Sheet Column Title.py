@@ -43,6 +43,25 @@ class Solution:
             ans += chr(64 + i)
         return ans
 
+#刷題用這個, time complexity O(1), space complexity O(1)
+import string
+class Solution:
+    def convertToTitle(self, columnNumber: int) -> str:
+        res = []
+        while columnNumber:
+            t = columnNumber % 26
+            if t == 0:
+                res.append(26)
+                columnNumber = columnNumber//26 - 1
+            else:
+                res.append(t)
+                columnNumber //=26
+        memo = {}
+        i = 1
+        for v in string.ascii_uppercase:
+            memo[i] = v
+            i += 1
+        return "".join([memo[k] for k in res[::-1]])
 '''
 we get charecters number for the string from end to start:
 

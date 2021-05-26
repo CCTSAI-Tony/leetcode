@@ -114,7 +114,33 @@ class Solution:
             self.dfs(parents[node], distance+1, parents, res, visited, K)
 
 
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
+        parents = {}
+        stack = [(root, None)]
+        while stack:
+            node, parent = stack.pop()
+            parents[node] = parent
+            if node.left:
+                stack.append((node.left, node))
+            if node.right:
+                stack.append((node.right, node))
+        res = []
+        visited = set()
+        self.dfs(target, k, parents, res, visited)
+        return res
+    
+    def dfs(self, node, k, parents, res, visited):
+        if not node or node in visited:
+            return
+        visited.add(node)
+        if k == 0:
+            res.append(node.val)
+            return
+        self.dfs(node.left, k-1, parents, res, visited)
+        self.dfs(node.right, k-1, parents, res, visited)
+        self.dfs(parents[node], k-1, parents, res, visited)
 
 
 #DFS AND GRAPH METHOD, TIME COMPLEXITY O(N)

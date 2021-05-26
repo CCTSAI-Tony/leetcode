@@ -83,6 +83,24 @@ a= "fff"
 a.ljust(5)
 'fff  '
 
-
+#刷題用這個, 重寫第二次, time complexity  O(n*m) , space complexity O(m), n: len(words), m: len(maxWidth)
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        ans = []
+        line, width = [], 0
+        for word in words:
+            if len(line) + len(word) + width > maxWidth:
+                n, k = divmod(maxWidth - width, max(1, len(line) - 1))
+                for i in range(max(1, len(line)-1)):
+                    line[i] += " " * (n + (i < k))
+                ans.append("".join(line))
+                line, width = [], 0
+            line.append(word)
+            width += len(word)
+        
+        temp = " ".join(line)
+        temp += " " * (maxWidth - len(temp))
+        ans.append(temp)
+        return ans
 
 
