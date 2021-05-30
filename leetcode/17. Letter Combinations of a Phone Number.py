@@ -40,6 +40,30 @@ class Solution:
         for char in graph[digits[0]]:
             self.dfs(digits[1:], graph, path+char, res)
 
+#重寫第二次, time complexity O(3(4)^4), space complexity O(1)
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        memo = {
+            '2': "abc",
+            '3': "def",
+            '4': "ghi",
+            '5': "jkl",
+            '6': "mno",
+            '7': "pqrs",
+            '8': "tuv",
+            '9': "wxyz"
+        }
+        res = []
+        self.dfs(digits, "", memo, res)
+        return res if digits else None
+        
+    def dfs(self, digits, path, memo, res):
+        if not digits:
+            res.append(path)
+            return
+        for letter in memo[digits[0]]:
+            self.dfs(digits[1:], path + letter, memo, res)
+
 
 #思路: bfs -> bfs 也可以能來遍歷全部可能組合
 class Solution(object):
@@ -58,7 +82,7 @@ class Solution(object):
         all_combinations = [''] if digits else [] #好語法學起來。[]空list
         for digit in digits: #每個digit 代表一個layer
             current_combinations = list()
-            for letter in interpret_digit[digit]: #dic  & '1':'' boolean = false 遇到字串包含1 答案直接['']
+            for letter in interpret_digit[digit]:
                 for combination in all_combinations: #['']也算一個item, 並不是空list
                     current_combinations.append(combination + letter)
             all_combinations = current_combinations #換成當層layer
@@ -66,3 +90,25 @@ class Solution(object):
 
         #take points '' 空字串 []空list ['']不是空list
 
+#重謝第二次, time complexity O(3^4), space complexity O(1)
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        memo = {
+            '2': "abc",
+            '3': "def",
+            '4': "ghi",
+            '5': "jkl",
+            '6': "mno",
+            '7': "pqrs",
+            '8': "tuv",
+            '9': "wxyz"
+        }
+        combinations = [""]
+        for digit in digits:
+            cur_combinations = []
+            for combination in combinations:
+                for letter in memo[digit]:
+                    cur_combinations.append(combination + letter)
+            combinations = cur_combinations
+        
+        return combinations if digits else None

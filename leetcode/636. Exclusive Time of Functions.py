@@ -59,7 +59,7 @@ class Solution:
 
 # Two functions won't start or end at the same time. 題目說的
 
-#自己重寫 time complexity O(n), 額外回憶與發現 python 的變數是function scope, 還有這幾行代碼有動態語言的特性 ex: pre_time 不用先定義, 要用在定義就行了
+#自己重寫 time complexity O(n), 額外回憶與發現 python 的變數是function scope, 還有這幾行代碼顯現動態語言的特性 ex: pre_time 不用先定義, 要用在定義就行了
 class Solution:
     def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
         stack = []
@@ -77,3 +77,22 @@ class Solution:
                 pre_time = int(time) + 1
         return res
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def exclusiveTime(self, n: int, logs: List[str]) -> List[int]:
+        res = [0] * n
+        stack = []
+        prev_time = 0
+        for log in logs:
+            ID, Type, time_stamp = log.split(":")
+            ID, time_stamp = int(ID), int(time_stamp)
+            if Type == "start":
+                if stack:
+                    res[stack[-1]] += (time_stamp - prev_time)
+                stack.append(ID)
+                prev_time = time_stamp
+            else:
+                res[stack.pop()] += (time_stamp - prev_time + 1)
+                prev_time = (time_stamp + 1)
+                
+        return res

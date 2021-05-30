@@ -59,8 +59,20 @@ class Solution:
             p *= nums[i]
         return res
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        res = []
+        n = len(nums)
+        p = 1
+        for i in range(n):
+            res.append(p)
+            p *= nums[i]
+        p = 1
+        for i in range(n-1, -1, -1):
+            res[i] *= p
+            p *= nums[i]
+        return res
 
 
 

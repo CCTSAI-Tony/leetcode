@@ -99,7 +99,7 @@ class Solution(object):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-#自己重寫, time complexity O(1)
+#自己重寫, time complexity O(n)
 class Solution:
     def boundaryOfBinaryTree(self, root: TreeNode) -> List[int]:
         if not root:
@@ -139,8 +139,38 @@ class Solution:
         self.boundary.append(node.val)
 
 
-
-
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def boundaryOfBinaryTree(self, root: TreeNode) -> List[int]:
+        boundary = [root.val]
+        self.left_boundary(root.left, boundary)
+        self.collect_leaves(root, root, boundary)
+        self.right_boundary(root.right, boundary)
+        return boundary
+    
+    def left_boundary(self, node, boundary):
+        if not node or (not node.left and not node.right):
+            return
+        boundary.append(node.val)
+        self.left_boundary(node.left, boundary)
+        if not node.left:
+            self.left_boundary(node.right, boundary)
+    
+    def collect_leaves(self, node, root, boundary):
+        if not node:
+            return
+        if node != root and (not node.left and not node.right):
+            boundary.append(node.val)
+        self.collect_leaves(node.left, root, boundary)
+        self.collect_leaves(node.right, root, boundary)
+        
+    def right_boundary(self, node, boundary):
+        if not node or (not node.left and not node.right):
+            return
+        self.right_boundary(node.right, boundary)
+        if not node.right:
+            self.right_boundary(node.left, boundary)
+        boundary.append(node.val)
 
 
 
