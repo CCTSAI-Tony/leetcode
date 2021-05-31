@@ -22,6 +22,15 @@ class Solution:
         return min(s.index(i) for i in s_counter if s_counter[i] == 1) #s.index(i) 回傳第一個index
 
 
+#重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        count = Counter(s)
+        for i in range(len(s)):
+            if count[s[i]] == 1:
+                return i
+        return -1
 
 #自己想的
 class Solution:

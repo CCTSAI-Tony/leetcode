@@ -101,6 +101,26 @@ class Solution:
             res.append(new_level)
         return res
 
+#重寫第四次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        res = []
+        if not root:
+            return res
+        queue = deque([root])
+        while queue:
+            level = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                level.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            res.append(level)
+        return res
+
 
 #自己想的, dfs, time complexity O(n), space complexity O(n)
 from collections import defaultdict

@@ -84,8 +84,24 @@ class Solution:
             cur.next = None
         return res
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        dummy = temp = Node()
+        res = root
+        while root:
+            while root:
+                if root.left:
+                    temp.next = root.left
+                    temp = temp.next
+                if root.right:
+                    temp.next = root.right
+                    temp = temp.next
+                root = root.next
+            root = dummy.next
+            dummy.next = None
+            temp = dummy
+        return res
 
 #自己想的, bfs, space complexity O(n), time complexity O(n)
 #思路: 使用new_queue 來代表下層node, 當層queue都沒有元素時, 代表目前node是當層最後一個(預設next = None), 不然node.next = 現在當層queue的左邊第一個
