@@ -60,8 +60,19 @@ class Solution:
         return 1 + max(left, right)
 
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.max_diameter = 0
+        self.helper(root)
+        return self.max_diameter
+    
+    def helper(self, node):
+        if not node:
+            return 0
+        left, right = self.helper(node.left), self.helper(node.right)
+        self.max_diameter = max(self.max_diameter, left + right)
+        return max(left, right) + 1
 
 
 

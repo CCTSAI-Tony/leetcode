@@ -100,6 +100,30 @@ class Solution:
         return res
 
 
+#重寫第四次, time complexity O(m + n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        t_count = Counter(t)
+        start = 0
+        end = 0
+        length_of_substring = len(t)
+        min_length = float("inf")
+        ans = ""
+        for end in range(len(s)):
+            if t_count[s[end]] > 0:
+                length_of_substring -= 1
+            t_count[s[end]] -= 1
+            while length_of_substring == 0:
+                cur_len = end - start + 1
+                if cur_len < min_length :
+                    min_length = cur_len
+                    ans = s[start: end+1]
+                t_count[s[start]] += 1
+                if t_count[s[start]] > 0:
+                    length_of_substring += 1
+                start += 1
+        return ans
 
 class Solution(object):
     def minWindow(self, s, t):

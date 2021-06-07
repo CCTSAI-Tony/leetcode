@@ -89,6 +89,21 @@ class Solution:
                 return -1
         return left
 
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def findCelebrity(self, n: int) -> int:
+        l, r = 0, n-1
+        while l < r:
+            if knows(l, r):
+                l += 1
+            else:
+                r -= 1
+        for i in range(n):
+            if not knows(i, l) or (i != l and knows(l, i)):
+                return -1
+        return l
+
+
 
 #別人O(n) 優化 => 1576ms
 class Solution(object):

@@ -30,8 +30,8 @@ Python binary search solution
 Generate a prefix sum of the weights; then generate a random integer; after that, 
 search for the indes using binary search, O(nlogn)
 
-# 使用模版2 刷題用這個, time complexity O(nlogn)
-# 思路: which randomly picks an index in proportion to its weight. 說明w[i] 較大者 較高機率被pick到 => prefix sum
+# 使用模版2 刷題用這個, time complexity O(nlogn), prefix_sum + binary search
+# 思路: which randomly picks an index in proportion to its weight. 說明w[i] 較大者 較高機率被pick到 => prefix sum (重要想法)
 # 建立完prefix sum, 使用ramdom.randinth從 prefix_Sum中挑一個值, 並用binary search 來判斷值落在哪個w[index], return 該index
 import random
 class Solution:
@@ -56,6 +56,31 @@ class Solution:
             return left
         else:
             return right
+
+
+#重寫第二次, time complexity O(nlogn), space complexity O(1)
+import random
+class Solution:
+
+    def __init__(self, w: List[int]):
+        n = len(w)
+        self.w = w
+        for i in range(1, n):
+            self.w[i] += self.w[i-1]
+        
+
+    def pickIndex(self) -> int:
+        seed = random.randint(1, self.w[-1])
+        l, r = 0, len(self.w) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if self.w[mid] >= seed:
+                r = mid
+            else:
+                l = mid
+        if self.w[l] >= seed:
+            return l
+        return r
 
 
 

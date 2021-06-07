@@ -29,7 +29,7 @@ class Solution(object):
                     # add nearest parentheses pairs + 2
                     dp[i+1] = dp[i-1] + 2
                 # case 2: (()) 
-                # i-dp[i-1]-1 is the index of last "(" not paired until this ")" 超酷的這想法!
+                # i-dp[i]-1 is the index of last "(" not paired until this ")" 超酷的這想法!
                 elif i-dp[i]-1 >= 0 and s[i-dp[i]-1] == "(":  #if dp[i] = 0 => s[i-1] == "(", 被if condition 優先考慮掉了
                     # add nearest parentheses pairs + 2 + parentheses before last paired "("
                     dp[i+1] = dp[i] + 2 + dp[i-dp[i]-1]   
@@ -82,7 +82,19 @@ class Solution:
                     dp[i+1] = dp[i] + 2 + dp[i - dp[i] - 1]
         return max(dp)
 
-
+#重寫第四次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        dp = [0] * (len(s) + 1)
+        max_to_now = 0
+        for i in range(1, len(s)):
+            if s[i] == ")":
+                if s[i-1] == "(":
+                    dp[i+1] = dp[i-1] + 2
+                elif i - dp[i] - 1 >= 0 and s[i - dp[i] - 1] == "(":
+                    dp[i+1] = 2 + dp[i] + dp[i - dp[i] - 1]
+                max_to_now = max(max_to_now, dp[i + 1])
+        return max_to_now
 
 # list comprehension  兩種功能一樣
 # [[0]*5 for _ in range(5)]

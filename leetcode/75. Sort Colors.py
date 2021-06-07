@@ -39,6 +39,25 @@ class Solution:
                 m1 += 1
                 m2 += 1
 
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        m1, m2 = 0, 0
+        pivot = 1
+        for i in range(len(nums)):
+            if nums[i] < pivot:
+                nums[i], nums[m2] = nums[m2], nums[i]
+                nums[m2], nums[m1] = nums[m1], nums[m2]
+                m2 += 1
+                m1 += 1
+            elif nums[i] == pivot:
+                nums[i], nums[m2] = nums[m2], nums[i]
+                m2 += 1
+        return nums
+
 
 #  3 pointers, 自己演練就清楚
 #  Complexity: Time complexity is O(n), because each moment of time we move at least one of the pointers. Additional space complexity is O(1)

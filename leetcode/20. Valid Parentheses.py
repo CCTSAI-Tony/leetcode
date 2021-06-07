@@ -94,7 +94,26 @@ class Solution:
         return True
 
 
-
+#重寫第四次, time complexity O(n), space complexity O(n)
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = []
+        for w in s:
+            if w in ["(", "[", "{"]:
+                stack.append(w)
+            elif w == ")":
+                if not stack or stack[-1] != "(":
+                    return False
+                stack.pop()
+            elif w == "]":
+                if not stack or stack[-1] != "[":
+                    return False
+                stack.pop()
+            elif w == "}":
+                if not stack or stack[-1] != "{":
+                    return False
+                stack.pop()
+        return True if not stack else False
 
 
 

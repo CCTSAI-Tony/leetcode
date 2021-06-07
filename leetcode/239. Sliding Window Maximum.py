@@ -45,12 +45,12 @@ Constraints:
 # To remove a number outside the window, only compare whether the current index is greater than the front of queue. If so, remove it.*
 
 
-#刷題用這個, monotonic queue, 搭配862服用
-#自己重寫, time com[lexity O(n), 重點建立一個decreasing monotonic queue, space complexity O(k)
+# 刷題用這個, monotonic queue, 搭配862服用
+# 自己重寫, time com[lexity O(n), 重點建立一個decreasing monotonic queue, space complexity O(k)
 # 思路: 此題最重要就是額外建立一個deque, 隨著window移動, 加入新的數字進去, 若新的數字大於前面已加入了, 就把前面已加入的pop掉, 因為他們沒機會變成此window的最大值
 # 直到遇到比你大的, 這樣可以確保這個dq[0]是整個dq最大的值
 # dq 裡面是紀錄index, 之後dq[0] 還要確認是否它的index還在window 裡, 若沒有則pop掉它, 換次小的變dq[0], 直到dq[0] 在window裡
-# 使用此一操作可以以平均O(1)取得window裡最大的值, 而不像naice algorithm, 需要O(k)
+# 使用此一操作可以以平均O(1)取得window裡最大的值, 而不像naive algorithm, 需要O(k)
 # 每個數字被append, 與 pop掉 個別最多一次, 因此time complexity 為 O(n)
 from collections import deque
 class Solution:
@@ -123,8 +123,24 @@ class Solution:
         queue.append(i)
 
 
-
-
+#重寫第四次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        queue = deque()
+        for i in range(k - 1):
+            while queue and nums[queue[-1]] <= nums[i]:
+                queue.pop()
+            queue.append(i)
+        res = []
+        for i in range(k - 1, len(nums)):
+            while queue and nums[queue[-1]] <= nums[i]:
+                queue.pop()
+            queue.append(i)
+            while queue[0] < (i-k+1):
+                queue.popleft()
+            res.append(nums[queue[0]])
+        return res
 
 
 
