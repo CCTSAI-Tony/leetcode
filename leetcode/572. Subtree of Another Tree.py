@@ -94,8 +94,30 @@ class Solution:
             return False
         return self.check(s.left, t.left) and self.check(s.right, t.right)
 
-
-
+#重寫第二次, time complexity O(t*s), space complexity O(max(t, s.h))
+from collections import deque
+class Solution:
+    def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
+        if not subRoot:
+            return True
+        queue = deque([root])
+        while queue:
+            node = queue.popleft()
+            if node.val == subRoot.val:
+                if self.check(node, subRoot):
+                    return True
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        return False
+        
+    def check(self, node1, node2):
+        if not node1 and not node2:
+            return True
+        if not node1 or not node2 or node1.val != node2.val:
+            return False
+        return self.check(node1.left, node2.left) and self.check(node1.right, node2.right)
 
 
 

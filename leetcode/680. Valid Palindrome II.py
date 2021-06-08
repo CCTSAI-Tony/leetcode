@@ -39,3 +39,25 @@ class Solution(object):
 #abcdedcbha one: bcdedcb  two: cdedcbh
 
 #這題利用到 inward string of a palindrom 依舊是個palindrom 的特性, 還有palindrome = palindrome[::-1]
+
+#time complexity O(n), space complexity O(1)
+#注意s[3:-1:-1] => "", 為什麼, 因為在string index, -1 = len(s) - 1
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        l, r = 0, len(s) - 1
+        while l < r:
+            if s[l] != s[r]:
+                return (s[l+1: r+1] == s[l+1: r+1][::-1]) or (s[l:r][::-1] == s[l:r])
+            l += 1
+            r -= 1
+        return True
+
+
+
+
+
+
+
+
+
+

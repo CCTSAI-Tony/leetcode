@@ -35,3 +35,23 @@ class Solution:
 Python isalnum() 方法检测字符串是否由字母和数字组成。
 返回值
 如果 string 至少有一个字符并且所有字符都是字母或数字则返回 True,否则返回 False
+'''
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def isPalindrome(self, s: str) -> bool:
+        l, r = 0, len(s) - 1
+        while l < r:
+            while l < r and not s[l].isalnum():
+                l += 1
+            while l < r and not s[r].isalnum():
+                r -= 1
+            if s[l].lower() != s[r].lower():
+                return False
+            l += 1
+            r -= 1
+        return True
+
+
+
+
