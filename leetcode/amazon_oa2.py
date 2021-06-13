@@ -253,7 +253,7 @@ def earliestTime(numOfBuildings: int, buildingopenTime: List[int], offloadTime: 
 print(earliestTime(2, [8,10], [2,2,3,1,8,7,4,5])) #16
 print(earliestTime(2, [8,40], [2,2,3,1,8,7,4,5])) #43
 
-#time complexity O(n)
+#time complexity O(n) 就是Throttling Gateway
 def droppedRequests(num, requestTime):
     one_sec_left = ten_sec_left = min_left = 0
     one_sec_count = ten_sec_count = min_count = 0
@@ -1011,3 +1011,23 @@ def efficientJanitor(weight):
 
 
 
+Create k group using n members
+
+The key is dp[i][j] = dp[i-1][j-1] + dp[i][j-i];
+
+    public static int nToKGroups(int n, int k) {
+        if(n < k) {
+            return 0;
+        }
+        int[][] dp = new int[k+1][n+1];
+        for(int i = 1; i <= k; i++) {
+            for(int j = i; j <= n; j++) {
+                if(i==j) {
+                    dp[i][j] = 1;
+                } else {
+                    dp[i][j] = dp[i-1][j-1] + dp[i][j-i];
+                }
+            }
+        }
+        return dp[k][n];
+    }
