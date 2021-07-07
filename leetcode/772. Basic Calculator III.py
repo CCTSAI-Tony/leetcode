@@ -19,6 +19,103 @@ Some examples:
 Note: Do not use the eval built-in library function.
 '''
 
+#刷題用這個, postfix 通殺解法, time complexity O(n), space complexity O(n)
+#可以同時解決 224, 227, 772
+#思路: infix => postfix => evaluate
+#技巧, 使用re 來轉化string to list
+
+import re
+class Solution:
+    def __init__(self):
+        self.precidence_out = {'+':1, '-':1, '*':3, '/':3, "^": 6, '(':7}
+        self.precidence_in = {'+':2, '-':2, '*':4, '/':4, "^": 5, '(':0}
+    
+    def calculate(self, s: str) -> int:
+        # parse the string using regex
+        operations = re.findall('\d+|[+\-*/()]', s)
+        postfix = self.create_postfix(operations)
+        return self.eval_postfix(postfix)
+
+    def create_postfix(self, eval_string):
+        """
+        Shunting yard algorithm
+        """
+        postfix = []
+        operator_stack = []
+        prev_op = ""
+        for op in eval_string:
+            if op in ["+", "-"] and prev_op in ("", "("):
+                postfix.append("0")
+            if op == ')':
+                while operator_stack[-1] != '(':
+                    postfix.append(operator_stack.pop())
+                operator_stack.pop()
+            elif op == "-" and prev_op == "-":
+                operator_stack.pop()
+                operator_stack.append("+")
+                prev_op = "+"
+                continue
+            elif op == "+" and prev_op == "-":
+                continue
+            elif op == "-" and prev_op in ["*", "/", "^"]  and eval_string[i + 1].isdigit():
+                eval_string[i + 1] = str(-1 * int(eval_string[i + 1]))
+                continue
+            elif op == '(':
+                operator_stack.append(op)           
+
+            elif op in self.precidence_out:
+                while operator_stack and self.precidence_out[op] <= self.precidence_in[operator_stack[-1]]:
+                    postfix.append(operator_stack.pop())
+                operator_stack.append(op)
+                
+            else:
+                postfix.append(op)
+            prev_op = op
+            
+
+        while operator_stack:
+            postfix.append(operator_stack.pop())
+
+        return postfix
+
+    def eval_postfix(self, postfix):
+        """
+        classic post fix evaluation
+        """
+        eval_stack = []
+
+        for op in postfix:
+            if op in ["+", "-", "*", "/", "^"]:
+                b = int(eval_stack.pop())
+                # if a negative number was encountered just subtract it from 0
+                a = 0
+                if eval_stack:
+                     a = int(eval_stack.pop())
+                eval_stack.append(self.eval(a, b, op))
+            else:
+                eval_stack.append(op)
+
+        if len(eval_stack) == 1:
+            return eval_stack[0]
+       
+    def eval(self, a, b, op):
+        if op == '+':
+            return a + b
+        if op == '-':
+            return a - b
+        if op == '*':
+            return a * b
+        if op == '/':
+            if a // b < 0 and a % b:
+                return (a // b) + 1
+            return a // b
+        if op == '^':
+            return a ** b
+
+
+
+
+
 # The idea is to compute each independent item of the expression and then sum them up. For example in 3 - 4 / (4* 6 ), 3 is an item and -4/(4*6) is also an item.
 
 # We use num as the variable of the current operand, op as the operation of the partial expression not yet evaluated (the operation before num). 
@@ -36,6 +133,7 @@ Note: Do not use the eval built-in library function.
 # 運到"(" 則是把括號前的運算子加到stack, 這樣就可以專心應付括號裡面的值, 最後遇到最後一個數, 記得要再做一次計算把最後的num加到stack裡, sum up stack裡的值 => 答案
 # 技巧: 使用isinstance 來確認物件的type, 因為int 沒有額外的method 來確認自身的type, 
 # 技巧: The integer division should truncate toward zero => 使用int(num1/num2) 來執行, ex:int(-1/2) => 0
+
 class Solution(object):
     def calculate(self, s):
         stack = []

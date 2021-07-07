@@ -166,8 +166,28 @@ class MedianFinder:
             return self.upper[0]
 
 
+#重寫第四次, time complexity addNum log(n), findMedian O(1), space complexity O(n)
+from heapq import *
+class MedianFinder:
 
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.low = []
+        self.high = []
 
+    def addNum(self, num: int) -> None:
+        if len(self.low) == len(self.high):
+            heappush(self.high, -heappushpop(self.low, -num))
+        else:
+            heappush(self.low, -heappushpop(self.high, num))
+
+    def findMedian(self) -> float:
+        if len(self.high) > len(self.low):
+            return self.high[0]
+        else:
+            return (-self.low[0] + self.high[0]) / 2
 
 # 1. If all integer numbers from the stream are between 0 and 100, how would you optimize it?
 
@@ -179,12 +199,6 @@ class MedianFinder:
 # 2. If 99% of all integer numbers from the stream are between 0 and 100, how would you optimize it?
 
 # In this case, we need an integer array of length 100 and a hashmap for these numbers that are not in [0,100].
-
-
-
-
-
-
 
 
 

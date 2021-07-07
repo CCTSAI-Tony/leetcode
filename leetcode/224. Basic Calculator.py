@@ -20,6 +20,103 @@ You may assume that the given expression is always valid.
 Do not use the eval built-in library function.
 '''
 
+#刷題用這個, postfix 通殺解法, time complexity O(n), space complexity O(n)
+#可以同時解決 224, 227, 772
+#思路: infix => postfix => evaluate
+#技巧, 使用re 來轉化string to list
+import re
+class Solution:
+    def __init__(self):
+        self.precidence_out = {'+':1, '-':1, '*':3, '/':3, "^": 6, '(':7}
+        self.precidence_in = {'+':2, '-':2, '*':4, '/':4, "^": 5, '(':0}
+    
+    def calculate(self, s: str) -> int:
+        # parse the string using regex
+        operations = re.findall('\d+|[+\-*/()]', s)
+        postfix = self.create_postfix(operations)
+        return self.eval_postfix(postfix)
+
+    def create_postfix(self, eval_string):
+        """
+        Shunting yard algorithm
+        """
+        postfix = []
+        operator_stack = []
+        prev_op = ""
+        for op in eval_string:
+            if op in ["+", "-"] and prev_op in ("", "("):
+                postfix.append("0")
+            if op == ')':
+                while operator_stack[-1] != '(':
+                    postfix.append(operator_stack.pop())
+                operator_stack.pop()
+            elif op == "-" and prev_op == "-":
+                operator_stack.pop()
+                operator_stack.append("+")
+                prev_op = "+"
+                continue
+            elif op == "+" and prev_op == "-":
+                continue
+            elif op == "-" and prev_op in ["*", "/", "^"]  and eval_string[i + 1].isdigit():
+                eval_string[i + 1] = str(-1 * int(eval_string[i + 1]))
+                continue
+            elif op == '(':
+                operator_stack.append(op)           
+
+            elif op in self.precidence_out:
+                while operator_stack and self.precidence_out[op] <= self.precidence_in[operator_stack[-1]]:
+                    postfix.append(operator_stack.pop())
+                operator_stack.append(op)
+                
+            else:
+                postfix.append(op)
+            prev_op = op
+            
+
+        while operator_stack:
+            postfix.append(operator_stack.pop())
+
+        return postfix
+
+    def eval_postfix(self, postfix):
+        """
+        classic post fix evaluation
+        """
+        eval_stack = []
+
+        for op in postfix:
+            if op in ["+", "-", "*", "/", "^"]:
+                b = int(eval_stack.pop())
+                # if a negative number was encountered just subtract it from 0
+                a = 0
+                if eval_stack:
+                     a = int(eval_stack.pop())
+                eval_stack.append(self.eval(a, b, op))
+            else:
+                eval_stack.append(op)
+
+        if len(eval_stack) == 1:
+            return eval_stack[0]
+       
+    def eval(self, a, b, op):
+        if op == '+':
+            return a + b
+        if op == '-':
+            return a - b
+        if op == '*':
+            return a * b
+        if op == '/':
+            if a // b < 0 and a % b:
+                return (a // b) + 1
+            return a // b
+        if op == '^':
+            return a ** b
+
+        # raise exception
+
+
+
+
 # 刷題用這個  ex: "(1+(4+5+2)-3)+(6+8)"
 # 自己重寫 time complexity O(n)
 # 思路: 因為有parenthesis, 因此設立res來紀錄目前所處位置的值, 不管是括號內還是括號外, 可以看成 舊res+(新res+(新新res)) 樓中樓的概念

@@ -80,8 +80,35 @@ class Solution:
         return len(nums) + 1
 
 
+#重寫第五次, time complexity O(n), space complexity O(1)
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(n):
+            if 0 < int(nums[i]) <= n:
+                nums[int(nums[i]) - 1] = str(nums[int(nums[i]) - 1])
+        for i in range(n):
+            if nums[i] != str(nums[i]):
+                return i + 1
+        return n + 1
 
-
+#刷題正這個, time complexity O(n), spacee complexity O(1)
+#思路: inplace 交換法, i 指針 while loop 完全交換完後, i += 1
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        i = 0
+        while i < n:
+            while 1 <= nums[i] <= n:
+                index = nums[i] - 1
+                if nums[index] == nums[i]:
+                    break
+                nums[i], nums[index] = nums[index], nums[i]
+            i += 1
+        for i in range(n):
+            if nums[i] != i + 1:
+                return i + 1
+        return n + 1
 
 
 # int(-5)

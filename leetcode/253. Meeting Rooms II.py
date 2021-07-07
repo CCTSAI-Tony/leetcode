@@ -16,6 +16,7 @@ NOTE: input types have been changed on April 15, 2019. Please reset to default c
 #利用heap 來存放每個room 的end time, 若有新會議就查看heap[0]的會議結束時間是否能在新會議開始前結束, 若可以就能把這個會議室讓給新會議使用, 不需額外開房間
 #若無法就開新房間,並push end time to heap, 因為minheap, heap[0] 會回報最小的 endtime, 最後return len(heap) 代表總共開新幾個房間
 #技巧: heapq.heapreplace 取代heap 最top的item
+#notice: heapreplace = heappop then heappush
 import heapq
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
@@ -55,6 +56,19 @@ class Solution:
                 heapq.heappush(heap, interval[1])
             else:
                 heapq.heapreplace(heap, interval[1])
+        return len(heap)
+
+#重寫第三次, time complexity O(nlogn), space complexity O(n)
+from heapq import *
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key=lambda x: x[0])
+        heap = []
+        for i in range(len(intervals)):
+            if not heap or heap[0] > intervals[i][0]:
+                heappush(heap, intervals[i][1])
+            else:
+                heapreplace(heap, intervals[i][1])
         return len(heap)
 
 

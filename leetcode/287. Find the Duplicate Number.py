@@ -84,15 +84,6 @@ class Solution:
 
 
 
-
-
-
-
-
-
-
-
-
 #不懂請看上面詳解, 基本思路就是不斷縮小數值區間找出重複的值, 注意不是縮小元素區間
 #左閉右開
 # time complexity O(nlogn), n = len(nums)

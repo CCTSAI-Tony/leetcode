@@ -50,7 +50,36 @@ class Solution:
             res.append(heapq.heappop(max_heap)[1])
         return res
 
+#重寫第二次, 使用heapify O(n), time complexity O(klogn), space complexity O(n)
+from collections import Counter
+import heapq
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        ans = []
+        freq = Counter(nums)
+        heap = [(-val, key) for key, val in freq.items()]
+        heapq.heapify(heap)
+        for _ in range(k):
+            val, key = heapq.heappop(heap)
+            ans.append(key)
+        return ans
 
+
+
+#重寫第二次, time complexity O(nlogn), space complexity O(n)
+from collections import Counter
+import heapq
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        ans = []
+        freq = Counter(nums)
+        heap = []
+        for key, val in freq.items():
+            heapq.heappush(heap, (-val, key))
+        for _ in range(k):
+            val, key = heapq.heappop(heap)
+            ans.append(key)
+        return ans
 
 
 #刷題不能用這個
