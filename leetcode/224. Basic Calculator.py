@@ -28,7 +28,7 @@ import re
 class Solution:
     def __init__(self):
         self.precidence_out = {'+':1, '-':1, '*':3, '/':3, "^": 6, '(':7}
-        self.precidence_in = {'+':2, '-':2, '*':4, '/':4, "^": 5, '(':0}
+        self.precidence_in = {'+':2, '-':2, '*':4, '/':4, "^": 5, '(':0}  # 不能取self.in => invalid syntax, cause "in" is build in syntax
     
     def calculate(self, s: str) -> int:
         # parse the string using regex
@@ -43,7 +43,7 @@ class Solution:
         postfix = []
         operator_stack = []
         prev_op = ""
-        for op in eval_string:
+        for i, op in enumerate(eval_string):
             if op in ["+", "-"] and prev_op in ("", "("):
                 postfix.append("0")
             if op == ')':
@@ -60,14 +60,10 @@ class Solution:
             elif op == "-" and prev_op in ["*", "/", "^"]  and eval_string[i + 1].isdigit():
                 eval_string[i + 1] = str(-1 * int(eval_string[i + 1]))
                 continue
-            elif op == '(':
-                operator_stack.append(op)           
-
             elif op in self.precidence_out:
                 while operator_stack and self.precidence_out[op] <= self.precidence_in[operator_stack[-1]]:
                     postfix.append(operator_stack.pop())
                 operator_stack.append(op)
-                
             else:
                 postfix.append(op)
             prev_op = op
@@ -87,7 +83,7 @@ class Solution:
         for op in postfix:
             if op in ["+", "-", "*", "/", "^"]:
                 b = int(eval_stack.pop())
-                # if a negative number was encountered just subtract it from 0
+                # if a negative number was encountered, we would have sequencial op in postfix, there is only one element in eval_stack 
                 a = 0
                 if eval_stack:
                      a = int(eval_stack.pop())
@@ -95,8 +91,9 @@ class Solution:
             else:
                 eval_stack.append(op)
 
-        if len(eval_stack) == 1:
+        if eval_stack:
             return eval_stack[0]
+        return 0
        
     def eval(self, a, b, op):
         if op == '+':
@@ -114,8 +111,68 @@ class Solution:
 
         # raise exception
 
-
-
+#重寫第二次, 刷題用這個, time complexity O(n), space complexity O(n)
+import re
+class Solution:
+    def __init__(self):
+        self.out_hash = {"+": 1, "-": 1, "(": 3}
+        self.in_hash = {"+": 2, "-": 2, "(": 0}
+        
+    def postfix(self, string):
+        op_stack = []
+        postfix = []
+        pre_op = ""
+        for i, op in enumerate(string):
+            if op in ["+", "-"] and pre_op in ["", "("]:
+                postfix.append("0")
+            if op == "+" and pre_op == "-":
+                continue
+            elif op == "-" and pre_op == "-":
+                op_stack.pop()
+                op_stack.append("+")
+                pre_op = "+"
+                continue
+            elif op == ")":
+                while op_stack[-1] != "(":
+                    postfix.append(op_stack.pop())
+                op_stack.pop()
+            elif op in self.out_hash:
+                while op_stack and self.out_hash[op] < self.in_hash[op_stack[-1]]:
+                    postfix.append(op_stack.pop())
+                op_stack.append(op)
+            else:
+                postfix.append(op)
+            pre_op = op
+        while op_stack:
+            postfix.append(op_stack.pop())
+        return postfix
+    
+    def evaluate(self, postfix):
+        eval_stack = []
+        for op in postfix:
+            if op in ["+", "-"]:
+                b = int(eval_stack.pop())
+                a = 0
+                if eval_stack:
+                    a = int(eval_stack.pop())
+                eval_stack.append(self.unit_eval(a, b, op))
+            else:
+                eval_stack.append(op)
+        if eval_stack:
+            return eval_stack[0]
+        return 0
+        
+        
+    def unit_eval(self, a, b, op):
+        if op == "+":
+            return a + b
+        elif op == "-":
+            return a - b
+        
+    def calculate(self, s: str) -> int:
+        string = re.findall("\d+|[+\-()]", s)
+        postfix = self.postfix(string)
+        return self.evaluate(postfix)
 
 # 刷題用這個  ex: "(1+(4+5+2)-3)+(6+8)"
 # 自己重寫 time complexity O(n)

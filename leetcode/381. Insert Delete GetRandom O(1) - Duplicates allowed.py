@@ -30,17 +30,20 @@ collection.remove(1);
 collection.getRandom();
 '''
 
+# 刷題用這個, each func time complexity O(1), space complexity O(n)
+# 思路: 建立vals list 來記錄目前存在的所有元素, 建立 index map 來紀錄相同元素所有的位置, remove 元素時, 會拿最後insert 的元素來補充該被刪元素的位置
+# 技巧: set 的 remove 與 discard 很類似, 若即將被刪掉的元素不存在, 用discard 不會raise error.
 import random
-
+from collections import defaultdict
 class RandomizedCollection(object):
 
     def __init__(self):
-        self.vals, self.idxs = [], collections.defaultdict(set)
+        self.vals, self.idxs = [], defaultdict(set)
         
 
     def insert(self, val):
         self.vals.append(val)
-        self.idxs[val].add(len(self.vals) - 1)
+        self.idxs[val].add(len(self.vals) - 1)  #add the specific index
         return len(self.idxs[val]) == 1  #check if there is only one element no duplicate
         
 
@@ -49,12 +52,55 @@ class RandomizedCollection(object):
             out, ins = self.idxs[val].pop(), self.vals[-1]  #self.idxs[val].pop() remove set() 隨機一個
             self.vals[out] = ins  #拿最後一個元素替換
             self.idxs[ins].add(out)  #add first plz see more info
-            self.idxs[ins].discard(len(self.vals) - 1)
+            self.idxs[ins].discard(len(self.vals) - 1) # Cause we take the last one to fill the vacancy.
             self.vals.pop()
             return True
         return False 
 
     def getRandom(self):
+        return random.choice(self.vals)
+
+
+#重寫第二次, each func time complexity O(1), space complexity O(n)
+from collections import defaultdict
+import random
+class RandomizedCollection:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.vals, self.index = [], defaultdict(set)
+        
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the collection. Returns true if the collection did not already contain the specified element.
+        """
+        self.vals.append(val)
+        self.index[val].add(len(self.vals) - 1)
+        return len(self.index[val]) == 1
+            
+        
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the collection. Returns true if the collection contained the specified element.
+        """
+        if not self.index[val]:
+            return False
+        out, ins = self.index[val].pop(), self.vals[-1]
+        self.vals[out] = ins
+        self.index[ins].add(out)
+        self.index[ins].discard(len(self.vals) - 1)
+        self.vals.pop()
+        return True
+        
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the collection.
+        """
         return random.choice(self.vals)
 
 

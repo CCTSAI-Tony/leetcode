@@ -67,7 +67,7 @@ class Solution:
 # Code:
 
 # 題目條件 A[i] is a permutation of [1, 2, ..., A.length], 每個元素都不同
-# 自己重寫 time complexity O(n)
+# 自己重寫 time complexity O(n^2)
 # 思路: 先找到序列最大值 並反轉首元素到最大值區間的元素, 使得最大值變成首元素, 再反轉整個序列讓最大值變成最後一個=>最大值排序完成
 # 之後找尋次大值一樣反轉到次大值之間的元素使次大值變成首元素, 再反轉len(array)-1 的元素, 使得次大值在倒數第二的位置 => 次大值排序完成
 # 直到要排序的值變為0, 代表1-N 的實際元素皆以排序完成
@@ -88,7 +88,30 @@ class Solution:
                 return res
 
 
-
+#重寫第二次, time complexity O(n^2), space complexity O(n)
+class Solution:
+    def pancakeSort(self, arr: List[int]) -> List[int]:
+        max_num = max(arr)
+        to_reverse = len(arr)
+        res = []
+        while True:
+            if self.check_sorted(arr):
+                return res
+            max_index = arr.index(max_num)
+            arr = arr[:max_index + 1][::-1] + arr[max_index + 1:]
+            res.append(max_index + 1)
+            arr = arr[:to_reverse][::-1] + arr[to_reverse:]
+            res.append(to_reverse)
+            max_num -= 1
+            to_reverse -= 1
+            if max_num == 0:
+                return res
+    
+    def check_sorted(self, arr):
+        for i in range(1, len(arr)):
+            if arr[i] < arr[i-1]:
+                return False
+        return True
 
 
 class Solution:

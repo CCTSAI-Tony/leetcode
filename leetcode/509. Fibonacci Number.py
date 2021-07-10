@@ -73,6 +73,17 @@ class Solution:
         memo[N] = self.helper(N-1, memo) + self.helper(N-2, memo)
         return memo[N]
 
+#重寫第四次, time complexity O(n), space complexity O(n)
+class Solution:
+    memo = {0:0, 1:1}
+    def fib(self, n: int) -> int:
+        if n not in self.memo:
+            fib_n = self.fib(n-1) + self.fib(n-2)
+            self.memo[n] = fib_n
+        return self.memo[n]
+
+
+
 
 #使用memo decorator
 class Memorize:
