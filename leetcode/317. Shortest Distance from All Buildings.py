@@ -62,6 +62,39 @@ class Solution:
                     queue.append((nx, ny, d + 1))
 
 
-
-
-
+#重寫第二次, time complexity O((mn)^2), space complexity O(mn)
+from collections import deque
+class Solution:
+    def shortestDistance(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        reaches = [[0] * n for _ in range(m)]
+        distances = [[0] * n for _ in range(m)]
+        buildings = 0
+        min_distance = float("inf")
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    buildings += 1
+                    self.bfs(i, j, grid, reaches, distances, m, n)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0 and reaches[i][j] == buildings:
+                    min_distance = min(min_distance, distances[i][j])
+        return min_distance if min_distance != float(inf) else -1
+                    
+    def bfs(self, i, j, grid, reaches, distances, m, n):
+        visited = set([(i, j)])
+        queue = deque([(i, j)])
+        direcs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        d = 1
+        while queue:
+            for _ in range(len(queue)):
+                x, y = queue.popleft()
+                for direc in direcs:
+                    nx, ny = x + direc[0], y + direc[1]
+                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 0 and (nx, ny) not in visited:
+                        visited.add((nx, ny))
+                        reaches[nx][ny] += 1
+                        distances[nx][ny] += d
+                        queue.append((nx, ny))
+            d += 1

@@ -68,8 +68,23 @@ class KthLargest:
             heapq.heappush(self.nums, val)
         return self.nums[0]
 
+#重寫第三次, time complexity O(n), add O(logn), space complexity O(n)
+from heapq import *
+class KthLargest:
 
+    def __init__(self, k: int, nums: List[int]):
+        self.nums = nums
+        heapify(self.nums)
+        self.k = k
+        while len(self.nums) > k:
+            heappop(self.nums)
+        
 
+    def add(self, val: int) -> int:
+        heappush(self.nums, val)
+        if len(self.nums) > self.k:
+            heappop(self.nums)
+        return self.nums[0]
 
 
 #自己重寫 time complexity, init=> O(n), add=> O(lgk)

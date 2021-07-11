@@ -21,6 +21,52 @@ The input strings only contain lower case letters.
 The length of both given strings is in range [1, 10,000].
 '''
 
+#刷題用這個, time complexity O(n), space comlexity O(1)
+#思路: sliding window, 額外建立count_chars 來判斷是否找到permutation => 使得判斷的time comlexity O(1), 不需要判斷整個list
+#技巧: 脫離sliding window 的字符若頻率 < 0 代表該字符在s1不存在or 多餘
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        mapp = [0] * 26
+        for c in s1:
+            mapp[ord(c) - 97] += 1
+        i, j, count_chars = 0, 0, len(s1)
+        while j < len(s2):
+            if mapp[ord(s2[j]) - 97] > 0:   
+                count_chars -= 1
+            mapp[ord(s2[j]) - 97] -= 1
+            j += 1
+            if count_chars == 0:
+                return True
+            if j - i == len(s1):
+                if mapp[ord(s2[i]) - 97] >= 0:  # 重要的一步, s1不存在或多餘的字符, count_chars 不需要加回來
+                    count_chars += 1
+                mapp[ord(s2[i]) - 97] += 1
+                i += 1
+                
+        return False
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        if len(s1) > len(s2):
+            return False
+        letters = [0] * 26
+        for c in s1:
+            letters[ord(c) - ord("a")] += 1
+        char_credit = len(s1)
+        for i in range(len(s2)):
+            if letters[ord(s2[i]) - ord("a")] > 0:
+                char_credit -= 1
+            letters[ord(s2[i]) - ord("a")] -= 1
+            if char_credit == 0:
+                return True
+            if i - len(s1) + 1 >= 0:
+                if letters[ord(s2[i - len(s1) + 1]) - ord("a")] >= 0:
+                    char_credit += 1
+                letters[ord(s2[i - len(s1) + 1]) - ord("a")] += 1
+        return False
+
+
 # Sliding Window , 刷題用這個, 88ms
 # time complexity O(n), n=len(s2)
 # 思路: 先利用d1 紀錄s1 每個字母count, 再建立d2紀錄前len(s1)的元素, 維持len(s1)大小的window 來scan s2, 看是否在scan的過程中 d2 得到的結果等於d1的, 若是則return True
