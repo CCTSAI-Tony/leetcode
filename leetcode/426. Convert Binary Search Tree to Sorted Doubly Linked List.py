@@ -43,9 +43,52 @@ All values of Node.val are unique.
 0 <= Number of Nodes <= 2000
 '''
 
+#刷題用這個!!
+#iterative time complexity O(n)
+#思路: 看到bst 就要想到 inorder traversal, 利用stack 搭配inorder traversal, 這個inorder 模板 有在刷題筆記裡
+#使用 dummy node 來連結最小與最大 node
+class Solution:
+    def treeToDoublyList(self, root):
+        if not root: 
+            return
+        dummy = Node(0, None, None)
+        prev = dummy
+        stack, node = [], root
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            node.left, prev.right, prev = prev, node, node
+            node = node.right
+        dummy.right.left, prev.right = prev, dummy.right
+        return dummy.right
+
+#重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+        stack = []
+        dummy = pre = Node(0)
+        node = root
+        while node or stack:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            node.left = pre
+            pre.right = node
+            pre = node
+            node = node.right
+        dummy.right.left = pre
+        pre.right = dummy.right
+        return dummy.right
+
+
 #自己想的, time complexity O(n)
 #思路: 利用bst的特性和分治法, 回報該node區間的最小node, 與最大node, 以利上面的node做判斷, 互相連結左區間的最大值, 右區間的最小值
-#注意: 最後 最大node, 最小node 頭尾要相連接
+#注意: 最後 最大node, 最小node 頭尾要相連接, 所以return left_min, right_max
 class Solution:
     def treeToDoublyList(self, root: 'Node') -> 'Node':
         if not root:
@@ -69,26 +112,6 @@ class Solution:
             right = right_max
         return (left, right)
 
-
-
-#iterative time complexity O(n)
-#思路: 利用stack 搭配inorder traversal, 這個inorder 模板 跟刷題筆記不一樣
-class Solution:
-    def treeToDoublyList(self, root):
-        if not root: 
-            return
-        dummy = Node(0, None, None)
-        prev = dummy
-        stack, node = [], root
-        while stack or node:
-            while node:
-                stack.append(node)
-                node = node.left
-            node = stack.pop()
-            node.left, prev.right, prev = prev, node, node
-            node = node.right
-        dummy.right.left, prev.right = prev, dummy.right
-        return dummy.right
 
 
 

@@ -22,7 +22,9 @@ You can assume that you can always reach the last index.
 # So you iterate all positions could be reached from last jump till i th position to find it out.
 
 #time complexity O(n), 經典greedy
-#思路: greedy, 每一步只考慮最大的步數, 到下一步 => 依照前一步jump到達最遠的index, 遍歷前一步到達的地方與最遠的index 之間的index, 更新下一步jump最遠index
+#思路: greedy, 每一格只紀錄跳最大的步數(greedy), 到下一步 => 依照前一步jump到達最遠的index, 
+#遍歷i 指針 與 前一步能到達的地方之間的index, 更新下一步jump最遠index => jump+1, 直到 >= last one index
+#i指針會隨著 last_max_reach 變大而移動, i指針是本題重點 => two pointers issue
 #直到超越n-1
 class Solution:
     def jump(self, A):
@@ -73,8 +75,22 @@ class Solution:
         return n_jump
 
 
-
-
+#重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        last_index, cur_index = 0, 0
+        n = len(nums)
+        i = 0
+        jump = 0
+        while cur_index < n - 1:
+            while i <= last_index:
+                cur_index = max(i + nums[i], cur_index)
+                i += 1
+            if cur_index == last_index:
+                return -1
+            jump += 1
+            last_index = cur_index
+        return jump
 
 
 

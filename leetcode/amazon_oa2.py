@@ -588,6 +588,7 @@ def favorGenres(userSongs, songGenres):
 # The input string consists of only lowercase English letters [a-z]
 # 0 ≤ k ≤ 26
 
+@@
 #time complexity O(n), space complexity O(n)
 #思路: sliding window, 利用雙指針來紀錄 <= k distinct 的字串組合 ex: pqpqs k = 2: left=0, right=2 => 新增 p, qp, pqp, k=1:left = 2, right = 2 => 新增 p
 #依照此方法, 算出k window and k-1 window result, 兩者相減就是exact k distict substrings的數量
@@ -1031,3 +1032,123 @@ The key is dp[i][j] = dp[i-1][j-1] + dp[i][j-i];
         }
         return dp[k][n];
     }
+
+
+@@
+Given an N-ary tree, find the subtree with the maximum average. Return the root of the subtree.
+A subtree of a tree is the node which have at least 1 child plus all its descendants. The average value of a subtree is the sum of its values, 
+divided by the number of nodes.
+
+Example 1:
+
+Input:
+         20
+       /   \
+     12     18
+  /  |  \   / \
+11   2   3 15  8
+
+Output: 18
+Explanation:
+There are 3 nodes which have children in this tree:
+12 => (11 + 2 + 3 + 12) / 4 = 7
+18 => (18 + 15 + 8) / 3 = 13.67
+20 => (12 + 11 + 2 + 3 + 18 + 15 + 8 + 20) / 8 = 11.125
+
+18 has the maximum average so output 18.
+
+
+class TreeNode:
+    def __init__(self, val, children):
+        self.val = val
+        self.children = children
+        
+class Solution:
+    def maximumAverageSubtree(self, root: TreeNode) -> TreeNode:
+        self.dic = {}
+        self.inordersum(root)
+        return max(self.dic.items(), key = lambda x: x[1])[0]
+
+    def inordersum(self,root):
+        if root:
+            total = root.val
+            nodeCount = 1
+
+            for child in root.children:
+                childSum,childCount =  self.inordersum(child)
+                total += childSum
+                nodeCount += childCount
+
+
+            avg = (total)/(nodeCount)
+            
+            if nodeCount != 1:
+                self.dic[root] = avg
+            return [total,nodeCount]
+        else:
+            return [0,0]
+
+n4 = TreeNode(11, [])
+n5 = TreeNode(2, [])
+n6 = TreeNode(3, [])
+n7 = TreeNode(15, [])
+n8 = TreeNode(8, [])
+n2 = TreeNode(12, [n4, n5, n6])
+n3 = TreeNode(18, [n7, n8])
+n1 = TreeNode(20, [n2, n3])
+ss = Solution()
+print(ss.maximumAverageSubtree(n1))
+
+@@
+count the number of ways the string can split to get prime number
+# sieve of eratosthenes
+def sieve(n):
+  isprime = [False, False] + [True]*n
+  for p in range(2,n):
+    if isprime[p]:
+      for kp in range(2*p,n,p):
+        isprime[kp] = False
+  return isprime
+
+isprime = sieve(100)
+
+# Dynamic programming
+# C[i] = number of ways to split S[:i] into primes
+def dp(s):
+  C = [0]*(len(s)+1)
+  for i in range(1,len(s)+1):
+    C[i] = sum(C[j] for j in range(i) if isprime[int(s[j:i])]) 
+    C[i] += isprime[int(s[:i])]
+  return C[len(s)]
+
+print(dp('3175'))
+
+Explanation:
+
+Let C[i] = number of ways to split S[:i] into primes
+
+If for a j<i such that S[j:i] is a prime, then can split at j to form a prime, and have at least C[j] ways to split the rest S[:j] into primes
+
+So, the DP formula is
+
+C[i] = sum(C[j] for j < i such that S[j:i] is a prime) + (1 if S[:i] is a prime)
+
+Notes: if the sets of primes is limited to (0, 100), the range of j can be shortened to range(i-2,i) to speed up the DP.
+
+@@@@@
+Subtree with Maximum Average
+第二个类似fetch items to display
+count the number of ways the string can split to get prime number
+
+
+
+
+
+
+
+
+
+
+
+
+

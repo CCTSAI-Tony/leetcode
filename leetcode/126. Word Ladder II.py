@@ -35,7 +35,7 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 '''
 
 # 刷題用這個, 自己重寫 284ms
-# BFS, Time Complexity: O(26*m*n^2) => 26個一字不同的字, m: len(wordList), n: len(word), space complexity O(26*m*n^2)
+# BFS, Time Complexity: O(26*m*n^2) => 26個一字不同的字, m: len(wordList), n: len(word), space complexity O(26*m*n)
 # 思路:  此題跟word ladder最不一樣的地方就是找出所有最短路徑轉換的可能性, 最大的技巧在於每層結束後才把新加入的字加入 visited裡, 
 # 這樣就能確保所有可能性, queue裡的元素則是包含path來紀錄轉換的過程
 
@@ -73,7 +73,7 @@ class Solution:
         return res
 
 
-#重寫第二次, time complexity O(m*n^2), space complexity O(m*n^2), m: len(wordList), n: len(word)
+#重寫第二次, time complexity O(m*n^2), space complexity O(m*n), m: len(wordList), n: len(word)
 from collections import defaultdict, deque
 class Solution:
     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
@@ -114,6 +114,35 @@ class Solution:
 # We already have all sequences in the current layer, no need to iterate over them again and build another list of lists.
 
 # Here is simplified version with some comments:
+
+#重寫第三次, time complexity O(mn^2), space complexity O(m*n), m: len(wordList), n: len(word)
+from collections import deque, defaultdict
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        memo = defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                key = word[:i] + "_" + word[i+1:]
+                memo[key].append(word)
+        visited = set()
+        queue = deque([(beginWord, [beginWord])])
+        res = []
+        while queue:
+            layer = set()
+            for _ in range(len(queue)):
+                word, path = queue.popleft()
+                if word == endWord:
+                    res.append(path)
+                for i in range(len(word)):
+                    key = word[:i] + "_" + word[i+1:]
+                    for next_word in memo[key]:
+                        if next_word not in visited:
+                            layer.add(next_word)
+                            queue.append((next_word, path + [next_word]))
+            if res:
+                return res
+            visited |= layer
+        return res
 
 
 
