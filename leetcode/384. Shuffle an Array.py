@@ -45,6 +45,31 @@ class Solution(object):
         return ans
 
 
+# 重寫第二次
+import random
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        
+
+    def reset(self) -> List[int]:
+        """
+        Resets the array to its original configuration and return it.
+        """
+        return self.nums
+
+    def shuffle(self) -> List[int]:
+        """
+        Returns a random shuffling of the array.
+        """
+        shuffle = self.nums[:]
+        for i in range(len(self.nums)-1, 0, -1):
+            j = random.randint(0, i)
+            shuffle[i], shuffle[j] = shuffle[j], shuffle[i]
+        return shuffle
+
+
 # For the last position, once you generate a random number in range (0,len(ans)), you would have decided the value 
 # that is going to go in that position after shuffling. So once the swap is done, the new element there is already in its 'random' position 
 # (or in other words a random element of that array has been put at that position. 

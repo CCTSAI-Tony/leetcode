@@ -75,6 +75,28 @@ class Solution:
         max_len = max(max_len, r - l)
         return max_len
 
+#重寫第四次
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        memo = {}
+        l = 0
+        max_len = 0
+        for r in range(len(s)):
+            if s[r] not in memo:
+                memo[s[r]] = r
+                continue
+            else:
+                idx = memo[s[r]]
+                max_len = max(max_len, r - l)
+                while l <= idx:
+                    del memo[s[l]]
+                    l += 1
+                memo[s[r]] = r
+        max_len = max(max_len, len(s) - l)
+        return max_len
+
+
+
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         d = {}

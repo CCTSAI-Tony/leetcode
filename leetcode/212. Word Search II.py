@@ -27,7 +27,7 @@ The values of words are distinct.
 '''
 
 #刷題用這個
-#time complexity: O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
+#time complexity: O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 7000ms, space complexity O(w)
 #思路: 這題就是Trie 與 backtracking 的合體
 #藉由Trie 與 TrieNode 結構 來解題, 一開始就建立prefix tree, 之後再遍歷board 看是否有相對應的word在prefix tree
 #技巧, backtracking 分支遍歷結束返回上層要恢復動到過的global variable, 使其上層其他分支遍歷不受影響
@@ -93,7 +93,7 @@ Great solution, but no need to implement Trie.search() since the search is essen
 '''
 time complexity: O(max(n*m, w)), w 指的是words全部字數
 
-#自己重寫第二次, 360ms, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
+#自己重寫第二次, 360ms, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 7000s, space complexity O(w)
 import collections
 class TrieNode:
     def __init__(self):
@@ -190,7 +190,7 @@ class Solution:
             board[i][j] = temp
 
 
-#重寫第四次, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 388ms, space complexity O(w)
+#重寫第四次, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數 7480ms, space complexity O(w)
 from collections import defaultdict
 class TrieNode:
     def __init__(self):
@@ -238,8 +238,58 @@ class Solution:
             self.dfs(i, j-1, board, node, res, path+temp, m, n)
             board[i][j] = temp  
 
+# 重寫第五次, O(M(4*3^(L-1))), M: number of cells, L:  maximum length of words. w 指的是words全部字數
+class TrieNode:
+    def __init__(self):
+        self.childs = defaultdict(TrieNode)
+        self.isWord = False
+        self.path = ""
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for c in word:
+            if c not in node.childs:
+                prev_path = node.path
+                node = node.childs[c]
+                node.path = prev_path + c
+            else:
+                node = node.childs[c]
+        node.isWord = True
 
-
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        m, n = len(board), len(board[0])
+        res = set()
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        for i in range(m):
+            for j in range(n):
+                cell = board[i][j]
+                if cell in trie.root.childs:
+                    node = trie.root.childs[cell]
+                    self.dfs(i, j, board, node, res)
+        return res
+    
+    def dfs(self, i, j, board, node, res):
+        m, n = len(board), len(board[0])
+        if node.isWord:
+            res.add(node.path)
+        temp = board[i][j]
+        board[i][j] = "#"
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        for d in directions:
+            x, y = i + d[0], j + d[1]
+            if 0 <= x < m and 0 <= y < n:
+                cell = board[x][y]
+                if cell in node.childs:
+                    next_node = node.childs[cell]
+                    self.dfs(x, y, board, next_node, res)
+        board[i][j] = temp
 
 
 

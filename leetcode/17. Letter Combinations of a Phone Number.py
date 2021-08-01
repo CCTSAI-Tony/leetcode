@@ -112,3 +112,24 @@ class Solution:
             combinations = cur_combinations
         
         return combinations if digits else None
+
+
+#重寫第四次, time complexity (3^4), space complexity O(1)
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        if not digits:
+            return None
+        memo = {"2": ["a", "b", "c"], "3": ["d", "e", "f"], "4": ["g", "h", "i"], 
+               "5": ["j", "k", "l"], "6": ["m", "n", "o"], "7": ["p", "q", "r", "s"], 
+               "8": ["t", "u", "v"], "9": ["w", "x", "y", "z"]}
+        res = []
+        self.digits = digits
+        self.dfs(memo, 0, "", res)
+        return res
+    
+    def dfs(self, memo, idx, path, res):
+        if idx == len(self.digits):
+            res.append(path)
+            return
+        for c in memo[self.digits[idx]]:
+            self.dfs(memo, idx + 1, path + c, res)

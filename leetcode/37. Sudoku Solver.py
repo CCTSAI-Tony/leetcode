@@ -22,8 +22,8 @@ The given board size is always 9x9.
 '''
 
 
-#自己重寫 time complexity O(9!^9), space complexity O(1) 經典好題多練, 遇到dfs backtracking 要考慮 return 是否要return True or False, 這種設計使得回到上一層有多的資訊可以參考,
-#例如是否要提前結束等..
+#自己重寫 time complexity O(9!^9), space complexity O(1) 經典好題多練, 遇到dfs backtracking 要考慮 return 是否要return True or False, 
+#這種設計使得回到上一層有多的資訊可以參考, 例如是否要提前結束等..
 #思路: dfs backtracking, 這題有趣的是要先建立rols, cols, blocks 的 dict, 來check是否在同樣的區間出現重複的值
 #技巧: 此方法利用存儲"." 的位置 來當作dfs recursion的層數, 只有所有數字都填對 讓所有"." 都不見時, dfs才會到達最後一層, 不然會往上一層換其他選擇
 #回上層記得恢復所有動過的global variables, remain 記得用deque 加回到最前面
@@ -106,6 +106,45 @@ class Solution:
                 else:
                     return True
         remain.append((i, j))
+        return False
+
+#重寫第四次, time complexity O(9!)^9, space complexity O(81)
+from collections import defaultdict, deque
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        rows, cols, blocks = defaultdict(set), defaultdict(set), defaultdict(set)
+        remain = deque()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] != ".":
+                    rows[i].add(board[i][j])
+                    cols[j].add(board[i][j])
+                    blocks[(i//3, j//3)].add(board[i][j])
+                else:
+                    remain.append((i, j))
+        return self.dfs(board, rows, cols, blocks, remain)
+        
+    def dfs(self, board, rows, cols, blocks, remain):
+        if not remain:
+            return True
+        i, j = remain.popleft()
+        for k in range(1, 10):
+            k = str(k)
+            if k not in rows[i] and k not in cols[j] and k not in blocks[(i//3, j//3)]:
+                rows[i].add(k)
+                cols[j].add(k)
+                blocks[(i//3, j//3)].add(k)
+                board[i][j] = k
+                if self.dfs(board, rows, cols, blocks, remain):
+                    return True
+                rows[i].remove(k)
+                cols[j].remove(k)
+                blocks[(i//3, j//3)].remove(k)
+                board[i][j] = "."
+        remain.appendleft((i, j))
         return False
 
 

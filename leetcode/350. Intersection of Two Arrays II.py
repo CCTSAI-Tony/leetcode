@@ -108,7 +108,20 @@ class Solution:
         return res
 
 
-
+# 使用Counter, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        if len(nums1) > len(nums2):
+            nums1, nums2 = nums2, nums1
+        count1 = Counter(nums1)
+        count2 = Counter(nums2)
+        res = []
+        for key in count1:
+            if key in count2:
+                times = min(count1[key], count2[key])
+                res += [key] * times
+        return res
 
 # [Facebook] Python Binary Search Approach w/ Explanation O(nlogm)
 

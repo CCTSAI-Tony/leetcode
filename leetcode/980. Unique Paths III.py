@@ -51,7 +51,7 @@ Note:
 # grid[i][j] == 0: mask current cell to be -1, return sum of 4 subroutine calls (remember to reset the state each subroutine calls)
 # cannot use DP for cache because of the dynamic state? 作者也不清楚, 不過我覺得難度很大, 此題用backtracting 比較直覺
 
-#time complexity O(4 ^ n), where n is the total number of cells without obstacles, Memory: O(n) for the DFS stack.
+#time complexity O(3 ^ n), where n is the total number of cells without obstacles, Memory: O(n) for the DFS stack.
 #思路: back tracking, 先計算初始有幾個empty square 為 non_empty_count 包含起點1 與終點 2
 #找到起點1 的位置, 開始往四方dfs 遍歷, 若到達終點2 則看是否non_empty_count 只剩1(終點) 若是 rerturn True => 1 , 若不是 return False => 0
 #每經過一個empty cell 就mark -1 防止重複遍歷, 若從該cell出發的四個路徑都遍歷完了, 則回到上層之前 要把該cell mark回 0, 這樣能讓上層其他路徑能經過該cell
@@ -61,22 +61,22 @@ class Solution:
         if not grid or not grid[0]:
             return 0
         m, n = len(grid), len(grid[0])
-        non_empty_count = 0
+        non_obstacle_count = 0
         for i in range(m):
             for j in range(n):
                 if grid[i][j] != -1:
-                    non_empty_count += 1 #包含起點與終點
+                    non_obstacle_count += 1 #包含起點與終點
                 if grid[i][j] == 1:
                     start_i, start_j = i, j
     
-        return self.backtrack(start_i, start_j, non_empty_count, grid)
+        return self.backtrack(start_i, start_j, non_obstacle_count, grid)
 
     def backtrack(self, i, j, remain, grid):
         m, n = len(grid), len(grid[0])
         if i < 0 or i == m or j < 0 or j == n or grid[i][j] == -1:
             return 0
         if grid[i][j] == 2:
-            return remain == 1 #只剩終點的square
+            return remain == 1 #只剩終點的square => True = 1
         res = 0
         grid[i][j] = -1 #mark -1, 防止重複遍歷
         for x, y in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
@@ -85,7 +85,7 @@ class Solution:
         return res
 
 
-#自己重寫 time complexity O()
+#自己重寫 time complexity O(3 ^ n)
 class Solution:
     def uniquePathsIII(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
@@ -112,8 +112,36 @@ class Solution:
         grid[i][j] = 0
         return res
 
-
-
+# 重寫第二次, time complexity O(3 ^ n), space complexity O(h)
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        remain = 0
+        start_i, start_j = None, None
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] != -1:
+                    remain += 1
+                if grid[i][j] == 1:
+                    start_i, start_j = i, j
+                    
+        return self.dfs(grid, remain, start_i, start_j, m, n)
+    
+    def dfs(self, grid, remain, i, j, m, n):
+        if 0 <= i < m and 0 <= j < n and grid[i][j] != -1:
+            original = grid[i][j]
+            if original == 2:
+                return remain == 1
+            grid[i][j] = -1
+            res = 0
+            directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+            for d in directions:
+                x, y = i + d[0], j + d[1]
+                res += self.dfs(grid, remain - 1, x, y, m, n)
+            grid[i][j] = original
+            return res
+        else:
+            return False
 
 
 

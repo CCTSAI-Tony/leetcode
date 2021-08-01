@@ -94,6 +94,28 @@ class Solution:
                 area += self.dfs(x, y, grid, m, n)
         return area
 
+# 重寫第四次, time complexity O(mn), space complexity O(h)
+class Solution:
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        max_area = 0
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    area = self.dfs(i, j, grid, m, n)
+                    max_area = max(max_area, area)
+        return max_area
+                    
+    def dfs(self, i, j, grid, m, n):
+        directs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        area = 1
+        grid[i][j] = 0
+        for d in directs:
+            x, y = i + d[0], j + d[1]
+            if 0 <= x < m and 0 <= y < n and grid[x][y] == 1:
+                area += self.dfs(x, y, grid, m, n)
+        return area
+
 
 #  自己想的 dfs, time complexity O(m*n) 212ms
 #  思路: 典型dfs, 利用in-placed modify 來避免重複遍歷, 此題利用defaultdict(int)來紀錄島面積, 

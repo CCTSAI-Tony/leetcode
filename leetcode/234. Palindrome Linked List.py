@@ -19,6 +19,8 @@ Could you do it in O(n) time and O(1) space?
 #         self.val = x
 #         self.next = None
 
+#刷題用這個, time complexity O(n), space complexity O(1)
+#思路: 利用快慢指針來反轉第二半, 之後再驗證此兩半是否一樣
 class Solution:
     def isPalindrome(self, head):
         fast = slow = head
@@ -38,6 +40,26 @@ class Solution:
             if node.val != head.val:
                 return False
             node = node.next
+            head = head.next
+        return True
+
+#重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        slow = fast = head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        temp = None
+        while slow:
+            nxt = slow.next
+            slow.next = temp
+            temp = slow
+            slow = nxt
+        while temp:
+            if temp.val != head.val:
+                return False
+            temp = temp.next
             head = head.next
         return True
 

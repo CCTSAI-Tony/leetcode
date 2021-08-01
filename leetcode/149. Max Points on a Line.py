@@ -29,6 +29,8 @@ Explanation:
 NOTE: input types have been changed on April 15, 2019. Please reset to default code definition to get new method signature.
 '''
 
+#刷題用這個, time complexity O(n^2)
+#思路: 點在同一條線上, y = ax + b 必要符合, 可以不使用np
 import numpy as np
 class Solution:
     def maxPoints(self, points: List[List[int]]) -> int:
@@ -53,6 +55,36 @@ class Solution:
         slope = (y2 - y1) * np.longdouble(1) / (x2 - x1) #利用np.longdouble 提高精確度
         intercept = y2 - slope * x2
         return slope, intercept
+
+
+# 重寫第二次, time complexity O(n^2), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        if len(points) < 2:
+            return 1
+        lines = defaultdict(set)
+        for i in range(len(points)):
+            for j in range(1, len(points)):
+                slope, intercept = self.check_slope(points[i], points[j])
+                lines[(slope, intercept)].add(i)
+                lines[(slope, intercept)].add(j)
+        return max(len(lines[key]) for key in lines)
+        
+    def check_slope(self, p1, p2):
+        x1, y1 = p1
+        x2, y2 = p2
+        if (x2 - x1) == 0:
+            return float("inf"), x1
+        slope = (y2 - y1) / (x2 - x1)
+        intercept = y1 - slope * x1
+        return slope, intercept
+
+
+
+
+
+
 
 算點
 count = collections.defaultdict(set)

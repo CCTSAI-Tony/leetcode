@@ -36,7 +36,7 @@ Note: Do not use class member/global/static variables to store states. Your seri
 # > Space Complexity O(N)
 
 #刷題用這個 Time Complexity O(N), Space Complexity O(N)
-#思路: bfs serialize, 利用q 存取TreeNode, 以利之後分解連結in serialize, or 連結nodes in deserialize
+#思路: 此題精髓: preorder traversal => bfs serialize, 利用q 存取TreeNode, 以利之後分解連結in serialize, or 連結nodes in deserialize
 import collections 
 class Codec:
     def serialize(self, root):
@@ -139,5 +139,49 @@ class Codec:
         return root
 
 
+# 重寫第三次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Codec:
 
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        res = []
+        queue = deque([root])
+        while queue:
+            node = queue.popleft()
+            res.append(node.val if node else "#")
+            if node:
+                queue.append(node.left)
+                queue.append(node.right)
+        return ",".join(map(str, res))
+            
+        
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data or data == "#":
+            return None
+        data_s = data.split(",")
+        root = TreeNode(int(data_s[0]))
+        idx = 1
+        queue = deque([root])
+        while queue:
+            node = queue.popleft()
+            if data_s[idx] != "#":
+                node.left = TreeNode(int(data_s[idx]))
+                queue.append(node.left)
+            idx += 1
+            if data_s[idx] != "#":
+                node.right = TreeNode(int(data_s[idx]))
+                queue.append(node.right)
+            idx += 1
+        return root
 

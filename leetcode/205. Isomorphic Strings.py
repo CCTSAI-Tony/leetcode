@@ -31,6 +31,23 @@ class Solution:
         return sorted(d1.values()) == sorted(d2.values()) #因為字典無排序功能, 所以使用sorted排序
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        s_pattern = self.pattern(s)
+        t_pattern = self.pattern(t)
+        return s_pattern == t_pattern
+        
+    def pattern(self, s):
+        res = []
+        memo = {}
+        for i, v in enumerate(s):
+            if v not in memo:
+                memo[v] = i
+                res.append(i)
+            else:
+                res.append(memo[v])
+        return res
 # class Solution:
 #     def isIsomorphic1(self, s, t):
 #         d1, d2 = {}, {}

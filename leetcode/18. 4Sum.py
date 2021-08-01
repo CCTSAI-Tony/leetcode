@@ -18,7 +18,40 @@ A solution set is:
 ]
 '''
 
+#  刷題用這個
+#  相比上面方法space complexity較低, 但大大增加time complexity
+#  自己想的, 延續3sum time complexity O(n^3), 而且還有sort() 增加loading, 1152ms
+#  思路: fix 2 nums, 剩下2 nums 再以左右指針遍歷, 相比上面方法一組fix_num1 & fix_num2 需找第三第四元素時, 遍歷太多不要的candidate
+import collections
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        res = []
+        nums.sort()
+        for i in range(len(nums)):
+            if i > 0 and nums[i] == nums[i-1]: #避免重複fix_num1
+                continue
+            for j in range(i+1, len(nums)):
+                if j > i+1 and nums[j] == nums[j-1]: #避免重複fix_num2
+                    continue
+                left, right = j+1, len(nums)-1
+                while left < right:
+                    s = nums[i] + nums[j] + nums[left] + nums[right]
+                    if s < target:
+                        left += 1
+                    elif s > target:
+                        right -= 1
+                    else:
+                        res.append([nums[i],nums[j],nums[left],nums[right]])
+                        while left < right and nums[left] == nums[left+1]:
+                            left += 1
+                        while left < right and nums[right] == nums[right - 1]:
+                            right -= 1
+                        left += 1
+                        right -= 1             
+        return res
 
+
+# 超時        
 class Solution:
     def fourSum(self, nums, target):
         """
@@ -53,7 +86,7 @@ class Solution:
         #d={3: [(0, 1)], 5: [(0, 2), (0, 3)], 6: [(0, 4), (1, 2), (1, 3)], 7: [(0, 5), (1, 4)], 8: [(1, 5), (2, 3)], 9: [(2, 4), (3, 4)], 10: [(2, 5), (3, 5)], 11: [(4, 5)]}
         #idea: find out all combination of two sum and target equals two among them, but filter equal element and use set to filter equal answer
 
-
+#  超時
 #  自己重寫 time complexity O(n * m * p), n = len(dic), m = len(dic[sum1]), p = len(dic[sum2]), 128ms, 刷題用這個!!
 #  利用dict, 增加space complexity 來降低time complexity
 #  思路: 利用dict 來儲存所有兩個不同元素的組合,key = 兩個元素的和, 值 = 兩個元素indeces, 並從dict找出兩組key value的和 = target, key value可以重複 ex: 4+4 = 8
@@ -82,36 +115,7 @@ class Solution:
 
 
 
-#  相比上面方法space complexity較低, 但大大增加time complexity
-#  自己想的, 延續3sum time complexity O(n^3), 而且還有sort() 增加loading, 1152ms
-#  思路: fix 2 nums, 剩下2 nums 再以左右指針遍歷, 相比上面方法一組fix_num1 & fix_num2 需找第三第四元素時, 遍歷太多不要的candidate
-import collections
-class Solution:
-    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
-        res = []
-        nums.sort()
-        for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i-1]: #避免重複fix_num1
-                continue
-            for j in range(i+1, len(nums)):
-                if j > i+1 and nums[j] == nums[j-1]: #避免重複fix_num2
-                    continue
-                left, right = j+1, len(nums)-1
-                while left < right:
-                    s = nums[i] + nums[j] + nums[left] + nums[right]
-                    if s < target:
-                        left += 1
-                    elif s > target:
-                        right -= 1
-                    else:
-                        res.append([nums[i],nums[j],nums[left],nums[right]])
-                        while left < right and nums[left] == nums[left+1]:
-                            left += 1
-                        while left < right and nums[right] == nums[right - 1]:
-                            right -= 1
-                        left += 1
-                        right -= 1             
-        return res
+
 
 
 

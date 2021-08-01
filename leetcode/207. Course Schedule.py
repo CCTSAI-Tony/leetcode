@@ -132,7 +132,35 @@ class Solution:
                     queue.append(nxt)
         return len(res) == numCourses
 
-
+#重寫第三次, time complexity O(v + e), space complexity O(v + e)
+from collections import deque, defaultdict
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        in_degree = defaultdict(int)
+        graph = defaultdict(list)
+        queue = deque()
+        for prerequisite in prerequisites:
+            cur, pre = prerequisite
+            graph[pre].append(cur)
+            in_degree[cur] += 1
+            
+        
+        for course in range(numCourses):
+            if in_degree[course] == 0:
+                queue.append(course)
+                del in_degree[course]
+                
+        while queue:
+            for _ in range(len(queue)):
+                cur = queue.popleft()
+                for nxt in graph[cur]:
+                    in_degree[nxt] -= 1
+                    if in_degree[nxt] == 0:
+                        queue.append(nxt)
+                        del in_degree[nxt]
+        if in_degree:
+            return False
+        return True
 
 # if node v has not been visited, then mark it as 0. white color
 # if node v is being visited, then mark it as -1. If we find a vertex marked as -1 in DFS, then their is a ring(backedge). gray color, 

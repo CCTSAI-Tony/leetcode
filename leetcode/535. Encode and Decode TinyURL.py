@@ -168,8 +168,37 @@ class Codec:
             n = n * self.m + self.base[w]
         return self.url[n-1]
 
+# 重寫第五次
+import string
+class Codec:
+    def __init__(self):
+        self.urls = []
+        self.base = {v:i for i, v in enumerate(string.digits + string.ascii_letters)}
+        self.m = len(self.base)
+        
+        
+    def encode(self, longUrl: str) -> str:
+        """Encodes a URL to a shortened URL.
+        """
+        self.urls.append(longUrl)
+        n = len(self.urls)
+        code = ""
+        while n:
+            c = n % self.m
+            code += list(self.base.keys())[c]
+            n //= self.m
+        return "http://tinyurl.com/{}".format(code)
+        
 
-
+    def decode(self, shortUrl: str) -> str:
+        """Decodes a shortened URL to its original URL.
+        """
+        code = shortUrl.split("/")[-1][::-1]
+        n = 0
+        for c in code:
+            idx = self.base[c]
+            n = n * self.m + idx
+        return self.urls[n-1]
 
 
 

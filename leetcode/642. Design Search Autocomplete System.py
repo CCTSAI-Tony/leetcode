@@ -65,6 +65,57 @@ Please remember to RESET your class variables declared in class AutocompleteSyst
 Please see here for more details.
 '''
 
+# 刷題用這個, 自己重寫, 806ms
+# 思路: 使用trie, trie node 增加 hot, path attribute 來方便追蹤, 增加self.cur指針 => 避免多次從root 開始遍歷
+from collections import defaultdict
+class TrieNode:
+    
+    def __init__(self):
+        self.childs = defaultdict(TrieNode)
+        self.isWord = False
+        self.hot = 0
+        self.path = ""
+    
+class AutocompleteSystem:
+
+    def __init__(self, sentences: List[str], times: List[int]):
+        self.root = self.cur = TrieNode()
+        self.search = ""
+        for sentence, time in zip(sentences, times):
+            node = self.root
+            path = ""
+            for s in sentence:
+                node = node.childs[s]
+                path += s
+                node.path = path
+            node.isWord = True
+            node.hot = -time
+        
+        
+    def input(self, c: str) -> List[str]:
+        if c == "#":
+            self.cur.isWord = True
+            self.cur.hot -= 1
+            self.cur = self.root
+            self.search = ''
+        else:
+            self.search += c
+            if c not in self.cur.childs:
+                cur_path = self.cur.path
+                self.cur = self.cur.childs[c]
+                self.cur.path = cur_path + c
+            else:
+                self.cur = self.cur.childs[c]
+            result = []
+            self.dfs(self.cur, result)
+            return [item[1] for item in sorted(result)][:3]
+    
+    def dfs(self, cur, result):
+        if cur.isWord:
+            result.append((cur.hot, cur.path))
+        for child in cur.childs:
+            self.dfs(cur.childs[child], result)
+
 
 #刷題用這個, 712ms
 #思路: 利用trie 搭配 hot 來做search 與 排序

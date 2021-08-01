@@ -1140,8 +1140,14 @@ Subtree with Maximum Average
 第二个类似fetch items to display
 count the number of ways the string can split to get prime number
 
+@@
+第一题是卡车装箱。有n种不同重量的货物，问在最多放入k个货物的情况下，卡车载重最重可以是多少?
+n = 3
+每种箱子数量: [1,2,3], 第一种货物有一个,第二种货物有两个...
+每种箱子重量: [3,2,1], 第一种货物重量3, 第二种重量2
+k=2
 
-
+输出是 3 + 2 = 5
 
 
 

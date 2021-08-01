@@ -70,8 +70,9 @@ class Solution:
         # chain up the lists of words into sentences.
         return [" ".join(words) for words in memo[s]]
 
-#刷題用這個!
-#重寫第二次, time complexity O(n^2 + 2^n + w), space complexity O(2^n*n + w), N: the length of the input string, W:  the number of words in the dictionary
+#刷題用這個! Top down dp
+#重寫第二次, time complexity O(n^2 + 2^n + w), space complexity O(2^n*n + w), N: the length of the input string, 
+# W:  the number of words in the dictionary
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         wordDict = set(wordDict)
@@ -123,7 +124,26 @@ class Solution(object):
         return res #list
 
 
-
+# 重寫第四次, time complexity O(N^2(recursion) + 2^N(每個字斷點與不斷點) + W(construct the set)), space complexity O(N^2 + 2^N*N + W)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        wordDict = set(wordDict)
+        memo = {}
+        return [" ".join(words) for words in self.dfs(s, wordDict, memo)]
+    
+    def dfs(self, s, wordDict, memo):
+        if s in memo:
+            return memo[s]
+        if not s:
+            return [[]]
+        res = []
+        for i in range(len(s)):
+            if s[:i+1] in wordDict:
+                remain = self.dfs(s[i+1:], wordDict, memo)
+                for words in remain:
+                    res.append([s[:i+1]] + words)
+        memo[s] = res
+        return memo[s]
 
 
 

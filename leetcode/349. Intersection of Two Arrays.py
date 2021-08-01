@@ -90,7 +90,7 @@ class Solution(object):
             elif nums1[i] < nums2[j]:
                 i += 1
             else:       #以下也可以 if not len(res) or nums1[i] != res[-1]: 
-                if not (len(res) and nums1[i] == res[-1]):  #True and False -> False, False and False -> False
+                if not (res and nums1[i] == res[-1]):  #True and False -> False, False and False -> False
                     res.append(nums1[i])
                 i += 1
                 j += 1

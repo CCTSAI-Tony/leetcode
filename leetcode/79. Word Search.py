@@ -25,7 +25,7 @@ board and word consists only of lowercase and uppercase English letters.
 1 <= board[i].length <= 200
 1 <= word.length <= 10^3
 '''
-#自己重寫, time complexity O(m*n), 刷題用這個, backtracking
+#自己重寫, time complexity O(mn*3^l), l: len of word, space complexity O(mn), 刷題用這個, backtracking
 #思路: backtracking 經典題, 從matrix 找文字開頭當作起始搜尋點, 利用in place 修改來防止重複遍歷的問題, 若發現無法完成字串, 則一路backtrack到上層來試其他分支
 #重點是回到上層途中要把in place 修改的地方 恢復回原本的樣貌
 class Solution:

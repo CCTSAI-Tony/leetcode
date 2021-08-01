@@ -107,6 +107,26 @@ class Solution:
 
 
 
+#重寫第四次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        nums = set(nums)
+        max_len = 0
+        while nums:
+            l1 = l2 = 0
+            n = nums.pop()
+            i = n + 1
+            while i in nums:
+                l1 += 1
+                nums.remove(i)
+                i += 1
+            i = n - 1
+            while i in nums:
+                l2 += 1
+                nums.remove(i)
+                i -= 1
+            max_len = max(max_len, l1 + l2 + 1)
+        return max_len
 
 
 

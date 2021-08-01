@@ -46,6 +46,25 @@ class Solution:
         return False
 
 
+# 重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        return self.dfs(root.left, root.right)
+    
+    def dfs(self, left, right):
+        if not left and not right:
+            return True
+        if None in [left, right]:
+            return False
+        if left.val == right.val:
+            inner = self.dfs(left.right, right.left)
+            outer = self.dfs(left.left, right.right)
+            if inner and outer:
+                return True
+            return False
+        return False
+
+
 #bfs interative
 #思路: 利用inner, outer 來判斷左右子樹是否對稱, if 下層node對稱, bfs 下下層, 
 #dfs與bfs 都會完全遍歷所有pair, 只是順序不同而已

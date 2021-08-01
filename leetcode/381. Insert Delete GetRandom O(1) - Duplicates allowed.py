@@ -51,7 +51,7 @@ class RandomizedCollection(object):
         if self.idxs[val]:
             out, ins = self.idxs[val].pop(), self.vals[-1]  #self.idxs[val].pop() remove set() 隨機一個
             self.vals[out] = ins  #拿最後一個元素替換
-            self.idxs[ins].add(out)  #add first plz see more info
+            self.idxs[ins].add(out)  #一定要先add, 因為 add 的idx 是有可能要被remove的
             self.idxs[ins].discard(len(self.vals) - 1) # Cause we take the last one to fill the vacancy.
             self.vals.pop()
             return True
@@ -104,6 +104,95 @@ class RandomizedCollection:
         return random.choice(self.vals)
 
 
+#重寫第三次
+from collections import defaultdict
+import random
+class RandomizedCollection:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.vals = []
+        self.index = defaultdict(set)
+        
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the collection. Returns true if the collection did not already contain the specified element.
+        """
+        self.vals.append(val)
+        self.index[val].add(len(self.vals) - 1)
+        return len(self.index[val]) == 1
+        
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the collection. Returns true if the collection contained the specified element.
+        """
+        if not self.index[val]:
+            return False
+        out = self.index[val].pop()
+        ins = self.vals[-1]
+        self.vals[out] = ins
+        self.index[ins].add(out)
+        self.index[ins].remove(len(self.vals) - 1)
+        self.vals.pop()
+        return True
+        
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the collection.
+        """
+        return random.choice(self.vals)
+
+
+#也可以用list 來做, 但這樣 remove 就不會是 O(1)
+from collections import defaultdict
+import random
+class RandomizedCollection:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.vals = []
+        self.index = defaultdict(list)
+        
+
+    def insert(self, val: int) -> bool:
+        """
+        Inserts a value to the collection. Returns true if the collection did not already contain the specified element.
+        """
+        self.vals.append(val)
+        self.index[val].append(len(self.vals) - 1)
+        return len(self.index[val]) == 1
+        
+
+    def remove(self, val: int) -> bool:
+        """
+        Removes a value from the collection. Returns true if the collection contained the specified element.
+        """
+        if not self.index[val]:
+            return False
+        out = self.index[val].pop()
+        ins = self.vals[-1]
+        self.vals[out] = ins
+        if self.index[ins]:
+            self.index[ins].append(out) # 一定要先append, 因為 append 的idx 是有可能要被remove的
+            self.index[ins].remove(len(self.vals) - 1)
+            
+        self.vals.pop()
+        return True
+        
+
+    def getRandom(self) -> int:
+        """
+        Get a random element from the collection.
+        """
+        return random.choice(self.vals)
+        
 #more info: if what the element we want to remove is exactly the last element, self.idx[ins] will be empty first, and discard will yield error so add first
 
 # set 注意!! in general, sets don't support indexing or slicing.解法 list化

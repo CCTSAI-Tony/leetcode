@@ -127,7 +127,29 @@ class Solution:
 
 
 
-
+#重寫第二次, time complexity O(v+e), space complexity O(v+e)
+from collections import deque
+class Solution:
+    def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
+        res = [startUrl]
+        queue = deque([startUrl])
+        visited = set([startUrl])
+        while queue:
+            for _ in range(len(queue)):
+                url = queue.popleft()
+                host = self.check_host(url)
+                for next_url in htmlParser.getUrls(url):
+                    next_host = self.check_host(next_url)
+                    if host == next_host and next_url not in visited:
+                        queue.append(next_url)
+                        res.append(next_url)
+                        visited.add(next_url)
+        return res
+        
+        
+    def check_host(self, url):
+        url_split = url.split("/")
+        return url_split[2]
 
 
 

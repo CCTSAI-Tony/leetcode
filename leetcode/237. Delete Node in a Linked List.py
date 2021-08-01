@@ -38,6 +38,32 @@ class Solution:
         node.val = node.next.val
         node.next = node.next.next
 
+#重寫第二次, time complexity O(1)
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        node.val = node.next.val
+        node.next = node.next.next
+
+
+# 自己想的, time complexity O(n), space complexity O(1)
+class Solution:
+    def deleteNode(self, node):
+        """
+        :type node: ListNode
+        :rtype: void Do not return anything, modify node in-place instead.
+        """
+        while node.next.next:
+            nxt = node.next
+            node.val = nxt.val
+            node = node.next
+        nxt = node.next
+        node.val = nxt.val
+        node.next = None
+
 # When node is None or node is the last node, you should consider them separately. 
 # If the node is the last one, we have no other way except scanning from the beginning to the end, so the complexity is O(n), 
 # while this is the only case, other nodes can be done by replacing values, so the average complexity is still O(1). 

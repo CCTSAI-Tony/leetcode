@@ -69,6 +69,26 @@ class Solution:
         return len(set(temp)) == len(temp)
 
 
+# 重寫第二次, time complexity O(1), space complexity O(1)
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        for row in board:
+            if not self.check_unique(row):
+                return False
+        for col in zip(*board):
+            if not self.check_unique(col):
+                return False
+        for i in [0, 3, 6]:
+            for j in [0, 3, 6]:
+                block = [board[k][l] for k in range(i, i + 3) for l in range(j, j + 3)]
+                if not self.check_unique(block):
+                    return False
+        return True
+    
+    def check_unique(self, items):
+        items = [item for item in items if item != "."]
+        return len(items) == len(set(items))
+
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         return (self.is_row_valid(board) and

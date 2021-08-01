@@ -91,7 +91,7 @@ class DLinkedList:
         if self.size == 0:
             return
         if node == None:
-            node = self.sentinel.prev
+            node = self.sentinel.prev # pop out the last one item
         node.prev.next = node.next
         node.next.prev = node.prev
         self.size -= 1
@@ -102,7 +102,7 @@ class LFUCache:
 
     def __init__(self, capacity: int):
         self.nodes = dict()
-        self.freqs = defaultdict(DLinkedList)
+        self.freqs = defaultdict(DLinkedList)  # 每個freq 都是一個Dlinkedlist
         self.capacity = capacity
         self.size = 0
         self.minfreq = 0
@@ -142,6 +142,85 @@ class LFUCache:
             node = self.nodes[key]
             self._update(node)
             node.val = value
+
+# 重寫第二次
+from collections import defaultdict
+class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+        self.freq = 1
+
+class DLinkedList:
+    def __init__(self):
+        self.sentinel = Node(None, None)
+        self.sentinel.next = self.sentinel
+        self.sentinel.prev = self.sentinel
+        self.size = 0
+        
+    def append(self, node):
+        node.next = self.sentinel.next
+        self.sentinel.next = node
+        node.prev = self.sentinel
+        node.next.prev = node
+        self.size += 1
+        
+    def pop(self, node=None):
+        if self.size == 0:
+            return
+        self.size -= 1
+        if node == None:
+            node = self.sentinel.prev
+        node.prev.next = node.next
+        node.next.prev = node.prev
+        return node
+    
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.size = 0
+        self.nodes = {}
+        self.freqs = defaultdict(DLinkedList)
+        self.min_freq = 0
+        
+    def update(self, node):
+        freq = node.freq
+        self.freqs[freq].pop(node)
+        if freq == self.min_freq and self.freqs[freq].size == 0:
+            self.min_freq += 1
+        node.freq += 1
+        self.freqs[node.freq].append(node)
+        
+    def get(self, key: int) -> int:
+        if key not in self.nodes:
+            return -1
+        node = self.nodes[key]
+        self.update(node)
+        return node.val
+        
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity == 0:
+            return
+        if key in self.nodes:
+            node = self.nodes[key]
+            self.update(node)
+            node.val = value
+            
+        else:
+            node = Node(key, value)
+            if self.size == self.capacity:
+                last = self.freqs[self.min_freq].pop()
+                self.size -= 1
+                del self.nodes[last.key]
+            self.min_freq = 1
+            self.size += 1
+            self.nodes[node.key] = node
+            self.freqs[1].append(node)
+
 
 
 # 刷題用這個

@@ -50,7 +50,7 @@ class FileSystem(object):
         
     def find(self,path):#find and return node at path.
         curr=self.root
-        if len(path)==1:
+        if len(path)==1:  # path = "/"
             return self.root
         for word in path.split("/")[1:]: #split("/")[0] = ""
             curr=curr.child[word]
@@ -158,8 +158,47 @@ class FileSystem:
         return cur.content
 
 
+#重寫第三次
+from collections import defaultdict
+class TreeNode:
+    
+    def __init__(self):
+        self.child = defaultdict(TreeNode)
+        self.content = ""
 
+class FileSystem:
 
+    def __init__(self):
+        self.root = TreeNode()
+        
+    def find(self, path):
+        if len(path) == 1:
+            return self.root
+        cur = self.root
+        for item in path.split("/")[1:]:
+            cur = cur.child[item]
+        return cur
+
+    def ls(self, path: str) -> List[str]:
+        file = self.find(path)
+        if file.content:
+            return [path.split("/")[-1]]
+        else:
+            return sorted(file.child.keys())
+        
+
+    def mkdir(self, path: str) -> None:
+        self.find(path)
+        
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        file = self.find(filePath)
+        file.content += content
+        
+
+    def readContentFromFile(self, filePath: str) -> str:
+        file = self.find(filePath)
+        return file.content
 
 
 

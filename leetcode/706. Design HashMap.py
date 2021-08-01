@@ -101,7 +101,71 @@ class MyHashMap:
             cur, prev = cur.next, prev.next
 
 
+#重寫第二次, time complexity hash: O(1), put, get, remove: O(n), space complexity O(n)
+class ListNode:
+    def __init__(self, key, val):
+        self.pair = [key, val]
+        self.next = None
+        
 
+class MyHashMap:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.m = 1000
+        self.list = [None] * 1000
+        
+
+    def put(self, key: int, value: int) -> None:
+        """
+        value will always be non-negative.
+        """
+        index = key % self.m
+        if not self.list[index]:
+            self.list[index] = ListNode(key, value)
+        else:
+            cur = self.list[index]
+            while cur:
+                if cur.pair[0] == key:
+                    cur.pair[1] = value
+                    return
+                if not cur.next:
+                    cur.next = ListNode(key, value)
+                    return
+                cur = cur.next
+        
+        
+
+    def get(self, key: int) -> int:
+        """
+        Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+        """
+        index = key % self.m
+        cur = self.list[index]
+        while cur:
+            if cur.pair[0] == key:
+                return cur.pair[1]
+            cur = cur.next
+        return -1
+        
+
+    def remove(self, key: int) -> None:
+        """
+        Removes the mapping of the specified value key if this map contains a mapping for the key
+        """
+        index = key % self.m
+        head = self.list[index]
+        if head and head.pair[0] == key:
+            self.list[index] = head.next
+        dummy = cur = ListNode(-1, -1)
+        dummy.next = head
+        while cur.next:
+            if cur.next.pair[0] == key:
+                cur.next = cur.next.next
+                return
+            cur = cur.next
 
 #刷題用這個, 這個面試才會過
 #思路: 因為總共的key 有10000000 先設一個數m, 讓key % m 可以讓整體index 變少, 再用 linked list 來處理hash collision 的情況
