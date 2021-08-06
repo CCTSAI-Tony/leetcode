@@ -120,7 +120,31 @@ class Solution:
         return self.check(node1.left, node2.left) and self.check(node1.right, node2.right)
 
 
-
+# 重寫第三次, time complexity O(r*s), space complexity O(logr + logs)
+class Solution:
+    def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
+        return self.dfs(root, subRoot)
+    
+    def dfs(self, node, subRoot):
+        if not self.checkIsSame(node, subRoot):
+            left, right = False, False
+            if node.left:
+                left = self.dfs(node.left, subRoot)
+            if node.right:
+                right = self.dfs(node.right, subRoot)
+            return left or right
+        return True
+    
+    def checkIsSame(self, node1, node2):
+        if not node1 and not node2:
+            return True
+        if None in [node1, node2]:
+            return False
+        if node1.val != node2.val:
+            return False
+        left = self.checkIsSame(node1.left, node2.left)
+        right = self.checkIsSame(node1.right, node2.right)
+        return left and right
 
 
 

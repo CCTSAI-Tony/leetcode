@@ -38,10 +38,11 @@ grid[n - 1][n - 1] != -1
 '''
 
 # time complexity O(n^3)
-#思路: 利用f(i, j, k) 當作狀態函式, i + j = k 代表同一個步(也算同一個對角線) g[i][k-i] or g[j][k-j], 但只是代表同一個對角線的其中兩格 or 有可能同一格
-#注意這裡i 從 1開始, 所以要取得grid cell值的時候, 要減1, 因為 0 base index issue, ex: f(1,2,3) = g[1][3-1] = g[1][2] => grid[0][1], f(1,2,3)是第一條斜線組合
+#思路: 利用f(i, j, k) 當作狀態函式, i + j = k 代表同一個步(也算同一個對角線) g[i][k-i] or g[j][k-j], 只是代表同一個對角線的其中兩格 or 有可能同一格
+#注意這裡i 從 1開始, 所以要取得grid cell值的時候, 要減1, 因為 0 base index issue, 
+# ex: f(1,2,3) = g[1][3-1] = g[1][2] => grid[0][1], f(1,2,3)是第二條斜線組合
 #想法是與其來回走, 不如直接想成兩個路徑同時走, 若兩條路徑燈走到同一格, 只能取一次櫻桃, 不然可以取兩格的櫻桃
-#若兩格其中一格不能走, 則f(i, j, k) 就不用算, skip 此路徑方案
+#若兩格其中一格不能走(代表不能來回), 則f(i, j, k) 就不用算, skip 此路徑方案
 #from g[i][k-i] or g[j][k-j] => 1 <= i <= n, 1 <= k - i <= n, 推導出 k-n <= i <= k-1, 搭配 1 <= i <= n
 #技巧: 一開始要把dp值設負無窮, 這樣invalid path才不會影響其他有效路徑
 #技巧: 取斜線當作狀態方程時, dp 記得都是 1 base index, 但轉到實際grid 要轉為 0 based index
@@ -69,8 +70,8 @@ class Solution:
 
 
 
-# 自己想的
-# 0 based index 解法, k值= 0 to 2n-2
+# 刷題用這個, 0 base index, 自己想的, time complexity O(n^3)
+# 0 based index 解法, k值= 0 to 2n-2, dp 是3d matrix
 # 0 <= i <= n-1, 0 <= k - i <= n-1 =>  k - n + 1 <= i <= k
 class Solution:
     def cherryPickup(self, grid: List[List[int]]) -> int:
@@ -90,7 +91,6 @@ class Solution:
                             dp[i][j][k] = max(dp[i][j][k], dp[a][b][k-1] + t)
                                             
         return max(0, dp[-1][-1][-1])
-
 
 
 

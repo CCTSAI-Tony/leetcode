@@ -78,9 +78,9 @@ class Solution:
                     newX += i
                     newY += j
                     d += 1
-                if (newX, newY) not in stopped or dist + d < stopped[(newX, newY)]:
+                if (newX, newY) not in stopped or dist + d < stopped[(newX, newY)]: # 使用stopped 來更新optiaml candidate
                     stopped[(newX, newY)] = dist + d
-                    heapq.heappush(q, (dist + d, newX, newY))
+                    heapq.heappush(q, (dist + d, newX, newY)) # 課本上Dijkstra 是直接修改heap裡的值, 這裏是直接加入一個新的item
         return -1
 
 
@@ -90,8 +90,8 @@ class Solution:
     def shortestDistance(self, maze: List[List[int]], start: List[int], destination: List[int]) -> int:
         m, n = len(maze), len(maze[0])
         queue = [(0, start[0], start[1])]
-        visited = set([(start[0]), start[1]])
-        stopped = {(start[0], start[1]): 0}
+        visited = set()
+        stopped = {(start[0], start[1]): 0}  # 為了更新最小路徑而存在
         while queue:
             dist, x, y = heapq.heappop(queue)
             if (x, y) == (destination[0], destination[1]):
@@ -112,8 +112,37 @@ class Solution:
 
 
 
-
-
+# 重寫第三次, time complexity O(mnlog(mn)), space complexity O(mn)
+from heapq import *
+class Solution:
+    def shortestDistance(self, maze: List[List[int]], start: List[int], destination: List[int]) -> int:
+        m, n = len(maze), len(maze[0])
+        start, destination = tuple(start), tuple(destination)
+        stops = {start: 0}
+        visited = set()
+        heap = [(0, start)]
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        while heap:
+            dist, (i, j) = heappop(heap)
+            if (i, j) == destination:
+                return dist
+            if (i, j) in visited: # 這句很重要, 避免non optimal candidate
+                continue
+            visited.add((i, j))
+            for d in directions:
+                x, y = i + d[0], j + d[1]
+                steps = 1
+                while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
+                    x += d[0]
+                    y += d[1]
+                    steps += 1
+                x -= d[0]
+                y -= d[1]
+                steps -= 1
+                if (x, y) not in visited or dist + steps < stops[(x, y)]:
+                    stops[(x, y)] = dist + steps
+                    heappush(heap, ((dist + steps), (x, y)))
+        return -1
 
 
 

@@ -17,14 +17,13 @@ All the input string will only include lower case letters.
 The returned elements order does not matter.
 '''
 
-'''
-If a word can be Concatenated from shorter words, then word[:i] and word[i:] must can also be Concatenated from shorter words.
-Build results of word from results of word[:i] and word[i:]
-Iterate i from range(1, len(word)) to avoid a word is Concatenated from itself. 重要!!
-Use memorization to avoid repeat calculation.
-Time: O(n*l^2), n: the length of words, l: the logest length of word
-Space: O(N), N: the legth of total wordss
-'''
+
+# 刷題用這個, Time: O(n*l^2), n: the length of words, l: the logest length of word, Space: O(N), N: the legth of total wordss
+# 思路: top down dp
+# If a word can be Concatenated from shorter words, then word[:i] and word[i:] must can also be Concatenated from shorter words.
+# Build results of word from results of word[:i] and word[i:]
+# Iterate i from range(1, len(word)) to avoid a word is Concatenated from itself. 重要!!
+# Use memorization to avoid repeat calculation.
 class Solution:
     def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
         mem = {}
@@ -41,6 +40,49 @@ class Solution:
                 break  #out of for loop, 代表已經確認此字可以被concatenated
         return mem[word]
 
+
+# 重寫第二次, time complexity O(n*l^2)
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        mem = {}
+        words_set = set(words)
+        return [w for w in words if self.check(w, words_set, mem, False)]
+    
+    def check(self, word, word_set, mem, concatenated):
+        if word in word_set and concatenated:
+            return True
+        if word in mem:
+            return mem[word]
+        mem[word] = False
+        for i in range(1, len(word)):
+            if word[:i] in word_set and self.check(word[i:], word_set, mem, True):
+                mem[word] = True
+                break  #out of for loop, 代表已經確認此字可以被concatenated
+        return mem[word]
+
+
+# 重寫第三次
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        memo = {}
+        res = []
+        words = set(words)
+        for word in words:
+            if self.dfs(word, words, memo, False):
+                res.append(word)
+        return res
+    
+    def dfs(self, word, words, memo, concatenated):
+        if word in words and concatenated:
+            return True
+        if word in memo:
+            return memo[word]
+        memo[word] = False
+        for i in range(1, len(word)):
+            if word[:i] in words and self.dfs(word[i:], words, memo, True):
+                memo[word] = True
+                break
+        return memo[word]
 
 # In the interview I was asked to return the words used for concatenation instead of concatenated words. How would the solution look like then?
 
@@ -119,7 +161,7 @@ class Trie():
     def __init__(self, words):
         self.root = TrieNode()  #自動建立prefix tree
         for w in words:
-            if w:  # 注意 words 裡面有可能為 empty string, 過濾空字串, 避免自己接自己
+            if w:  # 注意 words 裡面有可能為 empty string, 過濾空字串, 避免self.root.isEnd = True => self.dfs(self.trie.root, i, w, True) 無限迴圈
                 self.insert(w)
     
     def insert(self, word):

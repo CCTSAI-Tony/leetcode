@@ -62,6 +62,28 @@ class Solution:
         return (furthestNode, max_len)
 
 
-
-
+# 重寫第二次, time complexity O(v + e), space complexity O(v + e)
+from collections import defaultdict
+class Solution:
+    def treeDiameter(self, edges: List[List[int]]) -> int:
+        if not edges or not edges[0]:
+            return 0
+        graph = defaultdict(list)
+        for edge in edges:
+            graph[edge[0]].append(edge[1])
+            graph[edge[1]].append(edge[0])
+        farest_point = self.dfs(0, graph, 0, set())[0]
+        return self.dfs(farest_point, graph, 0, set())[1]
+    
+    def dfs(self, node, graph, length, visited):
+        visited.add(node)
+        max_len = length
+        farest_node = node
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                far_node, far_len = self.dfs(neighbor, graph, length + 1, visited)
+                if far_len > max_len:
+                    farest_node = far_node
+                    max_len = far_len
+        return farest_node, max_len
 

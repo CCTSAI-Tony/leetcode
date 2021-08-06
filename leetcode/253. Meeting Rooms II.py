@@ -71,7 +71,19 @@ class Solution:
                 heapreplace(heap, intervals[i][1])
         return len(heap)
 
-
+# 重寫第四次
+from heapq import *
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervals.sort()
+        queue = []
+        for interval in intervals:
+            s, e = interval
+            if not queue or queue[0] > s:
+                heappush(queue, e)
+            else:
+                heapreplace(queue, e)
+        return len(queue)
 # heapq.heapreplace(heap, item)
 # Pop and return the smallest item from the heap, and also push the new item. The heap size doesn’t change. If the heap is empty, IndexError is raised.
 

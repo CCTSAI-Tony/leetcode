@@ -74,8 +74,23 @@ class Solution:
         self.max_diameter = max(self.max_diameter, left + right)
         return max(left, right) + 1
 
-
-
+# 重寫第四次, time complexity O(n), space complexity O(h)
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.max_diameter = 0
+        self.dfs(root)
+        return self.max_diameter
+    
+    def dfs(self, node):
+        if not node:
+            return 0
+        left, right = 0, 0
+        if node.left:
+            left = self.dfs(node.left)
+        if node.right:
+            right = self.dfs(node.right)
+        self.max_diameter = max(self.max_diameter, left + right)
+        return max(left, right) + 1
 
 
 

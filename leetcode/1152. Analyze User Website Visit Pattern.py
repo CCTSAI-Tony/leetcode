@@ -98,6 +98,24 @@ class Solution:
                 sequences[comb] -= 1
         return min(sequences.items(), key=lambda x: (x[1], x[0]))[0]
 
+#重寫第三次, time complexity O(nk^3), space complexity O(nk^3)
+from itertools import combinations
+from collections import defaultdict
+class Solution:
+    def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+        memo = defaultdict(int)
+        users = defaultdict(list)
+        data = list(zip(username, timestamp, website))
+        data.sort(key=lambda x: x[1])
+        for d in data:
+            users[d[0]].append(d[2])
+        for user in users:
+            if len(users[user]) < 3:
+                continue
+            for comb in set(combinations(users[user], 3)):
+                memo[comb] -= 1
+        return [(k, v) for k, v in sorted(memo.items(), key=lambda x: (x[1], x[0]))][0][0]
+
 
 
 #自己想的, 暴力解 time complexity O(2^n), n: len(max(user's visited web))

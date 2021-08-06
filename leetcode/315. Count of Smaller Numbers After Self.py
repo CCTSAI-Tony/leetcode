@@ -83,8 +83,34 @@ class Solution:
         return res
 
 
-
-
+# 重寫第三次, time complexity O(nlogn), space complexity O(n)
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        nums_unique = set(nums)
+        nums_sorted = sorted(nums_unique)
+        nums_to_index = {v:i+1 for i, v in enumerate(nums_sorted)}
+        bit = [0] * (len(nums_sorted) + 1)
+        res = []
+        for i in range(len(nums)-1, -1, -1):
+            idx = nums_to_index[nums[i]]
+            self.update(bit, idx)
+            res.append(self.query(bit, idx-1))
+        return res[::-1]
+    
+    def update(self, bit, idx):
+        while idx <= len(bit) - 1:
+            bit[idx] += 1
+            idx += self.lowbit(idx)
+    
+    def query(self, bit, idx):
+        res = 0
+        while idx > 0:
+            res += bit[idx]
+            idx -= self.lowbit(idx)
+        return res
+            
+    def lowbit(self, idx):
+        return idx & -idx
 
 
 

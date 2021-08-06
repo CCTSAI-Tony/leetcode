@@ -80,6 +80,62 @@ class LRUCache:
         node.next = self.tail
 
 
+# 刷題用這個, duble linked list 自環
+class Node:
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.memo = {}
+        self.head = Node(-1, -1)
+        self.head.next = self.head
+        self.head.prev = self.head
+
+    def get(self, key: int) -> int:
+        if key in self.memo:
+            node = self.memo[key]
+            self.remove(node)
+            self.add(node)
+            return node.val
+        return -1
+        
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.memo:
+            node = self.memo[key]
+            node.val = value
+            self.remove(node)
+            self.add(node)
+        else:
+            if len(self.memo) >= self.capacity:
+                last = self.head.prev
+                self.remove(last)
+                del self.memo[last.key]
+            node = Node(key, value)
+            self.add(node)
+            self.memo[node.key] = node
+    
+    def remove(self, node):
+        prev = node.prev
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+        
+    def add(self, node):
+        head = self.head
+        nxt = head.next
+        head.next = node
+        node.prev = head
+        nxt.prev = node
+        node.next = nxt
+
+
 #重寫第二次, time complexity O(1), space complexity O(n), using dict & double linkedlist
 class Node:
     def __init__(self, k, v):

@@ -37,3 +37,5 @@ class Solution:
             res += (stick_1 + stick_2)
             heapq.heappush(sticks, stick_1 + stick_2)
         return res
+
+

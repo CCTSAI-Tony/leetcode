@@ -1573,10 +1573,502 @@ class Solution:
             else:
                 copy[node].neighbors.append(copy[neighbor]) # 遇到已遍歷的node, 單純加入至neighbors 並不持續往下copy, 不然無限迴圈
 
+# 238. Product of Array Except Self
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        p = 1
+        res = []
+        for i in range(n):
+            res.append(p)
+            p *= nums[i]
+        p = 1
+        for i in range(n-1, -1, -1):
+            res[i] *= p
+            p *= nums[i]
+        return res
+
+# 268. Missing Number
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        miss = 0
+        for i in range(n+1):
+            miss ^= i
+        for num in nums:
+            miss ^= num
+        return miss
+
+
+# 136. Single Number
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+# 也可以
+from functools import reduce
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        return reduce(lambda x, y: x^y, nums, 0) # 0: initializer
+
+
+
+# 572. Subtree of Another Tree
+class Solution:
+    def isSubtree(self, root: TreeNode, subRoot: TreeNode) -> bool:
+        return self.dfs(root, subRoot)
+    
+    def dfs(self, node, subRoot):
+        if not self.checkIsSame(node, subRoot):
+            left, right = False, False
+            if node.left:
+                left = self.dfs(node.left, subRoot)
+            if node.right:
+                right = self.dfs(node.right, subRoot)
+            return left or right
+        return True
+    
+    def checkIsSame(self, node1, node2):
+        if not node1 and not node2:
+            return True
+        if None in [node1, node2]:
+            return False
+        if node1.val != node2.val:
+            return False
+        left = self.checkIsSame(node1.left, node2.left)
+        right = self.checkIsSame(node1.right, node2.right)
+        return left and right
+
+
+# 543. Diameter of Binary Tree
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        self.max_diameter = 0
+        self.dfs(root)
+        return self.max_diameter
+    
+    def dfs(self, node):
+        if not node:
+            return 0
+        left, right = 0, 0
+        if node.left:
+            left = self.dfs(node.left)
+        if node.right:
+            right = self.dfs(node.right)
+        self.max_diameter = max(self.max_diameter, left + right)
+        return max(left, right) + 1
+
+
+
+# 1245. Tree Diameter
+from collections import defaultdict
+class Solution:
+    def treeDiameter(self, edges: List[List[int]]) -> int:
+        if not edges or not edges[0]:
+            return 0
+        graph = defaultdict(list)
+        for edge in edges:
+            graph[edge[0]].append(edge[1])
+            graph[edge[1]].append(edge[0])
+        farest_point = self.dfs(0, graph, 0, set())[0]
+        return self.dfs(farest_point, graph, 0, set())[1]
+    
+    def dfs(self, node, graph, length, visited):
+        visited.add(node)
+        max_len = length
+        farest_node = node
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                far_node, far_len = self.dfs(neighbor, graph, length + 1, visited)
+                if far_len > max_len:
+                    farest_node = far_node
+                    max_len = far_len
+        return farest_node, max_len
+
+# 257. Binary Tree Paths
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        res = []
+        path = [str(root.val)]
+        self.dfs(root, path, res)
+        return res
+    
+    def dfs(self, node, path, res):
+        if not node.left and not node.right:
+            res.append("->".join(path))
+            return
+        if node.left:
+            path.append(str(node.left.val))
+            self.dfs(node.left, path, res)
+            path.pop()
+        if node.right:
+            path.append(str(node.right.val))
+            self.dfs(node.right, path, res)
+            path.pop()
+
+
+# 545. Boundary of Binary Tree
+class Solution:
+    def boundaryOfBinaryTree(self, root: TreeNode) -> List[int]:
+        if not root:
+            return None
+        if not root.left and not root.right:
+            return [root.val]
+        res = [root.val]
+        self.left_bound(root.left, res)
+        self.leaves_bound(root, res)
+        self.right_bound(root.right, res)
+        return res
+        
+    def left_bound(self, node, res):
+        if not node or (not node.left and not node.right):
+            return
+        res.append(node.val)
+        if node.left:
+            self.left_bound(node.left, res)
+        else:
+            self.left_bound(node.right, res)
+            
+    def leaves_bound(self, node, res):
+        if not node.left and not node.right:
+            res.append(node.val)
+            return
+        if node.left:
+            self.leaves_bound(node.left, res)
+        if node.right:
+            self.leaves_bound(node.right, res)
+            
+    def right_bound(self, node, res):
+        if not node or (not node.left and not node.right):
+            return
+        if node.right:
+            self.right_bound(node.right, res)
+        else:
+            self.right_bound(node.left, res)
+        res.append(node.val)
+
+
+
+# 490. The Maze
+from collections import deque
+class Solution:
+    def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+        m, n = len(maze), len(maze[0])
+        start, destination = tuple(start), tuple(destination)
+        queue = deque([start])
+        visited = set([start])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        while queue:
+            for _ in range(len(queue)):
+                i, j = queue.popleft()
+                if (i, j) == destination:
+                    return True
+                for d in directions:
+                    x, y = i + d[0], j + d[1]
+                    while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
+                        x += d[0]
+                        y += d[1]
+                    x -= d[0]
+                    y -= d[1]
+                    if (x, y) not in visited:
+                        queue.append((x, y))
+                        visited.add((x, y))
+        return False
+
+
+# 505. The Maze II, Dijkstra Algorithm => priority queue
+from heapq import *
+class Solution:
+    def shortestDistance(self, maze: List[List[int]], start: List[int], destination: List[int]) -> int:
+        m, n = len(maze), len(maze[0])
+        start, destination = tuple(start), tuple(destination)
+        stops = {start: 0}
+        visited = set()
+        heap = [(0, start)]
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        while heap:
+            dist, (i, j) = heappop(heap)
+            if (i, j) == destination:
+                return dist
+            if (i, j) in visited: # 這句很重要, 避免non optimal candidate
+                continue
+            visited.add((i, j))
+            for d in directions:
+                x, y = i + d[0], j + d[1]
+                steps = 1
+                while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
+                    x += d[0]
+                    y += d[1]
+                    steps += 1
+                x -= d[0]
+                y -= d[1]
+                steps -= 1
+                if (x, y) not in visited or dist + steps < stops[(x, y)]:
+                    stops[(x, y)] = dist + steps
+                    heappush(heap, ((dist + steps), (x, y)))
+        return -1
+
+
+
+# 1152. Analyze User Website Visit Pattern
+# time complexity O(nk^3), space complexity O(nk^3)
+from itertools import combinations
+from collections import defaultdict
+class Solution:
+    def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+        memo = defaultdict(int)
+        users = defaultdict(list)
+        data = list(zip(username, timestamp, website))
+        data.sort(key=lambda x: x[1])
+        for d in data:
+            users[d[0]].append(d[2])
+        for user in users:
+            if len(users[user]) < 3:
+                continue
+            for comb in set(combinations(users[user], 3)):
+                memo[comb] -= 1
+        return [(k, v) for k, v in sorted(memo.items(), key=lambda x: (x[1], x[0]))][0][0]
+
+
+# 741. Cherry Pickup, time complexity O(n^3)
+# 0 based index 解法, k值= 0 to 2n-2, dp 是3d matrix
+# 0 <= i <= n-1, 0 <= k - i <= n-1 =>  k - n + 1 <= i <= k
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        dp = [[[float("-inf")] * (n*2 - 1) for _ in range(n)] for _ in range(n)]
+        dp[0][0][0] = grid[0][0]
+        for k in range(1, 2*n-1):
+            for i in range(max(0, k-n+1), min(n, k + 1)):
+                for j in range(max(0, k-n+1), min(n, k + 1)):
+                    if grid[i][k-i] == -1 or grid[j][k-j] == -1:
+                        continue
+                    t = grid[i][k-i]
+                    if i != j:
+                        t += grid[j][k-j]
+                    for a in range(i-1, i+1):
+                        for b in range(j-1, j+1):
+                            dp[i][j][k] = max(dp[i][j][k], dp[a][b][k-1] + t)
+        return max(0, dp[-1][-1][-1])
+
+
+# 算法是一个array中选k个数 product最大
+def maxProductOfKNums(nums, k):
+    n = len(nums)
+    nums.sort()
+    p = 1
+    l, r = 0, n-1
+    sign = 1
+    res = []
+    if k % 2:
+        res.append(nums[r])
+        p = nums[r]
+        r -= 1
+        k -= 1
+        if p < 0:
+            sign = -1
+    while k:
+        x, y = nums[l] * nums[l + 1], nums[r] * nums[r - 1]
+        if x * sign > y * sign:
+            p *= x
+            res.append(nums[l])
+            res.append(nums[l+1])
+            l += 2
+        else:
+            p *= y
+            res.append(nums[r])
+            res.append(nums[r-1])
+            r -= 2
+        k -= 2
+    return res
+
+maxProductOfKNums([-2, -1, 0, 2, 3], 3)
+[3, -2, -1]
+
+
+
+# 277. Find the Celebrity
+#思路: celebrity 不會認識人, 沒被人認識的不是celebrity 利用以上條件來篩選不合格者, 
+#用雙指針, left, right = 0, n-1 => knows(a,b) => 若True => a 不適任, 若False => b 不適任 => 刪到剩一個元素成為celebrity candidate
+#針對這個candidate 做驗證, 若通過就是celebrity, 不通過 => 代表這裡面沒有celebrity
+class Solution:
+    def findCelebrity(self, n):
+        # first, find the candidate for celebrity
+        # left and right must meet at some point, this person is a potential celebrity
+        left, right = 0, n - 1
+        while left < right: 
+            if knows(left, right):
+                left += 1 #celebrity 不會認識人, 排除
+            else:
+                right -= 1 #celebrity 要被大家知道, 排除 => left 之後的都不認識 => left = right => celebrity candidate => 但並不代表left前面的都不認識
+                           #但目前就只剩下這個candidate, 其他的都被淘汰的, 若candidate 不能通過驗證, 則這裡面沒有celebrity
+        # left is a celebrity candidate 
+        # next verify if the candidate is indeed a celebrity
+        # case 1: at least one person doesn't know this candidate => not a celebrity 
+        for i in range(n):
+            if not knows(i, left) and i != left:
+                return -1
+        # case2: candidate knows at least one person => not a celebrity
+        for i in range(n):
+            if knows(left, i) and i != left:
+                return -1
+
+        return left
+
+
+# 472. Concatenated Words
+# 刷題用這個, Time: O(n*l^2), n: the length of words, l: the logest length of word, Space: O(N), N: the legth of total wordss
+# 思路: top down dp
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        memo = {}
+        res = []
+        words = set(words)
+        for word in words:
+            if self.dfs(word, words, memo, False):
+                res.append(word)
+        return res
+    
+    def dfs(self, word, words, memo, concatenated):
+        if word in words and concatenated:
+            return True
+        if word in memo:
+            return memo[word]
+        memo[word] = False
+        for i in range(1, len(word)):
+            if word[:i] in words and self.dfs(word[i:], words, memo, True):
+                memo[word] = True
+                break
+        return memo[word]
+
+
+# 1268. Search Suggestions System
+#time complexity O(nlog(N))
+#思路: 利用Trie 來解題, 一開始對products sort, 因為之後要依序把product 埋到Trie結構裡
+#此題重點, 利用TrieNode 的 suggestion的特性 把最先經過此TrieNode 的三個product 收進裡面
+#因此之後searchWord 經過此TrieNode 可以立即知道suggestion list
+import collections
+class TrieNode:
+    def __init__(self):
+        self.children = collections.defaultdict(TrieNode)
+        self.suggestion = [] #這裡比較特別
+    
+    def add_sugestion(self, product):
+        if len(self.suggestion) < 3:
+            self.suggestion.append(product)
+
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
+        products = sorted(products) #先排序, 之後建立Trie 每個node節點 優先存入三個 lexicographycal order較小的前三個product
+        root = TrieNode() #最上層TrieNode
+        for p in products:
+            node = root
+            for char in p:
+                node = node.children[char]
+                node.add_sugestion(p)
+        
+        result, node = [], root
+        for char in searchWord:
+            node = node.children[char]
+            result.append(node.suggestion)
+        return result
 
 
 
 
+"""
+Given a dependency graph and a package name, return all direct and indirect
+dependencies of the package in a list.
+
+Input:
+package: "a"
+dep_graph: {
+  a: ['b','c'],
+  b: ['d'],
+}
+
+Output: ['b','c','d']
+
+Note that the dependency graph can have a cycle.
+"""
+from collections import deque, defaultdict
+def install_package(package, dep_graph):
+    """
+                      B -- D
+                    /
+                  A
+                    \
+                      C
+
+                  E -- F
+    """
+    dep_path = deque()
+
+    if package not in dep_graph:
+        return dep_path
+
+    graph = defaultdict(list)
+    in_degree = defaultdict(int)
+
+    # build graph and in_degree for the packages that are involved in the
+    # installation/un-installation path.
+    stack = [package]
+    while stack:
+        p = stack.pop()
+        if p not in in_degree:
+            in_degree[p] = 0
+        if p not in graph:
+            graph[p] = []
+        if p in dep_graph:
+            for child in dep_graph[p]:
+                in_degree[child] += 1
+                graph[p].append(child)
+                stack.append(child)
+
+    sources = deque()
+    for k,v in in_degree.items():
+        if v == 0:
+            sources.append(k)
+
+    while sources:
+        parent = sources.popleft()
+        dep_path.appendleft(parent)
+        for child in graph[parent]:
+            in_degree[child] -= 1
+            if in_degree[child] == 0:
+                sources.append(child)
+
+    if len(dep_path) != len(graph):
+        return []
+
+    return list(dep_path)
+
+def uninstall_package(package, dep_graph):
+    return list(
+        reversed(install_package(package, dep_graph)))
+
+print(install_package('A', {
+  'A': ['B','C'],
+  'B': ['D'],
+  'E' : ['F']
+}))
+
+print(uninstall_package('A', {
+  'A': ['B','C'],
+  'B': ['D'],
+  'E' : ['F']
+}))
+
+
+
+# Design Amazon Locker system
+# Given
+# Users should be able to use a code to open a locker and pick up a package
+# Delivery guy should be able to find an "optimal" locker for a package
+# Then
+# Free coding from scratch in any language
 
 
 

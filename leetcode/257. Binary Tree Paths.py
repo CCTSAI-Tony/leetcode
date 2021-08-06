@@ -45,9 +45,27 @@ class Solution:
         if node.right:
             self.dfs(node.right, path+[node.val], res)
 
-
-
-
+# 刷題用這個, backtracking
+# 重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def binaryTreePaths(self, root: TreeNode) -> List[str]:
+        res = []
+        path = [str(root.val)]
+        self.dfs(root, path, res)
+        return res
+    
+    def dfs(self, node, path, res):
+        if not node.left and not node.right:
+            res.append("->".join(path))
+            return
+        if node.left:
+            path.append(str(node.left.val))
+            self.dfs(node.left, path, res)
+            path.pop()
+        if node.right:
+            path.append(str(node.right.val))
+            self.dfs(node.right, path, res)
+            path.pop()
 
 # dfs + stack
 class Solution:

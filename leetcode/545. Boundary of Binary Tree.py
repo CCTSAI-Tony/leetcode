@@ -173,8 +173,45 @@ class Solution:
         boundary.append(node.val)
 
 
-
-
+# 重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def boundaryOfBinaryTree(self, root: TreeNode) -> List[int]:
+        if not root:
+            return None
+        if not root.left and not root.right:
+            return [root.val]
+        res = [root.val]
+        self.left_bound(root.left, res)
+        self.leaves_bound(root, res)
+        self.right_bound(root.right, res)
+        return res
+        
+    def left_bound(self, node, res):
+        if not node or (not node.left and not node.right):
+            return
+        res.append(node.val)
+        if node.left:
+            self.left_bound(node.left, res)
+        else:
+            self.left_bound(node.right, res)
+            
+    def leaves_bound(self, node, res):
+        if not node.left and not node.right:
+            res.append(node.val)
+            return
+        if node.left:
+            self.leaves_bound(node.left, res)
+        if node.right:
+            self.leaves_bound(node.right, res)
+            
+    def right_bound(self, node, res):
+        if not node or (not node.left and not node.right):
+            return
+        if node.right:
+            self.right_bound(node.right, res)
+        else:
+            self.right_bound(node.left, res)
+        res.append(node.val)
 
 
 

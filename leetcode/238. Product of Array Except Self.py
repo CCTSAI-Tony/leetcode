@@ -12,18 +12,6 @@ Note: Please solve it without division and in O(n).
 Follow up:
 Could you solve it with constant space complexity? (The output array does not count as extra space for the purpose of space complexity analysis.)
 '''
-# two-round solution     
-class Solution:
-    def productExceptSelf(self, nums):
-        res = [1] * len(nums)
-        for i in range(1, len(nums)): # from left to right, not include the first one
-            res[i] = res[i-1] * nums[i-1] #res[i-1] not include nums[i-1], so we need to mutiply it 
-        tmp = 1
-        for i in range(len(nums)-2, -1, -1): # from right to left, not include the last one, 最後一個已經完成了
-            tmp *= nums[i+1]
-            res[i] *= tmp
-        return res
-
 
 # good! 刷題用這個
 # Python solution (Accepted), O(n) time, O(1) space
@@ -34,7 +22,7 @@ class Solution:
         p = 1
         n = len(nums)
         output = []
-        for i in range(0,n):  
+        for i in range(n):  
             output.append(p)  #先append p, 因為要不包含自己
             p = p * nums[i]
         p = 1
@@ -74,8 +62,20 @@ class Solution:
             p *= nums[i]
         return res
 
-
-
+# 重寫第四次, time complexity O(n), space complexity O(1)
+class Solution:
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        p = 1
+        res = []
+        for i in range(n):
+            res.append(p)
+            p *= nums[i]
+        p = 1
+        for i in range(n-1, -1, -1):
+            res[i] *= p
+            p *= nums[i]
+        return res
 
 '''
 first time going through the array, it's beginning to the end. p keeps a running total of the product, 

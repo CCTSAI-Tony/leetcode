@@ -128,13 +128,38 @@ class Solution:
                     nx, ny = x + d[0], y + d[1]
                     while 0 <= nx < m and 0 <= ny < n and maze[nx][ny] == 0:
                         nx, ny = nx + d[0], ny + d[1]
-                    nx, ny = nx - d[0], ny - d[1]
+                    nx, ny = nx - d[0], ny - d[1] # step back
                     if (nx, ny) not in visited:
                         visited.add((nx, ny))
                         queue.append((nx, ny))
         return False
 
 
+# 重寫第三次, time complexity O(mn), space complexity O(mn)
+from collections import deque
+class Solution:
+    def hasPath(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+        m, n = len(maze), len(maze[0])
+        start, destination = tuple(start), tuple(destination)
+        queue = deque([start])
+        visited = set([start])
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        while queue:
+            for _ in range(len(queue)):
+                i, j = queue.popleft()
+                if (i, j) == destination:
+                    return True
+                for d in directions:
+                    x, y = i + d[0], j + d[1]
+                    while 0 <= x < m and 0 <= y < n and maze[x][y] != 1:
+                        x += d[0]
+                        y += d[1]
+                    x -= d[0]
+                    y -= d[1]
+                    if (x, y) not in visited:
+                        queue.append((x, y))
+                        visited.add((x, y))
+        return False
 
 #自己重寫dfs, time complexity O(m*n), space complexity O(m*n), 刷題用這個, 280ms
 #思路: 跟bfs一樣
@@ -161,7 +186,6 @@ class Solution:
             if self.dfs(x, y, maze, destination, visited):
                 return True
         return False
-
 
 
 
