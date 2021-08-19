@@ -48,8 +48,16 @@ class Solution:
             res ^= num
         return res
 
-
-
+# 重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        res = 0
+        n = len(nums)
+        for i in range(n+1):
+            res ^= i
+        for num in nums:
+            res ^= num
+        return res
 
 
 

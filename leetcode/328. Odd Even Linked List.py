@@ -55,6 +55,24 @@ class Solution:
         odd.next = evenhead
         return oddhead
 
+# 重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head:
+            return None
+        odd = head
+        even = odd.next
+        even_head = even
+        while even and even.next:
+            odd.next = even.next
+            even.next = even.next.next
+            odd = odd.next
+            even = even.next
+        odd.next = even_head
+        return head
+
+
+
 # 最主要注意就是不要在過程中出現None node 因為 None, which has no attribute 'next'
 # Four conditions I doubt for the while-loop:
 

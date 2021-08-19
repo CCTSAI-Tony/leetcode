@@ -143,3 +143,36 @@ class PeekingIterator:
         :rtype: bool
         """
         return self.next_item != None
+
+# 重寫第四次
+class PeekingIterator:
+    def __init__(self, iterator):
+        """
+        Initialize your data structure here.
+        :type iterator: Iterator
+        """
+        self.iterator = iterator
+        self.next_item = self.iterator.next()
+        
+
+    def peek(self):
+        """
+        Returns the next element in the iteration without advancing the iterator.
+        :rtype: int
+        """
+        return self.next_item
+        
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        tmp = self.next_item
+        self.next_item = self.iterator.next() if self.iterator.hasNext() else None
+        return tmp
+
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        return self.next_item != None

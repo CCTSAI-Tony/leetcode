@@ -21,6 +21,31 @@ Explanation:
 #         self.left = None
 #         self.right = None
 
+
+# 刷題用這個, time complexity O(n), space complexity O(n)
+# 思路: bfs
+from collections import deque
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+        queue = deque([root])
+        while queue:
+            layer = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                layer.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            res.append(layer[-1])
+        return res
+
+
+
+
 # DFS recursively, time complexity O(n), 刷題用這個
 # 思路: 增加level 參數, 使得可以針對每層的nodes看要回報第一個(right side view)還是最後一個(left side view)
 class Solution:

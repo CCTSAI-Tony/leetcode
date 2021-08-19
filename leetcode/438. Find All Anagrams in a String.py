@@ -30,7 +30,7 @@ The substring with start index = 1 is "ba", which is an anagram of "ab".
 The substring with start index = 2 is "ab", which is an anagram of "ab".
 '''
 
-#自己想的 time complexity O(n)
+#自己想的 time complexity O(n), space complexity O(p)
 #思路: 利用defaultdict 來存儲pattern 的元素, 再利用l, r指針遍歷s, 建立scan dict 來存放遍歷的item, 若r-l + 1 > len(p) => l指針內縮
 #r指針往右遍歷的同時, 比較pattern 與scan, 若兩者相同代表找到anagram, res.append l指針位置
 #dict compare time complexity O(1) => since there are at most 26 English letters 
@@ -54,5 +54,22 @@ class Solution:
             if scan == pattern: #python dic check => O(n), but This step is O(1), since there are at most 26 English letters 
                 res.append(l)
         return res
+
+# 重寫第二次, time complexity O(n), space complexity O(p)
+from collections import Counter
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        pattern = Counter(p)
+        scanner = Counter(s[:len(p)-1])
+        res = []
+        for i in range(len(p)-1, len(s)):
+            scanner[s[i]] += 1
+            if scanner == pattern:
+                res.append(i-len(p)+1)
+            scanner[s[i-len(p)+1]] -= 1
+            if not scanner[s[i-len(p)+1]]:
+                del scanner[s[i-len(p)+1]]
+        return res
+
 
 
