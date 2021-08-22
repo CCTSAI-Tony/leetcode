@@ -40,7 +40,7 @@ Can you solve it without using extra space?
 #         self.val = x
 #         self.next = None
 
-#  time complexity O(n)
+#  刷題用這個, time complexity O(n)
 #  思路: 利用快慢指針來確認是否有cycle, 若有cycle則快指針會與慢針相遇, 若無則快指針會先到none, 所以使用try, except抓錯
 #  快指針快慢指針2倍, 查看下面圖, 設他們相遇時 慢指針走了h steps進入 cycle, 再走了d steps 與快指針相遇, 
 #  快指針總步數 => 2(h+d) = h + nc + d => h = nc -d, 證明出當它們第一次相遇再讓慢指針從頭走h步到cycle入口會與快指針相遇(快指針從相遇點一步一步走)=>再次相遇就是cycle 路口
@@ -61,6 +61,32 @@ class Solution:
             Slow = Slow.next
             Fast = Fast.next
         return Slow
+
+
+# 重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def detectCycle(self, head: ListNode) -> ListNode:
+        if not head or not head.next:
+            return None
+        slow = head.next
+        fast = head.next.next
+        while slow != fast and fast != None and fast.next != None:
+            slow = slow.next
+            fast = fast.next.next
+        if fast == None or fast.next == None:
+            return None
+        slow = head
+        while slow != fast:
+            slow = slow.next
+            fast = fast.next
+        return slow
+
+
+
+
+
+
+
 '''
 
                           _____

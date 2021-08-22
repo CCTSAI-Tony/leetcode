@@ -25,7 +25,7 @@ word1 != word2
 '''
 
 # time complexity O(n), space complexity O(n)
-# 思路: greedy and hash table
+# 思路: greedy and hash table, 不斷刷新該字的最新index
 class Solution:
     def shortestDistance(self, wordsDict: List[str], word1: str, word2: str) -> int:
         index_map = {}
@@ -36,5 +36,20 @@ class Solution:
             elif v == word2 and word1 in index_map:
                 min_distance = min(min_distance, i - index_map[word1])
             index_map[v] = i
+        return min_distance
+
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def shortestDistance(self, wordsDict: List[str], word1: str, word2: str) -> int:
+        index_map = {}
+        min_distance = float("inf")
+        for i, word in enumerate(wordsDict):
+            if word == word1:
+                if word2 in index_map:
+                    min_distance = min(min_distance, i - index_map[word2])
+            elif word == word2:
+                if word1 in index_map:
+                    min_distance = min(min_distance, i - index_map[word1])
+            index_map[word] = i
         return min_distance
 

@@ -34,7 +34,7 @@ class Solution:
         if word in mem:
             return mem[word]
         mem[word] = False
-        for i in range(1, len(word)):
+        for i in range(1, len(word)):  # 此題最重要的就是這一line, 要避免重複自己, 又要防止words裡有 ""
             if word[:i] in word_set and (word[i:] in word_set or self.check(word[i:], word_set, mem)):
                 mem[word] = True
                 break  #out of for loop, 代表已經確認此字可以被concatenated
@@ -83,6 +83,32 @@ class Solution:
                 memo[word] = True
                 break
         return memo[word]
+
+# 重寫第四次 time complexity O(n*l^2)
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        memo = {}
+        words = set(words)
+        res = []
+        for word in words:
+            if self.dfs(word, words, memo, False):
+                res.append(word)
+        return res
+    
+    def dfs(self, word, words, memo, concatenated):
+        if word in words and concatenated:
+            return True
+        if word in memo:
+            return memo[word]
+        memo[word] = False
+        for i in range(1, len(word)):
+            if word[:i] in words:
+                if self.dfs(word[i:], words, memo, True):
+                    memo[word] = True
+                    break
+        return memo[word]
+
+
 
 # In the interview I was asked to return the words used for concatenation instead of concatenated words. How would the solution look like then?
 

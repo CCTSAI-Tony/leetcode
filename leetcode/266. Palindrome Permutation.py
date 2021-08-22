@@ -27,3 +27,14 @@ class Solution:
             if v % 2:
                 odd += 1
         return odd <= 1
+
+# 重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def canPermutePalindrome(self, s: str) -> bool:
+        count_s = Counter(s)
+        odd_count = 0
+        for c in count_s:
+            if count_s[c] % 2:
+                odd_count += 1
+        return True if odd_count < 2 else False
