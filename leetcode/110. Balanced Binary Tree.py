@@ -74,8 +74,7 @@ class Solution:
         self.dic[node] = d
         return self.dic[node]
 
-#刷題用這個
-#重寫第三次, time complexity O(n), space complexity O(h)
+#重寫第三次, time complexity O(n), space complexity O(n)
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
         if not root:
@@ -98,7 +97,21 @@ class Solution:
         return max(left, right) + 1
 
 
-
+#刷題用這個, 重寫第四次, time complexity O(n), space complexity O(h)
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        self.balanced = True
+        self.dfs(root)
+        return self.balanced
+        
+    def dfs(self, node):
+        if not node:
+            return 0
+        left = self.dfs(node.left)
+        right = self.dfs(node.right)
+        if abs(left - right) > 1:
+            self.balanced = False
+        return max(left, right) + 1
 
 
 # Definition for a binary tree node.     

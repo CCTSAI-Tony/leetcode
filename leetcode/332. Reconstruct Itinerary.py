@@ -97,6 +97,26 @@ class Solution:
             self.dfs(nxt, flights, itinerary)
         itinerary.append(start)
 
+# 重寫第四次, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        ticket_map = defaultdict(list)
+        for ticket in tickets:
+            s, e = ticket
+            ticket_map[s].append(e)
+        for key in ticket_map:
+            ticket_map[key].sort(reverse=True)
+        res = []
+        self.dfs('JFK', ticket_map, res)
+        return res[::-1]
+    
+    def dfs(self, airport, ticket_map, res):
+        while ticket_map[airport]:
+            next_stop = ticket_map[airport].pop()
+            self.dfs(next_stop, ticket_map, res)
+        res.append(airport)
+
 # 補充知識 重要!!
 # A directed graph has an Eulerian trail if and only if at most one vertex has (out-degree) − (in-degree) = 1, 
 # at most one vertex has (in-degree) − (out-degree) = 1, every other vertex has equal in-degree and out-degree, 
