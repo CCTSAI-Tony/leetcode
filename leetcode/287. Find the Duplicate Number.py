@@ -30,9 +30,9 @@ There is only one duplicate number in the array, but it could be repeated more t
 # So we should search right half of the index space: remember we are searching index space not element space low =mid+1.
 
 
+# time complexity O(nlogn), n = len(nums)
 # 思路: 基本思路就是不斷縮小數值區間找出重複的值, 注意不是縮小元素區間
 # ex: 1,2,3,4,5, num <= 5 有五個, 若之間出現重複元素, ex: 1,2,2,3,4,5 num <= 5 有6個, 從這判斷就知道重複元素會是在哪個區間
-# time complexity O(nlogn), n = len(nums)
 # 模板2
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
@@ -52,7 +52,7 @@ class Solution:
         else:
             return high
                 
-    def count(self, nums, target):
+    def count(self, nums, target): # time complexity O(n)
         count = 0
         for num in nums:
             if num <= target:
@@ -82,7 +82,29 @@ class Solution:
         return count
 
 
-
+# 重寫第二次, tine complexity O(nlogn), space complexity O(1)
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        l = 1
+        h = len(nums) - 1
+        while l + 1 < h:
+            mid = l + (h - l) // 2
+            if self.count_num(nums, mid):
+                l = mid
+            else:
+                h = mid
+        if self.count_num(nums, l):
+            return h
+        else:
+            return l
+        
+        
+    def count_num(self, nums, target) -> bool:
+        count = 0
+        for num in nums:
+            if num <= target:
+                count += 1
+        return count <= target  # 記得是 <=, 因為 > target 才是有發生重複的, ex: nums = [2, 2, ,2 ,2 , 2]
 
 #不懂請看上面詳解, 基本思路就是不斷縮小數值區間找出重複的值, 注意不是縮小元素區間
 #左閉右開

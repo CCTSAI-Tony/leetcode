@@ -83,20 +83,16 @@ It is guaranteed that in a given test case the same buffer buf is called by read
 # The read4 API is already defined for you.
 # def read4(buf4: List[str]) -> int: => form api interface we can see it need buf4: [""] * 4
 
-#刷題用這個, time complexity O(n)
-#思路: the method read has its own buf array used to store char from read4 method, read(guf, n) needs to return how many words it actually read
-#warning: read4 api need a [""]*4 input as buf4
-#how to solve this, use index pointer to record how many chars in actually read every time it call read, => can know from read4 api
-#index pointer set to 0 initailly and set a limit to < n, atmost read n chars
-#if read4 return 0 it means we reach to the end, return index immediately
-#warning: if read n is less than 4, we need another place to store left chars cause read4 atmost read 4 chars, and next time read n will start from the left chars
-#warning: read buf array is already exist as [""]*infinity, so we need to store our chara via replace
-#everytime it call read, buf array will be reset to [""]*infinity
+#  刷題用這個, time complexity O(n)
+#  思路: n 代表read 最多只能讀n個字, 題目沒說 len(buf) = 512, read4 input 需要 [""] * 4, 使用self.q 來儲存buf4的讀到的字串
+#  使用pointer 計算到目前為止讀過多少個字, 一旦read4 返回0 => 代表file已被讀完, 直接返回pointer 數字
+#  這題有趣的就是read4一次就是讀四個字, 但當 read n < 4, 所以要把多餘讀出來的放到self.q
+#  notice: self.q 記得使用deque, read 的 buf 是儲存讀到的字串
 class Solution(object):
     def __init__(self):
         self.q = []
         
-    def read(self, buf, n):
+    def read(self, buf, n): # 題目沒說, len(buf) = 512
         i = 0
         while i < n: #at most read n words
             if self.q: #store letter in buf from self.q
@@ -131,8 +127,25 @@ class Solution:
                 self.q += buf4[:v]
         return index
 
-
-
+# 重寫第二次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def __init__(self):
+        self.q = deque()
+        
+    def read(self, buf: List[str], n: int) -> int:
+        i = 0
+        while i < n:
+            if self.q:
+                buf[i] = self.q.popleft()
+                i += 1
+            else:
+                buf4 = [""] * 4
+                v = read4(buf4)
+                if v == 0:
+                    break
+                self.q += buf4[:v]
+        return i
 
 
 
