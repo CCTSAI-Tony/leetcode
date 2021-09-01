@@ -48,6 +48,25 @@ class Solution:
         return True
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        m_map = {}
+        for s in magazine:
+            if s not in m_map:
+                m_map[s] = 1
+            else:
+                m_map[s] += 1
+        for s in ransomNote:
+            if s not in m_map:
+                return False
+            else:
+                m_map[s] -= 1
+            if m_map[s] < 0:
+                return False
+        return True
+
+
 # import collections
 # a = "qwerrtorrjffm"
 # aa = collections.Counter(a)

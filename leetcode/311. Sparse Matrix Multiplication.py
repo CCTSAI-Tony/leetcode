@@ -96,6 +96,26 @@ class Solution:
         return C
 
 
+# 重寫第二次, time complexity O(mnl), space complexity O(ml)
+from collections import defaultdict
+class Solution:
+    def multiply(self, mat1: List[List[int]], mat2: List[List[int]]) -> List[List[int]]:
+        m, n, l = len(mat1), len(mat1[0]), len(mat2[0])
+        mat3 = [[0] * l for _ in range(m)]
+        mat2_sparce = defaultdict(list)
+        for i in range(n):
+            for j in range(l):
+                if mat2[i][j]:
+                    mat2_sparce[i].append(j)
+        for i in range(m):
+            for j in range(n):
+                if mat1[i][j]:
+                    for k in mat2_sparce[j]:
+                        mat3[i][k] += mat1[i][j] * mat2[j][k]
+        return mat3
+
+
+
 #naive sparce matrix multiplication, time complexity O(m*n*l), space complexity O(m*l) 沒省略zero elements
 class Solution:
     def multiply(self, A: List[List[int]], B: List[List[int]]) -> List[List[int]]:

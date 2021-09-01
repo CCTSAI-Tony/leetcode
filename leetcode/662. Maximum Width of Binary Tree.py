@@ -93,6 +93,27 @@ class Solution:
         return max_width
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        max_width = 0
+        queue = deque([(root, 0)])
+        while queue:
+            layer_min = float("inf")
+            layer_max = float("-inf")
+            for _ in range(len(queue)):
+                node, pos = queue.popleft()
+                layer_min = min(layer_min, pos)
+                layer_max = max(layer_max, pos)
+                if node.left:
+                    queue.append((node.left, pos*2))
+                if node.right:
+                    queue.append((node.right, pos*2 + 1))
+            max_width = max(max_width, layer_max - layer_min + 1)
+        return max_width
+
+
 #自己重寫 dfs, time complexity O(n), 44ms
 #思路: 為當層每個node 上位置編號, 最左邊0, 最右邊 2^k - 1 如何做到? 設上層root 位置編號k, 左邊就 k*2 右邊就 k*2 -1, 自己推算就清楚
 #利用dfs 與 defaultdict 紀錄不同層每個node的pos, none node則跳過, width 兩邊一定是非none node, 兩者相減+1 就是該層width
