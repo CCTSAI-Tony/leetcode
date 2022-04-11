@@ -149,6 +149,34 @@ class Solution:
         return l
 
 
+# 模板二, 重寫第三次, time complexity O(nlogn), space complexity O(n)
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        sub = [nums[0]]
+        def binary_search(i):
+            l, r = 0, len(sub) - 1
+            while l + 1 < r:
+                mid = l + (r - l) // 2
+                if sub[mid] >= nums[i]:
+                    r = mid
+                else:
+                    l = mid
+            if sub[l] >= nums[i]:
+                return l
+            elif sub[r] >= nums[i]:
+                return r
+            else:
+                return r + 1
+        for i in range(1, len(nums)):
+            pos = binary_search(i)
+            if pos == len(sub):
+                sub.append(nums[i])
+            else:
+                sub[pos] = nums[i]
+        return len(sub)
+
 
 
 

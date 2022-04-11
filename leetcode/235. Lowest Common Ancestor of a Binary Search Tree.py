@@ -72,10 +72,35 @@ class Solution(object):
             return self.lowestCommonAncestor(root.right, p, q)
         return root   #沒有全部在左邊, 沒有全部在右邊, 代表不是一左一右, 就是鑲嵌狀況
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+# BST 特殊解法
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if max(p.val, q.val) < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        if min(p.val, q.val) > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        return root
 
 
 
-
+# general 解法
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        return self.dfs(root, p, q)
+    
+    def dfs(self, node, p, q):
+        if node in [p, q]:
+            return node
+        left, right = None, None
+        if node.left:
+            left = self.dfs(node.left, p, q)
+        if node.right:
+            right = self.dfs(node.right, p, q)
+        if left and right:
+            return node
+        return left or right
 
 
 

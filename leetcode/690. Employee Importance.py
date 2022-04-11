@@ -47,5 +47,23 @@ class Solution:
             self.dfs(e_dict[s], e_dict)
 
 
+# 重寫第二次, bfs, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        e_id = {}
+        for employee in employees:
+            e_id[employee.id] = employee
+        queue = deque([id])
+        ans = 0
+        while queue:
+            for _ in range(len(queue)):
+                employee_id = queue.popleft()
+                employee = e_id[employee_id]
+                ans += employee.importance
+                for subordinate_id in employee.subordinates:
+                    queue.append(subordinate_id)
+        return ans
+
 
 

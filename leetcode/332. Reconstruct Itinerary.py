@@ -23,7 +23,7 @@ Explanation: Another possible reconstruction is ["JFK","SFO","ATL","JFK","ATL","
 
 Python Recursive DFS, the key bit here is to prove that when we get struck, its indeed the last destination.
 # https://leetcode.com/problems/reconstruct-itinerary/discuss/78768/Short-Ruby-Python-Java-C%2B%2B 解題思想! 強烈推薦
-# 思路: 此題就是euler path, 遍歷圖的每個有向邊,且只能遍歷一次, 機票用完一次就沒了 => 此題有變種 => retoreNumbersOnCircle
+# 思路: 此題就是euler path, 遍歷圖的每個有向邊,且只能遍歷一次, 機票用完一次就沒了 => 此題有變種 => retoreNumbersOnCircle 有記在下面
 # 題目有說from JFK 出發一定能遍歷全部的tickets, 代表全部有向邊都會run過一次, 且只有一次, 注意不是每個頂點出發都可以用光所有機票
 # 此題重點是針對start 的airports 能到達的地方做排序, lexicographical order小的放後面, 這樣優先pop出來, 也就是route優先選擇lexicographical order當下一站
 # 此題利用dfs來做深度排序, 同一個airport 在dfs遍歷有可能遍歷一次以上, 但每次遍歷到同一個 airport的時, 此airport選擇數都不一樣, 越接近底層選擇數越接近0, 也越早被寫進res

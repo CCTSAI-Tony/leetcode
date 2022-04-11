@@ -28,6 +28,55 @@ Return:
 #         self.left = None
 #         self.right = None
 
+
+#刷題用這個, time complexity O(n), space complexity O(h)
+#思路: backtracking
+class Solution:
+    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
+        if not root:
+            return []
+        self.res = []
+        self.dfs(root, [], 0, sum)
+        return self.res
+    
+    def dfs(self, node, path, curSum, sum):
+        curSum += node.val
+        path.append(node.val)
+        if not node.left and not node.right and curSum == sum:
+            self.res.append(path[:])
+        else:
+            if node.left:
+                self.dfs(node.left, path, curSum, sum)
+            if node.right:
+                self.dfs(node.right, path, curSum, sum)
+        path.pop()
+
+
+# 重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        if not root:
+            return []
+        res = []
+        path = []
+        def dfs(node, prev_sum):
+            nonlocal res
+            nonlocal path
+            path.append(node.val)
+            cur_sum = prev_sum + node.val
+            if not node.left and not node.right and cur_sum == targetSum:
+                res.append(path[:])
+            if node.left:
+                dfs(node.left, cur_sum)
+            if node.right:
+                dfs(node.right, cur_sum)
+            path.pop()
+        
+        dfs(root, 0)
+        return res
+
+
+
 class Solution:
     def pathSum(self, root, sum):
         if not root:
@@ -82,63 +131,6 @@ a
 [50, 2, 3]
 c
 [50, 2, 3]
-
-
-#刷題用這個, 重寫第二次, backtracking, time complexity O(n), space complexity O(n)
-class Solution:
-    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
-        if not root:
-            return []
-        self.res = []
-        self.dfs(root, [], 0, sum)
-        return self.res
-    
-    def dfs(self, node, path, curSum, sum):
-        curSum += node.val
-        path.append(node.val)
-        if not node.left and not node.right and curSum == sum:
-            self.res.append(path[:])
-        else:
-            if node.left:
-                self.dfs(node.left, path, curSum, sum)
-            if node.right:
-                self.dfs(node.right, path, curSum, sum)
-        path.pop()
-
-
-
-
-
-
-
-
-
-
-#再次重寫
-class Solution:
-    def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
-        if not root:
-            return []
-        res = []
-        self.dfs(root, sum, res, [], 0)
-        return res
-    
-    
-    def dfs(self, node, sum, res, path, path_sum):
-        new_path = path + [node.val]
-        path_sum += node.val
-        if not node.left and not node.right:
-            if path_sum == sum:
-                res.append(new_path)
-        if node.left:
-            self.dfs(node.left, sum, res, new_path, path_sum)
-        if node.right:
-            self.dfs(node.right, sum, res, new_path, path_sum)
-
-
-
-
- 
 
 
 

@@ -30,3 +30,37 @@ class Solution:
             if intervals[i][0] < intervals[i-1][1]:
                 return False
         return True
+
+
+# 重寫第二次, time complexity O(nlogn), space complexity O(1)
+class Solution:
+    def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
+        intervals.sort()
+        pre_end = -1
+        for interval in intervals:
+            start, end = interval[0], interval[1]
+            if start < pre_end or end < pre_end:
+                return False
+            pre_end = end
+        return True
+
+
+
+
+def binary_search(array, target):           
+    start, end = 0, len(array) - 1          
+    while start + 1 < end:          
+        mid = (start + end) / 2         
+        if array[mid] == target:            
+            start = mid         
+        elif array[mid] < target:           
+            start = mid         
+        else:           
+            end = mid           
+            
+    if array[start] == target:          
+        return start            
+    if array[end] == target:            
+        return end          
+    return -1           
+

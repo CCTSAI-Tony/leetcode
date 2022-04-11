@@ -14,7 +14,7 @@
 # 若無, 整個序列 reverse 變成最小的permutation 
 # 利用2 pointer 來做二次倒序遍歷
 # time complexity O(n)
-# 5724310 => 57 2! 4310 => 57 3! 4210(reverse) => 1730124
+# 5724310 => 57 2! 4310 => 57 3! 4210(reverse) => 5730124
 class Solution:
     def nextPermutation(self, nums):
 	    i = j = len(nums)-1

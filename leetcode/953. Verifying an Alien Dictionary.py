@@ -85,7 +85,19 @@ class Solution:
         return True
 
 
-
+# 重寫第三次, time complexity O(n*k), space complexity O(1), n:len(words), k: average len of word
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        order_map = {d: i for i, d in enumerate(order)}
+        for a, b in zip(words, words[1: ]):
+            if len(a) > len(b) and a[:len(b)] == b:
+                return False
+            for s1, s2 in zip(a, b):
+                if order_map[s1] > order_map[s2]:
+                    return False
+                elif order_map[s1] < order_map[s2]:
+                    break
+        return True
 
 
 

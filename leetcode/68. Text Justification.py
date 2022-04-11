@@ -55,7 +55,7 @@ Output:
   "do                  "
 ]
 '''
-#  time complexity 比較複雜因為難計算divmod, 若忽略它 O(n*m) n: len(words), m: len(maxWidth)
+#  time complexity 比較複雜因為難計算divmod, 若忽略它 O(n) n: len(words), m: len(maxWidth)
 #  思路: 利用字與字之間至少空一格, 加新word前可先確認是否超過maxWidth, 若是則用divmode對當下一行字與字間隔平分空格, 新word放到下一行
 #  最後一行題目說字與字只要空一格就行, 剩下空格全部塞到右邊, 因此使用 ljust(maxWidth)
 class Solution:
@@ -83,7 +83,7 @@ a= "fff"
 a.ljust(5)
 'fff  '
 
-#刷題用這個, 重寫第二次, time complexity  O(n*m) , space complexity O(m), n: len(words), m: len(maxWidth)
+#刷題用這個, 重寫第二次, time complexity  O(n) , space complexity O(n), n: len(words), m: len(maxWidth)
 class Solution:
     def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
         ans = []
@@ -102,5 +102,28 @@ class Solution:
         temp += " " * (maxWidth - len(temp))
         ans.append(temp)
         return ans
+
+# 重寫第三次, time complexity O(n), space complexity O(n), n: len(words)
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        ans = []
+        line = []
+        width = 0
+        for word in words:
+            if len(line) + width + len(word) > maxWidth:
+                n, k = divmod(maxWidth - width, max(1, len(line) - 1))
+                for i in range(max(1, len(line) - 1)):
+                    line[i] += " " * (n + (i < k))
+                ans += ["".join(line)]
+                line, width = [], 0
+            
+            line.append(word)
+            width += len(word)
+        temp = " ".join(line)
+        temp += " " * (maxWidth - len(temp))
+        ans.append(temp)
+        return ans
+
+
 
 

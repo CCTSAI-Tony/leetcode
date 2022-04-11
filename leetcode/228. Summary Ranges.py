@@ -35,6 +35,29 @@ class Solution:
         return res
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        if not nums:
+            return None
+        res = []
+        temp = []
+        for num in nums:
+            if not temp:
+                temp.append(num)
+            elif temp and num == temp[-1] + 1:
+                if len(temp) == 1:
+                    temp.append(num)
+                elif len(temp) == 2:
+                    temp[-1] = num
+            else:
+                res.append("->".join(list(map(str, temp))))
+                temp = [num]
+        res.append("->".join(list(map(str, temp))))
+        return res
+
+
+
 class Solution:
     def summaryRanges(self, nums):
         if not nums:

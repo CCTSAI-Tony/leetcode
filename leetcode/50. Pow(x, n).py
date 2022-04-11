@@ -20,10 +20,35 @@ Note:
 n is a 32-bit signed integer, within the range [−231, 231 − 1]
 '''
 
+#刷題用這個, time complexity O(logn), space complexity O(logn)
+#思路: divide and conquer and memo
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        memo = {}
+        def helper(x, n):
+            if (x, n) in memo:
+                return memo[(x, n)]
+            if n == 0:
+                return 1
+            if n % 2:
+                ans = x * helper(x, n//2) * helper(x, n//2)
+            else:
+                ans = helper(x, n//2) * helper(x, n//2)
+            memo[(x, n)] = ans
+            return ans
+                
+        if x == 0:
+            return 0
+        if n < 0:
+            return 1 / helper(x, -n)
+        else:
+            return helper(x, n)
+
+
 时间复杂度 = 一叉树里面每层的时间复杂度 * 层数 = 1 * log(b) = log(b)
 空间复杂度 = O(h) 也就是一叉树的层数 = log(b)
 # 思路: dfs 對大問題進行拆分, 不斷拆半, ex: b = 17, 17//2 = 8(2^8*2^8*2), 8//2 = 4, 4//2 = 2, 2//2 = 1, 1//2 = 0 (return 1)
-# 0^0 == 1 (數學上定義)
+# 0^0 == 1 , 2.1^0 == 1, (數學上定義)
 # n is a 32-bit signed integer, within the range [−231, 231 − 1]
 class Solution:
     def myPow(self, x: float, n: int) -> float:

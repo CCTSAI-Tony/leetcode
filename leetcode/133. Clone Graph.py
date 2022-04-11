@@ -74,6 +74,7 @@ class Node:
 # DFS recursively, time complexity O(V+E)
 # 思路: 利用dict來存對應的copy node, 利用dfs精神 來遍歷串連neighbor, 遇到之前未遍歷過的建立新node, 遇到已遍歷過的建立連結即可
 # 畫個conected graph 就清楚了, 每個點只有copy 一次, 此題是undirected graph
+# 利用dict 來充當 visited set 來避免重複遍歷
 class Solution:
     def cloneGraph(self, node):
         if not node:
@@ -89,7 +90,7 @@ class Solution:
                 neighborCopy = Node(neighbor.val)
                 dic[neighbor] = neighborCopy #建立鄰居copy
                 dic[node].neighbors.append(neighborCopy)  #建立鄰居 of nodeCopy
-                self.dfs(neighbor, dic)
+                self.dfs(neighbor, dic) # 沒遍歷過的, 才繼續往下遍歷
             else:
                 dic[node].neighbors.append(dic[neighbor])  #這句重要, 加入已經建立的neighborCopy,
                # ex: 相連接的兩個節點互為鄰居, 其一幫對方建立copy, 對方則不需要為自己建copy, 直接拿來用就好, 若幫對方重新建立node, 則對方與你的連結也就消失了, 而且會無限循環
@@ -134,8 +135,23 @@ class Solution:
                     dic[node].neighbors.append(dic[neighbor])
         return nodeCopy
 
-
-
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return None
+        node_copy = Node(node.val)
+        copy = {node: node_copy}
+        def dfs(node):
+            for neighbor in node.neighbors:
+                if neighbor not in copy:
+                    copy[neighbor] = Node(neighbor.val)
+                    copy[node].neighbors.append(copy[neighbor])
+                    dfs(neighbor)
+                else:
+                    copy[node].neighbors.append(copy[neighbor])
+        dfs(node)
+        return copy[node]
 
 
 

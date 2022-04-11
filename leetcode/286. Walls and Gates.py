@@ -82,8 +82,28 @@ class Solution:
             dis += 1
 
 
-
-
+# 重寫第三次, time complexity O(mn), space complexity O(mn)
+from collections import deque
+class Solution:
+    def wallsAndGates(self, rooms: List[List[int]]) -> None:
+        """
+        Do not return anything, modify rooms in-place instead.
+        """
+        m, n = len(rooms), len(rooms[0])
+        dircs = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+        queue = deque()
+        for i in range(m):
+            for j in range(n):
+                if rooms[i][j] == 0:
+                    queue.append((i, j, 0))
+        while queue:
+            for _ in range(len(queue)):
+                i, j, dist = queue.popleft()
+                for d in dircs:
+                    x, y = i + d[0], j + d[1]
+                    if 0 <= x < m and 0 <= y < n and rooms[x][y] == 2**31 - 1:
+                        rooms[x][y] = dist + 1
+                        queue.append((x, y, dist + 1))
 
 
 

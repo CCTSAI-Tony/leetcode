@@ -168,8 +168,33 @@ class RandomizedSet:
         return random.choice(self.stack)
 
 
+# 重寫第三次, time complexity O(1), space complexity O(n)
+import random
+class RandomizedSet:
 
+    def __init__(self):
+        self.nums, self.idx = [], {}
 
+    def insert(self, val: int) -> bool:
+        if val not in self.idx:
+            self.idx[val] = len(self.nums)
+            self.nums.append(val)
+            return True
+        return False
+
+    def remove(self, val: int) -> bool:
+        if val in self.idx:
+            remove_idx = self.idx[val]
+            last_val = self.nums[-1]
+            self.nums[-1], self.nums[remove_idx] = self.nums[remove_idx], self.nums[-1]
+            self.idx[last_val] = remove_idx
+            self.nums.pop()
+            del self.idx[val]
+            return True
+        return False
+
+    def getRandom(self) -> int:
+        return random.choice(self.nums)
 
 
 

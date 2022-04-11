@@ -88,6 +88,66 @@ class TimeMap:
             return li[r][0]
         else:
             return li[l][0]
+
+# 重寫第二次, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict
+class TimeMap:
+
+    def __init__(self):
+        self.memo = defaultdict(list)
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.memo[key].append((value, timestamp))
+        
+
+    def get(self, key: str, timestamp: int) -> str:
+        array = self.memo[key]
+        if not array:
+            return ""
+        l, r = 0, len(array) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if array[mid][1] >=  timestamp:
+                r = mid
+            else:
+                l = mid
+        if array[l][1] > timestamp:
+            return ""
+        if array[r][1] > timestamp:
+            return array[l][0]
+        else:
+            return array[r][0]
+
+
+# 重寫第三次, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict
+class TimeMap:
+
+    def __init__(self):
+        self.map = defaultdict(list)
+
+    def set(self, key: str, value: str, timestamp: int) -> None:
+        self.map[key].append((timestamp, value))
+
+    def get(self, key: str, timestamp: int) -> str:
+        array = self.map[key]
+        if not array:
+            return ""
+        l, r = 0, len(array) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if array[mid][0] > timestamp:
+                r = mid
+            else:
+                l = mid
+        if array[l][0] > timestamp:
+            return ""
+        elif array[r][0] <= timestamp:
+            return array[r][1]
+        else:
+            return array[l][1]
+
+
 # 使用模板1 刷題用這個
 import collections
 class TimeMap:

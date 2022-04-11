@@ -75,8 +75,23 @@ class Solution:
                     dp[i][j] = dp[i-1][j] + dp[i][j-1]
         return dp[-1][-1]
 
-
-
+# 重寫第三次, time complexity O(n^2), space complexity O(n^2)
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        memo = [[0] * len(obstacleGrid[0]) for _ in range(len(obstacleGrid))]
+        for i in range(len(obstacleGrid[0])):
+            if obstacleGrid[0][i] == 1:
+                break
+            memo[0][i] = 1
+        for j in range(len(obstacleGrid)):
+            if obstacleGrid[j][0] == 1:
+                break
+            memo[j][0] = 1
+        for i in range(1, len(obstacleGrid)):
+            for j in range(1, len(obstacleGrid[0])):
+                if obstacleGrid[i][j] != 1:
+                    memo[i][j] = memo[i][j-1] + memo[i-1][j]
+        return memo[-1][-1]
 
 
 #自己想的, time complexity O(m*n)

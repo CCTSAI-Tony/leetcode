@@ -47,6 +47,23 @@ class Solution:
             return l
         return r
 
+# 重寫第二次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        l, r = 1, x
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            if mid ** 2 > x:
+                r = mid
+            else:
+                l = mid
+        if r**2 > x:
+            return l
+        return r
+
+
+
+
 '''
 # Binary search  
 

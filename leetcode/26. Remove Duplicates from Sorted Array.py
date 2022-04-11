@@ -62,6 +62,16 @@ class Solution:
                 l += 1
         return l
 
+# 重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        left = 1
+        for i in range(1, len(nums)):
+            if nums[i] != nums[left-1]:
+                nums[left] = nums[i]
+                left += 1
+        return left
+
 
 
 

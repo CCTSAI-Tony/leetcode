@@ -80,8 +80,32 @@ class Solution:
         intercept = y1 - slope * x1
         return slope, intercept
 
-
-
+# 重寫第三次, time complexity O(n^2), space complexity O(n)
+# n 個點, 最多只有n-1條線
+from collections import defaultdict
+class Solution:
+    def maxPoints(self, points: List[List[int]]) -> int:
+        if len(points) == 1:
+            return 1
+        lines = defaultdict(set)
+        for i in range(len(points)):
+            for j in range(1, len(points)):
+                self.check_lines(points[i], points[j], lines)
+        return max([len(points) for line, points in lines.items()])
+                
+        
+    def check_lines(self, p1, p2, lines):
+        x1, y1 = p1
+        x2, y2 = p2
+        slope, intercept = 0, 0
+        if x1 == x2:
+            slope = float("inf")
+            intercept = x1
+        else:
+            slope = (y2-y1)/(x2-x1)
+            intercept = y2 - slope * x2
+        lines[(slope, intercept)].add((x1, y1))
+        lines[(slope, intercept)].add((x2, y2))
 
 
 

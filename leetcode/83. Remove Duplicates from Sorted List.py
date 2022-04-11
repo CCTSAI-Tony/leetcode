@@ -39,4 +39,22 @@ class Solution:
         return dummy.next
 
 
+# 重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head:
+            return None
+        slow = fast = head
+        while fast:
+            while fast and fast.val == slow.val:
+                fast = fast.next
+            slow.next = fast
+            slow = slow.next
+            if fast:
+                fast = fast.next
+        return head
+
+
+
+
 

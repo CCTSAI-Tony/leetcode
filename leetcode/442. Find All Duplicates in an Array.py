@@ -55,10 +55,16 @@ class Solution:
         return res
 
 
-
-
-
-
+# 重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        ans = []
+        for i, v in enumerate(nums):
+            if nums[abs(v)-1] < 0:
+                ans.append(abs(v))
+            else:
+                nums[abs(v)-1] *= -1
+        return ans
 
 
 

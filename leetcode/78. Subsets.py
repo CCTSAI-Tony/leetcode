@@ -34,6 +34,22 @@ class Solution:
         self.dfs(nums, i+1, path+[nums[i]], res)
         self.dfs(nums, i+1, path, res)
 
+# 刷題用這個
+# 重寫第二次, time complexity O(2^n), time complexity O(2^n)
+# 思路: backtracking
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        ans = [[]]
+        cur = []
+        def dfs(idx):
+            for i in range(idx, len(nums)):
+                cur.append(nums[i])
+                ans.append(cur.copy())
+                dfs(i+1)
+                cur.pop()
+        dfs(0)
+        return ans
+
 #自己想的 iteration, 比上面快, 28ms
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:

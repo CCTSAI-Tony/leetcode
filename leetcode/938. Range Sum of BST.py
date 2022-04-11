@@ -21,6 +21,26 @@ The number of nodes in the tree is at most 10000.
 The final answer is guaranteed to be less than 2^31.
 '''
 
+ # 刷題用這個
+ # InOrder Traversal, 參考別人的, 跟上面效率差不多, 但這是用傳參的方式直接累加
+ # 思路: 利用inorder recursion traverse, 收集在區間的值
+ # bottom up
+ class Solution:
+    def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
+        return self.dfs(root, L, R, 0)
+    
+    def dfs(self, node, L, R, value):
+        if not node:
+            return value
+        value = self.dfs(node.left, L, R, value) # self.inorder(root.left, value, L, R) 改變value
+        if L <= node.val <= R:
+            value += node.val
+        value = self.dfs(node.right, L, R, value)
+        return value
+
+
+
+
 #自己想的 time complexity O(N)
 # Definition for a binary tree node.
 # class TreeNode:
@@ -48,22 +68,6 @@ class Solution:
             res.append(node.val)
         self.dfs(node.right, L, R, res)
 
-
- # InOrder Traversal, 參考別人的, 跟上面效率差不多, 但這是用傳參的方式直接累加
- # 思路: 利用inorder recursion traverse, 收集在區間的值
- # bottom up
- class Solution:
-    def rangeSumBST(self, root: TreeNode, L: int, R: int) -> int:
-        return self.dfs(root, L, R, 0)
-    
-    def dfs(self, node, L, R, value):
-        if not node:
-            return value
-        value = self.dfs(node.left, L, R, value) # self.inorder(root.left, value, L, R) 改變value
-        if L <= node.val <= R:
-            value += node.val
-        value = self.dfs(node.right, L, R, value)
-        return value
 
 
 

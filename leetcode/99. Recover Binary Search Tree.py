@@ -125,7 +125,23 @@ class Solution:
             cur = node.right
         drop[0][0].val, drop[-1][1].val = drop[-1][1].val, drop[0][0].val
 
-
+# 重寫第四次, time complexity O(n), space complexity O(h)
+class Solution:
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        cur, prev, stack, drops = root, TreeNode(float("-inf")), [], []
+        while stack or cur:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            if cur.val < prev.val:
+                drops.append((prev, cur))
+            prev = cur
+            cur = cur.right
+        drops[0][0].val, drops[-1][-1].val = drops[-1][-1].val, drops[0][0].val
 
 
 Input: [1,3,null,null,2]  bst 表達

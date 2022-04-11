@@ -60,7 +60,7 @@ where the largest sum among the two subarrays is only 18.
 #模板2
 #刷題用這個, time complexity O(nlog(sum(array)), space complexity O(1), 若包含input size => space complexity O(n)
 #思路: 這題使用binary search, low = max(nums) 因為最小可能的最大subarray sum 就是max(array) 自己, high = sum(array)
-#使用helper 來確認substring sum 的cap值 能否形成> m個 substring, 若行則low = mid, else high = mid
+#使用helper 來確認substring sum 的cap值 能否形成 > m個 substring, 若行則low = mid 代表值太小 形成超過m個subarray, else high = mid
 class Solution:
     def splitArray(self, nums: List[int], m: int) -> int:
         low, high = max(nums), sum(nums)
@@ -83,7 +83,7 @@ class Solution:
                 cuts += 1
                 curr_sum  = x
         subs = cuts + 1
-        return subs <= m  #這裡是關鍵! subs == m 時, high = mid => 找尋符合條件的最小值最小值
+        return subs <= m  #這裡是關鍵! subs <= m 時, high = mid => 找尋符合條件的最小值
 
 #重寫第二次, time complexity O(nlog(sum(nums))), space complexity O(1)
 class Solution:
@@ -134,6 +134,33 @@ class Solution:
                 cut += 1
                 cur = num
         return cut + 1 <= m
+
+# 重寫第四次, time complexity O(nlog(sum(nums))), space complexity O(1)
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        low, high = max(nums), sum(nums)
+        def verify(cap):
+            current_sum, cuts = 0, 0
+            for num in nums:
+                current_sum += num
+                if current_sum > cap:
+                    cuts += 1
+                    current_sum = num
+            return cuts + 1 <= m
+        
+        while low + 1 < high:
+            mid = low + (high - low) // 2
+            if verify(mid):
+                high = mid
+            else:
+                low = mid
+        
+        if verify(low):
+            return low
+        else:
+            return high
+
+
 
 
 #刷題用這個

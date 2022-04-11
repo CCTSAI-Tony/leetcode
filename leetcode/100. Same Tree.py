@@ -32,6 +32,23 @@ Input:     1         1
 Output: false
 '''
 
+# 刷題用這個, time complexity O(n), space complexity O(h)
+# 思路: dfs
+class Solution:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        def dfs(x, y) -> bool:
+            if not x and not y:
+                return True
+            if None in [x, y]:
+                return False
+            if x.val == y.val:
+                left = dfs(x.left, y.left)
+                right = dfs(x.right, y.right)
+                return True if left and right else False
+            return False
+        return dfs(p, q)
+
+
 # DFS with stack   
 class Solution(object):
     def isSameTree2(self, p, q):

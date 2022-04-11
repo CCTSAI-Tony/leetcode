@@ -92,6 +92,45 @@ class Solution:
         return -1
 
 
+# 重寫第二次, time complexity O(logn), space complexity O(1)
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        if not nums:
+            return [-1, -1]
+        def binary_search_left(target):
+            l, r = 0, len(nums) - 1
+            while l + 1 < r:
+                mid = l + (r - l) // 2
+                if nums[mid] >= target:
+                    r = mid
+                else:
+                    l = mid
+            if nums[l] == target:
+                return l
+            elif nums[r] == target:
+                return r
+            else:
+                return -1
+        
+        def binary_search_right(target):
+            l, r = 0, len(nums) - 1
+            while l + 1 < r:
+                mid = l + (r - l) // 2
+                if nums[mid] > target:
+                    r = mid
+                else:
+                    l = mid
+            if nums[r] == target:
+                return r
+            elif nums[l] == target:
+                return l
+            else:
+                return -1
+        left = binary_search_left(target)
+        right = binary_search_right(target)
+        return [left, right]
+
+
 #浮點數二分模板, 因為二分邊界不夠, 要額外處理 n < 1 的情況
 
 def squareRoot(n):

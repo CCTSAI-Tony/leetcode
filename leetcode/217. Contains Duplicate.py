@@ -16,6 +16,12 @@ Example 3:
 Input: [1,1,1,3,3,4,3,2,4,2]
 Output: true
 '''
+
+# 刷題用這個, time complexity O(n), space complexity O(n)
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        return len(nums) != len(set(nums))
+
 class Solution:
     def containsDuplicate(self, nums: List[int]) -> bool:
         if not nums:

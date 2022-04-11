@@ -30,6 +30,13 @@ class Solution:
         return s_count == t_count
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+from collections import Counter
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        a = Counter(s)
+        b = Counter(t)
+        return a == b
 
 
 class Solution:

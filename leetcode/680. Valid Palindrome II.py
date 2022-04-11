@@ -36,6 +36,21 @@ class Solution(object):
             left, right = left + 1, right - 1
         return True #原本字串就是palindrom 不需刪任何一個字
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def validPalindrome(self, s: str) -> bool:
+        left, right = 0, len(s) - 1
+        while left < right:
+            if s[left] != s[right]:
+                return s[left+1:right+1] == s[left+1:right+1][::-1] or s[left:right] == s[left:right][::-1]
+            left += 1
+            right -= 1
+        return True
+
+
+
+
+
 #abcdedcbha one: bcdedcb  two: cdedcbh
 
 #這題利用到 inward string of a palindrom 依舊是個palindrom 的特性, 還有palindrome = palindrome[::-1]

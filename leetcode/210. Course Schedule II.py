@@ -27,6 +27,38 @@ You may assume that there are no duplicate edges in the input prerequisites.
 '''
 
 
+# 刷題用這個, time complexity O(V+E), space complexity O(V+E)
+# BFS topological sort
+from collections import defaultdict, deque
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = defaultdict(list)
+        indegree = defaultdict(int)
+        res = []
+        for prerequisite in prerequisites:
+            cur, pre = prerequisite
+            indegree[cur] += 1
+            graph[pre].append(cur)
+        queue = deque()
+        for k in range(numCourses):
+            if indegree[k] == 0:
+                queue.append(k)
+                del indegree[k]  # 優化
+        while queue:
+            for _ in range(len(queue)):
+                cur = queue.popleft()
+                res.append(cur)
+                for nxt in graph[cur]:
+                    if nxt not in indegree:
+                        continue
+                    indegree[nxt] -= 1
+                    if indegree[nxt] == 0:
+                        queue.append(nxt)
+                        del indegree[nxt]
+        if len(res) != numCourses:
+            return []
+        return res
+
 
 #參考別人修改 刷題用這個 96ms, time complexity O(V+E), space complexity O(E+V)
 #思路: dfs topological sort 可以同時return True or False 與修改res 來提早結束recursion 若遇到backedge, 而不是像下面單純return, 跑完全部recursion 才要return []

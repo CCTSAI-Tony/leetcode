@@ -1,6 +1,56 @@
+'''
+Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2]
+Output:
+[[1,1,2],
+ [1,2,1],
+ [2,1,1]]
+Example 2:
+
+Input: nums = [1,2,3]
+Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ 
+
+Constraints:
+
+1 <= nums.length <= 8
+-10 <= nums[i] <= 10
+
+'''
+
+# 刷題用這個, time complexity O(n*n!), space complexity O(n*n!)
+# 思路: backtracking with prune(剪枝), 先對nums 排序, 並對相鄰一樣的元素進行剪枝
+# 只收錄 1a, 1b, 不會收錄 1b, 1a => 1a, 1b 代表相同元素但 1a 在 1b 前
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        nums.sort()
+        res = []
+        used = set()
+        self.backtrack(res, [], nums, used)
+        return res
+        
+        
+    def backtrack(self, res, level, nums, used):
+        if len(level) == len(nums):
+            res.append(level[:])
+            return
+        for i in range(len(nums)):
+            if i in used or (i > 0 and nums[i] == nums[i-1] and i-1 not in used):
+                continue
+            used.add(i)
+            level.append(nums[i])
+            self.backtrack(res, level, nums, used)
+            used.remove(i)
+            level.pop()
+
+
 
 # backtrackong 面試用這個
-
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         res = set()
@@ -17,7 +67,6 @@ class Solution:
 '''
 without using set()
 '''
-
 class Solution():
     def permuteUnique(self, nums):
         if not nums:

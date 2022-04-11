@@ -201,5 +201,27 @@ class Solution:
                 sign = s[i]
         return sum(stack)
 
-
+# 重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack, num, sign = [], 0, "+"
+        for i, c in enumerate(s):
+            if c.isdigit():
+                num = num*10 + int(c)
+            if (not c.isdigit() and not c.isspace()) or i == len(s) - 1:
+                if sign == "+":
+                    stack.append(num)
+                if sign == "-":
+                    stack.append(-num)
+                if sign == "*":
+                    stack.append(stack.pop() * num)
+                if sign == "/":
+                    temp = stack.pop()
+                    if temp/num < 0 and temp % num != 0:
+                        stack.append(temp // num + 1)
+                    else:
+                        stack.append(temp // num)
+                sign = c
+                num = 0
+        return sum(stack)
         

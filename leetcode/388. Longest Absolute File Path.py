@@ -80,8 +80,23 @@ class Solution:
                 
         return max_len
 
-
-
+# 重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def lengthLongestPath(self, input: str) -> int:
+        input_lines = input.split("\n")
+        dic = {}
+        max_len = 0
+        for line in input_lines:
+            if "." not in line:
+                key = line.count("\t")
+                value = line.replace("\t", "")
+                dic[key] = value
+            else:
+                key = line.count("\t")
+                value = line.replace("\t", "")
+                file_len = sum(len(dic[k]) for k in dic if k < key) + len(value) + key
+                max_len = max(max_len, file_len)
+        return max_len
 
 
 

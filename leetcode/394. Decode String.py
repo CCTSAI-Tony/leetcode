@@ -64,9 +64,32 @@ class Solution:
                 string += w
         return string
 
-
-
-
+# 重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def decodeString(self, s: str) -> str:
+        num = 0
+        string = ""
+        stack = []
+        for i, c in enumerate(s):
+            if c.isdigit():
+                num = num*10 + int(c)
+            elif c == "[":
+                stack.append(string)
+                stack.append(num)
+                stack.append("#")
+                string = ""
+                num = 0
+            elif c == "]":
+                stack.pop()
+                while stack and stack[-1] != "#":
+                    cur = stack.pop()
+                    if type(cur) == int:
+                        string = string * cur
+                    else:
+                        string = cur + string
+            else:
+                string += c
+        return string
 
 #stack 
 class Solution(object):

@@ -73,7 +73,22 @@ class Solution:
         
         return "".join(stack).lstrip("0") or "0"
 
-
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        if len(num) <= k:
+            return "0"
+        stack = []
+        for digit in num:
+            while k > 0 and stack and int(stack[-1]) > int(digit):
+                stack.pop()
+                k -= 1
+            stack.append(digit)
+        while k:
+            stack.pop()
+            k -= 1
+        ans = "".join(stack).lstrip("0")
+        return ans if ans else "0"
 # a = "" or "0"
 # a
 # '0'

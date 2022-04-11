@@ -61,7 +61,7 @@ class Solution(object):
         :type robot: Robot
         :rtype: None
         """
-        self.dfs(robot, 0, 0, 0, -1, set())
+        self.dfs(robot, 0, 0, 0, -1, set())  #初始是facing up
     
     def dfs(self, robot, x, y, direction_x, direction_y, visited):
         robot.clean()
@@ -75,6 +75,7 @@ class Solution(object):
                 robot.turnRight()
                 robot.turnRight()
                 robot.move() #回到前一格
+                # 回到當初方向
                 robot.turnRight()
                 robot.turnRight()
             robot.turnRight()
@@ -106,8 +107,29 @@ class Solution:
             dirx, diry = -diry, dirx
 
 
-
-
+# 重寫第三次
+class Solution:
+    def cleanRoom(self, robot):
+        """
+        :type robot: Robot
+        :rtype: None
+        """
+        visited = set()
+        def dfs(x, y, dir_x, dir_y):
+            visited.add((x, y))
+            robot.clean()
+            for _ in range(4):
+                nxt_x, nxt_y = x + dir_x, y + dir_y
+                if (nxt_x, nxt_y) not in visited and robot.move():
+                    dfs(nxt_x, nxt_y, dir_x, dir_y)
+                    robot.turnRight()
+                    robot.turnRight()
+                    robot.move()
+                    robot.turnRight()
+                    robot.turnRight()
+                robot.turnRight()
+                dir_x, dir_y = -dir_y, dir_x
+        dfs(0, 0, 0, -1)
 
 
 

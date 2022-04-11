@@ -21,6 +21,27 @@ Output: [1, 3, 9]
 #         self.right = right
 
 
+# 刷題用這個m bfs, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def largestValues(self, root: TreeNode) -> List[int]:
+        if not root:
+            return None
+        queue = deque([root])
+        res = []
+        while queue:
+            max_value = float("-inf")
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                max_value = max(max_value, node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            res.append(max_value)
+        return res
+
+
 
 #刷題用這個
 #重寫第二次, time complexity O(n), space complexity O(n)

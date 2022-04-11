@@ -63,7 +63,7 @@ class Solution:
         return select(0, len(nums) - 1, len(nums) - k)
 
 
-#自己重寫, time complexity O(n) in average, worst case O(n^2)
+#自己重寫, time complexity O(n) in the average case, O(n^2) in the worst case, space complexity O(1)
 import random
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
@@ -93,6 +93,7 @@ class Solution:
         return store_idx
 
 
+
 #重寫第二次, time complexity O(n) in everage, O(n^2) in worst case, space complexity O(1)
 import random
 class Solution:
@@ -119,6 +120,7 @@ class Solution:
                 l += 1
         nums[l], nums[right] = nums[right], nums[l]
         return l
+
 
 #刷題用這個
 #重寫第三次, time complexity O(n) in average, O(n^2) in worst case
@@ -148,7 +150,31 @@ class Solution:
         return pivot_idx
 
 
-
+# 重寫第4次, time complexity O(n) in everage, O(n^2) in worst case, space complexity O(1)
+import random
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        def partition(left, right, pivot):
+            nums[pivot], nums[right] = nums[right], nums[pivot]
+            store_index = left
+            for i in range(left, right):
+                if nums[i] < nums[right]:
+                    nums[i], nums[store_index] = nums[store_index], nums[i]
+                    store_index += 1
+            nums[right], nums[store_index] = nums[store_index], nums[right]
+            return store_index
+        
+        def selections(left, right, k_smallest):
+            pivot = random.randint(left, right)
+            idx = partition(left, right, pivot)
+            if idx == k_smallest:
+                return idx
+            elif idx > k_smallest:
+                return selections(left, idx-1, k_smallest)
+            else:
+                return selections(idx+1, right, k_smallest)
+        select = selections(0, len(nums) - 1, len(nums) - k)
+        return nums[select]
 
 
 

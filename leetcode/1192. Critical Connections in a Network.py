@@ -109,3 +109,39 @@ class Solution:
             low[node] = l
 
 
+# 重寫第二次, time complexity O(n), space complexity O(N)
+from collections import defaultdict
+class Solution:
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        graph = defaultdict(list)
+        for pair in connections:
+            graph[pair[0]].append(pair[1])
+            graph[pair[1]].append(pair[0])
+        cur = 0
+        dfn = [None for _ in range(n)]
+        low = [None for _ in range(n)]
+        def dfs(node, parent):
+            nonlocal cur
+            nonlocal dfn
+            nonlocal low
+            if dfn[node] == None:
+                dfn[node] = cur
+                low[node] = cur
+                cur += 1
+                for nxt in graph[node]:
+                    if dfn[nxt] == None:
+                        dfs(nxt, node)
+                if parent != None:
+                    low[node] = min([low[i] for i in graph[node] if i != parent] + [low[node]])
+                else:
+                    low[node] = min([low[i] for i in graph[node]] + [low[node]])
+        dfs(0, None)
+        ans = []
+        for pair in connections:
+            if dfn[pair[0]] < low[pair[1]] or dfn[pair[1]] < low[pair[0]]:
+                ans.append(pair)
+        return ans
+
+
+
+

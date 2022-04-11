@@ -85,6 +85,27 @@ class Solution:
             return True
 
 
+# 重寫第二次, time complexity O(n)
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        color = {}
+        def dfs(cur) -> bool:
+            for nxt in graph[cur]:
+                if nxt in color:
+                    if color[cur] == color[nxt]:
+                        return False
+                else:
+                    color[nxt] = 1 - color[cur]
+                    if not dfs(nxt):
+                        return False
+            return True
+                    
+        for node in range(len(graph)):
+            if node not in color:
+                color[node] = 0
+                if not dfs(node):
+                    return False
+        return True
 
 
 

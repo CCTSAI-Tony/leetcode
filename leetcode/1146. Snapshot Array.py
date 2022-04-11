@@ -30,11 +30,12 @@ At most 50000 calls will be made to set, snap, and get.
 '''
 
 
-Backward While Loop
-We can make this search faster by replacing linear query with a binary search
+# Backward While Loop
+# We can make this search faster by replacing linear query with a binary search
 
 #刷題用這個 time complexity set O(1), get O(n), space complexity O(n)
-#思路: 使用defaultdict節省空間, 有set的元素才會紀錄在對應的snap_id 裡, 使用while loop 來線性尋找有該index存在且離snap_id 最近的id, 因為這中間該index 元素沒變過
+#思路: 使用defaultdict(dict), 利用copy_id 來節省空間, 有set的元素才會紀錄在對應的snap_id 裡, 
+#使用while loop 來線性尋找有該index存在且離snap_id 最近的id, 因為這中間該index 元素沒變過, 這樣能節省空間 => 重要!! 類似掃描線概念
 from collections import defaultdict
 class SnapshotArray:
     def __init__(self, length: int):
@@ -57,13 +58,90 @@ class SnapshotArray:
         return 0
 
 
+# 重寫第二次, time complexity set O(1), get O(n), space complexity O(n)
+from collections import defaultdict
+class SnapshotArray:
+
+    def __init__(self, length: int):
+        self.snap_id = 0
+        self.history = defaultdict(dict)
+
+    def set(self, index: int, val: int) -> None:
+        self.history[self.snap_id][index] = val
+
+    def snap(self) -> int:
+        self.snap_id += 1
+        return self.snap_id - 1
+
+    def get(self, index: int, snap_id: int) -> int:
+        copy_id = snap_id
+        while copy_id and index not in self.history[copy_id]:
+            copy_id -= 1
+        if index in self.history[copy_id]:
+            return self.history[copy_id][index]
+        return 0
+
+
+# 重寫第三次, 使用bisect => time complexity set O(1), get O(logn), space complexity O(n)
+from bisect import bisect
+class SnapshotArray:
+
+    def __init__(self, length: int):
+        self.array = [[(-1, 0)] for _ in range(length)]
+        self.snap_id = 0
+
+    def set(self, index: int, val: int) -> None:
+        self.array[index].append((self.snap_id, val))
+
+    def snap(self) -> int:
+        self.snap_id += 1
+        return self.snap_id - 1
+
+    def get(self, index: int, snap_id: int) -> int:
+        i = bisect(self.array[index], (snap_id + 1, ))
+        return self.array[index][i-1][1]
+
+
+# 重寫第四次, 不用bisect, time complexity set O(1), get O(logn), space complexity O(n)
+class SnapshotArray:
+
+    def __init__(self, length: int):
+        self.array = [[[-1, 0]] for _ in range(length)]
+        self.snap_id = 0
+
+    def set(self, index: int, val: int) -> None:
+        self.array[index].append([self.snap_id, val])
+
+    def snap(self) -> int:
+        self.snap_id += 1
+        return self.snap_id - 1
+
+    def get(self, index: int, snap_id: int) -> int:
+        i = self.binary_search(self.array[index], (snap_id + 1))
+        return self.array[index][i-1][1]
+    
+    def binary_search(self, array, target):
+        left, right = 0, len(array) - 1
+        while left + 1 < right:
+            mid = left + (right - left) // 2
+            if array[mid][0] < target:  # 不能<=, 在相同smap_id 元素區間裡, 我們要取最左端 
+                left = mid
+            else:
+                right = mid
+        if array[right][0] < target:
+            return right + 1
+        if array[right][0] == target or array[left][0] < target:
+            return right
+        return left
+
+
 Backward Binary Search
 Code Snippet from @lee215
 
 #刷題用這個, bisect.bisect = bisect.bisectright, time complexity set O(1), get O(logn), space complexity O(n)
-#思路: 使用bisect.bisect(bisect.bisectright) 來尋找最近的snap_id
+#思路: 使用bisect.bisect 相當於 (bisect.bisectright) 來尋找最近的snap_id
 #使用bisect.bisect 因為搜尋只用到單一元素, 因此會排在正確snap_id的最左邊, 所以要snap_id + 1, 若沒有該正確snap_id, 也會找到離正確最近的snap_id的最右邊的位置
-#用到單一元素[snap_id]是為了區分同snap_id 的所有元素, 使用bisect.bisect 會把單一元素排在相同snap_id 元素最左邊
+#用到單一元素[snap_id]是為了區分同snap_id 的所有元素, 使用bisect.bisect 會把單一元素排在(相同snap_id, 不同val)  元素最左邊
 import bisect
 class SnapshotArray:
     def __init__(self, n):

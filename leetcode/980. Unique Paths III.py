@@ -112,7 +112,7 @@ class Solution:
         grid[i][j] = 0
         return res
 
-# 重寫第二次, time complexity O(3 ^ n), space complexity O(h)
+# 重寫第二次, time complexity O(3 ^ n), space complexity O(n)
 class Solution:
     def uniquePathsIII(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
@@ -143,7 +143,33 @@ class Solution:
         else:
             return False
 
-
-
+# 重寫第三次, time complexity O(3 ^ n), space complexity O(n)
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        remain = 0
+        start = None
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] != -1:
+                    remain += 1
+                if grid[i][j] == 1:
+                    start = (i, j)
+        return self.dfs(grid, start, remain)
+        
+    def dfs(self, grid, start, remain):
+        m, n = len(grid), len(grid[0])
+        direcs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        original = grid[start[0]][start[1]]
+        if original == 2:
+            return remain == 1
+        grid[start[0]][start[1]] = -1
+        res = 0
+        for d in direcs:
+            x, y = start[0] + d[0], start[1] + d[1]
+            if 0 <= x < m and 0 <= y < n and grid[x][y] != -1:
+                res += self.dfs(grid, (x, y), remain - 1)
+        grid[start[0]][start[1]] = original
+        return res
 
 

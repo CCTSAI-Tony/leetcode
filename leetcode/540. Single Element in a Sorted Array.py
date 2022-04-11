@@ -93,6 +93,36 @@ class Solution:
             else:
                 return False
 
+
+# 自己寫的,  time complexity O(logn)
+class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        def check(i) -> (bool, str):
+            if i > 0 and nums[i - 1] == nums[i]:
+                return (True, "l")
+            if i < len(nums) - 1 and nums[i + 1] == nums[i]:
+                return (True, "r")
+            return (False, "null")
+        l, r = 0, len(nums) - 1
+        while l + 1 < r:
+            mid = l + (r - l) // 2
+            temp = check(mid)
+            if not temp[0]:
+                return nums[mid]
+            if temp[1] == "l":
+                if not (r - mid) % 2:
+                    r = mid - 2
+                else:
+                    l = mid + 1
+            elif temp[1] == "r":
+                if not (r - (mid + 1)) % 2:
+                    r = mid - 1
+                else:
+                    l = mid + 2
+        if not check(l)[0]:
+            return nums[l]
+        return nums[r]
+
 # If every element in the sorted array were to appear exactly twice, they would occur in pairs at indices i, i+1 for all even i.
 
 # Equivalently, nums[i] = nums[i+1] and nums[i+1] != nums[i+2] for all even i.

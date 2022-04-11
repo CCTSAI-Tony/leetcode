@@ -33,7 +33,7 @@ class Solution:
         return self.dfs(root)
         
     
-    def dfs(self, root):
+    def dfs(self, root) -> int:
         if not root:
             return 0
         left = self.dfs(root.left)
@@ -75,8 +75,23 @@ class Solution:
             right = self.dfs(node.right, depth + 1)
         return max(left, right)
 
-
-
+# 重寫第四次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        queue = deque([root])
+        layer = 0
+        while queue:
+            layer += 1
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        return layer
 
 
 

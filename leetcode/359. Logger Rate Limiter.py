@@ -40,6 +40,7 @@ At most 104 calls will be made to shouldPrintMessage.
 '''
 
 #刷題用這個, time complexity O(1), space complexity O(m)
+# 思路: hash table
 class Logger(object):
 
     def __init__(self):
@@ -90,8 +91,23 @@ class Logger:
                 self.time_limit[message] = timestamp + 10
                 return True
 
+#重寫第三次, time complexity O(1)
+class Logger:
 
+    def __init__(self):
+        self.times = {}
+        
 
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        if message not in self.times:
+            self.times[message] = timestamp
+            return True
+        else:
+            if timestamp - self.times[message] >= 10:
+                self.times[message] = timestamp
+                return True
+            else:
+                return False
 
 
 

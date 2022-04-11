@@ -84,8 +84,23 @@ class Solution:
                 stack.append(asteroid)
         return stack
 
-
-
+# 重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        res = []
+        for asteroid in asteroids:
+            while res and res[-1] > 0 and asteroid < 0:
+                if res[-1] > -asteroid:
+                    break
+                elif res[-1] < -asteroid:
+                    res.pop()
+                    continue
+                else:
+                    res.pop()
+                    break
+            else:
+                res.append(asteroid)
+        return res
 
 
 

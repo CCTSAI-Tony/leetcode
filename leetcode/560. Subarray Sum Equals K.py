@@ -31,8 +31,19 @@ class Solution:
         
         return res
 
-
-
+# 重寫第二次, time complexity O(n), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        for i in range(1, len(nums)):
+            nums[i] += nums[i-1]
+        memo = defaultdict(int)
+        memo[0] = 1
+        ans = 0
+        for num in nums:
+            ans += memo[num - k]
+            memo[num] += 1
+        return ans
 
 #暴力解 2 pointer, O(N^3) TLE
 class Solution:

@@ -48,7 +48,7 @@ class Node:
 參照leetcode 117解法
 
 #time complexity O(n)
-#思路: 使用new_queue 來代表下層node, 當層queue都沒有元素時, 代表目前node是當層最後一個, 接None, 不然node.next = 現在當層queue的左邊第一個
+#思路: bfs, 使用new_queue 來代表下層node, 當層queue都沒有元素時, 代表目前node是當層最後一個, 接None, 不然node.next = 現在當層queue的左邊第一個
 from collections import deque
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
@@ -69,6 +69,28 @@ class Solution:
                     node.next = queue[0]
             queue = new_queue
         return root
+
+# BFS 解法, time coplexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+        res = root
+        queue = deque([root])
+        while queue:
+            dummy = cur = Node(0)
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                    cur.next = node.left
+                    cur = cur.next
+                if node.right:
+                    queue.append(node.right)
+                    cur.next = node.right
+                    cur = cur.next
+        return res
 
 
 #自己重寫, 刷題用這個, space complexity O(1), time complexity O(n)

@@ -37,6 +37,20 @@ class Solution:
         return dp[len(s)]
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        dp = [0] * (len(s) + 1)
+        dp[0] = 1
+        dp[1] = 1 if s[:1] != "0" else 0
+        for i in range(2, len(s) + 1):
+            if 0 < int(s[i-1:i]) <= 9:
+                dp[i] += dp[i-1]
+            if 10 <= int(s[i-2:i]) <= 26:
+                dp[i] += dp[i-2]
+        return dp[-1]
+
+
 #自己重寫 time complexity O(n)
 #思路: 此題有陷阱, 會出現leading zero, 雖然題目說s是從字串轉換來的, dp[i] => s[:i] 有幾種轉化方式
 #此題比較要注意的地方就是base case 條件要寫清楚, 不然base case會出現錯的值

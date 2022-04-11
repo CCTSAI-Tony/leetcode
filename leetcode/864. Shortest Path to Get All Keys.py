@@ -130,6 +130,47 @@ sorted(a)
 # So the number of states is permutations of keys, which is k!. To make it 2^k, you should assign unique orders for each key (e.g. by sorting or using bits).
 
 
+## more general approach
+
+from collections import deque
+class Solution:
+    def shortestPathAllKeys(self, grid: List[str]) -> int:
+        m, n = len(grid), len(grid[0])
+        keys = set()
+        queue = deque()
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j].islower():
+                    keys.add(grid[i][j])
+                if grid[i][j] == "@":
+                    queue.append(((i, j), [(i, j)], [0]*26))
+        keys_num = len(keys)
+        direcs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        visited = {((0, 0), (0,) * 26)}
+        while queue:
+            for _ in range(len(queue)):
+                cur, path, collects = queue.popleft()
+                if sum(collects) == keys_num:
+                    print(len(path) - 1)
+                    print(path)
+                    return len(path) - 1
+                for d in direcs:
+                    x, y = cur[0] + d[0], cur[1] + d[1]
+                    next_collects = collects.copy()
+                    if 0 <= x < m and 0 <= y < n and grid[x][y] != "#":
+                        if grid[x][y].islower():
+                            next_collects[ord(grid[x][y]) - ord("a")] = 1
+                        elif grid[x][y].isupper():
+                            start = next_collects[ord(grid[x][y]) - ord("A")]
+                            if not start:
+                                continue
+                        if ((x, y), tuple(next_collects)) not in visited:
+                            visited.add(((x, y), tuple(next_collects)))
+                            queue.append(((x, y), path + [(x, y)], next_collects))
+        return -1
+
+
+
 
 
 

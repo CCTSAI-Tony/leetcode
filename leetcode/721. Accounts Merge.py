@@ -129,6 +129,45 @@ class Solution:
             for nxt in mail_account_map[mail]:
                 self.dfs(nxt, accounts, mail_account_map, mails)
 
+
+# 重寫第三次, time complexity O(nlogn), n: amount of mails, space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        account_map = defaultdict(set)
+        for i in range(len(accounts)):
+            mails = accounts[i][1:]
+            for mail in mails:
+                account_map[mail].add(i)
+        res = []
+        visited = set()
+        for i in range(len(accounts)):
+            name, mails = accounts[i][0], accounts[i][1:]
+            if i in visited:
+                continue
+            merge_mails = set(mails)
+            visited.add(i)
+            self.dfs(mails, merge_mails, account_map, accounts, visited)
+            merge_account = [name] + sorted(list(merge_mails))
+            res.append(merge_account)
+        return res
+            
+    def dfs(self, mails, merge_mails, account_map, accounts, visited):
+        for mail in mails:
+            indeces =  account_map[mail]
+            for index in indeces:
+                if index in visited:
+                    continue
+                visited.add(index)
+                nb_name, nb_mails = accounts[index][0], accounts[index][1:]
+                merge_mails |= set(nb_mails)  # 千萬不能用 merge_mails = merge_mails | set(nb_mails), 這樣會產生新的物件, 無法反應回原物件
+                self.dfs(nb_mails, merge_mails, account_map, accounts, visited)
+
+
+
+
+
+
 #刷題用這個, 解答, time complexity O(nlogn), space complexity O(n)
 #思路: email 為最小單位, 利用 em_to_id union在一起
 class DSU:

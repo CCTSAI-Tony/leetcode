@@ -17,7 +17,7 @@ Given n = 3, there are a total of 5 unique BST's:
 '''
 
 # time complexity O(n)
-# 思路: dp法, dp[i] = dp[左] * dp[右], res[0] => none node, res[1] => root 
+# 思路: dp法, dp[i] = dp[左] * dp[右], dp[0] => none node, dp[1] => 1 as root, 
 class Solution(object):
     def numTrees1(self, n):
         res = [0] * (n+1)
@@ -26,6 +26,18 @@ class Solution(object):
             for j in range(i):
                 res[i] += res[j] * res[i-(1+j)] #分左邊 分右邊
         return res[n]
+
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def numTrees(self, n: int) -> int:
+        dp = [0] * (n + 1)
+        dp[0] = 1
+        for i in range(1, n + 1):
+            for j in range(i):
+                dp[i] += dp[j] * dp[i - (j + 1)]
+        return dp[n]
+
+
     '''
 DP bottom up
 

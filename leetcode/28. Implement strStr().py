@@ -18,6 +18,20 @@ What should we return when needle is an empty string? This is a great question t
 For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
 '''
 
+# 刷題用這個, time complexity O(n), space complexity O(n)
+class Solution:
+    def strStr(self, haystack: str, needle: str) -> int:
+        if len(haystack) < len(needle):
+            return -1
+        if haystack == needle:
+            return 0
+        m, n = len(haystack), len(needle)
+        for r in range(m-n+1):
+            if haystack[r:r+n] == needle:
+                return r
+        return -1
+
+
 
 
 # For the purpose of this problem, we will return 0 when needle is an empty string.

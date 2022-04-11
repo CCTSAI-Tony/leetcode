@@ -121,6 +121,38 @@ class Solution:
         # Otherwise, convert the ordering we found into a string and return it.
         return "".join(output)
 
+
+# 重寫第二次, time complexity O(c), space complexity O(u + min(u^2, n))
+from collections import defaultdict, deque
+class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        adj_list = defaultdict(list)
+        in_degree = {c:0 for word in words for c in word}
+        for first, second in zip(words, words[1:]):
+            for c, d in zip(first, second):
+                if c != d:
+                    if d not in adj_list[c]:
+                        adj_list[c].append(d)
+                        in_degree[d] += 1
+                    break
+            else:
+                if len(second) < len(first):
+                    return ""
+                
+        output = []
+        queue = deque([c for c in in_degree if in_degree[c] == 0])
+        while queue:
+            for _ in range(len(queue)):
+                c = queue.popleft()
+                output.append(c)
+                for d in adj_list[c]:
+                    in_degree[d] -= 1
+                    if in_degree[d] == 0:
+                        queue.append(d)
+        if len(output) != len(in_degree):
+            return ""
+        return "".join(output)
+
 # 刷題用這個, time complexity O(c), space complexity O(u + min(u^2, n)), 
 # 思路: dfs + topological sort
 from collections import defaultdict, Counter, deque

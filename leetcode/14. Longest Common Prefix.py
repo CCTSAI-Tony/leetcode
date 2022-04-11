@@ -35,3 +35,23 @@ class Solution:
             result += check
             i +=1 
         return result
+
+
+# 重寫第二次, time complexity O(min_len), space complexity O(min_len)
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        res = []
+        i = 0
+        cur = ""
+        while True:
+            for string in strs:
+                if i >= len(string):
+                    return "".join(res)
+                if cur == "":
+                    cur = string[i]
+                if string[i] != cur:
+                    return "".join(res)
+            res.append(cur)
+            i += 1
+            cur = ""
+

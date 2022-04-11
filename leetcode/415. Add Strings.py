@@ -31,6 +31,39 @@ class Solution:
         return ''.join(str(d) for d in res)[::-1] #記得先str化, 
         # 也可以 return "".join([str(d) for d in res])[::-1], join(str(d) for d in res) 代表裡面放generator, 另一種代表裡面放list object
 
+
+# 重寫第二次, time complexity O(m+n), space complexity O(m+n)
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        res = []
+        if len(num1) > len(num2):
+            num1, num2 = num2, num1
+        num1 = list(num1)[::-1]
+        num2 = list(num2)[::-1]
+        carry = 0
+        i = j = 0
+        while i < len(num1) and j < len(num2):
+            n1 = ord(num1[i]) - ord("0")
+            n2 = ord(num2[j]) - ord("0")
+            cur = n1 + n2 + carry
+            cur, carry = cur % 10, cur // 10
+            res.append(cur)
+            i += 1
+            j += 1
+        if j < len(num2):
+            while j < len(num2):
+                n2 = ord(num2[j]) - ord("0")
+                cur = n2 + carry
+                cur, carry = cur % 10, cur // 10
+                res.append(cur)
+                j += 1
+        if carry:
+            res.append(carry)
+        return "".join(map(str, res[::-1]))
+
+
+
+
 # a = "-23444"
 # list(a)
 # ['-', '2', '3', '4', '4', '4']

@@ -57,6 +57,61 @@ class Solution:
             queue = new_queue
 
 
+# 重寫第二次, time complexity O(n√n), space complexity O(n)
+class Solution:
+    def numSquares(self, n: int) -> int:
+        squares = [i**2 for i in range(1, int(n**0.5) + 1)]
+        queue = set([n])
+        steps = 0
+        while queue:
+            new_queue = set()
+            for val in queue:
+                if val == 0:
+                    return steps
+                for square in squares:
+                    new_queue.add(val - square)
+            if new_queue:
+                queue = new_queue
+                steps += 1
+        return 0
+
+# 刷題用這個 time complexity O(n√n), space complexity O(n)
+# 思路: dp 解法, 
+class Solution(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        square_nums = [i**2 for i in range(0, int(math.sqrt(n))+1)]
+        
+        dp = [float('inf')] * (n+1)
+        # bottom case
+        dp[0] = 0
+        
+        for i in range(1, n+1):
+            for square in square_nums:
+                if i < square:  # 優化
+                    break
+                dp[i] = min(dp[i], dp[i-square] + 1)
+        
+        return dp[-1]
+
+
+# 重寫第二次, time complexity O(n√n), space complexity O(n)
+class Solution:
+    def numSquares(self, n: int) -> int:
+        squares = [i**2 for i in range(1, int(n**0.5) + 1)]
+        dp = [float("inf")] * (n+1)
+        dp[0] = 0
+        for i in range(1, n+1):
+            for square in squares:
+                if i < square:
+                    break
+                dp[i] = min(dp[i], dp[i-square] + 1)
+        return dp[-1]
+
+
 # time complexity O(n√n)
 # Another solution is to use BFS.
 # The root node is n, and we are trying to keep reduce a perfect square number from it each layer. 

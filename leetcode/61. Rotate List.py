@@ -1,21 +1,4 @@
-class Solution:
-    def rotateRight(self, head, k):
-        if not head:
-            return None
-        p=q=head
-        l=1
-        while p.next:
-            p=p.next
-            l+=1
-        p.next=head #頭尾接起來
-        k%=l #k= k%l
-        for _ in range(l-k-1):
-            q=q.next
-        ans=q.next  
-        q.next=None #斷掉
-        return ans      
-
-    '''
+'''
     Given a linked list, rotate the list to the right by k places, where k is non-negative.
 
     Example 1:
@@ -46,3 +29,40 @@ class Solution:
     Hope it helps.
 
 '''
+
+# 刷題用這個, time complexity O(n), space complexity O(1)
+# 思路: 頭尾先串連, 再從尾端往回算k ％ l 步, 那個node 便是 rotate k 步後最尾端的node => for _ in range(l-k-1):
+class Solution:
+    def rotateRight(self, head, k):
+        if not head:
+            return None
+        p=q=head
+        l=1
+        while p.next:
+            p=p.next
+            l+=1
+        p.next=head #頭尾接起來
+        k%=l #k= k%l
+        for _ in range(l-k-1):
+            q=q.next
+        ans=q.next  
+        q.next=None #斷掉
+        return ans      
+
+# 重寫第二次, time complexity O(n), space complexity O(1)
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head:
+            return None
+        p = q = head
+        l = 1
+        while p.next:
+            p = p.next
+            l += 1
+        p.next = q
+        k %= l
+        for _ in range(l-k-1):
+            q = q.next
+        ans = q.next
+        q.next = None
+        return ans

@@ -102,6 +102,24 @@ class Solution:
         return dp[-1][-1]
 
 
+# 重寫第三次, time complexity O(mn), space complexity O(mn)
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        memo = {}
+        def dfs(l, r):
+            if (l, r) in memo:
+                return memo[(l, r)]
+            if not r:
+                return not l
+            if not l:
+                return p[:r].count("*") == r
+            memo[(l, r)] = False
+            if p[r-1] == "*":
+                memo[(l, r)] = dfs(l - 1, r) or dfs(l, r - 1) or dfs(l - 1, r - 1)
+            elif p[r-1] == s[l-1] or p[r-1] == "?":
+                memo[(l, r)] = dfs(l - 1, r - 1)
+            return memo[(l, r)]
+        return dfs(len(s), len(p))
 
 
 # p[j-1] == '*', dp[i-1][j] 代表 s[:i-1] vs p[:j], 若dp[i-1][j]是True 代表 dp[i][j] 也是True, 因為"*"可以代表 any sequence of characters

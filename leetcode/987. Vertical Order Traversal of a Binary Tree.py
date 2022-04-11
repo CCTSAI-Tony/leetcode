@@ -41,6 +41,33 @@ The tree will have between 1 and 1000 nodes.
 Each node's value will be between 0 and 1000.
 '''
 
+# 刷題用這個, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict, deque
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        cols = defaultdict(list)
+        queue = deque([(root, 0)])
+        min_col = float("inf")
+        max_col = float("-inf")
+        while queue:
+            layer = defaultdict(list)
+            for _ in range(len(queue)):
+                node, col = queue.popleft()
+                layer[col].append(node.val)
+                min_col = min(min_col, col)
+                max_col = max(max_col, col)
+                if node.left:
+                    queue.append((node.left, col - 1))
+                if node.right:
+                    queue.append((node.right, col + 1))
+            for col in layer:
+                cols[col] += sorted(layer[col])
+        res = []
+        for col in range(min_col, max_col + 1):
+            res.append(cols[col])
+        return res
+
+
 
 python queue + hash map, time complexity O(nlogn) 因為有sort
 #刷題用這個

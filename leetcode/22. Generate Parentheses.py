@@ -10,8 +10,34 @@
 #   "()()()"
 # ]
 
-#自己想的, time complexity O(2^n), space complexity O(n) backtracking, 40ms, 刷題用這個
-#思路: 設"(" = 1, ")" = -1, pathSum 來紀錄目前括號的數量狀態, 途中若出現<0代表有")" 無法跟"(" 配對的情況->提早return, 最後全部配對完成 pathSum = 0, 才是valid的答案
+# 刷題用這個, time complexity O(2^n), space complexity O(n)
+# 思路: backtracking
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        self.res = []
+        self.dfs([], 0, n)
+        return self.res
+            
+    def dfs(self, path, path_sum, n):
+        if path_sum < 0 or path_sum > n:
+            return
+        if len(path) == 2 * n:
+            if path_sum == 0:
+                self.res.append("".join(path))
+            return
+        for p in ["(", ")"]:
+            path.append(p)
+            if p == "(":
+                self.dfs(path, path_sum + 1, n)
+            else:
+                self.dfs(path, path_sum - 1, n)
+            path.pop()
+
+
+
+#自己想的, time complexity O(2^n), space complexity O(n*2^n) backtracking, 40ms, 刷題用這個
+#思路: 設"(" = 1, ")" = -1, pathSum 來紀錄目前括號的數量狀態, 途中若出現<0代表有")" 無法跟"(" 配對的情況->提早return, 
+#最後全部配對完成 pathSum = 0, 才是valid的答案
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         res = set()

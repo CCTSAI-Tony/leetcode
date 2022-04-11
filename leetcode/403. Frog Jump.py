@@ -110,6 +110,24 @@ class Solution:
             return True
         return False
 
+# 重寫第三次, time ccomplexity O(n^2), space complexity O(n^2)
+from collections import defaultdict
+class Solution:
+    def canCross(self, stones: List[int]) -> bool:
+        jumps = defaultdict(set)
+        jumps[0].add(0)
+        for stone in stones:
+            if stone not in jumps:
+                continue
+            for val in jumps[stone]:
+                if val > 0:
+                    jumps[stone + val].add(val)
+                if val > 1:
+                    jumps[stone + val - 1].add(val - 1)
+                jumps[stone + val + 1].add(val + 1)
+        return stones[-1] in jumps
+
+
 # Dynamic programming top-down:
 
 # We first construct a dictionary mapping the position of each stone in stones to its index in stones. 

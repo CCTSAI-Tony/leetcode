@@ -32,7 +32,7 @@ s1 and s2 consist of lowercase English letters.
 # 遍歷s1的途中若遇到 要update s2 的i == 0, dp[0] = s1當下index => 代表在s1找到新subsequnce 的起始點(注意舊的起始點不會被覆蓋, 利用dp 已經被傳到較後的i)
 # 利用不斷更新subsequnce 的起始點 來找出最短的subsequence
 # 若遍歷到 i == len(s2) - 1 且 dp[i] != -1 => 代表已有包含s2的subsequnce, 再利用 (index - dp[i] + 1) 是否小於之前的subsequnce's length 來更新最短subsequnce
-# 注意: 在更新dp[i]時, 要逆序遍歷相同letter 在s2的所有index => 若正序遍歷則會錯誤更新i 較大的dp[i] => 典型2d dp -> 1d dp 的慣用手法
+# 注意: 在更新dp[i]時, 要逆序遍歷相同letter 在s2的所有index => 若正序遍歷則會錯誤更新i較大的 dp[i] => 典型2d dp -> 1d dp 的慣用手法, 確保dp[i-1] 還是在上一輪的狀況
 from collections import defaultdict
 class Solution(object):
     def minWindow(s1, s2):
@@ -95,4 +95,30 @@ class Solution:
             return ""
         return s1[start:(start+length)]
 
+# 重寫第三次, time complexity O(mn), space complexity O(m)
+from collections import defaultdict
+class Solution:
+    def minWindow(self, s1: str, s2: str) -> str:
+        n = len(s2)
+        dp = [-1] * n
+        start, end = -1, -1
+        ans_len = float("inf")
+        s2_map = defaultdict(list)
+        for i, c in enumerate(s2):
+            s2_map[c].append(i)
+        for i, c in enumerate(s1):
+            if c not in s2_map:
+                continue
+            for idx in s2_map[c][::-1]:
+                if idx == 0:
+                    dp[0] = i
+                else:
+                    dp[idx] = dp[idx-1]
+                if idx == n-1 and dp[idx] >= 0 and i - dp[idx] + 1 < ans_len:
+                    ans_len = i - dp[idx] + 1
+                    start = dp[idx]
+                    end = i
 
+        if dp[-1] == -1:
+            return ""
+        return s1[start:end+1]

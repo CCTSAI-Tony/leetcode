@@ -48,6 +48,35 @@ class Solution:
 	            elif board[r][c] == "D":
 	                board[r][c] = "O"
 
+# 重寫第二次, time complexity O(mn), space complexity O(mn)
+from collections import deque
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        m, n = len(board), len(board[0])
+        queue = deque()
+        direcs = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+        for i in range(m):
+            for j in range(n):
+                if (i in [0, m - 1] or j in [0, n - 1]) and board[i][j] == 'O':
+                    queue.append((i, j))
+        while queue:
+            for _ in range(len(queue)):
+                i, j = queue.popleft()
+                if 0 <= i < m and 0 <= j < n and board[i][j] == 'O':
+                    board[i][j] = 'D'
+                    for d in direcs:
+                        x, y = i + d[0], j + d[1]
+                        queue.append((x, y))
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == "D":
+                    board[i][j] = "O"
+                elif board[i][j] == "O":
+                    board[i][j] = "X"
+
 
 #自己重寫 bfs
 from collections import deque

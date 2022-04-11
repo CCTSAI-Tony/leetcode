@@ -1,9 +1,70 @@
-# time complexity O(2^n), backtracking 刷題用這個
+# Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
 
+# Each number in candidates may only be used once in the combination.
+
+# Note: The solution set must not contain duplicate combinations.
+
+ 
+
+# Example 1:
+
+# Input: candidates = [10,1,2,7,6,1,5], target = 8
+# Output: 
+# [
+# [1,1,6],
+# [1,2,5],
+# [1,7],
+# [2,6]
+# ]
+# Example 2:
+
+# Input: candidates = [2,5,2,1,2], target = 5
+# Output: 
+# [
+# [1,2,2],
+# [5]
+# ]
+ 
+
+# Constraints:
+
+# 1 <= candidates.length <= 100
+# 1 <= candidates[i] <= 50
+# 1 <= target <= 30
+
+# 刷題用這個, time complexity O(2^n), space complexity O(n)
+# 思路: backtracking, 經典!!
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        res = []
+        self.dfs(-1, candidates, target, res, [])
+        return res
+        
+    def dfs(self, i, candidates, target, res, path):
+        if i >= len(candidates) or target < 0:
+            return
+        if target == 0:
+            res.append(path[:])
+            return
+        j = i + 1
+        while j < len(candidates):
+            num = candidates[j]
+            if j > i + 1 and candidates[j] == candidates[j-1]:
+                j += 1
+                continue
+            path += [num]
+            self.dfs(j, candidates, target - num, res, path)
+            path.pop()
+            j += 1
+
+
+
+# time complexity O(2^n), backtracking 刷題用這個
 class Solution(object):
     def combinationSum2(self, candidates, target):
         res = []
-        candidates.sort()  #先排序很重要
+        candidates.sort()  #先排序很重要, 以利之後dfs剪枝
         self.dfs(candidates, target, 0, [], res)
         return res
     

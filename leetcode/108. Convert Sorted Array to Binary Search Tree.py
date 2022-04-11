@@ -25,9 +25,31 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 #         self.right = None
 
 #跟109,449,105 題一起服用
-#自己重寫 模板2, time complexity O(n), 刷題用這個, 80ms
+#time complexity O(n), space complexity O(1)
 #思路: 因為是sorted list, 所以直接取list 的中間值, 左半邊都是比mid小, 右半邊都是比mid大, 符合bst 特性
 #dfs 左右子樹, 當作root的 left or right, 左右子樹也是取該區間的中間值當作root, 這樣做出來的bst 才會是height-balanced binary search tree
+#ex: -10, 3, 0, 5, 9
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+        if not nums:
+            return None
+        return self.helper(nums, 0, len(nums) - 1)
+    
+    def helper(self, nums, l, r):
+        if l == r:
+            return TreeNode(nums[l])
+        if l > r:
+            return None
+        mid = l + (r - l) // 2
+        node = TreeNode(nums[mid])
+        node.left = self.helper(nums, l, mid - 1)
+        node.right = self.helper(nums, mid + 1, r)
+        return node
+
+
+
+
+#自己重寫 模板2, time complexity O(n), 刷題用這個, 80ms
 class Solution:
     def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
         if not nums:
@@ -48,25 +70,21 @@ class Solution:
         return root
 
 
-
-#重寫第二次, time complexity O(n), space complexity O(1)
-#ex: -10, 3, 0, 5, 9
+# 重寫第三次, time complexity O(n), space complexity O(logn)
 class Solution:
-    def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
-        if not nums:
-            return None
-        return self.helper(nums, 0, len(nums) - 1)
-    
-    def helper(self, nums, l, r):
-        if l == r:
-            return TreeNode(nums[l])
-        if l > r:
-            return None
-        mid = l + (r - l) // 2
-        node = TreeNode(nums[mid])
-        node.left = self.helper(nums, l, mid - 1)
-        node.right = self.helper(nums, mid + 1, r)
-        return node
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        def dfs(l, r):
+            if l == r:
+                return TreeNode(nums[l])
+            if l > r:
+                return None
+            mid = l + (r - l) // 2
+            node = TreeNode(nums[mid])
+            node.left = dfs(l, mid - 1)
+            node.right = dfs(mid + 1, r)
+            return node
+        return dfs(0, len(nums) - 1)
+
 
 
 

@@ -30,6 +30,7 @@ class Solution:
         return res if res <= 2**31 -1 and res >= -2**31 else 0
 
 
+
 #重寫第二次, time complexity O(32), space complexity O(32)
 class Solution:
     def reverse(self, x: int) -> int:
@@ -40,6 +41,17 @@ class Solution:
             num = str(x)[::-1]
             reverse = int(num)
         return reverse if reverse < 2 ** 31 and reverse >= -2 ** 31 else 0
+
+# 重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def reverse(self, x: int) -> int:
+        x = list(str(x))
+        if x[0] == "-":
+            reverse_x = "-" + "".join(x[1:][::-1])
+        else:
+            reverse_x = "".join(x[::-1])
+        reverse_int = int(reverse_x)
+        return reverse_int if -2**31 <= reverse_int <= 2**31 - 1 else 0
 
 
 class Solution:

@@ -52,8 +52,39 @@ class Solution:
         num = "".join(map(str, product)).lstrip("0")
         return num if num != "" else "0"
 
+# 重寫第三次, time complexity O(mn), space complexity O(m + n)
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        product = [0] * (len(num1) + len(num2))
+        position = len(product) - 1
+        for n1 in num1[::-1]:
+            temp_pos = position
+            for n2 in num2[::-1]:
+                product[temp_pos] += (int(n1) * int(n2))
+                product[temp_pos - 1] += product[temp_pos] // 10
+                product[temp_pos] %= 10
+                temp_pos -= 1
+            position -= 1
+        num_str = "".join(map(str, product)).lstrip("0")
+        return num_str if num_str != "" else "0"
 
 
+# 重寫第四次, time complexity O(mn), space complexity O(m + n)
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        m, n = len(num1), len(num2)
+        product = [0] * (m + n)
+        pos = len(product) - 1
+        for c1 in num1[::-1]:
+            temp_pos = pos
+            for c2 in num2[::-1]:
+                product[temp_pos] += int(c1) * int(c2)
+                product[temp_pos - 1] += product[temp_pos] // 10
+                product[temp_pos] %= 10
+                temp_pos -= 1
+            pos -= 1
+        num = "".join(map(str, product)).lstrip("0")
+        return num if num != "" else "0"
 
 
 

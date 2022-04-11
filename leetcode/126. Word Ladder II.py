@@ -145,7 +145,37 @@ class Solution:
         return res
 
 
-
+# 重寫第四次, time complexity O(mn^2)
+from collections import defaultdict, deque
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        dic = defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                temp = word[:i] + "_" + word[i+1:]
+                dic[temp].append(word)
+        queue = deque([(beginWord, [beginWord])])
+        visited = set([beginWord])
+        res = []
+        while queue:
+            layer_words = set()
+            for _ in range(len(queue)):
+                word, path = queue.popleft()
+                if word == endWord:
+                    res.append(path)
+                    continue
+                for i in range(len(word)):
+                    temp = word[:i] + "_" + word[i+1:]
+                    for new_word in dic[temp]:
+                        if new_word not in visited:
+                            new_path = path.copy()
+                            new_path += [new_word]
+                            queue.append((new_word, new_path))
+                            layer_words.add(new_word)
+            visited |= layer_words
+            if res:
+                return res
+        return []
 
 # 524ms
 import collections

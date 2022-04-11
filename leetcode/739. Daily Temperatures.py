@@ -16,6 +16,7 @@ If the day with higher temperature is not found, we leave the ans to be the defa
 #思路: 首先建立ans array, 長度為len(T) 值都設為0, 建立stack[], 利用enumerate iterate through T, 並append 該index to stack
 #若目前iterate的val > T(stack[-1]), stack[-1] 的那一天需要等cur_index - stack[-1] 的天數才會變暖, 紀錄在ans裡的對應位置, pop stack[-1] 換下一個比原stack[-1]暖的日子
 #利用while loop 來消除stack 裡面比你冷的日子, 注意, stack 裡面的日子 溫度都是遞減的, 若不是則前面的日子早已找到比它暖的日子 
+#Monotonic stack
 class Solution:
   def dailyTemperatures(self, T):
     ans = [0] * len(T)
@@ -42,7 +43,16 @@ class Solution:
             stack.append(i)
         return ans
 
-
-
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        ans = [0] * len(temperatures)
+        stack = []
+        for i, t in enumerate(temperatures):
+            while stack and t > temperatures[stack[-1]]:
+                cur = stack.pop()
+                ans[cur] = i - cur
+            stack.append(i)
+        return ans
 
 

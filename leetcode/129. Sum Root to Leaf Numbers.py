@@ -98,8 +98,38 @@ class Solution:
             self.dfs(node.right, path*10+node.val)
 
 
+# 重寫第三次, time complexity O(n), space complexity O(n)
+from collections import deque
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        res = 0
+        queue = deque([(root, root.val)])
+        while queue:
+            for _ in range(len(queue)):
+                node, val = queue.popleft()
+                if not node.left and not node.right:
+                    res += val
+                val = val * 10
+                if node.left:
+                    queue.append((node.left, val + node.left.val))
+                if node.right:
+                    queue.append((node.right, val + node.right.val))
+        return res
 
+# 重寫第四次, time complexity O(n), space complexity O(logn)
+class Solution:
+    def sumNumbers(self, root: Optional[TreeNode]) -> int:
+        self.ans = 0
+        def dfs(node, path_sum):
+            if not node.left and not node.right:
+                self.ans += path_sum
+            if node.left:
+                dfs(node.left, path_sum*10 + node.left.val)
+            if node.right:
+                dfs(node.right, path_sum*10 + node.right.val)
 
+        dfs(root, root.val)
+        return self.ans
 
 
 # dfs + stack top-down

@@ -28,8 +28,8 @@ Output: 10
 # https://abhinandandubey.github.io/posts/2019/12/15/Largest-Rectangle-In-Histogram.html
 
 # time complexity O(n)
-#刷題用這個, time complexity O(n), space complexity O(n)
-#思路: 
+# 刷題用這個, time complexity O(n), space complexity O(n)
+# 思路: monotonic queue
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         heights.append(0) #這個重要, 遍歷完height 最後強迫回算留在stack 的遞增序列, stack pop的高度當作rectangle的高度
@@ -43,6 +43,34 @@ class Solution:
             stack.append(i)
         return ans
 
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        heights.append(0)
+        stack = [-1]
+        max_area = 0
+        for i in range(len(heights)):
+            while heights[i] < heights[stack[-1]]:
+                h = heights[stack.pop()]
+                w = i-1 - stack[-1]
+                max_area = max(max_area, h*w)
+            stack.append(i)
+        return max_area
+
+
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        heights.append(0)
+        stack = [-1]
+        max_area = 0
+        for i in range(len(heights)):
+            while heights[i] < heights[stack[-1]]:
+                h = heights[stack.pop()]
+                w = i-1 - stack[-1]
+                max_area = max(max_area, h*w)
+            stack.append(i)
+        return max_area
+ 
 
 #刷題用這個, stack, time complexity O(n), 比上面straightforward
 #思路: 利用stack 來存遞增height, 直到指針遍歷到height[i] < height[stack[-1]] 代表之後無法以height[stack[-1]] 當作h 形成rectangle

@@ -107,6 +107,25 @@ class Solution:
         pre.right = dummy.right
         return dummy.right
 
+# 重寫第四次, time complexity O(n), space complexity O(n)
+class Solution:
+    def treeToDoublyList(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+        stack = []
+        dummy = Node(0)
+        cur = root
+        prev = dummy
+        while stack or cur:
+            while cur:
+                stack.append(cur)
+                cur = cur.left
+            cur = stack.pop()
+            cur.left, prev.right, prev = prev, cur, cur
+            cur = cur.right
+        dummy.right.left, prev.right = prev, dummy.right
+        return prev.right
+
 
 #自己想的, time complexity O(n)
 #思路: 利用bst的特性和分治法, 回報該node區間的最小node, 與最大node, 以利上面的node做判斷, 互相連結左區間的最大值, 右區間的最小值

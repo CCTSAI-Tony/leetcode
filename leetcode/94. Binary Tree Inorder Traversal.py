@@ -25,7 +25,59 @@ Follow up: Recursive solution is trivial, could you do it iteratively?
 '''
 
 
+
+# 刷題用這個, iteration, time complexity O(n), space complexity O(n)
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        ans = []
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if isinstance(node, int):
+                ans.append(node)
+            else:
+                if node.right:
+                    stack.append(node.right)
+                stack.append(node.val)
+                if node.left:
+                    stack.append(node.left)
+        return ans
+
+# 通用形式, 必記
+# iteration 2, time complexity O(n), space complexity O(n)
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        ans = []
+        stack = []
+        node = root
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            ans.append(node.val)
+            node = node.right
+        return ans
+
 # recursively
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        ans = []
+        def inorder(node):
+            if not node:
+                return
+            inorder(node.left)
+            ans.append(node.val)
+            inorder(node.right)
+        inorder(root)
+        return ans
+
 
 class Solution:
     def inorderTraversal1(self, root):

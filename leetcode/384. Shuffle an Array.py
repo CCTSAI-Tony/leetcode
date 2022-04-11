@@ -70,6 +70,23 @@ class Solution:
         return shuffle
 
 
+# 重寫第三次
+import random
+class Solution:
+
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+
+    def reset(self) -> List[int]:
+        return self.nums
+
+    def shuffle(self) -> List[int]:
+        array = self.nums[:]
+        n = len(array)
+        for i in range(n-1, -1, -1):
+            j = random.randrange(0, i+1)
+            array[i], array[j] = array[j], array[i]
+        return array
 # For the last position, once you generate a random number in range (0,len(ans)), you would have decided the value 
 # that is going to go in that position after shuffling. So once the swap is done, the new element there is already in its 'random' position 
 # (or in other words a random element of that array has been put at that position. 

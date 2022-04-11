@@ -83,13 +83,49 @@ class Solution:
         return ans
 
 
+# 重寫第三次, time complexity O(mn), space complexity O(n)
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        heights = [0] * (len(matrix[0]) + 1)
+        max_area = 0
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == "1":
+                    heights[j] += 1
+                else:
+                    heights[j] = 0
+            stack = [-1]
+            for j in range(len(heights)):
+                while heights[stack[-1]] > heights[j]:
+                    height = heights[stack.pop()]
+                    width = j - 1 - stack[-1]
+                    max_area = max(max_area, height * width)
+                stack.append(j)
+        return max_area
 
 
-
-
-
-
-
+# 重寫第四次, time complexity O(mn), space complexity O(n)
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        max_area = 0
+        heights = [0] * (n + 1)
+        for i in range(m):
+            for j in range(n):
+                heights[j] = heights[j] + 1 if matrix[i][j] == "1" else 0
+            stack = [-1]
+            for j in range(n + 1):
+                while heights[stack[-1]] > heights[j]:
+                    h = heights[stack.pop()]
+                    w = j - 1 - stack[-1]
+                    max_area = max(max_area, h * w)
+                stack.append(j)
+        return max_area
 
 
 

@@ -36,14 +36,13 @@ Constraints:
 s[i] is one of  '(' , ')' and lowercase English letters.
 '''
 
-#time complexity O(n), 思路: 利用條件與stack 來忽視nonvalid parenthesis
-#思路: stack, 遇到"(" 則把目前的cur 結果存到 stack, 每個stack[i] 都象徵一個"(", 除非之後遇到")", 一起跟stack.pop 變成 cur => cur = stack.pop() + '(' + cur + ')', 不然不會出現在ans裡
+#time complexity O(n), 思路: 利用stack, cur 來忽視 invalid parenthesis
+#思路: stack, 遇到"(" 則把目前的cur 結果存到 stack, 每個stack[i] 都象徵後面接一個一個"(", => 除非之後遇到")", 一起跟stack.pop 變成 cur => cur = stack.pop() + '(' + cur + ')', 不然不會出現在ans裡
 #若遇到字符則加進cur, 直到遇到"(", 則把cur 加進stack
 #若遇到")" 但沒有stack, 忽視")"
 #最後若stack還有殘餘 => 代表有殘餘"(" 沒法跟")"配對, 忽視它, 把這些字符接到ans裡
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        
         stack, cur = [], ''
         for c in s:
             if c == '(':
@@ -55,7 +54,7 @@ class Solution:
             else:
                 cur += c  #加入字串
         
-        while stack:  #把還存在stack 加回cur, 發生在"(" 很多的情況 例如"a(bc(d(ef)" => abcd(ef), 因為沒有足夠的")"相配  而被忽視
+        while stack:  #把還存在stack 加回cur, 發生在"(" 很多的情況 例如"a(bc(d(ef)" => abcd(ef), 因為沒有足夠的")"相配  所以多餘"("被忽視
             cur = stack.pop() + cur
         
         return cur
@@ -78,7 +77,29 @@ class Solution:
             cur = stack.pop() + cur
         return cur
 
-        
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def minRemoveToMakeValid(self, s: str) -> str:
+        stack, cur = [], ""
+        for c in s:
+            if c == "(":
+                stack.append(cur)
+                cur = ""
+            elif c == ")":
+                if stack:
+                    cur = stack.pop() + "(" + cur + ")"
+            else:
+                cur += c
+        while stack:
+            cur = stack.pop() + cur
+        return cur
+
+
+
+
+
+
+    
 "a" + "b"
 'ab'
 

@@ -112,8 +112,29 @@ class Solution:
     def lowbit(self, idx):
         return idx & -idx
 
-
-
+# 重寫第四次, time complexity O(nlogn), space complexity O(n)
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        sort_nums = sorted(set(nums))
+        self.map = {num:i+1 for i, num in enumerate(sort_nums)}
+        self.bits = [0] * (len(self.map) + 1)
+        ans = []
+        for i in range(len(nums)-1, -1, -1):
+            self.update(self.map[nums[i]])
+            ans.append(self.query(self.map[nums[i]] - 1))
+        return ans[::-1]
+        
+    def update(self, idx):
+        while idx <= len(self.bits) - 1:
+            self.bits[idx] += 1
+            idx += idx & -idx
+    
+    def query(self, idx):
+        res = 0
+        while idx > 0:
+            res += self.bits[idx]
+            idx -= idx & -idx
+        return res
 
 
 
@@ -238,15 +259,50 @@ class BinarySearchTree(object):
 
         return root.count + root.leftTreeSize + self.insert(val, root.right)  #回報包含root自身的count + 總共有幾個比root小的數 並往右邊樹遍歷
 
-
-class Solution(object):
-    def countSmaller(self, nums):
-        tree = BinarySearchTree()
-        return [tree.insert(nums[i], tree.root) for i in range(len(nums) - 1, -1, -1)][::-1]
-
+    class Solution(object):
+        def countSmaller(self, nums):
+            tree = BinarySearchTree()
+            return [tree.insert(nums[i], tree.root) for i in range(len(nums) - 1, -1, -1)][::-1]
 
 
 
+# 重寫第二次, time complexity O(nlogn), space complexity O(n)
+# TLE
+class BinarySearchNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.count = 1
+        self.left_size = 0
+
+class BinarySearchTree:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, val, root):
+        if not root:
+            self.root = BinarySearchNode(val)
+            return 0
+        if val == root.val:
+            root.count += 1
+            return root.left_size
+        if val < root.val:
+            root.left_size += 1
+            if not root.left:
+                root.left = BinarySearchNode(val)
+                return 0
+            return self.insert(val, root.left)
+        if val > root.val:
+            if not root.right:
+                root.right = BinarySearchNode(val)
+                return root.count + root.left_size
+            return root.count + root.left_size + self.insert(val, root.right)
+         
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        binary_tree = BinarySearchTree()
+        return [binary_tree.insert(x, binary_tree.root) for x in nums[::-1]][::-1]
 
 
 

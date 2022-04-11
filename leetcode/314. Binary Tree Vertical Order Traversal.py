@@ -70,16 +70,44 @@ Output:
 ]
 '''
 
-# 自己重寫, time complexity O(klogk) k: len(cols), 刷題用這個
+# 自己重寫, time complexity O(n), space complexity O(n), 刷題用這個
 # It's basically a modified level-order traversal
 # 思路: 利用dict 來存儲每個col 的 node, 若node 有left node => 往下 col-1, right node => 往下 col + 1
 # 利用bfs 來實現當層layer 相同row,col位置. 左邊優先的情況, 因為bfs 所以優先順序 => top to down
 
 from collections import defaultdict, deque
 class Solution:
-    def verticalOrder(self, root: TreeNode) -> List[List[int]]:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
-            return []
+            return None
+        queue = deque([(root, 0)])
+        cols = defaultdict(list)
+        max_index = float("-inf")
+        min_index = float("inf")
+        
+        while queue:
+            for _ in range(len(queue)):
+                node, col = queue.popleft()
+                cols[col].append(node.val)
+                max_index = max(max_index, col)
+                min_index = min(min_index, col)
+                if node.left:
+                    queue.append((node.left, col-1))
+                if node.right:
+                    queue.append((node.right, col+1))
+        ans = []
+        for k in range(min_index, max_index + 1):
+            if k in cols:
+                ans.append(cols[k])
+        return ans
+
+
+# 重寫第二次, time complexity O(nlogn), space complexity O(n)
+from collections import defaultdict, deque
+class Solution:
+    def verticalOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return None
         queue = deque([(root, 0)])
         cols = defaultdict(list)
         while queue:
@@ -90,7 +118,8 @@ class Solution:
                     queue.append((node.left, col-1))
                 if node.right:
                     queue.append((node.right, col+1))
-        return [cols[i] for i in sorted(cols.keys()) ]
+        return [cols[col] for col in sorted(cols.keys())]
+
 
 
 #自己想的dfs, time complexity O(klogk*mlogm), k: len(cols) m: len(col's nodes), 相比bfs 要兩個sort

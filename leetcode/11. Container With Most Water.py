@@ -31,8 +31,8 @@ class Solution(object):
         return area
 
 
-#  自己想重新寫, time complexity O(n), 刷題用這個
-#  思路: 利用左右2 pointer, 來移動左右長度比較短的一邊, 期望移動後長度變長, 原長邊變短邊計算後的水體積才會變多
+#  自己想重新寫, time complexity O(n), 刷題用這個, greedy
+#  思路: 利用左右2 pointer, 來移動左右長度比較短的一邊, 期望移動後長度變長, 原短邊變長邊計算後的水體積才會變多
 #  why 不移動大邊, 移動大邊結果一定不會比之前結果來得大, 移動小邊體積才有可能增加
 #  兩邊長度都一樣, 此時先移右還是左, 都不會影響最後結果, 畫個圖就清楚
 class Solution:
@@ -64,8 +64,18 @@ class Solution:
         return water
 
 
-
-
+# 重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        area = 0
+        l, r = 0, len(height) - 1
+        while l < r:
+            area = max(area, min(height[l], height[r]) * (r - l))
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
+        return area
 
 
 
