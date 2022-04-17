@@ -146,6 +146,26 @@ class Solution:
         return memo[s]
 
 
+# 重寫第五次, O(N^2 + 2^N + W^2), N: the length of the input string, W:  the number of words in the dictionary, space complexity O(N^2 + 2^N*N + W^2)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        memo = {}
+        def dfs(string):
+            if not string:
+                return [[]]
+            if string in memo:
+                return memo[string]
+            res = []
+            for i in range(len(string)):
+                word = string[:i+1]
+                if word in wordDict:
+                    remain = dfs(string[i+1:])
+                    for item in remain:
+                        res.append([word] + item)
+            memo[string] = res
+            return memo[string]
+        return [" ".join(x) for x in dfs(s)]
+
 
 str.startswith(search_string, start, end)
 str = "GeeksforGeeks"

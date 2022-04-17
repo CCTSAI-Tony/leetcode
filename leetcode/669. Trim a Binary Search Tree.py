@@ -58,10 +58,29 @@ class Solution:
                 node.left = self.helper(node.left, low, high)
                 node.right = self.helper(node.right, low, high)
                 return node
+        else:
+            return None
 
 
-
-
+# 重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def trimBST(self, root: Optional[TreeNode], low: int, high: int) -> Optional[TreeNode]:
+        if not root:
+            return None
+        def dfs(node) -> TreeNode:
+            if not node:
+                return None
+            if node.val > high:
+                return dfs(node.left)
+            if node.val < low:
+                return dfs(node.right)
+            else:
+                left = dfs(node.left)
+                right = dfs(node.right)
+                node.left = left
+                node.right = right
+                return node
+        return dfs(root)
 
 
 

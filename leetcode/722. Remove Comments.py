@@ -74,6 +74,7 @@ class Solution(object):
     def removeComments(self, source):
         in_block = False
         ans = []
+        newline = None
         for line in source:
             i = 0
             if not in_block:
@@ -81,7 +82,7 @@ class Solution(object):
             while i < len(line):
                 if line[i:i+2] == '/*' and not in_block:
                     in_block = True
-                    i += 1
+                    i += 1  # 最後統一還要再 i += 1
                 elif line[i:i+2] == '*/' and in_block:
                     in_block = False
                     i += 1
@@ -90,7 +91,7 @@ class Solution(object):
                 elif not in_block:  #not in comment, append to newline
                     newline.append(line[i])
                 i += 1
-            if newline and not in_block:  # exclude the empty line or not compplete of not in_block line
+            if newline and not in_block:  # exclude the empty line or not complete of not in_block line
                 ans.append("".join(newline))
 
         return ans

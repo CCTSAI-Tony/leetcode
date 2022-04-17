@@ -41,7 +41,7 @@ The board square with number N*N has no snake or ladder.
 '''
 
 #自己想的, time complexity O(m*n), space complexity O(m*n)
-#思路: 建立map 來連結number cell 與 board 對應位置的值, 使用bfs, 初始cell = 1, 每一move可以有6種選擇 => new_cell, 
+#思路: 使用bfs, 建立map 來連結number cell 與 board 對應位置的值, 使用bfs, 初始cell = 1, 每一move可以有6種選擇 => new_cell, 
 #當new_cell 對應的board值 != -1 時, new_cell 立即變成對應的board值, 建立visited 一但找到valid new_Cell 放入queue, 登記在visited, 已免重複遍歷
 #直到new_Cell == m*n return move, 記得 valid new_cell <= m*n
 from collections import deque

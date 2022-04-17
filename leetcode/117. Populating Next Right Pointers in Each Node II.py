@@ -42,6 +42,32 @@ class Node:
 """
 
 
+# 刷題用這個, space complexity O(n), time complexity O(n)
+# 思路: bfs
+from collections import deque
+class Solution:
+    def connect(self, root: 'Node') -> 'Node':
+        if not root:
+            return None
+        res = root
+        queue = deque([root])
+        while queue:
+            dummy = cur = Node(0)
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                    cur.next = node.left
+                    cur = cur.next
+                if node.right:
+                    queue.append(node.right)
+                    cur.next = node.right
+                    cur = cur.next
+        return res
+
+
+
+
 #自己重寫, 刷題用這個, space complexity O(1), time complexity O(n)
 #思路: double while loops, 利用linked list 的想法 搭配dummy node 來連結同level的next, 記住, dummy.next都會連結下層最左邊的node, 當作下一個root
 #temp指針搭配dummy  來連結 root 下層的node, 當root左右child 都連結後, 移動root to root.next, 使得下層node可以跨root 連結!!

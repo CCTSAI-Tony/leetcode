@@ -95,7 +95,7 @@ class Solution:
                         C[i][j] += A[i][k] * B[k][j]
         return C
 
-
+# 刷題用這個
 # 重寫第二次, time complexity O(mnl), space complexity O(ml)
 from collections import defaultdict
 class Solution:

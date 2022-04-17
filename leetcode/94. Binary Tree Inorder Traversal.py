@@ -63,6 +63,23 @@ class Solution:
             node = node.right
         return ans
 
+# 重寫第二次
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return None
+        stack = []
+        res = []
+        node = root
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+            node = stack.pop()
+            res.append(node.val)
+            node = node.right
+        return res
+
 # recursively
 class Solution:
     def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:

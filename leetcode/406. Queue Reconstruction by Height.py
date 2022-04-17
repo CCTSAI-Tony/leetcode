@@ -45,7 +45,7 @@ class Solution:
         return output
 
 
-# 重寫第二次
+# 重寫第二次, time complexity O(nlogn)
 class Solution:
     def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
         people.sort(key=lambda x: (-x[0], x[1]))
@@ -54,8 +54,14 @@ class Solution:
             queue.insert(p[1], p)
         return queue
 
-
-
+# 重寫第三次, time complexity O(nlogn)
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        people.sort(key=lambda x: (-x[0], x[1]))
+        queue = []
+        for p in people:
+            queue.insert(p[1], p)
+        return queue
 
 
 

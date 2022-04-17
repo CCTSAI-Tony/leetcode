@@ -11,7 +11,7 @@
 # ]
 
 # 刷題用這個, time complexity O(2^n), space complexity O(n)
-# 思路: backtracking
+# 思路: backtracking, 只能用暴力解來解
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         self.res = []

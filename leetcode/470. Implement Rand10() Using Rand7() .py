@@ -62,7 +62,7 @@ class Solution:
             col = rand7()
             idx = col + (row - 1) * 7
             if idx <= 40:
-                return 1 + (idx - 1) % 10
+                return 1 + (idx - 1) % 10  # (idx - 1) % 10 for 0 base index, 1 + (idx - 1) % 10 => 1 base index
 
 #重寫第二次, time complexity: O(1) average, but O(∞) worst case.
 class Solution:

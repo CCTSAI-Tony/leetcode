@@ -25,7 +25,7 @@ class Solution:
         if len(nums) == 1:
             return round(nums[0], 4) == 24 #這裡記得要用round, 因為除號有可能導致誤差
         else:
-            for (i, m), (j, n) in it.combinations(enumerate(nums), 2):
+            for (i, m), (j, n) in it.combinations(enumerate(nums), 2): #combinations 也是一個iterator
                     new_nums = [x for t, x in enumerate(nums) if i != t != j] #排除 m, n
                     inter = {m+n, abs(m-n), n*m} #abs(m-n) => In particular, we cannot use - as a unary operator. 不會有負號
                     if n != 0: 
@@ -45,10 +45,10 @@ from itertools import combinations
 class Solution:
     def judgePoint24(self, nums: List[int]) -> bool:
         if len(nums) == 1:
-            return round(nums[0], 4) == 24
+            return round(nums[0], 4) == 24 # 取到小數點第四位
         for (i, v), (j, w) in combinations(enumerate(nums), 2):
             new_nums = [k for t, k in enumerate(nums) if t != i and t != j]
-            inters = {v+w, abs(v-w), v*w}
+            inters = {v+w, abs(v-w), v*w} # 用set 來去重
             if v != 0:
                 inters.add(w/v)
             if w != 0:
@@ -76,8 +76,22 @@ class Solution:
         return False
 
 
-
-
+# 重寫第三次, time complexity O(1), space complexity O(1)
+from itertools import combinations
+class Solution:
+    def judgePoint24(self, cards: List[int]) -> bool:
+        if len(cards) == 1:
+            return round(cards[0], 4) == 24
+        for (i, v), (j, w) in combinations(enumerate(cards), 2):
+            new_cards = [num for k, num in enumerate(cards) if k != i and k != j]
+            inters = {v+w, abs(v-w), v*w}
+            if w != 0:
+                inters.add(v/w)
+            if v != 0:
+                inters.add(w/v)
+            if any(self.judgePoint24(new_cards + [x]) for x in inters):
+                return True
+        return False
 
 
 

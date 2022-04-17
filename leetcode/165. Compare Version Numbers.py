@@ -42,6 +42,8 @@ Version strings are composed of numeric strings separated by dots . and this num
 Version strings do not start or end with dots, and they will not be two consecutive dots.
 
 '''
+# 刷題用這個, time complexity O(n), space complexity O(n)
+# 思路: 使用 string split(".") 來比較
 class Solution:
 	def compareVersion(self, version1, version2):
         versions1 = [int(v) for v in version1.split(".")] #int(v) 把leading 0 拿掉

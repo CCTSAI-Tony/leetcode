@@ -62,7 +62,7 @@ class Solution:
                 for val in dic[stones[i]]:
                     if val > 0:  #val > 0 除了初始0 其他都可以加上本次jump size的 value, 
                         dic[stones[i]+val].add(val)  #這裡用set 避免重複, add(val) 代表到達這一格時是跳val step 來的, 這樣從那塊石頭跳時, 就知道要跳多少
-                    if val > 1:  #  val > 1 還可以選擇跳少一格的選擇
+                    if val > 1:  #  val > 1 還可以選擇跳少一格的選擇, the frog can only jump in the forward direction
                         dic[stones[i]+val-1].add(val-1)
                     dic[stones[i]+val+1].add(val+1)  #跳多一格不管任何值都可以, 0也可以
         return stones[-1] in dic

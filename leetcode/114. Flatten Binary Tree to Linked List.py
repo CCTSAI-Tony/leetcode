@@ -86,6 +86,29 @@ class Solution:
             return right_last
 
 
+# 重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def flatten(self, root: Optional[TreeNode]) -> None:
+        """
+        Do not return anything, modify root in-place instead.
+        """
+        if not root:
+            return None
+        def dfs(node):
+            if not node:
+                return
+            if node.left:
+                temp = node.right
+                node.right = node.left
+                node.left = None
+                dfs(node.right)
+                while node.right:
+                    node = node.right
+                node.right = temp
+                dfs(node.right)
+            else:
+                dfs(node.right)
+        dfs(root)
 
 
 

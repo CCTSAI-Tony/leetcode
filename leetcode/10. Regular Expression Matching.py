@@ -48,6 +48,32 @@ Output: false
 # backtracking and caching 
 # Takes about 32ms:
 
+#  刷題用這個
+#  O(len(p)*len(s)), 
+#  思路: 此題重點 '*' can eliminate the charter before it, dp[i][j] 定義為p[:i] s[:j]
+#  這題主要判斷sufix 的各種情況, 此題有點難需要多練習
+class Solution:
+    def isMatch(self, s, p):
+        dp = [[False] * (len(s) + 1) for _ in range(len(p) + 1)]  #dp[p][s], => dp[i][j] 定義為p[:i] s[:j]
+        dp[0][0] = True  # Update the corner case of matching two empty strings.
+        for i in range(1, len(p)):
+            dp[i + 1][0] = dp[i - 1][0] and p[i] == '*'  #dp[i+1][0] = True and True => True, dp[i+1][0] = True and False => False, etc
+                                             #Since each '*' can eliminate the charter before it, dp[i - 1][0]=> p[:i-1] s[:0], skip p[i-1]
+                                             #ex: p==[a*b*c*d*e*], s==[] => return True, 因為s是[], 因此p 都要跳掉*前面的字母, 不然怎麼比對都是False
+        for i in range(len(p)):  #row
+            for j in range(len(s)):  #column
+                if p[i] == '*':  #Either refer to the one before previous or the previous. 注意!! "*" 前一定有元素 所以 if p[i] == '*': 的 i 不會是0, dp[i - 1] 就不用擔心
+                    dp[i + 1][j + 1] = dp[i - 1][j + 1] or dp[i][j + 1]  # I.e. * eliminate the previous or count the previous., dp[i][j + 1] count 前一字符 一個
+                    if p[i - 1] == s[j] or p[i - 1] == '.':  #If p's previous one is equal to the current s, with helps of *, the status can be propagated from the left.
+                                                             #ex: p==[abc*] or [ab.*], s== [abc] or [abcc...] or [bbc]
+                        dp[i + 1][j + 1] |= dp[i + 1][j]  # 注意這裡要用 |=, dp[i + 1][j + 1] 可能本身就是True, ex: p=="ab*a*", s=="a"
+                                                          # why dp[i + 1][j], 因為 p[i]== * and p[i-1] == s[j]  所以p的 suffix 一定可以等於 s[j], 剩下看p[:i+1]s[:j] 是否match,  
+                                                          # 在比對p[:i+1]s[:j] 時注意 pattern * 前面字母可以消失, suffix 依舊可以滿足s[j], 要滿足時出現即可
+                else:
+                    dp[i + 1][j + 1] = dp[i][j] and (p[i] == s[j] or p[i] == '.')
+        return dp[-1][-1]
+
+
 #  O(len(p)*len(s))
 #  思路: memorize, 此題重點 '*' can eliminate the charter before it
 #  memorize + backtracking 像修枝, 剪掉不需要的葉子

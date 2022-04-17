@@ -113,8 +113,23 @@ class Solution:
         max_r, max_c = max((v, i) for i, v in enumerate(lps))
         return s[(max_c-max_r)//2:(max_c+max_r)//2]
 
-
-
+# 重寫第五次, time complexity O(n), space complexity O(n)
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        s_manacher = "#" + "#".join(s) + "#"
+        n = len(s_manacher)
+        lps = [0] * n
+        r, c = 0, 0
+        for i in range(1, n):
+            if r >= i:
+                lps[i] = min(r-i, lps[c-(i-c)])
+            while i - lps[i] - 1 >= 0 and i + lps[i] + 1 < n and s_manacher[i - lps[i] - 1] == s_manacher[i + lps[i] + 1]:
+                lps[i] += 1
+            if i + lps[i] > r:
+                c = i
+                r = i + lps[i]
+        lps_max, i_max = max((v, i) for i, v in enumerate(lps))
+        return s[(i_max-lps_max)//2:(i_max+lps_max)//2]
 
 # get the longest palindrome, l, r are the middle indexes   
 # from inner to outer

@@ -141,7 +141,7 @@ class Solution:
 
 
 # 模板2, 刷題用這個 time complexity O(nlogn), space complexity O(n), Binary Search in range 1 and N, so it's O(logN), Rolling hash(test) O(N)
-# 思路: 先把所有字母轉化成ord(c), 建立test helper, 功用為確認是有input(l) 長度的重複字串, 1 <= l <= len(S)
+# 思路: 先把所有字母轉化成ord(c), 建立test helper, 功用為確認是否有input(l) 長度的重複字串, 1 <= l <= len(S)
 # 如何實現, 因為字串順序也要考慮, ex:abc => a*26^3 + b*26^2 + c*26 得到的值只有同樣順序的字串才能一樣 => fix l 長度的wondow 得到每個一樣長度連續字串的值
 # 把值存進dict裡, 若之後有一樣值的字串代表這個長度的字串有duplicated, 回傳duplicated 字串的起點index
 # 利用helper 搭配 binary search 就能確認最大長度的substring

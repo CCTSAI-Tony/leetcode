@@ -57,7 +57,7 @@ class Solution:
             if len(set(a)) < len(a): 
                 continue
             a = set(a)
-            for c in dp:
+            for c in dp: # O(16*16)
                 if a & c: #a 與 c 有重複元素, skip掉
                     continue
                 dp.append(a | c) #a 與 c 的連集
@@ -81,6 +81,24 @@ class Solution:
                 unique.append(x) 
                 max_unique = max(max_unique, len(x))
         return max_unique
+
+# 重寫第三次, time complexity O(1), space complexity O(1)
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        ans = 0
+        dp = [set()]
+        for s in arr:
+            if len(s) > len(set(s)):
+                continue
+            for visited in dp:
+                if not set(s) & visited:
+                    union = set(s) | visited
+                    dp.append(union)
+                    ans = max(ans, len(union))
+        return ans
+
+
+
 
 
 #刷題用這個, time complexity O(16*16*16*26) => O(1), space complexity O(16) => O(1)

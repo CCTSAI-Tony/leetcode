@@ -45,6 +45,26 @@ class Solution:
         return ans
 
 
+# 重寫第二次, time complexity O(C(n, k)), space complexity O(k)
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        ans = []
+        path = []
+        def dfs(idx):
+            if len(path) == k:
+                ans.append(path[:])
+            for i in range(idx, n+1):
+                path.append(i)
+                dfs(i+1)
+                path.pop()
+        dfs(1)
+        return ans
+
+
+
+
+
+
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
         res = [] # result list

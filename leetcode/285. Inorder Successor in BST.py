@@ -74,3 +74,16 @@ class Solution:
                 successor = root
                 root = root.left
         return successor
+
+
+#重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> Optional[TreeNode]:
+        successor = None
+        while root:
+            if root.val <= p.val:
+                root = root.right
+            else:
+                successor = root
+                root = root.left
+        return successor

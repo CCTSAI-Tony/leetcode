@@ -43,18 +43,14 @@ class Solution:
         for k in range(numCourses):
             if indegree[k] == 0:
                 queue.append(k)
-                del indegree[k]  # 優化
         while queue:
             for _ in range(len(queue)):
                 cur = queue.popleft()
                 res.append(cur)
                 for nxt in graph[cur]:
-                    if nxt not in indegree:
-                        continue
                     indegree[nxt] -= 1
                     if indegree[nxt] == 0:
                         queue.append(nxt)
-                        del indegree[nxt]
         if len(res) != numCourses:
             return []
         return res

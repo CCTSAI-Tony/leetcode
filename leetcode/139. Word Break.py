@@ -41,7 +41,7 @@ Output: false
 
 # The result is the last index of d.
 
-#TIME COMPLEXITY O(n^2*m), n = len(s), m = len(wordDict)
+#TIME COMPLEXITY O(n^2*m), n = len(s), m = len(wordDict), dp[i] => 對應 s[:i]
 #思路: 利用線性dp, 與string 分割來解題, bottom up, 小心不要超過index range
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
@@ -52,6 +52,22 @@ class Solution:
                 if dp[i] and s[i:j] in wordDict:
                     dp[j] = True
         return dp[-1]
+
+
+# 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        n = len(s)
+        dp = [False] * (len(s) + 1)
+        dp[0] = True
+        for i in range(n):
+            for j in range(i+1, n+1):
+                if dp[i] and s[i:j] in wordDict:
+                    dp[j] = True
+        return dp[-1]
+
+
+
 
 
 # a = [1,2,3]

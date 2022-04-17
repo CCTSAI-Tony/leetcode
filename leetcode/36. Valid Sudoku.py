@@ -49,6 +49,7 @@ board[i][j] is a digit or '.'.
 '''
 
 #刷題用這個, time complexity O(81), space complexity O(9)
+#思路: 使用zip(*board) 來連結col
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         for row in board:

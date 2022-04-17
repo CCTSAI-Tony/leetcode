@@ -78,6 +78,7 @@ class Solution(object):
 #  not a real O(1) space solution if modifying input is not allowed.
 #  思路: 利用單指針check nums[i] 是否self loop cycle's length == 1, 並mark nums[i] = str(i) (visited)
 #  若有circle 任何一個member 在這circle的都可以回到自己的index, 然而不能形成單一方向 circle的元素就mark起來, 防止再度遍歷
+#  題目有說, cycle 裡的成員只能有一個方向
 class Solution:
     def circularArrayLoop(self, nums: List[int]) -> bool:
         if not nums or len(nums) < 2:

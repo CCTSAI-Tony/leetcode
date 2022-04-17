@@ -15,7 +15,7 @@ Output: -1
 Note:
 You may assume that you have an infinite number of each kind of coin.
 '''
-
+#刷題用這個, time complexity O(mn), space complexity O(m)
 #為什麼用dp而不是greedy, 因為coins 並不是單一個倍數
 #思路: DP BOTTOM UP, 經典問題 要多練習
 class Solution:

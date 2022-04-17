@@ -29,7 +29,9 @@ class Solution:
         for i in range(1,4):
             if i > 1 and s[:i][0] == "0" or int(s[:i]) > 255:  #自己寫的時候 == "0" 寫成 == 0, 造成bug 要小心
                 continue
-            self.dfs(s[i:], path + [s[:i]], res)  #注意, 到第四個數字時, 剩餘s小於3有可能造成答案重複, ex: 剩餘 len(s) = 2, 但 s[:3], s[:4] 皆一樣, 造成答案重複
+            path.append(s[:i])
+            self.dfs(s[i:], path, res)  #注意, 到第四個數字時, 剩餘s小於3有可能造成答案重複, ex: 剩餘 len(s) = 2, 但 s[:3], s[:4] 皆一樣, 造成答案重複
+            path.pop()
 
 #重寫第三次, 刷題用這個, 用到backtracking, time complexity O(27), space complexity O(1)
 class Solution:

@@ -46,7 +46,7 @@ class Solution:
                 i, j = queue.popleft()
                 for d in direc:
                     x, y = i + d[0], j + d[1]
-                    if 0 <= x < m and 0 <= y < n and rooms[x][y] == 2**31-1:
+                    if 0 <= x < m and 0 <= y < n and rooms[x][y] == 2**31-1: # 遍歷過了 就不再遍歷
                         rooms[x][y] = k
                         queue.append((x, y))
             k += 1

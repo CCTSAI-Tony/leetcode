@@ -11,7 +11,8 @@ You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL
 
 
 #time complexity encode: O(1), decode: O(1), space complexity O(n)
-#思路: 使用string and OrderedDict 先建立 letter:int pair, 建立self.urls = [] 來儲存未encode 的urls, 使用建立的self.base來加密此url在self.urls 的位置 index + 1 => 輸出成加密url
+#思路: 使用string and OrderedDict 先建立 letter:int pair, 建立self.urls = [] 來儲存未encode 的urls, 
+#使用建立的self.base來加密此url在self.urls 的位置 index + 1 => 輸出成加密url
 #每個不同的n (self.urls 的index + 1) 加密後的結果都不同
 #解密 加密的url => 轉化成index => self.urls[n-1] => 原本的url
 #加密機制 n%62 => letter, n//62 => 解密機制 n = 0 => n*62 + self.base[ch]

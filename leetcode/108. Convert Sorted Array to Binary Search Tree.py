@@ -85,8 +85,20 @@ class Solution:
             return node
         return dfs(0, len(nums) - 1)
 
-
-
+# 重寫第四次, time complexity O(n), space complexity O(logn)
+class Solution:
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        def dfs(l, r):
+            if l == r:
+                return TreeNode(nums[l])
+            if l > r:
+                return None
+            mid = l + (r - l) // 2
+            node = TreeNode(nums[mid])
+            node.left = dfs(l, mid-1)
+            node.right = dfs(mid+1, r)
+            return node
+        return dfs(0, len(nums) - 1)
 
 
 

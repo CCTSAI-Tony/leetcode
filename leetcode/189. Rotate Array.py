@@ -65,6 +65,25 @@ class Solution:
             s += 1; e -= 1
 
 
+# 重寫第三次, time complexity O(n), space complexity O(1)
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        def reverse(arr, s, e):
+            while s < e:
+                arr[s], arr[e] = arr[e], arr[s]
+                s += 1
+                e -= 1
+                
+        n = len(nums)
+        k = k % n
+        reverse(nums, 0, n-k-1)
+        reverse(nums, n-k, n-1)
+        reverse(nums, 0, n-1)
+
+
 
 class Solution:
     def rotate(self, nums: List[int], k: int) -> None:

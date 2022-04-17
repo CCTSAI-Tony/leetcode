@@ -44,7 +44,7 @@ class Solution:
         
 
     def pickIndex(self) -> int:
-        seed = random.randint(1, self.w[-1])  #why randint(1, self.w[-1]), 因為w[i] 只能正整數, 最小為1, 因此隨機挑index要從1開始, 要排除0 重要!
+        seed = random.randint(1, self.w[-1])  #why randint(1, self.w[-1]), 因為w[i] 只能正整數, 最小為1, 因此隨機挑重量要從1開始, 要排除0 重要!
         left, right = 0, self.n - 1
         while left + 1 < right:
             mid = left + (right - left)//2

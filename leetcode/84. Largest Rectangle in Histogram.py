@@ -33,7 +33,7 @@ Output: 10
 class Solution:
     def largestRectangleArea(self, heights: List[int]) -> int:
         heights.append(0) #這個重要, 遍歷完height 最後強迫回算留在stack 的遞增序列, stack pop的高度當作rectangle的高度
-        stack = [-1] #python 技巧, 這個重要, 當作while loop 的終止條件 => heights[-1] = 0
+        stack = [-1] #python 技巧, 這個重要, 當作while loop 的終止條件 => heights[-1] = 0, 還有就是0 base index issue
         ans = 0
         for i in range(len(heights)):
             while heights[i] < heights[stack[-1]]:
@@ -71,6 +71,21 @@ class Solution:
             stack.append(i)
         return max_area
  
+# 重寫第三次, time complexity O(n), space complexity O(n)
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        heights.append(0)
+        stack = [-1]
+        max_area = 0
+        for i in range(len(heights)):
+            while stack and heights[i] < heights[stack[-1]]:
+                h = heights[stack.pop()]
+                w = i-1-stack[-1]
+                max_area = max(max_area, h*w)
+            stack.append(i)
+        return max_area
+
+
 
 #刷題用這個, stack, time complexity O(n), 比上面straightforward
 #思路: 利用stack 來存遞增height, 直到指針遍歷到height[i] < height[stack[-1]] 代表之後無法以height[stack[-1]] 當作h 形成rectangle

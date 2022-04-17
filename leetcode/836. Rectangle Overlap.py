@@ -38,9 +38,9 @@ Algorithm: compute the overlap area similar to LC 223 and return True only if bo
 #思路: 若有重疊, min(兩個矩型右邊or 上邊) - max(兩個矩型左邊or 下邊) 要 > 0
 class Solution:
     def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -> bool:
-	        width = min(rec1[2], rec2[2]) - max(rec1[0], rec2[0])
-	        height = min(rec1[3], rec2[3]) - max(rec1[1], rec2[1])
-	        return True if width > 0 and height > 0 else False
+            width = min(rec1[2], rec2[2]) - max(rec1[0], rec2[0])
+            height = min(rec1[3], rec2[3]) - max(rec1[1], rec2[1])
+            return True if width > 0 and height > 0 else False
 
 
 #重寫第二次, time complexity O(1)

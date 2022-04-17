@@ -34,30 +34,25 @@
 
 # 刷題用這個, time complexity O(2^n), space complexity O(n)
 # 思路: backtracking, 經典!!
-class Solution:
-    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        candidates.sort()
+class Solution(object):
+    def combinationSum2(self, candidates, target):
         res = []
-        self.dfs(-1, candidates, target, res, [])
+        candidates.sort()  #先排序很重要, 以利之後dfs剪枝
+        self.dfs(candidates, target, 0, [], res)
         return res
-        
-    def dfs(self, i, candidates, target, res, path):
-        if i >= len(candidates) or target < 0:
-            return
+    
+    def dfs(self, candidates, target, index, path, res):
+        if target < 0:
+            return  # backtracking
         if target == 0:
             res.append(path[:])
-            return
-        j = i + 1
-        while j < len(candidates):
-            num = candidates[j]
-            if j > i + 1 and candidates[j] == candidates[j-1]:
-                j += 1
-                continue
-            path += [num]
-            self.dfs(j, candidates, target - num, res, path)
+            return  # backtracking 
+        for i in range(index, len(candidates)):
+            if i > index and candidates[i] == candidates[i-1]:
+                continue  #避免當層出現重複元素並往下展開
+            path += [candidates[i]]
+            self.dfs(candidates, target-candidates[i], i+1, path, res) #i+1 當前元素只能用一次
             path.pop()
-            j += 1
-
 
 
 # time complexity O(2^n), backtracking 刷題用這個
@@ -72,12 +67,14 @@ class Solution(object):
         if target < 0:
             return  # backtracking
         if target == 0:
-            res.append(path)
+            res.append(path[:])
             return  # backtracking 
         for i in range(index, len(candidates)):
             if i > index and candidates[i] == candidates[i-1]:
                 continue  #避免當層出現重複元素並往下展開
-            self.dfs(candidates, target-candidates[i], i+1, path+[candidates[i]], res) #i+1 當前元素只能用一次
+            path += [candidates[i]]
+            self.dfs(candidates, target-candidates[i], i+1, path, res) #i+1 當前元素只能用一次
+            path.pop()
 
 
 

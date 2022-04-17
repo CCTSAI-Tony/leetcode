@@ -43,7 +43,7 @@
 
 
 #刷題用這個, time complexity O(n), space complexity O(1)
-#思路: 利用count variable 來記錄reverse 次數, 並使用遞迴來連結nodes
+#思路: 利用count variable 來記錄reverse 次數, 並使用reverse linked list 遞迴來連結nodes
 class Solution(object):
     def reverseKGroup(self, head, k):
         count, node = 0, head
@@ -64,7 +64,7 @@ class Solution(object):
             prev = cur
             cur = nxt
             count -= 1
-        return (cur, prev)
+        return (cur, prev) # 下一區間的第一個node, 此區間反轉後第一個node
 
 
 
@@ -117,5 +117,27 @@ class Solution:
             k -= 1
         return nxt, prev
 
-
+# 重寫第四次, time complexity O(n), space complexity O(1)
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        def reverse(node, count):
+            cur, prev = node, None
+            while count:
+                nxt = cur.next
+                cur.next = prev
+                prev = cur
+                cur = nxt
+                count -= 1
+            return (cur, prev)
+        
+        node = head
+        counts = 0
+        while node:
+            node = node.next
+            counts += 1
+        if counts < k:
+            return head
+        new_head, cur_head = reverse(head, k)
+        head.next = self.reverseKGroup(new_head, k)
+        return cur_head
 

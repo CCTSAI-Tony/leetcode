@@ -36,7 +36,7 @@ Note: Do not use class member/global/static variables to store states. Your seri
 # > Space Complexity O(N)
 
 #刷題用這個 Time Complexity O(N), Space Complexity O(N)
-#思路: 此題精髓: preorder traversal => bfs serialize, 利用q 存取TreeNode, 以利之後分解連結in serialize, or 連結nodes in deserialize
+#思路: 此題精髓: level order traversal => bfs serialize, 利用q 存取TreeNode, 以利之後分解連結in serialize, or 連結nodes in deserialize
 import collections 
 class Codec:
     def serialize(self, root):

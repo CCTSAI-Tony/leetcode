@@ -35,7 +35,8 @@ Each board[i][j] is a character in the set {" ", "X", "O"}.
 '''
 
 
-#刷題用這個, time complexity O(1), space complexity O(1)
+# 刷題用這個, time complexity O(1), space complexity O(1)
+# 思路: 請考慮各種邊界狀況, 例如先下手的x count 要 >= o count
 class Solution(object):
     def check_win_positions(self, board, player):
         #Check the rows
@@ -69,7 +70,7 @@ class Solution(object):
         
         if self.check_win_positions(board, 'O'):
             if self.check_win_positions(board, 'X'):
-                return False
+                return False  # 雙方皆贏 不可能
             return o_count == x_count
         
         if self.check_win_positions(board, 'X') and x_count!=o_count+1:

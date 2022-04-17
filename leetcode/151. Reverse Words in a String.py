@@ -67,11 +67,11 @@ class Solution:
         word = ""
         words = ""
         for i in range(len(s)):
-            if s[i] != " " and word != "" and s[i-1] == " ":
+            if s[i] != " " and word != "" and s[i-1] == " ": # and word != "" 因為有leading zero, 所以加這個條件
                 words += (word + " ")
                 word = s[i]
             elif s[i] != " ":
-                word = s[i] + word
+                word = s[i] + word  # 重要, 因為倒序
             else:
                 continue
         words += word

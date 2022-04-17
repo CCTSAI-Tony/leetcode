@@ -45,23 +45,23 @@ Therefore, you can't travel around the circuit once no matter where you start.
 '''
 
 # 重寫第二次, time complexity O(n)m space complexity O(1)
-# 思路: 尋找油量最小值的點
+# 思路: greedy, 尋找油量最小值的點
 # 走完一遍以后，油量增加 => 一定能找到解
 # 走完一遍以后油量不变 => 这种情况下， 解存在，即 “周期函数一定有最大值和最小值。 只要从最小值出发，永远不会低于初值。”
 # 走完一遍以后油量减少 => 一定无解
-# input => [4], [5] => 就會導致 min_gas_loc = None, 因為走一圈回來, 油量增加了
+# input => gas [5], cost [4] => 就會導致 min_gas_loc = None, 因為走一圈回來, 油量增加了
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
         if sum(gas) < sum(cost):
             return -1
-        min_gas, min_gas_loc = 0, None
+        min_gas, min_gas_loc = 0, 0  # 先預設起點油量最少
         tank = 0
         for i in range(len(gas)):
             tank += (gas[i] - cost[i])
             if tank <= min_gas:
                 min_gas = tank
                 min_gas_loc = i + 1
-        return 0 if min_gas_loc is None else min_gas_loc % len(gas)
+        return min_gas_loc % len(gas)
 
 
 

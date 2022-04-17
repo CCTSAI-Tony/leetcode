@@ -52,7 +52,7 @@ class Solution:
                 adjMap[ticket[0]] = [ticket[1]]
             else:
                 adjMap[ticket[0]].append(ticket[1])
-        for ticket in tickets:  #對到達地做排序, 字母排序小的放後面
+        for ticket in tickets:  #對到達地做排序, 字母排序小的放後面, 這樣就會最早被pop出來, 最晚被加到res
             adjMap[ticket[0]].sort(reverse=True)
         return adjMap    
 

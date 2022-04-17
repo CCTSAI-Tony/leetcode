@@ -65,7 +65,7 @@ class Solution(object):
         return self.boundary
 
     def dfs_leftbound(self, node):
-        if not node or (not node.left and not node.right): #left most node 歸類到leaces 
+        if not node or (not node.left and not node.right): #left most node 歸類到leaves 
             return
         self.boundary.append(node.val)  #左邊boundary 從上到下
         if node.left: #優先往左走, 若沒有左邊子樹只好往右走

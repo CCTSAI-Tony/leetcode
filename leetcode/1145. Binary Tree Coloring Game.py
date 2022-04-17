@@ -55,7 +55,7 @@ Time O(N)
 Space O(height) for recursion
 
 # 刷題用這個, time complexity O(n), space complexity O(h)
-# 思路: 選first player 第一個node 的neighbor, 該neighbor 所屬支樹的count 全部都歸second player, 總共有三個支樹, left, right, and parent, 使用dfs 來算出支樹count
+# 思路: 選first player 第一個node 的neighbor, 該neighbor 所屬其一支樹的count 全部都歸second player, 總共有三個支樹, left, right, and parent, 使用dfs 來算出支樹count
 # 最後用 count(root) / 2 < max(max(左, 右), n - sum(左, 右) - 1) 來判斷是否second player 會贏
 class Solution:
     def btreeGameWinningMove(self, root: TreeNode, n: int, x: int) -> bool:
@@ -67,7 +67,7 @@ class Solution:
             if node.val == x: #遇到x, 可以開始計算 first player 的左右支樹 count
                 c[0], c[1] = l, r
             return l + r + 1
-        return count(root) / 2 < max(max(c), n - sum(c) - 1)
+        return count(root) / 2 < max(max(c), n - sum(c) - 1) #n - sum(c) - 1 代表parent 支樹的count, -1 代表first player 第一個node 要扣掉
         
 
 #重寫第二次, time complexity O(n), space complexity O(h)
