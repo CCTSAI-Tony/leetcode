@@ -38,6 +38,8 @@ root is a valid binary search tree.
 -105 <= key <= 105
 '''
 
+# 刷題用這個, time complexity O(n)
+# 思路: 建立successor and predecessor, 再利用recursion 來delete node
 class Solution:
     def successor(self, root):
         """
@@ -114,4 +116,42 @@ class Solution:
         while root.right:
             root = root.right
         return root.val
+
+# 重寫第三次, time complexity O(logn), space complexity O(h), h = logn for the balanced tree
+class Solution:
+    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        def successor(node):
+            if not node.right:
+                return None
+            node = node.right
+            while node.left:
+                node = node.left
+            return node
+        
+        def predecessor(node):
+            if not node.left:
+                return None
+            node = node.left
+            while node.right:
+                node = node.right
+            return node
+        
+        if not root:
+            return None
+        if key > root.val:
+            root.right = self.deleteNode(root.right, key)
+        elif key < root.val:
+            root.left = self.deleteNode(root.left, key)
+        else:
+            if not root.left and not root.right:
+                return None
+            if root.left:
+                predecessor = predecessor(root)
+                root.val = predecessor.val
+                root.left = self.deleteNode(root.left, root.val)
+            elif root.right:
+                successor = successor(root)
+                root.val = successor.val
+                root.right = self.deleteNode(root.right, root.val)
+        return root
 

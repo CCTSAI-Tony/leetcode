@@ -215,8 +215,43 @@ class Solution:
 
 
 
-
-
+# 重寫第三次, time complexity O(n), space complexity O(h)
+class Solution:
+    def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
+        res = [root.val]
+        def traverse_left(node):
+            if not node:
+                return
+            if not node.left and not node.right:
+                return
+            res.append(node.val)
+            if node.left:
+                traverse_left(node.left)
+            else:
+                traverse_left(node.right)
+        def traverse_leaf(node):
+            if not node.left and not node.right and node != root:
+                res.append(node.val)
+                return
+            if node.left:
+                traverse_leaf(node.left)
+            if node.right:
+                traverse_leaf(node.right)
+        def traverse_right(node):
+            if not node:
+                return
+            if not node.left and not node.right:
+                return
+            if node.right:
+                traverse_right(node.right)
+            else:
+                traverse_right(node.left)
+            res.append(node.val)
+            
+        traverse_left(root.left)
+        traverse_leaf(root)
+        traverse_right(root.right)
+        return res
 
 
 

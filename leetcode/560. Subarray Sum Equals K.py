@@ -45,6 +45,23 @@ class Solution:
             memo[num] += 1
         return ans
 
+
+# 重寫第三次, time complexity O(n), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        subarray_map = defaultdict(int)
+        subarray_map[0] = 1
+        ans = 0
+        for i in range(1, len(nums)):
+            nums[i] += nums[i-1]
+        for num in nums:
+            ans += subarray_map[num-k]
+            subarray_map[num] += 1
+        return ans
+
+
+
 #暴力解 2 pointer, O(N^3) TLE
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:

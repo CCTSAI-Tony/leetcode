@@ -179,6 +179,56 @@ class Solution:
             head.next = temp
         return head
 
+#重寫第四次, time complexity O(n), space complexity O(1)
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        n1, n2 = 0, 0
+        cur1, cur2 = l1, l2
+        while cur1:
+            n1 += 1
+            cur1 = cur1.next
+        while cur2:
+            n2 += 1
+            cur2 = cur2.next
+        cur1, cur2 = l1, l2
+        prev = None
+        while n1 and n2:
+            val = 0
+            if n1 > n2:
+                val += cur1.val
+                cur1 = cur1.next
+                n1 -= 1
+            elif n2 > n1:
+                val += cur2.val
+                cur2 = cur2.next
+                n2 -= 1
+            else:
+                val += cur1.val + cur2.val
+                cur1 = cur1.next
+                cur2 = cur2.next
+                n1 -= 1
+                n2 -= 1
+            node = ListNode(val)
+            node.next = prev
+            prev = node
+        cur = prev
+        carry = 0
+        prev = None
+        while cur:
+            carry, val = (cur.val + carry) // 10, (cur.val + carry) % 10
+            node = ListNode(val)
+            node.next = prev
+            prev = node
+            cur = cur.next
+        if carry:
+            node = ListNode(carry)
+            node.next = prev
+            prev = node
+        return prev
+
+
+
+
 #自己想的 time complexity O(max(len(l1), len(l2))
 #思路: 因為不能修改input LinkedList 所以只能walk through 取得兩條 linked list 的資訊
 #兩條的值加起來,  做出一條nums3 link list, 並利用dummy head 來回報

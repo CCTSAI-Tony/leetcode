@@ -51,6 +51,24 @@ All Nodes will have unique values.
 Follow up: Could you solve it without looking up any of the node's values?
 '''
 
+
+#別人的解法, 刷題用這個, time complexity O(n), space complexity O(h)
+class Solution:
+    def inorderSuccessor(self, node: 'Node') -> 'Node':
+        if node.right:
+            node = node.right
+            while node.left: 
+                node = node.left
+            return node
+
+        while node.parent: 
+            if node.parent.left == node:
+                return node.parent
+            node = node.parent
+        return None
+
+
+
 #自己想的, time complexity O(n), space complexity O(h)
 #思路: 分治法, 利用preorser 順序 來找出下一個點, 從parent.left == node 知道下一點有可能是parent
 class Solution:
@@ -83,20 +101,7 @@ class Solution:
             return self.get_top(parent)
 
 
-#別人的解法, 刷題用這個
-class Solution:
-    def inorderSuccessor(self, node: 'Node') -> 'Node':
-        if node.right:
-            node = node.right
-            while node.left: 
-                node = node.left
-            return node
 
-        while node.parent: 
-            if node.parent.left == node:
-                return node.parent
-            node = node.parent
-        return None
 
 
 

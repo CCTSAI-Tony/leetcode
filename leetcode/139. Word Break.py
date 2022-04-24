@@ -54,7 +54,7 @@ class Solution:
         return dp[-1]
 
 
-# 重寫第二次, time complexity O(n), space complexity O(n)
+# 重寫第二次, time complexity O(n^2*m), n = len(s), m = len(wordDict), dp[i] => 對應 s[:i]
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         n = len(s)
@@ -67,7 +67,17 @@ class Solution:
         return dp[-1]
 
 
-
+# 重寫第三次, time complexity O(n^2), n = len(s), dp[i] => 對應 s[:i]
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        wordDict = set(wordDict)
+        dp = [False] * (len(s) + 1)
+        dp[0] = True
+        for i in range(len(s)):
+            for j in range(i+1, len(s) + 1):
+                if dp[i] and s[i:j] in wordDict:
+                    dp[j] = True
+        return dp[-1]
 
 
 # a = [1,2,3]

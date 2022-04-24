@@ -122,3 +122,34 @@ class Solution:
         if dp[-1] == -1:
             return ""
         return s1[start:end+1]
+
+
+# 重寫第四次, time complexity O(mn), space complexity O(m)
+from collections import defaultdict
+class Solution:
+    def minWindow(self, s1: str, s2: str) -> str:
+        memo = defaultdict(list)
+        for i, c in enumerate(s2):
+            memo[c].append(i)
+        start = 0
+        end = 0
+        min_len = float("inf")
+        dp = [-1] * len(s2)
+        for i, c in enumerate(s1):
+            if c not in memo:
+                continue
+            for idx in memo[c][::-1]:
+                if idx == 0:
+                    dp[0] = i
+                else:
+                    dp[idx] = dp[idx-1]
+                if idx == len(s2) - 1 and dp[-1] != -1:
+                    if i - dp[-1] + 1 < min_len:
+                        min_len = i - dp[-1] + 1
+                        start = dp[-1]
+                        end = i
+        return s1[start:end+1] if dp[-1] != -1 else ""
+
+
+
+

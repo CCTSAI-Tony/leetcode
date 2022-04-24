@@ -46,6 +46,55 @@ https://www.geeksforgeeks.org/binary-search-tree-data-structure/ 建議複習一
 #         self.left = None
 #         self.right = None
 
+
+
+# 可以用297 解法解
+import collections
+class Codec:
+
+    def serialize(self, root: TreeNode) -> str:
+        """Encodes a tree to a single string.
+        """
+        if not root: 
+            return ""
+        q = collections.deque([root])
+        res = []
+        while q:
+            node = q.popleft()
+            if node:
+                q.append(node.left)
+                q.append(node.right)
+            res.append(str(node.val) if node else '#')
+        return ','.join(res) #看下面例子
+    
+    
+
+    def deserialize(self, data: str) -> TreeNode:
+        """Decodes your encoded data to tree.
+        """
+        if not data: 
+            return None
+        nodes = data.split(',') #['1', '2', '3']
+        root = TreeNode(int(nodes[0]))
+        q = collections.deque([root])#一開始只有root, TreeNode, 用來連結其他nodes
+        index = 1 #指針
+        while q: #先左再右, 同serialize
+            node = q.popleft()
+            if nodes[index] is not '#':
+                node.left = TreeNode(int(nodes[index]))  #記得int()
+                q.append(node.left)
+            index += 1 #換下一個元素不管當前元素是否'#'
+        
+            if nodes[index] is not '#':
+                node.right = TreeNode(int(nodes[index]))
+                q.append(node.right)
+            index += 1
+        return root
+
+
+
+
+
 # leetcode 105 相同概念順便練習, time complexity O(n)
 # 思路: 關鍵是利用preorder 來封裝binary search tree, 並以此傳送string, 記得node 與 node 之間要間隔, 以利之後解碼
 # 之後利用 bst 特性 minVal < vals[0] < maxVal 搭配preorder pop root的順序 來重建binary tree, 
@@ -79,6 +128,7 @@ class Codec:
             node.right = self.build(val, maxVal, vals)
             return node
         return None
+
 
 #自己重寫
 import collections

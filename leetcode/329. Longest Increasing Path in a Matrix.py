@@ -33,6 +33,7 @@ Explanation: The longest increasing path is [3, 4, 5, 6]. Moving diagonally is n
 #利用dfs來找尋四周比自己大的元素 並從四條路中挑一個最大的值+1 就是最長increasing path, base case是四周都比自己小 return 1
 #注意邊界狀況, 因為是top down dp, 所以不會像backtracking 有return None or retuen 單純回上一層再試其他選擇的狀況, dp 就是要一次評估所有子問題來挑選最好結果
 #此題dfs不用visited, 因為 vertex.val > parent_vertex.val 才能往下走, 不會互為可通造成死迴圈
+#dp[i][j] => 代表該cell 為起點的最大increse path
 class Solution:
     def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
         if not matrix or not matrix[0]:
@@ -165,6 +166,32 @@ class Solution:
                 memo[(i, j)] = max(memo[(i, j)], 1 + self.dfs(x, y, matrix, memo, visited, m, n))
         visited.remove((i, j))
         return memo[(i, j)]
+
+
+# 重寫第六次, memo + bacltracking, time complexity O(mn), space complexity O(mn)
+class Solution:
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        dp = [[0] * n for _ in range(m)]
+        max_len = 0
+        def dfs(i, j):
+            if not dp[i][j]:
+                cur = matrix[i][j]
+                dp[i][j] = 1 + max(
+                dfs(i+1, j) if i+1 < m and cur < matrix[i+1][j] else 0,
+                dfs(i-1, j) if i-1 >= 0 and cur < matrix[i-1][j] else 0,
+                dfs(i, j+1) if j+1 < n and cur < matrix[i][j+1] else 0,
+                dfs(i, j-1) if j-1 >= 0 and cur < matrix[i][j-1] else 0,
+                )
+            return dp[i][j]
+        for i in range(m):
+            for j in range(n):
+                temp = dfs(i, j)
+                max_len = max(max_len, temp)
+        return max_len
+
+
+
 
 
 # We can find longest decreasing path instead, the result will be the same. Use dp to record previous results and choose the max dp value of smaller neighbors.

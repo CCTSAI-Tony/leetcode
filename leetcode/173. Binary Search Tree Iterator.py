@@ -104,6 +104,33 @@ class BSTIterator:
 
 
 
+# 重寫第三次, time complexity: next, hasnext average O(1), space complexity O(h)
+class BSTIterator:
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.stack = []
+        while root:
+            self.stack.append(root)
+            root = root.left
+        
+
+    def next(self) -> int:
+        node = self.stack.pop()
+        res = node.val
+        if node.right:
+            node = node.right
+            while node:
+                self.stack.append(node)
+                node = node.left
+        return res
+
+    def hasNext(self) -> bool:
+        return len(self.stack) > 0
+
+
+
+
+
 #刷題可用這個, time complexity O(n)
 #generator solution:
 class BSTIterator:

@@ -61,8 +61,24 @@ class Solution:
             res.append(carry)
         return "".join(map(str, res[::-1]))
 
-
-
+# 重寫第三次, time complexity O(m+n), space complexity O(m+n)
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        num1 = list(num1)
+        num2 = list(num2)
+        res = []
+        carry = 0
+        while num1 or num2:
+            n1, n2 = 0, 0
+            if num1:
+                n1 = ord(num1.pop()) - ord("0")
+            if num2:
+                n2 = ord(num2.pop()) - ord("0")
+            val, carry = (n1 + n2 + carry) % 10, (n1 + n2 + carry) // 10
+            res.append(val)
+        if carry:
+            res.append(carry)
+        return "".join(map(str, res[::-1]))
 
 # a = "-23444"
 # list(a)

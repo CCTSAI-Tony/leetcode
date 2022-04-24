@@ -128,3 +128,55 @@ class Codec:
             child = Node(int(val), [])
             node.children.append(child)
             self.helper(child, data)
+
+
+# 自己想的, 刷題用這個, time complexity O(n), space complexity O(n)
+# 思路: level order traversal, 同297, 449
+from collections import deque
+class Codec:
+    def serialize(self, root: 'Node') -> str:
+        """Encodes a tree to a single string.
+        
+        :type root: Node
+        :rtype: str
+        """
+        if not root:
+            return ""
+        q = deque([root])
+        res = []
+        while q:
+            node = q.popleft()
+            if node:
+                if node.children:
+                    for child in node.children:
+                        q.append(child)
+                q.append(None)
+            res.append(str(node.val) if node else "#")
+        return ",".join(res)
+            
+        
+    
+    def deserialize(self, data: str) -> 'Node':
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: Node
+        """
+        if not data:
+            return None
+        nodes = data.split(",")
+        root = Node(int(nodes[0]), [])
+        q = deque([root])
+        index = 1
+        while q:
+            node = q.popleft()
+            while index < len(nodes) and nodes[index] != "#":
+                child = Node(int(nodes[index]), [])
+                node.children.append(child)
+                q.append(child)
+                index += 1
+            else:
+                index += 1
+        return root
+
+

@@ -148,6 +148,55 @@ class Solution:
         return False
 
 
+
+# 重寫第五次, time complexity O(9!)^9, space complexity O(81)
+from collections import defaultdict
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        m, n = len(board), len(board[0])
+        row, col, block, remain = defaultdict(set), defaultdict(set), defaultdict(set), []
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] != ".":
+                    val = board[i][j]
+                    row[i].add(val)
+                    col[j].add(val)
+                    block[(i//3, j//3)].add(val)
+                else:
+                    remain.append((i, j))
+        def dfs():
+            if not remain:
+                return True
+            i, j = remain.pop()
+            for val in range(1, 10):
+                val = str(val)
+                if val not in row[i] and val not in col[j] and val not in block[(i//3, j//3)]:
+                    board[i][j] = val
+                    row[i].add(val)
+                    col[j].add(val)
+                    block[(i//3, j//3)].add(val)
+                    if dfs():
+                        return True
+                    board[i][j] = "."
+                    row[i].remove(val)
+                    col[j].remove(val)
+                    block[(i//3, j//3)].remove(val)
+            remain.append((i, j))
+            return False
+        dfs()
+
+
+
+
+
+
+
+
+
+
 from collections import defaultdict, deque
 class Solution:
     def solveSudoku(self, board):

@@ -49,7 +49,36 @@ class Solution:
         words += word
         return words
 
-        
+
+# 重寫第三次, time complexity O(n), space complexity O(1), 刷題用這個
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        word = ""
+        ans = ""
+        prev = ""
+        for c in s[::-1]:
+            if c != " " and prev == " ":
+                if word:
+                    if ans:
+                        ans += " " + word
+                    else:
+                        ans += word
+                word = c
+            elif c != " " and prev != " ":
+                word = c + word
+            prev = c
+        if word:
+            if ans:
+                ans += " " + word
+            else:
+                ans += word
+        return ans
+
+
+
+
+
+
 #自己想的, follow up, For C programmers, try to solve it in-place in O(1) extra space., TIME COMPLEXITY O(n)
 #思路: 利用split(), 預設seperate 任何空格 => words list, 並reverse, 再用 " ".join 連結 reversed words list
 class Solution:

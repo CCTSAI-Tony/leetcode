@@ -40,10 +40,10 @@ class Solution(object):
         while cur.next and cur.next.next:
             first = cur.next
             sec = cur.next.next
-            cur.next = sec
+            cur.next = sec  # 重要!
             first.next = sec.next
             sec.next = first
-            cur = cur.next.next
+            cur = first
         return dummy.next   
 
 
@@ -77,5 +77,22 @@ class Solution:
             cur.next = nxt
             pre = cur
             cur = nxt
+        return dummy.next
+
+
+# 重寫第四次, time complexity O(n), space complexity O(1)
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+        dummy = cur = ListNode(0)
+        dummy.next = head
+        while cur.next and cur.next.next:
+            first = cur.next
+            second = first.next
+            cur.next = second
+            first.next = second.next
+            second.next = first
+            cur = first
         return dummy.next
 
