@@ -124,3 +124,66 @@ class MaxStack:
             node.next.pre = node.pre
         return num
 
+
+# 重寫第二次
+from collections import defaultdict
+import heapq
+
+class DoubleLinkedList:
+    def __init__(self, val=None):
+        self.val = val
+        self.next = None
+        self.pre = None
+    
+class MaxStack:
+
+    def __init__(self):
+        self.stack = DoubleLinkedList(float("-inf"))
+        self.last = self.stack
+        self.heap = []
+        self.hmap = defaultdict(list)
+        
+
+    def push(self, x: int) -> None:
+        node = DoubleLinkedList(x)
+        self.last.next = node
+        node.pre = self.last
+        self.last = node
+        heapq.heappush(self.heap, -x)
+        self.hmap[x].append(node)
+        
+
+    def pop(self) -> int:
+        num = self.last.val
+        self.last = self.last.pre
+        self.last.next = None
+        self.hmap[num].pop()
+        if not self.hmap[num]:
+            del self.hmap[num]
+        return num
+        
+
+    def top(self) -> int:
+        return self.last.val
+        
+
+    def peekMax(self) -> int:
+        while -self.heap[0] not in self.hmap:
+            heapq.heappop(self.heap)
+        return -self.heap[0]
+        
+
+    def popMax(self) -> int:
+        num = self.peekMax()
+        node = self.hmap[num].pop()
+        if not self.hmap[num]:
+            del self.hmap[num]
+        if node == self.last:
+            self.last = self.last.pre
+        
+        if node.pre:
+            node.pre.next = node.next
+        if node.next:
+            node.next.pre = node.pre
+        return num
+

@@ -73,6 +73,16 @@ class Solution:
             res += self.dfs(inner, depth + 1)
         return res
 
+# 重寫第二次, time complexity O(n), space complexity O(h)
+class Solution:
+    def depthSum(self, nestedList: List[NestedInteger]) -> int:
+        def dfs(item, depth):
+            if item.isInteger():
+                return item.getInteger() * depth
+            return sum(dfs(nxt, depth+1) for nxt in item.getList())
+                
+        return sum(dfs(item, 1) for item in nestedList)
+
 
 
 

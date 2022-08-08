@@ -83,7 +83,7 @@ class Solution:
                     # in Python, it returns -1, while in 
                     # Leetcode it should return 0 !! Division between two integers should truncate toward zero.
                     if l*r < 0 and l % r != 0:
-                        stack.append(l//r+1) #// 向下取整
+                        stack.append(l//r+1) #// 向0取整
                     else:
                         stack.append(l//r)
         return stack.pop() #pop出最後結果

@@ -44,3 +44,4 @@ class Solution:
             if num < 0:
                 negative_counts += 1
         return -1 if negative_counts % 2 else 1
+

@@ -38,6 +38,9 @@ Explanation: All possible pairs are returned from the sequence: [1,3],[2,3]
 #類似 single source shortest path有用到min queue概念
 
 # runtime = m*log(h), m is len(nums1)*len(nums2), h is the maximum size of the heap.
+
+# 刷題用這個, time complexity O(klogk), space complexity O(k)
+# 思路: heap
 import heapq
 class Solution(object):
     def kSmallestPairs(self, nums1, nums2, k):

@@ -56,6 +56,7 @@ p and q are different and both values will exist in the binary tree.
 # 從最上層root的角度看, 若沒有左右同時回報, 則代表左, 右其一有回報的必定是lca (包含嵌套case, p是ｑ的children之類的)
 # 但從其他node看, 若沒有左右同時回報, 則回報該分支的結果給上一層
 # p, q 一定會出現在樹上
+# 解法跟235 一樣
 class Solution(object):
     def lowestCommonAncestor(self, root, p, q) -> 'TreeNode':
         if not root: #沒搜索到

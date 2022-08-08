@@ -96,5 +96,32 @@ class Solution:
         fill_positions(root, 0, 0, 2 ** h - 2) # 2 ** h - 2 => zero based index issue
         return self.rows
 
+# 重寫第二次, time complexity O(h * (2**h - 1)), space complexity O(h * (2**h - 1))
+class Solution:
+    def printTree(self, root: Optional[TreeNode]) -> List[List[str]]:
+        def get_h(node):
+            return 0 if not node else max(get_h(node.left), get_h(node.right)) + 1
+        
+        def helper(node, h, left, right):
+            if not node:
+                return
+            mid = left + (right - left) // 2
+            self.row[h][mid] = str(node.val)
+            helper(node.left, h+1, left, mid-1)
+            helper(node.right, h+1, mid+1, right)
+        
+        h = get_h(root)
+        self.row = [[""] * (2**h - 1) for _ in range(h)]
+        helper(root, 0, 0, 2**h - 2)
+        return self.row
+
+
+
+
+
+
+
+
+
 
 

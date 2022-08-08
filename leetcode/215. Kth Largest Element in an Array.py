@@ -165,6 +165,8 @@ class Solution:
             return store_index
         
         def selections(left, right, k_smallest):
+            if left == right:
+                return left
             pivot = random.randint(left, right)
             idx = partition(left, right, pivot)
             if idx == k_smallest:

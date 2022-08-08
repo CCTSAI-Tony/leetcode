@@ -43,7 +43,7 @@ class Solution:
             if self.dfs(i+1, k, nums, buckets, n, target):
                 return True
             buckets[pos] += nums[i]
-            if buckets[pos] == target:
+            if buckets[pos] == target:  # 重要: 剪枝優化 => 代表前面有放錯桶了, 導致現在全新的桶也不能容下目前的值
                 break
         return False
 

@@ -43,10 +43,29 @@ Then, we find the index of root within in-order traversal, and split into two su
 '''
 
 #  刷題用這個
-#  自己重寫, 好理解 time complexity O(n^2), 因為pop(0)
+#  自己重寫, 好理解 time complexity O(n^2), 因為pop(0), space complexity O(logn)
 #  思路: 利用preorder(root>left>right) 的特性pop(0)找出該inorder序列最上層的root, 在利用root的index 與inorder特性 left>root>right, 把inorder拆兩部分
 #  左子樹 |root| 右子樹, 先從左子樹遞迴搜尋左子樹這邊的root, 因為preorder.pop(0) 是優先pop出左子樹的root, 之後再對左子樹左右分割 左子樹的inorder, 並做相同的事
 #  直到preorder pop完左子樹的部分, 開始pop右子樹的部分, 做一樣的事, 左右子樹 inorder切分到最後會變empty, 此時代表 null node
+from collections import deque
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        preorder = deque(preorder)
+        return self.helper(preorder, inorder, 0, len(inorder))
+    
+    def helper(self, preorder, inorder, l, r):
+        if l < r:
+            val = preorder.popleft()
+            root = TreeNode(val)
+            idx = inorder.index(val)
+            root.left = self.helper(preorder, inorder, l, idx) 
+            root.right = self.helper(preorder, inorder, idx+1, r)
+            return root
+        return None
+
+
+
+
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
         if inorder:

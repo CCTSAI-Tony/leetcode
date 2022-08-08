@@ -62,7 +62,7 @@ class Solution(object):
         
         for char in s:
             words_expecting_char = word_dict[char]
-            word_dict[char] = []
+            word_dict[char] = []  # reset, 重要
             for word in words_expecting_char:
                 if len(word) == 1:
                     # Finished subsequence! 

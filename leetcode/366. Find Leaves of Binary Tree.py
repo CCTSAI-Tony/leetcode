@@ -27,7 +27,7 @@ The number of nodes in the tree is in the range [1, 100].
 '''
 
 # 刷題用這個, time complexity O(n), space complexity O(n)
-# 思路: dfs, 左右分治法, depth
+# 思路: dfs, 左右分治法, depth, 在dfs 回報值給上層途中, 也順便做了一些事
 class Solution:
     def findLeaves(self, root: Optional[TreeNode]) -> List[List[int]]:
         self.ans = []

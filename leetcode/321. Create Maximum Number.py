@@ -42,12 +42,60 @@ Output:
 # iterate i from 0 to k.
 # find max number from num1, num2 by select i , k-i numbers, denotes as left, right
 # find max merge of left, right
-# function maxSingleNumber select i elements from num1 that is maximum. The idea find the max number one by one. i.e. assume nums [6,5,7,1,4,2], selects = 3.
+# function maxSingleNumber select i elements from num1 that is maximum. The idea find the max number one by one. 
+# i.e. assume nums [6,5,7,1,4,2], selects = 3.
 # 1st digit: find max digit in [6,5,7,1], the last two digits [4, 2] can not be selected at this moment.
-# 2nd digits: find max digit in [1,4], since we have already selects 7, we should consider elements after it, also, we should leave one element out.
+# 2nd digits: find max digit in [1,4], since we have already selects 7, we should consider elements after it, also, 
+# we should leave one element out.
 # 3rd digits: only one left [2], we select it. and function output [7,4,2]
 
 # function mergeMax find the maximum combination of left, and right.
+
+
+
+# 刷題用這個, time complexity O(n^2), space complexity O(n)
+# 思路: Greedy Search + Dynamic Programming
+class Solution:
+    def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:        
+        def merge(n1, n2):
+            res = []
+            while (n1 or n2) :
+                if n1>n2:
+                    res.append(n1[0])
+                    n1 = n1[1:]
+                else:
+                    res.append(n2[0])
+                    n2 = n2[1:]
+            return res
+        
+        def findmax(nums, length):
+            l = []
+            maxpop = len(nums)-length
+            for i in range(len(nums)):
+                while maxpop>0 and len(l) and nums[i]>l[-1]:
+                    l.pop()
+                    maxpop -= 1
+                l.append(nums[i])
+            return l[:length]
+        
+        n1 = len(nums1)
+        n2 = len(nums2)
+        res = [0]*k
+        for i in range(k+1):
+            j = k-i
+            if i>n1 or j>n2:    continue
+            l1 = findmax(nums1, i)
+            l2 = findmax(nums2, j)
+            res = max(res, merge(l1,l2))
+        return res
+
+
+
+
+
+
+
+
 
 class Solution(object):
     def maxNumber(self, nums1, nums2, k):

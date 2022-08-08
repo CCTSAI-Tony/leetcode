@@ -42,6 +42,31 @@ class Solution:
             self.dfs(nxt, depth + 1, dic)
 
 
+# 重寫第二次, time complexity O(n), space complexity O(n)
+from collections import defaultdict
+class Solution:
+    def depthSumInverse(self, nestedList: List[NestedInteger]) -> int:
+        depth_map = defaultdict(int)
+        max_depth = 1
+        def dfs(item, depth):
+            nonlocal max_depth
+            if item.isInteger():
+                max_depth = max(max_depth, depth)
+                depth_map[depth] += item.getInteger()
+            else:
+                for nxt in item.getList():
+                    dfs(nxt, depth + 1)
+                
+        for item in nestedList:
+            dfs(item, 1)
+            
+        ans = 0
+        for k, v in depth_map.items():
+            ans += (max_depth - k + 1) * v
+        return ans
+
+
+
 # 別人想的, bfs solution, time complexity O(n), space complexity O(n)
 # 技巧: Now we only initilaize level_sum once. And successive level's integers are added to it. 
 # Once a level finishes, we add to total_sum. This naturally implements the multiplication logic - lower level sums are added multiple times to total sum.

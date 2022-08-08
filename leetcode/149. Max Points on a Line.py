@@ -65,7 +65,7 @@ class Solution:
             return 1
         lines = defaultdict(set)
         for i in range(len(points)):
-            for j in range(1, len(points)):
+            for j in range(i+1, len(points)):
                 slope, intercept = self.check_slope(points[i], points[j])
                 lines[(slope, intercept)].add(i)
                 lines[(slope, intercept)].add(j)
@@ -89,7 +89,7 @@ class Solution:
             return 1
         lines = defaultdict(set)
         for i in range(len(points)):
-            for j in range(1, len(points)):
+            for j in range(i+1, len(points)):
                 self.check_lines(points[i], points[j], lines)
         return max([len(points) for line, points in lines.items()])
                 
