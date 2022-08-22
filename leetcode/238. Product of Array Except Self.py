@@ -95,7 +95,23 @@ i = 3, your output becomes [1, 1, 2, 6*1] and p = p * 4 (4)
 i = 2, your output becomes [1, 1, 2*4, 6] and p = p * 3 (12)
 i = 1, your output becomes [1, 1*12, 8, 6] and p = p * 2 (24)
 final result: [24, 12, 8, 6]
-'''
+
+left to right
+[2, 3, 4, 5], p = 1
+res = [], p = 1
+res = [1], p = 1 * 2
+res = [1, 2], p = 2 * 3
+res = [1, 2, 6], p = 6 * 4
+res = [1, 2, 6, 24]
+
+right to left
+original = [2, 3, 4, 5]
+[1, 2, 6, 24], p = 1
+res = [1, 2, 6, 24], p = 1 * 5
+res = [1, 2, 30, 24], p = 5 * 4
+res = [1, 40, 30, 24], p = 20 * 3
+res = [60, 40, 30, 24], p = 60 *
+''.
 
 
 
