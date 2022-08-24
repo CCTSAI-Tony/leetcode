@@ -11,7 +11,7 @@ public:
         unordered_map<int,int> m;
         for(int i=0;i<nums.size();++i)
         {
-            if(m.find(target-nums[i])!=m.end())
+            if(m.find(target-nums[i])!=m.end()) // 重要, m[target-nums[i] 是pair structure, 要用find 確認m 是否有這個key, 不能直接 m[target-nums[i]] => 有可能報錯
             {   
                 v.push_back(m[target-nums[i]]);
                 v.push_back(i);
@@ -22,6 +22,28 @@ public:
         }
        return v;
         
+    }
+};
+
+
+// 重寫第二次, time complexity O(n), space complexity O(n)
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> res;
+        unordered_map<int, int> map;
+        for (int i = 0; i < nums.size(); i++){
+            if (map.find(target - nums[i]) != map.end()){
+                res.push_back(map[target - nums[i]]);
+                res.push_back(i);
+                return res;
+            }
+            
+            else{
+                map[nums[i]] = i;
+            }
+        }
+        return res;
     }
 };
 

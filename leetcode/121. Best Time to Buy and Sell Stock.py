@@ -78,4 +78,5 @@ class Solution:
             max_profit = max(max_profit, profit)
         return max(0, max_profit) #要注意避免負數 所以設個0, 因為可以什麼都不買
 
+
 #idea: store max_profit, and change min
