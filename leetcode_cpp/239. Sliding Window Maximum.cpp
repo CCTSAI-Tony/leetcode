@@ -1,3 +1,4 @@
+// time complexity O(n)
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
@@ -21,3 +22,7 @@ public:
         dq.push_back(i);
     }
 };
+
+
+
+
