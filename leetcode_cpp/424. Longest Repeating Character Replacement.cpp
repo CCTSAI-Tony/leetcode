@@ -13,6 +13,8 @@
 
 // time complexity O(n)
 // even though we s[start]--, didn't resolve end - start + 1 - max_count_in_window > k, we don't care, cause it doesn't change the max_len answer
+// We only need to update max_count_in_window for end, until we find end's character count bigger then preveios most frequent char,
+// at that point, max_len may be increased
 class Solution {
 public:
     int characterReplacement(string s, int k) {
@@ -48,6 +50,8 @@ vector<Value> values(map.size());
 transform(map.begin(), map.end(), keys.begin(), key_selector);
 transform(map.begin(), map.end(), values.begin(), value_selector);
 
+// for_each learning
+// https://www.geeksforgeeks.org/for_each-loop-c/
 
 // from python idea, is not good as above solution
 class Solution {
