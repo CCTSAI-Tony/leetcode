@@ -291,7 +291,53 @@ class Solution:
                     self.dfs(x, y, board, next_node, res)
         board[i][j] = temp
 
+# 重寫第六次, 優化
+from collections import defaultdict
+class TrieNode:
+    def __init__(self):
+        self.child = defaultdict(TrieNode)
+        self.word = ""
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        node = self.root
+        for w in word:
+            node = node.child[w]
+        node.word = word
 
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        if not board or not board[0]:
+            return []
+        m, n = len(board), len(board[0])
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        res = []
+        root = trie.root
+        for i in range(m):
+            for j in range(n):
+                self.dfs(i, j, board, root, res, m, n)
+        return res
+    
+    def dfs(self, i, j, board, node, res, m, n):
+        if node.word != "":
+            res.append(node.word)
+            node.word = ""
+        if 0 <= i < m and 0 <= j < n:
+            temp = board[i][j]
+            node = node.child.get(temp)
+            if not node:
+                return
+            board[i][j] = "#"
+            self.dfs(i+1, j, board, node, res, m, n)
+            self.dfs(i-1, j, board, node, res, m, n)
+            self.dfs(i, j+1, board, node, res, m, n)
+            self.dfs(i, j-1, board, node, res, m, n)
+            board[i][j] = temp  
 
 
 import collections

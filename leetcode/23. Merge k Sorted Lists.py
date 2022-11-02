@@ -70,7 +70,7 @@ class Solution:
         return dummy.next
 
 
-#重寫第三次, time complexity O(mnlogn), space complexity O(log(n)), m:len(sorted_list), n: len(lists), mn: total elements
+#刷題用這個, 重寫第三次, time complexity O(mnlogn), space complexity O(log(n)), m:len(sorted_list), n: len(lists), mn: total elements
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         if not lists:
