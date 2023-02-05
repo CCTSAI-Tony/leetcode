@@ -14,31 +14,28 @@ Note:
 Although the above answer is in lexicographical order, your answer could be in any order you want.
 '''
 
-#自己重寫 time complexity O(3(4)^n) space complexity O(3(4)^n)
+#自己重寫 time complexity O(3(4)^n) space complexity O(n)
 #思路: dfs backtracking, 建立phone graph 再利用dfs 來找出所有的組合
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         if not digits:
-            return []
+            return None
+        memo = {"2": ["a", "b", "c"], "3": ["d", "e", "f"], "4": ["g", "h", "i"], 
+               "5": ["j", "k", "l"], "6": ["m", "n", "o"], "7": ["p", "q", "r", "s"], 
+               "8": ["t", "u", "v"], "9": ["w", "x", "y", "z"]}
         res = []
-        graph = {
-            "2":["a","b","c"],
-            "3":["d","e","f"],
-            "4":["g","h","i"],
-            "5":["j","k","l"],
-            "6":["m","n","o"],
-            "7":["p","q","r","s"],
-            "8":["t","u","v"],
-            "9":["w","x","y","z"] }
-        self.dfs(digits, graph, "", res)
+        self.digits = digits
+        self.dfs(memo, 0, [], res)
         return res
     
-    def dfs(self, digits, graph, path, res):
-        if not digits:
-            res.append(path)
+    def dfs(self, memo, idx, path, res):
+        if idx == len(self.digits):
+            res.append("".join(path))
             return
-        for char in graph[digits[0]]:
-            self.dfs(digits[1:], graph, path+char, res)
+        for c in memo[self.digits[idx]]:
+            path.append(c)
+            self.dfs(memo, idx + 1, path, res)
+            path.pop()
 
 #重寫第二次, time complexity O(3(4)^4), space complexity O(1)
 class Solution:

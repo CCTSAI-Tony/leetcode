@@ -12,7 +12,7 @@
 
 #自己重寫  time cokplexity O(n^2) 972ms
 #思路: 注意此題是求substring, 所以把指針當作是palindrom中心, 向外延展確認就能找到最長的palindrom, 要注意的地方還要考慮palindrom is even or odd, 中心會不太一樣
-#若是求 sunsequence, 則暴力解複雜度會大增, 就要使用dp, 就是課本的longest common sequence, 只要把s.reverse()  當作另一比對字串, 就能變成 longest palindrom sequence
+#若是求 subsequence, 則暴力解複雜度會大增, 就要使用dp, 就是課本的longest common sequence, 只要把s.reverse()  當作另一比對字串, 就能變成 longest palindrom sequence
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         res = ""

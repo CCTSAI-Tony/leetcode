@@ -21,6 +21,36 @@ Constraints:
 s contains only lowercase English letters.
 '''
 
+# 刷題用這個, backtracking
+# time complexity O(N⋅2^N), where N is the length of string s, This is the worst-case time complexity when all the possible substrings are palindrome.
+# space complexity O(N)
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        res = []
+        path = []
+        self.dfs(s, 0, res, path)
+        return res
+
+    def dfs(self, s, index, res, path):
+        if index == len(s):
+            res.append(path.copy())
+            return
+        for i in range(index, len(s)):
+            if self.isPalindrome(s, index, i):
+                path.append(s[index:i+1])
+                self.dfs(s, i+1, res, path)
+                path.pop()
+    
+    def isPalindrome(self, s, start, end):
+        while start <= end:
+            if s[start] != s[end]:
+                return False
+            start+=1
+            end-=1
+        return True
+
+
+
 
 
 class Solution:

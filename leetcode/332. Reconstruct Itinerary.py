@@ -72,7 +72,7 @@ class Solution:
         
     def dfs(self, start, graph):
         while graph[start]:
-            nxt = graph[start].pop() #pop掉, 代表此路徑被用過了
+            nxt = graph[start].pop() #pop掉, 代表此機票被用過了
             self.dfs(nxt, graph)
         self.res.append(start)
 

@@ -24,7 +24,7 @@ Output: [
 Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above.
 '''
 
-#time complexity O(n!), space complexity O(n)
+#time complexity O(n!), space complexity O(n^2)
 #思路: 排, 列, 2個對角線, 只能有一個queen, 利用backtrack 一排一排遍歷
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:

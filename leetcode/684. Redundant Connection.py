@@ -52,7 +52,7 @@ Edge [1,3] connects 1 to 3, i.e., 1 and 3 are winthin the same connected compone
 Edge [2,3] connects 2 to 3, but 2 and 3 have been winthin the same connected component already, so [2, 3] is redundant.
 Attention:The Union by Rank can optimize the time complexity from O(n) to O(logn) (even smaller).
 
-#time complexity O(n), union find without Union by Rank and Path Compression
+#time complexity O(n), union find without Union by Rank and but use Path Compression
 #思路: 此題若用一般dfs directed graph 找是否有backedge解法會行不通, 因為他要回報最大index 的 cycle caused edge 
 #此題利用unifind 可以即時對input index 反應, 所以遇到cycle edge 的index 就是最大index of circle edge in input array (only one circle edge)
 #若用傳統dfs方法, 要先build graph 這樣就無法表現原先array 的排序, 且無法一次找到可以remove 的 edge

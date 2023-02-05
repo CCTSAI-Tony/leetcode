@@ -11,7 +11,7 @@ public:
         unordered_map<int,int> m;
         for(int i=0;i<nums.size();++i)
         {
-            if(m.find(target-nums[i])!=m.end()) // 重要, m[target-nums[i] 是pair structure, 要用find 確認m 是否有這個key, 不能直接 m[target-nums[i]] => 有可能報錯
+            if(m.find(target-nums[i])!=m.end()) // 重要, m[target-nums[i] 是key:value pair structure, 要用find 確認m 是否有這個key, 不能直接 m[target-nums[i]] => 會報錯
             {   
                 v.push_back(m[target-nums[i]]);
                 v.push_back(i);

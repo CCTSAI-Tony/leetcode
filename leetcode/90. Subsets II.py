@@ -1,4 +1,4 @@
-time complexity O(n^2)
+# time complexity O(n^2)
 class Solution:
     def subsetsWithDup(self, nums):
         res = []
@@ -12,8 +12,21 @@ class Solution:
                 continue
             self.dfs(nums, i+1, path+[nums[i]], res)
 
- 
-
+#刷題用這個
+class Solution:
+    def subsetsWithDup(self, nums):
+        res = []
+        self.dfs(sorted(nums), 0, [], res)
+        return res
+    
+    def dfs(self, nums, index, path, res):
+        res.append(path.copy())
+        for i in range(index, len(nums)):
+            if i > index and nums[i] == nums[i-1]:  #當層看 ex:[1,2,2], 確保i = index時 該element 依然被計算, i > index時 且nums[i] == nums[i-1] 則跳過
+                continue
+            path.append(nums[i])
+            self.dfs(nums, i+1, path, res)
+            path.pop()
 
 
 
